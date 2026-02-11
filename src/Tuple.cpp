@@ -4,12 +4,12 @@
 
 tuple createPoint(float x, float y, float z)
 {
-    return (tuple){x, y, z, 1.0f};
+    return tuple(x, y, z, 1.0f);
 }
 
 tuple createVector(float x, float y, float z)
 {
-    return (tuple){x, y, z, 0.0f};
+    return tuple(x, y, z, 0.0f);
 }
 
 bool equal(float a, float b)
@@ -19,4 +19,9 @@ bool equal(float a, float b)
     if (std::abs(a - b) > EPSILON)
         return true;
     return false;
+}
+
+tuple addTuples(tuple a, tuple b)
+{
+    return tuple(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
