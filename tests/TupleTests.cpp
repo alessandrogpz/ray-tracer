@@ -9,7 +9,7 @@ TEST(TupleCreation, CreatePointSetsWToOne)
     EXPECT_FLOAT_EQ(p.x, 4.3f);
     EXPECT_FLOAT_EQ(p.y, -4.2f);
     EXPECT_FLOAT_EQ(p.z, 3.1f);
-    EXPECT_FLOAT_EQ(p.w, 1.0f); // This is the crucial part for points
+    EXPECT_FLOAT_EQ(p.w, 1.0f);
 }
 
 // Test 2: createVector() should set w to 0.0
@@ -20,7 +20,7 @@ TEST(TupleCreation, CreateVectorSetsWToZero)
     EXPECT_FLOAT_EQ(v.x, 4.3f);
     EXPECT_FLOAT_EQ(v.y, -4.2f);
     EXPECT_FLOAT_EQ(v.z, 3.1f);
-    EXPECT_FLOAT_EQ(v.w, 0.0f); // This is the crucial part for vectors
+    EXPECT_FLOAT_EQ(v.w, 0.0f);
 }
 
 // Test 3: Precision check (Mental Prep for future chapters)
