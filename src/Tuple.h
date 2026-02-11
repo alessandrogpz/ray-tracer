@@ -14,3 +14,4 @@ tuple createVector(float x, float y, float z);
 bool equal(float a, float b);
 
 tuple addTuples(tuple a, tuple b);
+tuple subtractTuples(tuple a, tuple b);

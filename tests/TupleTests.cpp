@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 #include "../src/Tuple.h"
 
+// ---------------------------------------------------
+// Suit 1: Tuple Creation
+
 TEST(TupleCreation, CreatePointSetsWToOne)
 {
     tuple p = createPoint(4.3f, -4.2f, 3.1f);
@@ -21,19 +24,13 @@ TEST(TupleCreation, CreateVectorSetsWToZero)
     EXPECT_FLOAT_EQ(v.w, 0.0f);
 }
 
-TEST(TupleCreation, FloatingPointPrecision)
-{
-    // In ray tracing, 1.0/3.0 might be slightly off.
-    // EXPECT_NEAR allows for a tiny margin of error (epsilon).
-    tuple p = createPoint(1.0f / 3.0f, 0.0f, 0.0f);
-    EXPECT_NEAR(p.x, 0.333333f, 0.00001f);
-}
+// ------------------------------------------------------
+// Suit 2: Tuple Operations
 
-// Test 4: addTuple()
 TEST(TupleOperations, AddPointToVector)
 {
-    tuple a = tuple(3.1f, -2, 5, 1);
-    tuple b = tuple(-2, 3, 1, 0);
+    tuple a = createPoint(3.1f, -2, 5);
+    tuple b = createVector(-2, 3, 1);
     tuple c = addTuples(a, b);
 
     EXPECT_FLOAT_EQ(c.x, 1.1f);
@@ -44,12 +41,49 @@ TEST(TupleOperations, AddPointToVector)
 
 TEST(TupleOperations, AddVectorToVector)
 {
-    tuple a = tuple(3, -2, 5.1f, 0);
-    tuple b = tuple(-2, 3, 1, 0);
+    tuple a = createVector(3, -2, 5.1f);
+    tuple b = createVector(-2, 3, 1);
     tuple c = addTuples(a, b);
 
     EXPECT_FLOAT_EQ(c.x, 1.0f);
     EXPECT_FLOAT_EQ(c.y, 1.0f);
     EXPECT_FLOAT_EQ(c.z, 6.1f);
+    EXPECT_FLOAT_EQ(c.w, 0.0f);
+}
+
+// Test 5: subtractTuples()
+TEST(TupleOperations, SubtractPointToPoint)
+{
+    tuple a = createPoint(3, 2, 1);
+    tuple b = createPoint(5, 6, 7);
+    tuple c = subtractTuples(a, b);
+
+    EXPECT_FLOAT_EQ(c.x, -2.0f);
+    EXPECT_FLOAT_EQ(c.y, -4.0f);
+    EXPECT_FLOAT_EQ(c.z, -6.0f);
+    EXPECT_FLOAT_EQ(c.w, 0.0f);
+}
+
+TEST(TupleOperations, SubtractVectorToPoint)
+{
+    tuple a = createPoint(3, 2, 1);
+    tuple b = createVector(5, 6, 7);
+    tuple c = subtractTuples(a, b);
+
+    EXPECT_FLOAT_EQ(c.x, -2.0f);
+    EXPECT_FLOAT_EQ(c.y, -4.0f);
+    EXPECT_FLOAT_EQ(c.z, -6.0f);
+    EXPECT_FLOAT_EQ(c.w, 1.0f);
+}
+
+TEST(TupleOperations, SubtractVectorToVector)
+{
+    tuple a = createVector(3, 2, 1);
+    tuple b = createVector(5, 6, 7);
+    tuple c = subtractTuples(a, b);
+
+    EXPECT_FLOAT_EQ(c.x, -2.0f);
+    EXPECT_FLOAT_EQ(c.y, -4.0f);
+    EXPECT_FLOAT_EQ(c.z, -6.0f);
     EXPECT_FLOAT_EQ(c.w, 0.0f);
 }

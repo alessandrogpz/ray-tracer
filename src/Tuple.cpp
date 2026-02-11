@@ -25,3 +25,8 @@ tuple addTuples(tuple a, tuple b)
 {
     return tuple(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
+
+tuple subtractTuples(tuple a, tuple b)
+{
+    return tuple(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+}
