@@ -35,3 +35,16 @@ tuple negateTuple(tuple a)
 {
 	return tuple(-a.x, -a.y, -a.z, -a.w);
 }
+
+tuple multiplyTupleByScalar(tuple a, float s)
+{
+	return tuple(a.x * s, a.y * s, a.z * s, a.w * s);
+}
+
+tuple divideTupleByScalar(tuple a, float s)
+{
+	if (s == 0)
+		return tuple(0, 0, 0, 0);
+	float r_s = 1.0f / s;
+	return tuple(a.x * r_s, a.y * r_s, a.z * r_s, a.w * r_s);
+}

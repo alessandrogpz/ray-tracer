@@ -16,3 +16,5 @@ bool equal(float a, float b);
 tuple addTuples(tuple a, tuple b);
 tuple subtractTuples(tuple a, tuple b);
 tuple negateTuple(tuple a);
+tuple multiplyTupleByScalar(tuple a, float s);
+tuple divideTupleByScalar(tuple a, float s);

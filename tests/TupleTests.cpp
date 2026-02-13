@@ -98,3 +98,25 @@ TEST(TupleOperations, NegateTuple)
 	EXPECT_FLOAT_EQ(b.z, -3.0f);
 	EXPECT_FLOAT_EQ(b.w, 4.0f);
 }
+
+TEST(TupleOperations, MultiplicationByScalar)
+{
+	tuple a(1.0, -2.0, 3.0, -4.0);
+	tuple result = multiplyTupleByScalar(a, 3.5);
+
+	EXPECT_FLOAT_EQ(result.x, 3.5);
+	EXPECT_FLOAT_EQ(result.y, -7.0);
+	EXPECT_FLOAT_EQ(result.z, 10.5);
+	EXPECT_FLOAT_EQ(result.w, -14.0);
+}
+
+TEST(TupleOperations, DivisionByScalar)
+{
+	tuple a(1.0, -2.0, 3.0, -4.0);
+	tuple result = divideTupleByScalar(a, 2.0);
+
+	EXPECT_FLOAT_EQ(result.x, 0.5);
+	EXPECT_FLOAT_EQ(result.y, -1.0);
+	EXPECT_FLOAT_EQ(result.z, 1.5);
+	EXPECT_FLOAT_EQ(result.w, -2.0);
+}
