@@ -88,7 +88,10 @@ Follow these steps in your terminal to compile and execute your tests:
 mkdir -p build && cd build
 
 # 2. Configure with CMake
-cmake ..
+	# Home
+	cmake ..
+	# 42
+	cmake .. -DCMAKE_PREFIX_PATH=/goinfre/$USER/gtest_install
 
 # 3. Build the project (using all CPU cores)
 make -j$(nproc)
