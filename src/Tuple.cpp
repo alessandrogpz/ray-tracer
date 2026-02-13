@@ -48,3 +48,17 @@ tuple divideTupleByScalar(tuple a, float s)
 	float r_s = 1.0f / s;
 	return tuple(a.x * r_s, a.y * r_s, a.z * r_s, a.w * r_s);
 }
+
+float getVectorMagnitude(tuple a)
+{
+	// Pythagora's Theorem
+	return sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+tuple normalizeVector(tuple a)
+{
+	// Normalizing a vector :
+	// Devide each of its components by the vector magnitude
+	float inv_mag = 1.0f / getVectorMagnitude(a);
+	return createVector(a.x * inv_mag, a.y * inv_mag, a.z * inv_mag);
+}

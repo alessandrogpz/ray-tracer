@@ -51,7 +51,6 @@ TEST(TupleOperations, AddVectorToVector)
 	EXPECT_FLOAT_EQ(c.w, 0.0f);
 }
 
-// Test 5: subtractTuples()
 TEST(TupleOperations, SubtractPointToPoint)
 {
 	tuple a = createPoint(3, 2, 1);
@@ -119,4 +118,33 @@ TEST(TupleOperations, DivisionByScalar)
 	EXPECT_FLOAT_EQ(result.y, -1.0);
 	EXPECT_FLOAT_EQ(result.z, 1.5);
 	EXPECT_FLOAT_EQ(result.w, -2.0);
+}
+
+TEST(VectorOperations, GetVectorScalar)
+{
+	tuple a = createVector(1.0, 0.0, 0.0);
+	tuple b = createVector(0.0, 1.0, 0.0);
+	tuple c = createVector(0.0, 0.0, 1.0);
+	tuple d = createVector(1.0, 2.0, 3.0);
+	tuple e = createVector(-1.0, -2.0, -3.0);
+
+	EXPECT_FLOAT_EQ(getVectorMagnitude(a), 1.0);
+	EXPECT_FLOAT_EQ(getVectorMagnitude(b), 1.0);
+	EXPECT_FLOAT_EQ(getVectorMagnitude(c), 1.0);
+	EXPECT_FLOAT_EQ(getVectorMagnitude(d), sqrt(14));
+	EXPECT_FLOAT_EQ(getVectorMagnitude(e), sqrt(14));
+}
+
+TEST(VectorOperations, NormalizeVector)
+{
+	tuple a = createVector(4.0, 0.0, 0.0);
+	tuple a_n = normalizeVector(a);
+	tuple b = createVector(1.0, 2.0, 3.0);
+	tuple b_n = normalizeVector(b);
+	tuple c = createVector(1 / sqrt(14), 1 / sqrt(14), 1 / sqrt(14));
+	tuple c_n = normalizeVector(c);
+
+	EXPECT_FLOAT_EQ(getVectorMagnitude(a_n), 1.0);
+	EXPECT_FLOAT_EQ(getVectorMagnitude(b_n), 1.0);
+	EXPECT_FLOAT_EQ(getVectorMagnitude(c_n), 1.0);
 }
