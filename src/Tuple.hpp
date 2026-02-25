@@ -21,3 +21,5 @@ tuple multiplyTupleByScalar(tuple a, float s);
 tuple divideTupleByScalar(tuple a, float s);
 float getVectorMagnitude(tuple a);
 tuple normalizeVector(tuple a);
+float dotProduct(tuple a, tuple b);
+tuple crossProduct(tuple a, tuple b);

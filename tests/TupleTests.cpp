@@ -148,3 +148,31 @@ TEST(VectorOperations, NormalizeVector)
 	EXPECT_FLOAT_EQ(getVectorMagnitude(b_n), 1.0);
 	EXPECT_FLOAT_EQ(getVectorMagnitude(c_n), 1.0);
 }
+
+TEST(VectorOperations, VectorsDotProduct)
+{
+	tuple a = createVector(1.0, 2.0, 3.0);
+	tuple b = createVector(2.0, 3.0, 4.0);
+
+	EXPECT_FLOAT_EQ(dotProduct(a, b), 20.0);
+}
+
+TEST(VectorOperations, VectorsCrossProduct)
+{
+	tuple a = createVector(1.0, 2.0, 3.0);
+	tuple b = createVector(2.0, 3.0, 4.0);
+
+	tuple a_first = crossProduct(a, b);
+
+	EXPECT_FLOAT_EQ(a_first.x, -1.0f);
+	EXPECT_FLOAT_EQ(a_first.y, 2.0f);
+	EXPECT_FLOAT_EQ(a_first.z, -1.0f);
+	EXPECT_FLOAT_EQ(a_first.w, 0.0f);
+
+	tuple b_first = crossProduct(b, a);
+
+	EXPECT_FLOAT_EQ(b_first.x, 1.0f);
+	EXPECT_FLOAT_EQ(b_first.y, -2.0f);
+	EXPECT_FLOAT_EQ(b_first.z, 1.0f);
+	EXPECT_FLOAT_EQ(b_first.w, 0.0f);
+}
