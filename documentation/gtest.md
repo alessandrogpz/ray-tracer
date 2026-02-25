@@ -91,7 +91,7 @@ mkdir -p build && cd build
 	# Home
 	cmake ..
 	# 42
-	cmake .. -DCMAKE_PREFIX_PATH=/goinfre/$USER/gtest_install
+	cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/gtest_install
 
 # 3. Build the project (using all CPU cores)
 make -j$(nproc)
