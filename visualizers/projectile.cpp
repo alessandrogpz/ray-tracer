@@ -60,11 +60,11 @@ int main() {
     InitWindow(1200, 800, "Bullet Trajectory");
 
     tuple startPos = createPoint(50, 400, 0);
-    tuple startVel = createVector(10, 0, 0);
+    tuple startVel = createVector(20, -20, 0);
     projectile proj = createProjectile(startPos, startVel);
 
-    tuple gravity = createVector(0, 0.5, 0);        // Gravity points DOWN (positive Y in Raylib)
-    tuple wind = createVector(-0.05, -0.4, 0);
+    tuple gravity = createVector(0, 1, 0);        // Gravity points DOWN (positive Y in Raylib)
+    tuple wind = createVector(-0.1, 0, 0);
     environment env = createEnvironment(gravity, wind);
     
     std::vector<Vector2> path;
