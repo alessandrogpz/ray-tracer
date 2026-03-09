@@ -1,7 +1,6 @@
 #include <iostream>
-#include <cmath>
 #include "Tuple.hpp"
-#include <cassert>
+
 
 tuple createPoint(float x, float y, float z)
 {
