@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Tuple.hpp"
+#include "../includes/Tuple.hpp"
 
 
 tuple createPoint(float x, float y, float z)

@@ -1,5 +1,5 @@
 #include "raylib.h"
-#include "../src/Tuple.hpp"
+#include "../includes/Tuple.hpp"
 #include <vector>
 
 /**
@@ -10,7 +10,7 @@
  * representing the updated state after a single time step (tick).
  * 
  * Compilation
- * projectile.cpp ../src/Tuple.cpp -o my_viz -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+ * g++ projectile.cpp ../src/Tuple.cpp -o my_viz -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
  */
 
 struct projectile {

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/Tuple.hpp"
+#include "../includes/Tuple.hpp"
 
 // ---------------------------------------------------
 // Suit 1: Tuple Creation
