@@ -25,7 +25,7 @@ TEST(TupleCreation, CreateVectorSetsWToZero)
 }
 
 // ------------------------------------------------------
-// Suit 2: Tuple Operations
+// Suit 2: Basic Tuple Operations
 
 TEST(TupleOperations, AddPointToVector)
 {
@@ -98,7 +98,10 @@ TEST(TupleOperations, NegateTuple)
 	EXPECT_FLOAT_EQ(b.w, 4.0f);
 }
 
-TEST(TupleOperations, MultiplicationByScalar)
+// ------------------------------------------------------
+// Suit 3: Vector Operations
+
+TEST(vectorOperations, MultiplicationByScalar)
 {
 	tuple a(1.0, -2.0, 3.0, -4.0);
 	tuple result = multiplyTupleByScalar(a, 3.5);
@@ -109,7 +112,7 @@ TEST(TupleOperations, MultiplicationByScalar)
 	EXPECT_FLOAT_EQ(result.w, -14.0);
 }
 
-TEST(TupleOperations, DivisionByScalar)
+TEST(vectorOperations, DivisionByScalar)
 {
 	tuple a(1.0, -2.0, 3.0, -4.0);
 	tuple result = divideTupleByScalar(a, 2.0);
@@ -175,4 +178,25 @@ TEST(VectorOperations, VectorsCrossProduct)
 	EXPECT_FLOAT_EQ(b_first.y, -2.0f);
 	EXPECT_FLOAT_EQ(b_first.z, 1.0f);
 	EXPECT_FLOAT_EQ(b_first.w, 0.0f);
+}
+
+// ------------------------------------------------------
+// Suit 4: Utilities
+
+TEST(Utilities, Equality)
+{
+	// 1. Exact equality
+    EXPECT_TRUE(equal(1.0f, 1.0f));
+    EXPECT_TRUE(equal(-5.5f, -5.5f));
+
+    // 2. Near equality (within epsilon)
+    EXPECT_TRUE(equal(1.000001f, 1.000002f));
+    EXPECT_TRUE(equal(0.0f, 0.0000001f));
+
+    // 3. Boundary case (Exactly EPSILON apart)
+    EXPECT_FALSE(equal(1.0f, 1.00001f)); 
+
+    // 4. Far apart
+    EXPECT_FALSE(equal(1.0f, 1.1f));
+    EXPECT_FALSE(equal(1.0f, -1.0f));
 }
