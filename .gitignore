@@ -46,3 +46,6 @@ Session.vim
 # --- Logs / Temporary Files ---
 *.log
 *.tmp
+
+# --- Raylib Build Files ---
+my_viz
