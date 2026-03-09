@@ -84,6 +84,10 @@ TEST(TupleTest, IsAPoint) {
 Follow these steps in your terminal to compile and execute your tests:
 
 ```bash
+
+# 0. (optional) Delete previous build
+rm -rf build
+
 # 1. Create a build directory (keeps project clean)
 mkdir -p build && cd build
 
