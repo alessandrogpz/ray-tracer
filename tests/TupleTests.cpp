@@ -37,6 +37,14 @@ TEST(TupleOperations, AddPointToVector)
 	EXPECT_FLOAT_EQ(c.y, 1.0f);
 	EXPECT_FLOAT_EQ(c.z, 6.0f);
 	EXPECT_FLOAT_EQ(c.w, 1.0f);
+
+	// Operator overload
+	tuple d = a + b;
+
+	EXPECT_FLOAT_EQ(d.x, 1.1f);
+	EXPECT_FLOAT_EQ(d.y, 1.0f);
+	EXPECT_FLOAT_EQ(d.z, 6.0f);
+	EXPECT_FLOAT_EQ(d.w, 1.0f);
 }
 
 TEST(TupleOperations, AddVectorToVector)
@@ -49,6 +57,14 @@ TEST(TupleOperations, AddVectorToVector)
 	EXPECT_FLOAT_EQ(c.y, 1.0f);
 	EXPECT_FLOAT_EQ(c.z, 6.1f);
 	EXPECT_FLOAT_EQ(c.w, 0.0f);
+
+	// Operator overload
+	tuple d = a + b;
+
+	EXPECT_FLOAT_EQ(d.x, 1.0f);
+	EXPECT_FLOAT_EQ(d.y, 1.0f);
+	EXPECT_FLOAT_EQ(d.z, 6.1f);
+	EXPECT_FLOAT_EQ(d.w, 0.0f);
 }
 
 TEST(TupleOperations, SubtractPointToPoint)
@@ -110,6 +126,14 @@ TEST(vectorOperations, MultiplicationByScalar)
 	EXPECT_FLOAT_EQ(result.y, -7.0);
 	EXPECT_FLOAT_EQ(result.z, 10.5);
 	EXPECT_FLOAT_EQ(result.w, -14.0);
+
+	// Operator overload
+	tuple result_overload = a * 3.5;
+
+	EXPECT_FLOAT_EQ(result_overload.x, 3.5);
+	EXPECT_FLOAT_EQ(result_overload.y, -7.0);
+	EXPECT_FLOAT_EQ(result_overload.z, 10.5);
+	EXPECT_FLOAT_EQ(result_overload.w, -14.0);
 }
 
 TEST(vectorOperations, DivisionByScalar)
@@ -120,7 +144,7 @@ TEST(vectorOperations, DivisionByScalar)
 	EXPECT_FLOAT_EQ(result.x, 0.5);
 	EXPECT_FLOAT_EQ(result.y, -1.0);
 	EXPECT_FLOAT_EQ(result.z, 1.5);
-	EXPECT_FLOAT_EQ(result.w, -2.0);
+	EXPECT_FLOAT_EQ(result.w, -2.0); 
 }
 
 TEST(VectorOperations, GetVectorScalar)
@@ -199,4 +223,70 @@ TEST(Utilities, Equality)
     // 4. Far apart
     EXPECT_FALSE(equal(1.0f, 1.1f));
     EXPECT_FALSE(equal(1.0f, -1.0f));
+}
+
+// ------------------------------------------------------
+// Suit 5: Color Creation
+
+TEST(ColorCreation, CreateColorTuple)
+{
+	color c = createColor(-0.5, 0.4, 1.7);
+
+	EXPECT_FLOAT_EQ(c.r, -0.5);
+	EXPECT_FLOAT_EQ(c.g, 0.4);
+	EXPECT_FLOAT_EQ(c.b, 1.7);
+}
+
+// ------------------------------------------------------
+// Suit 5: Color Creation
+
+TEST(ColorOperation, AddTwoColors)
+{
+	color c1 = createColor(0.9, 0.6, 0.75);
+	color c2 = createColor(0.7, 0.1, 0.25);
+
+	// Operator Overload
+	color c_result = c1 + c2;
+
+	EXPECT_FLOAT_EQ(c_result.r, 1.6);
+	EXPECT_FLOAT_EQ(c_result.g, 0.7);
+	EXPECT_FLOAT_EQ(c_result.b, 1.0);
+}
+
+TEST(ColorOperation, SubtractTwoColors)
+{
+	color c1 = createColor(0.9, 0.6, 0.75);
+	color c2 = createColor(0.7, 0.1, 0.25);
+
+	// Operator Overload
+	color c_result = c1 - c2;
+
+	EXPECT_FLOAT_EQ(c_result.r, 0.2);
+	EXPECT_FLOAT_EQ(c_result.g, 0.5);
+	EXPECT_FLOAT_EQ(c_result.b, 0.5);
+}
+
+TEST(ColorOperation, MultiplicationByScalar)
+{
+	color c1 = createColor(0.2, 0.3, 0.4);
+
+	// Operator Overload
+	color c_result = c1 * 2;
+
+	EXPECT_FLOAT_EQ(c_result.r, 0.4);
+	EXPECT_FLOAT_EQ(c_result.g, 0.6);
+	EXPECT_FLOAT_EQ(c_result.b, 0.8);
+}
+
+TEST(ColorOperation, MultiplyTwoColors)
+{
+	color c1 = createColor(1, 0.2, 0.4);
+	color c2 = createColor(0.9, 1, 0.1);
+
+	// Operator Overload
+	color c_result = c1 * c2;
+
+	EXPECT_FLOAT_EQ(c_result.r, 0.9);
+	EXPECT_FLOAT_EQ(c_result.g, 0.2);
+	EXPECT_FLOAT_EQ(c_result.b, 0.04);
 }

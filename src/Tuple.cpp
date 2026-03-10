@@ -12,23 +12,25 @@ tuple createVector(float x, float y, float z)
 	return tuple(x, y, z, 0.0f);
 }
 
+color createColor(float r, float g, float b)
+{
+    return color(r, g, b);
+}
+
 bool equal(float a, float b)
 {
 	float EPSILON = 0.00001;
-
-	if (std::abs(a - b) < EPSILON)
-		return true;
-	return false;
+	return std::abs(a - b) < EPSILON;
 }
 
 tuple addTuples(tuple a, tuple b)
 {
-	return tuple(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+	return tuple(a + b);
 }
 
 tuple subtractTuples(tuple a, tuple b)
 {
-	return tuple(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+	return tuple(a - b);
 }
 
 tuple negateTuple(tuple a)
@@ -38,7 +40,7 @@ tuple negateTuple(tuple a)
 
 tuple multiplyTupleByScalar(tuple a, float s)
 {
-	return tuple(a.x * s, a.y * s, a.z * s, a.w * s);
+	return tuple(a * s);
 }
 
 tuple divideTupleByScalar(tuple a, float s)
@@ -46,7 +48,7 @@ tuple divideTupleByScalar(tuple a, float s)
 	if (s == 0)
 		return tuple(0, 0, 0, 0);
 	float r_s = 1.0f / s;
-	return tuple(a.x * r_s, a.y * r_s, a.z * r_s, a.w * r_s);
+	return tuple(a * r_s);
 }
 
 float getVectorMagnitude(tuple a)
