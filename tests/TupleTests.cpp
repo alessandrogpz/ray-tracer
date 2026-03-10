@@ -6,22 +6,22 @@
 
 TEST(TupleCreation, CreatePointSetsWToOne)
 {
-	tuple p = createPoint(4.3f, -4.2f, 3.1f);
+	tuple p1 = createPoint(4.3f, -4.2f, 3.1f);
 
-	EXPECT_FLOAT_EQ(p.x, 4.3f);
-	EXPECT_FLOAT_EQ(p.y, -4.2f);
-	EXPECT_FLOAT_EQ(p.z, 3.1f);
-	EXPECT_FLOAT_EQ(p.w, 1.0f);
+	EXPECT_FLOAT_EQ(p1.x, 4.3f);
+	EXPECT_FLOAT_EQ(p1.y, -4.2f);
+	EXPECT_FLOAT_EQ(p1.z, 3.1f);
+	EXPECT_FLOAT_EQ(p1.w, 1.0f);
 }
 
 TEST(TupleCreation, CreateVectorSetsWToZero)
 {
-	tuple v = createVector(4.3f, -4.2f, 3.1f);
+	tuple v1 = createVector(4.3f, -4.2f, 3.1f);
 
-	EXPECT_FLOAT_EQ(v.x, 4.3f);
-	EXPECT_FLOAT_EQ(v.y, -4.2f);
-	EXPECT_FLOAT_EQ(v.z, 3.1f);
-	EXPECT_FLOAT_EQ(v.w, 0.0f);
+	EXPECT_FLOAT_EQ(v1.x, 4.3f);
+	EXPECT_FLOAT_EQ(v1.y, -4.2f);
+	EXPECT_FLOAT_EQ(v1.z, 3.1f);
+	EXPECT_FLOAT_EQ(v1.w, 0.0f);
 }
 
 // ------------------------------------------------------
@@ -29,78 +29,72 @@ TEST(TupleCreation, CreateVectorSetsWToZero)
 
 TEST(TupleOperations, AddPointToVector)
 {
-	tuple a = createPoint(3.1f, -2, 5);
-	tuple b = createVector(-2, 3, 1);
-	tuple c = addTuples(a, b);
+	tuple p1 = createPoint(3.1f, -2, 5);
+	tuple v1 = createVector(-2, 3, 1);
 
-	EXPECT_FLOAT_EQ(c.x, 1.1f);
-	EXPECT_FLOAT_EQ(c.y, 1.0f);
-	EXPECT_FLOAT_EQ(c.z, 6.0f);
-	EXPECT_FLOAT_EQ(c.w, 1.0f);
+	// Operator Overload
+	tuple v2 = p1 + v1;
 
-	// Operator overload
-	tuple d = a + b;
-
-	EXPECT_FLOAT_EQ(d.x, 1.1f);
-	EXPECT_FLOAT_EQ(d.y, 1.0f);
-	EXPECT_FLOAT_EQ(d.z, 6.0f);
-	EXPECT_FLOAT_EQ(d.w, 1.0f);
+	EXPECT_FLOAT_EQ(v2.x, 1.1f);
+	EXPECT_FLOAT_EQ(v2.y, 1.0f);
+	EXPECT_FLOAT_EQ(v2.z, 6.0f);
+	EXPECT_FLOAT_EQ(v2.w, 1.0f);
 }
 
 TEST(TupleOperations, AddVectorToVector)
 {
-	tuple a = createVector(3, -2, 5.1f);
-	tuple b = createVector(-2, 3, 1);
-	tuple c = addTuples(a, b);
+	tuple v1 = createVector(3, -2, 5.1f);
+	tuple v2 = createVector(-2, 3, 1);
 
-	EXPECT_FLOAT_EQ(c.x, 1.0f);
-	EXPECT_FLOAT_EQ(c.y, 1.0f);
-	EXPECT_FLOAT_EQ(c.z, 6.1f);
-	EXPECT_FLOAT_EQ(c.w, 0.0f);
+	// Operator Overload
+	tuple v3 = v1 + v2;
 
-	// Operator overload
-	tuple d = a + b;
-
-	EXPECT_FLOAT_EQ(d.x, 1.0f);
-	EXPECT_FLOAT_EQ(d.y, 1.0f);
-	EXPECT_FLOAT_EQ(d.z, 6.1f);
-	EXPECT_FLOAT_EQ(d.w, 0.0f);
+	EXPECT_FLOAT_EQ(v3.x, 1.0f);
+	EXPECT_FLOAT_EQ(v3.y, 1.0f);
+	EXPECT_FLOAT_EQ(v3.z, 6.1f);
+	EXPECT_FLOAT_EQ(v3.w, 0.0f);
 }
 
-TEST(TupleOperations, SubtractPointToPoint)
+TEST(TupleOperations, SubtractPointFromPoint)
 {
-	tuple a = createPoint(3, 2, 1);
-	tuple b = createPoint(5, 6, 7);
-	tuple c = subtractTuples(a, b);
+	tuple p1 = createPoint(3, 2, 1);
+	tuple p2 = createPoint(5, 6, 7);
 
-	EXPECT_FLOAT_EQ(c.x, -2.0f);
-	EXPECT_FLOAT_EQ(c.y, -4.0f);
-	EXPECT_FLOAT_EQ(c.z, -6.0f);
-	EXPECT_FLOAT_EQ(c.w, 0.0f);
+	// Operator Overload
+	tuple v1 = p1 - p2;
+
+	EXPECT_FLOAT_EQ(v1.x, -2.0f);
+	EXPECT_FLOAT_EQ(v1.y, -4.0f);
+	EXPECT_FLOAT_EQ(v1.z, -6.0f);
+	EXPECT_FLOAT_EQ(v1.w, 0.0f);
 }
 
-TEST(TupleOperations, SubtractVectorToPoint)
+TEST(TupleOperations, SubtractVectorFromPoint)
 {
-	tuple a = createPoint(3, 2, 1);
-	tuple b = createVector(5, 6, 7);
-	tuple c = subtractTuples(a, b);
+	tuple p1 = createPoint(3, 2, 1);
+	tuple v1 = createVector(5, 6, 7);
 
-	EXPECT_FLOAT_EQ(c.x, -2.0f);
-	EXPECT_FLOAT_EQ(c.y, -4.0f);
-	EXPECT_FLOAT_EQ(c.z, -6.0f);
-	EXPECT_FLOAT_EQ(c.w, 1.0f);
+	// Operator Overload
+	tuple p2 = p1 - v1;
+
+	EXPECT_FLOAT_EQ(p2.x, -2.0f);
+	EXPECT_FLOAT_EQ(p2.y, -4.0f);
+	EXPECT_FLOAT_EQ(p2.z, -6.0f);
+	EXPECT_FLOAT_EQ(p2.w, 1.0f);
 }
 
-TEST(TupleOperations, SubtractVectorToVector)
+TEST(TupleOperations, SubtractVectorFromVector)
 {
-	tuple a = createVector(3, 2, 1);
-	tuple b = createVector(5, 6, 7);
-	tuple c = subtractTuples(a, b);
+	tuple v1 = createVector(3, 2, 1);
+	tuple v2 = createVector(5, 6, 7);
 
-	EXPECT_FLOAT_EQ(c.x, -2.0f);
-	EXPECT_FLOAT_EQ(c.y, -4.0f);
-	EXPECT_FLOAT_EQ(c.z, -6.0f);
-	EXPECT_FLOAT_EQ(c.w, 0.0f);
+	// Operator Overload
+	tuple v3 = v1 - v2;
+
+	EXPECT_FLOAT_EQ(v3.x, -2.0f);
+	EXPECT_FLOAT_EQ(v3.y, -4.0f);
+	EXPECT_FLOAT_EQ(v3.z, -6.0f);
+	EXPECT_FLOAT_EQ(v3.w, 0.0f);
 }
 
 TEST(TupleOperations, NegateTuple)
@@ -119,32 +113,28 @@ TEST(TupleOperations, NegateTuple)
 
 TEST(vectorOperations, MultiplicationByScalar)
 {
-	tuple a(1.0, -2.0, 3.0, -4.0);
-	tuple result = multiplyTupleByScalar(a, 3.5);
+	tuple v1(1.0, -2.0, 3.0, -4.0);
 
-	EXPECT_FLOAT_EQ(result.x, 3.5);
-	EXPECT_FLOAT_EQ(result.y, -7.0);
-	EXPECT_FLOAT_EQ(result.z, 10.5);
-	EXPECT_FLOAT_EQ(result.w, -14.0);
+	// Operator Overload
+	tuple v2 = v1 * 3.5;
 
-	// Operator overload
-	tuple result_overload = a * 3.5;
-
-	EXPECT_FLOAT_EQ(result_overload.x, 3.5);
-	EXPECT_FLOAT_EQ(result_overload.y, -7.0);
-	EXPECT_FLOAT_EQ(result_overload.z, 10.5);
-	EXPECT_FLOAT_EQ(result_overload.w, -14.0);
+	EXPECT_FLOAT_EQ(v2.x, 3.5);
+	EXPECT_FLOAT_EQ(v2.y, -7.0);
+	EXPECT_FLOAT_EQ(v2.z, 10.5);
+	EXPECT_FLOAT_EQ(v2.w, -14.0);
 }
 
 TEST(vectorOperations, DivisionByScalar)
 {
-	tuple a(1.0, -2.0, 3.0, -4.0);
-	tuple result = divideTupleByScalar(a, 2.0);
+	tuple v1(1.0, -2.0, 3.0, -4.0);
 
-	EXPECT_FLOAT_EQ(result.x, 0.5);
-	EXPECT_FLOAT_EQ(result.y, -1.0);
-	EXPECT_FLOAT_EQ(result.z, 1.5);
-	EXPECT_FLOAT_EQ(result.w, -2.0); 
+	// Operator Overload
+	tuple v2 = v1 / 2;
+
+	EXPECT_FLOAT_EQ(v2.x, 0.5);
+	EXPECT_FLOAT_EQ(v2.y, -1.0);
+	EXPECT_FLOAT_EQ(v2.z, 1.5);
+	EXPECT_FLOAT_EQ(v2.w, -2.0); 
 }
 
 TEST(VectorOperations, GetVectorScalar)

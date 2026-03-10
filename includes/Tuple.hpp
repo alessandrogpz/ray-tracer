@@ -26,6 +26,14 @@ struct tuple
     tuple operator*(float scalar) const {
         return tuple(x * scalar, y * scalar, z * scalar, w * scalar);
     }
+
+    // Scalar Division: a / scalar
+    tuple operator/(float scalar) const {
+        assert(scalar != 0.0f && "Attempted to divide a tuple by zero");
+
+	    float scalar_inv = 1.0f / scalar;
+        return tuple(x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv);
+    }
 };
 
 struct color
@@ -59,15 +67,12 @@ struct color
 
 tuple createPoint(float x, float y, float z);
 tuple createVector(float x, float y, float z);
+
 color createColor(float r, float g, float blue);
 
 bool equal(float a, float b);
 
-tuple addTuples(tuple a, tuple b);
-tuple subtractTuples(tuple a, tuple b);
 tuple negateTuple(tuple a);
-tuple multiplyTupleByScalar(tuple a, float s);
-tuple divideTupleByScalar(tuple a, float s);
 float getVectorMagnitude(tuple a);
 tuple normalizeVector(tuple a);
 float dotProduct(tuple a, tuple b);
