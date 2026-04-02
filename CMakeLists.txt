@@ -14,8 +14,11 @@ include_directories(src)
 # Add all your .cpp files here as you create them
 add_executable(run_tests 
     tests/TupleTests.cpp 
+    tests/ColorsTests.cpp
+    tests/CanvasTests.cpp
     src/Tuple.cpp
     src/Colors.cpp
+    src/Canvas.cpp
 )
 
 # 4. Link GTest and the main() runner provided by GTest
