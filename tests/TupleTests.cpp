@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../includes/Tuple.hpp"
+#include "../includes/Colors.hpp"
 
 // ---------------------------------------------------
 // Suit 1: Tuple Creation

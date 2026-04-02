@@ -12,11 +12,6 @@ tuple createVector(float x, float y, float z)
 	return tuple(x, y, z, 0.0f);
 }
 
-color createColor(float r, float g, float b)
-{
-    return color(r, g, b);
-}
-
 bool equal(float a, float b)
 {
 	float EPSILON = 0.00001;

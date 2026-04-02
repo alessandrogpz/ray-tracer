@@ -43,15 +43,15 @@ environment createEnvironment(tuple wind, tuple gravity)
 
 projectile tick(environment env, projectile proj)
 {
-    // If you want smooth movement regardless of FPS:
+    // If we want a smooth movement regardless of FPS:
     // New Pos = Old Pos + (Velocity * dt)
     // New Vel = Old Vel + (Gravity + Wind) * dt
     
     projectile updated;
-    updated.position = addTuples(proj.position, proj.velocity);
+    updated.position = proj.position + proj.velocity;
     
-    tuple acceleration = addTuples(env.gravity, env.wind);
-    updated.velocity = addTuples(proj.velocity, acceleration);
+    tuple acceleration = env.gravity + env.wind;
+    updated.velocity = proj.velocity + acceleration;
 
     return updated;
 }

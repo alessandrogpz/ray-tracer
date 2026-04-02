@@ -15,6 +15,7 @@ include_directories(src)
 add_executable(run_tests 
     tests/TupleTests.cpp 
     src/Tuple.cpp
+    src/Colors.cpp
 )
 
 # 4. Link GTest and the main() runner provided by GTest
