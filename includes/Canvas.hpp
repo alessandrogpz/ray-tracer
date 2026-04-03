@@ -7,6 +7,7 @@
 struct canvas {
     int width;
     int height;
+    color initialColor;
     std::vector<color> pixels;
 
     // 2D representation in 1D array
@@ -15,6 +16,11 @@ struct canvas {
     canvas(int w,  int h) : width(w), height(h) {
         //Inititalize the verctor with w * h black colors
         pixels.resize(w * h, color(0, 0, 0));
+    }
+
+    canvas(int w, int h, color c) : width(w), height(h), initialColor(c) {
+        //Inititalize the verctor with w * h with initialColor
+        pixels.resize(w * h, initialColor);
     }
 };
 
