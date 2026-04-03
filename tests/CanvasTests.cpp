@@ -31,3 +31,98 @@ TEST(CanvasTest, WritingPixels) {
     EXPECT_TRUE(equal(result.g, 0));
     EXPECT_TRUE(equal(result.b, 0));
 }
+
+// ---------------------------------------------------
+// Canvas to PPM
+
+TEST(CanvasToPPM, PPMHeader) {
+    canvas c(5, 3);
+
+    std::string ppm = canvasToPPM(c);
+    std::stringstream ss(ppm);
+    std::string line;
+
+    // Line 1: Magic Number
+    std::getline(ss, line);
+    EXPECT_EQ(line, "P3");
+
+    // Line 2: Dimensions (Widht Height)
+    std::getline(ss, line);
+    EXPECT_EQ(line, "5 3");
+
+    // Line 3: Maximum Color Value
+    std::getline(ss, line);
+    EXPECT_EQ(line, "255");
+}
+
+TEST(CanvasToPPM, PPMPixelData) {
+    canvas c(5, 3);
+
+    color c1(1.5, 0, 0);
+    color c2(0, 0.5, 0);
+    color c3(-0.5, 0, 1);
+
+    writePixel(c, 0, 0, c1);
+    writePixel(c, 2, 1, c2);
+    writePixel(c, 4, 2, c3);
+
+    std::string ppm = canvasToPPM(c);
+    std::stringstream ss(ppm);
+    std::string line;
+
+    // Get passt PPM header
+    for (int i = 0; i < 3; i++)
+        std::getline(ss, line);
+
+    // Test Pixel Data
+    std::getline(ss, line);
+    EXPECT_EQ(line, "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0");
+
+    std::getline(ss, line);
+    EXPECT_EQ(line, "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0");
+
+    std::getline(ss, line);
+    EXPECT_EQ(line, "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255");
+}
+
+TEST(CanvasToPPM, PPMLongPixelDataLines) {
+    color c1(1, 0.8, 0.6);
+    
+    canvas c(10, 2, c1);
+
+    std::string ppm = canvasToPPM(c);
+    std::stringstream ss(ppm);
+    std::string line;
+
+    // Get passt PPM header
+    for (int i = 0; i < 3; i++)
+        std::getline(ss, line);
+
+    // Test Long Pixel Data
+    std::getline(ss, line);
+    EXPECT_EQ(line, "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204");
+
+    std::getline(ss, line);
+    EXPECT_EQ(line, "153 255 204 153 255 204 153 255 204 153 255 204 153");
+
+    std::getline(ss, line);
+    EXPECT_EQ(line, "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204");
+
+    std::getline(ss, line);
+    EXPECT_EQ(line, "153 255 204 153 255 204 153 255 204 153 255 204 153");
+}
+
+TEST(CanvasToPPM, PPMNewlineTerminated) {
+    canvas c(5, 3);
+    std::string ppm = canvasToPPM(c);
+
+    ASSERT_FALSE(ppm.empty());
+    
+    // Checks that the very last byte of the string is a newline.
+    EXPECT_EQ(ppm.back(), '\n');
+    
+    // Ensure the character before it ISN'T a newline to prevent the "double newline" bug.
+    if (ppm.size() > 1) {
+        EXPECT_NE(ppm[ppm.size() - 2], '\n');
+    }
+}

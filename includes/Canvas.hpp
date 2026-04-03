@@ -2,6 +2,7 @@
 #define CANVAS_HPP
 
 #include <vector>
+#include <string>
 #include "../includes/Colors.hpp"
 
 struct canvas {
@@ -26,5 +27,6 @@ struct canvas {
 
 void writePixel(canvas &c, int x, int y, color col);
 color pixelAt(const canvas &c, int x, int y);
+std::string canvasToPPM(const canvas &c);
 
 #endif
