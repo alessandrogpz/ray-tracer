@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <cmath>
 #include <array>
+#include <fstream>
+#include <iostream>
 
 void writePixel(canvas &c, int x, int y, color col)
 {
@@ -72,4 +74,20 @@ std::string canvasToPPM(const canvas &c) {
     }
 
     return ppm;
+}
+
+void savePPM(const std::string& filename, const std::string& ppmData)
+{
+    std::ofstream outFile(filename + ".ppm");
+
+    if(!outFile.is_open()) {
+        std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+        return;
+    }
+
+    outFile << ppmData;
+
+    outFile.close();
+    
+    std::cout << "Successfully saved to " << filename << std::endl;
 }

@@ -13,6 +13,7 @@ install_manifest.txt
 
 # --- Executables ---
 run_tests
+*.ppm
 
 # --- CachyOS / Linux System Files ---
 .directory
