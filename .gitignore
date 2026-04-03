@@ -13,7 +13,6 @@ install_manifest.txt
 
 # --- Executables ---
 run_tests
-*.ppm
 
 # --- CachyOS / Linux System Files ---
 .directory
@@ -50,3 +49,9 @@ Session.vim
 
 # --- Raylib Build Files ---
 my_viz
+
+# --- Raytracer Build Files ---
+*.ppm
+
+# --- Raytracer main.cpp Test Enviroment ---
+main.cpp
