@@ -11,12 +11,6 @@ tuple createVector(float x, float y, float z)
 	return tuple(x, y, z, 0.0f);
 }
 
-bool equal(float a, float b)
-{
-	float EPSILON = 0.00001;
-	return std::abs(a - b) < EPSILON;
-}
-
 tuple negateTuple(tuple a)
 {
 	return tuple(a * -1);

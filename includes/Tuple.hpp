@@ -1,7 +1,6 @@
 #ifndef TUPLE_HPP
 #define TUPLE_HPP
 
-#include <cmath>
 #include <cassert>
 
 struct tuple
@@ -38,8 +37,6 @@ struct tuple
 
 tuple createPoint(float x, float y, float z);
 tuple createVector(float x, float y, float z);
-
-bool equal(float a, float b);
 
 tuple negateTuple(tuple a);
 float getVectorMagnitude(tuple a);
