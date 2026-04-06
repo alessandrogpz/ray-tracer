@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../includes/Tuple.hpp"
 #include "../includes/Canvas.hpp"
+#include "../includes/Utils.hpp"
 
 // ---------------------------------------------------
 // Canvas Creation

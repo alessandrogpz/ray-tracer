@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "../includes/Tuple.hpp"
+#include "../includes/Utils.hpp"
+#include <cmath>
 
 // ---------------------------------------------------
 // Tuple Creation
