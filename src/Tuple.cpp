@@ -1,4 +1,6 @@
 #include "../includes/Tuple.hpp"
+#include "../includes/Utils.hpp"
+#include <cmath>
 
 
 tuple createPoint(float x, float y, float z)
