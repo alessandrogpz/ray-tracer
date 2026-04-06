@@ -16,9 +16,11 @@ add_executable(run_tests
     tests/TupleTests.cpp 
     tests/ColorsTests.cpp
     tests/CanvasTests.cpp
+    tests/MatrixTests.cpp
     src/Tuple.cpp
     src/Colors.cpp
     src/Canvas.cpp
+    src/Matrix.cpp
 )
 
 # 4. Link GTest and the main() runner provided by GTest
