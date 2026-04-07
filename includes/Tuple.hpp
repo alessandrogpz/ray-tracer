@@ -2,6 +2,7 @@
 #define TUPLE_HPP
 
 #include <cassert>
+#include "../includes/Utils.hpp"
 
 struct tuple
 {
@@ -32,6 +33,20 @@ struct tuple
 
 	    float scalar_inv = 1.0f / scalar;
         return tuple(x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv);
+    }
+
+    // Overload for tuple comparison (==)
+    bool operator==(const tuple& other) const {
+        return 
+            equal(x, other.x) &&
+            equal(y, other.y) &&
+            equal(z, other.z) &&
+            equal(w, other.w);
+    }
+
+    // Overload for tuple comparison (!=)
+    bool operator!=(const tuple& other) const {
+        return !(*this == other);
     }
 };
 
