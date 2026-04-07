@@ -42,6 +42,23 @@ struct matrix {
     friend bool operator!=(const matrix<N>& a, const matrix<N>& b) {
         return !(a == b);
     }
+
+    // Overload for matrix multiplication
+    friend matrix<N> operator*(const matrix<N>& a, const matrix<N>& b)
+    {
+        matrix<N> result;
+
+        for (int r = 0; r < N; r++) {
+            for (int c = 0; c < N; c++) {
+                float sum = 0.0f;
+                for (int k = 0; k < N; k++) {
+                    sum += a(r, k) * b(k, c);
+                }
+                result(r, c) = sum;
+            }
+        }
+        return result;
+    }
 };
 
 #endif

@@ -143,3 +143,43 @@ TEST(MatrixComparison, slightlyDifferentOutsideEpsilonAreNotEqual)
 
     EXPECT_FALSE(A == B);
 }
+
+// ---------------------------------------------------
+// Matrix Operations
+
+TEST(MatrixOperation, MultiplyTwo4x4Matrices)
+{
+    matrix<4> A;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 5.0f;     A(1,1) = 6.0f;     A(1,2) = 7.0f;     A(1,3) = 8.0f;
+    A(2,0) = 9.0f;     A(2,1) = 8.0f;     A(2,2) = 7.0f;     A(2,3) = 6.0f;
+    A(3,0) = 5.0f;     A(3,1) = 4.0f;     A(3,2) = 3.0f;     A(3,3) = 2.0f;
+
+    matrix<4> B;
+    B(0,0) = -2.0f;     B(0,1) = 1.0f;     B(0,2) = 2.0f;     B(0,3) = 3.0f;
+    B(1,0) = 3.0f;      B(1,1) = 2.0f;     B(1,2) = 1.0f;     B(1,3) = -1.0f;
+    B(2,0) = 4.0f;      B(2,1) = 3.0f;     B(2,2) = 6.0f;     B(2,3) = 5.0f;
+    B(3,0) = 1.0f;      B(3,1) = 2.0f;     B(3,2) = 7.0f;     B(3,3) = 8.0f;
+
+    matrix<4> C = A * B;
+
+    EXPECT_FLOAT_EQ(C(0,0), 20.0f);
+    EXPECT_FLOAT_EQ(C(0,1), 22.0f);
+    EXPECT_FLOAT_EQ(C(0,2), 50.0f);
+    EXPECT_FLOAT_EQ(C(0,3), 48.0f);
+
+    EXPECT_FLOAT_EQ(C(1,0), 44.0f);
+    EXPECT_FLOAT_EQ(C(1,1), 54.0f);
+    EXPECT_FLOAT_EQ(C(1,2), 114.0f);
+    EXPECT_FLOAT_EQ(C(1,3), 108.0f);
+
+	EXPECT_FLOAT_EQ(C(2,0), 40.0f);
+    EXPECT_FLOAT_EQ(C(2,1), 58.0f);
+    EXPECT_FLOAT_EQ(C(2,2), 110.0f);
+    EXPECT_FLOAT_EQ(C(2,3), 102.0f);
+
+	EXPECT_FLOAT_EQ(C(3,0), 16.0f);
+    EXPECT_FLOAT_EQ(C(3,1), 26.0f);
+    EXPECT_FLOAT_EQ(C(3,2), 46.0f);
+    EXPECT_FLOAT_EQ(C(3,3), 42.0f);
+}
