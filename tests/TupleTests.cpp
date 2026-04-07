@@ -2,6 +2,7 @@
 #include "../includes/Tuple.hpp"
 #include "../includes/Utils.hpp"
 #include <cmath>
+#include <stdexcept>
 
 // ---------------------------------------------------
 // Tuple Creation
@@ -65,6 +66,51 @@ TEST(TupleComparison, DifferentTuplesAreNotEqual) {
     
     EXPECT_FALSE(a == b);
     EXPECT_TRUE(a != b);
+}
+
+// ---------------------------------------------------
+// Subscript Operator Tests
+
+TEST(TupleSubscript, AccessingComponentsByIndex)
+{
+    tuple t(1.0f, 2.0f, 3.0f, 4.0f);
+
+    EXPECT_FLOAT_EQ(t[0], 1.0f);
+    EXPECT_FLOAT_EQ(t[1], 2.0f);
+    EXPECT_FLOAT_EQ(t[2], 3.0f);
+    EXPECT_FLOAT_EQ(t[3], 4.0f);
+}
+
+TEST(TupleSubscript, ModifyingComponentsByIndex)
+{
+    tuple t;
+
+    t[0] = 10.5f;
+    t[1] = 20.5f;
+    t[2] = 30.5f;
+    t[3] = 1.0f;
+
+	EXPECT_TRUE(t == tuple(10.5f, 20.5f, 30.5f, 1.0f));
+}
+
+TEST(TupleSubscript, ConstAccess)
+{
+    const tuple t(5.0f, 6.0f, 7.0f, 8.0f);
+    
+    // This calls the const version of operator[]
+    float val = t[2];
+    
+    EXPECT_FLOAT_EQ(val, 7.0f);
+}
+
+TEST(TupleSubscript, IndexOutOfBoundsThrowsException)
+{
+    tuple t(1, 2, 3, 4);
+
+    // Verify that indices outside 0-3 throw std::out_of_range
+    EXPECT_THROW(t[-1], std::out_of_range);
+    EXPECT_THROW(t[4], std::out_of_range);
+    EXPECT_THROW(t[100], std::out_of_range);
 }
 
 // ------------------------------------------------------

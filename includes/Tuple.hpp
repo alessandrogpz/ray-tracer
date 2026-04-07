@@ -2,6 +2,7 @@
 #define TUPLE_HPP
 
 #include <cassert>
+#include <stdexcept>
 #include "../includes/Utils.hpp"
 
 struct tuple
@@ -33,6 +34,28 @@ struct tuple
 
 	    float scalar_inv = 1.0f / scalar;
         return tuple(x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv);
+    }
+
+    // Getter: float f = t[0];
+    float operator[](int index) const {
+        switch (index) {
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+            default: throw std::out_of_range("Tuple index out of bounds");
+        }
+    }
+
+    // Setter: t[0] = 5.0f;
+    float& operator[](int index) {
+        switch (index) {
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+            default: throw std::out_of_range("Tuple index out of bounds");
+        }
     }
 
     // Overload for tuple comparison (==)
