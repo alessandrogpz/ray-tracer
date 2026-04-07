@@ -2,6 +2,7 @@
 #define MATRIX_HPP
 
 #include "../includes/Utils.hpp"
+#include "../includes/Tuple.hpp"
 
 template <int N>
 struct matrix {
@@ -44,8 +45,7 @@ struct matrix {
     }
 
     // Overload for matrix multiplication
-    friend matrix<N> operator*(const matrix<N>& a, const matrix<N>& b)
-    {
+    friend matrix<N> operator*(const matrix<N>& a, const matrix<N>& b){
         matrix<N> result;
 
         for (int r = 0; r < N; r++) {
@@ -58,6 +58,19 @@ struct matrix {
             }
         }
         return result;
+    }
+
+    // Overload for matrix * tuple multiplication
+    friend tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
+        float res[4] = {0, 0, 0, 0};
+
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
+                res[r] += m(r, c) * t[c];
+            }
+        }
+
+        return tuple(res[0], res[1], res[2], res[3]);
     }
 };
 
