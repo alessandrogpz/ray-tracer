@@ -74,4 +74,15 @@ struct matrix {
     }
 };
 
+template <int N>
+matrix<N> transposeMatrix(const matrix<N>& m) {
+    matrix<N> result;
+    for (int r = 0; r < N; r++) {
+        for (int c = 0; c < N; c++) {
+            result(c, r) = m(r, c);
+        }
+    }
+    return result;
+}
+
 #endif

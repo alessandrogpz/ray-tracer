@@ -241,3 +241,54 @@ TEST(MatrixOperation, Multiply4x4MatrixByTuple)
 
     EXPECT_TRUE(c == tuple(18.0f, 24.0f, 33.0f, 1.0f));
 }
+
+TEST(MatrixOperation, Transpose4x4Matrix)
+{
+    matrix<4> A;
+    A(0,0) = 0.0f;     A(0,1) = 9.0f;     A(0,2) = 3.0f;     A(0,3) = 0.0f;
+    A(1,0) = 9.0f;     A(1,1) = 8.0f;     A(1,2) = 0.0f;     A(1,3) = 8.0f;
+    A(2,0) = 1.0f;     A(2,1) = 8.0f;     A(2,2) = 5.0f;     A(2,3) = 3.0f;
+    A(3,0) = 0.0f;     A(3,1) = 0.0f;     A(3,2) = 5.0f;     A(3,3) = 8.0f;
+
+    // Transpose
+    // | 0 | 9 | 3 | 0 |      | 0 | 9 | 1 | 0 |
+    // | 9 | 8 | 0 | 8 |  =>  | 9 | 8 | 8 | 0 |
+    // | 1 | 8 | 5 | 3 |      | 3 | 0 | 5 | 5 |
+    // | 0 | 0 | 5 | 8 |      | 0 | 8 | 3 | 8 |
+
+    matrix<4> B = transposeMatrix(A);
+
+    EXPECT_FLOAT_EQ(B(0,0), 0.0f);
+    EXPECT_FLOAT_EQ(B(0,1), 9.0f);
+    EXPECT_FLOAT_EQ(B(0,2), 1.0f);
+    EXPECT_FLOAT_EQ(B(0,3), 0.0f);
+
+    EXPECT_FLOAT_EQ(B(1,0), 9.0f);
+    EXPECT_FLOAT_EQ(B(1,1), 8.0f);
+    EXPECT_FLOAT_EQ(B(1,2), 8.0f);
+    EXPECT_FLOAT_EQ(B(1,3), 0.0f);
+
+    EXPECT_FLOAT_EQ(B(2,0), 3.0f);
+    EXPECT_FLOAT_EQ(B(2,1), 0.0f);
+    EXPECT_FLOAT_EQ(B(2,2), 5.0f);
+    EXPECT_FLOAT_EQ(B(2,3), 5.0f);
+
+    EXPECT_FLOAT_EQ(B(3,0), 0.0f);
+    EXPECT_FLOAT_EQ(B(3,1), 8.0f);
+    EXPECT_FLOAT_EQ(B(3,2), 3.0f);
+    EXPECT_FLOAT_EQ(B(3,3), 8.0f);
+}
+
+TEST(MatrixOperation, Transpose4x4IdentityMatrix)
+{
+    // Define the 4x4 Identity Matrix
+    matrix<4> I;
+    I(0,0) = 1.0f; I(0,1) = 0.0f; I(0,2) = 0.0f; I(0,3) = 0.0f;
+    I(1,0) = 0.0f; I(1,1) = 1.0f; I(1,2) = 0.0f; I(1,3) = 0.0f;
+    I(2,0) = 0.0f; I(2,1) = 0.0f; I(2,2) = 1.0f; I(2,3) = 0.0f;
+    I(3,0) = 0.0f; I(3,1) = 0.0f; I(3,2) = 0.0f; I(3,3) = 1.0f;
+
+    matrix<4> result = transposeMatrix(I);
+
+    EXPECT_TRUE(result == I);
+}
