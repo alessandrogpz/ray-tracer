@@ -184,6 +184,49 @@ TEST(MatrixOperation, MultiplyTwo4x4Matrices)
     EXPECT_FLOAT_EQ(C(3,3), 42.0f);
 }
 
+TEST(MatrixOperation, Multiply4x4MatrixBy4x4IdentityMatrix)
+{
+    matrix<4> A;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 1.0f;     A(1,1) = 2.0f;     A(1,2) = 4.0f;     A(1,3) = 8.0f;
+    A(2,0) = 2.0f;     A(2,1) = 4.0f;     A(2,2) = 8.0f;     A(2,3) = 16.0f;
+    A(3,0) = 4.0f;     A(3,1) = 8.0f;     A(3,2) = 16.0f;    A(3,3) = 32.0f;
+
+    matrix<4> B;
+    B(0,0) = 1.0f;      B(0,1) = 0.0f;     B(0,2) = 0.0f;     B(0,3) = 0.0f;
+    B(1,0) = 0.0f;      B(1,1) = 1.0f;     B(1,2) = 0.0f;     B(1,3) = 0.0f;
+    B(2,0) = 0.0f;      B(2,1) = 0.0f;     B(2,2) = 1.0f;     B(2,3) = 0.0f;
+    B(3,0) = 0.0f;      B(3,1) = 0.0f;     B(3,2) = 0.0f;     B(3,3) = 1.0f;
+
+    // Identity
+    // | 1    | 0    | 0    | 0    |
+    // | 0    | 1    | 0    | 0    |
+    // | 0    | 0    | 1    | 0    |
+    // | 0    | 0    | 0    | 1    |
+
+    matrix<4> C = A * B;
+
+    EXPECT_FLOAT_EQ(C(0,0), 1.0f);
+    EXPECT_FLOAT_EQ(C(0,1), 2.0f);
+    EXPECT_FLOAT_EQ(C(0,2), 3.0f);
+    EXPECT_FLOAT_EQ(C(0,3), 4.0f);
+
+    EXPECT_FLOAT_EQ(C(1,0), 1.0f);
+    EXPECT_FLOAT_EQ(C(1,1), 2.0f);
+    EXPECT_FLOAT_EQ(C(1,2), 4.0f);
+    EXPECT_FLOAT_EQ(C(1,3), 8.0f);
+
+	EXPECT_FLOAT_EQ(C(2,0), 2.0f);
+    EXPECT_FLOAT_EQ(C(2,1), 4.0f);
+    EXPECT_FLOAT_EQ(C(2,2), 8.0f);
+    EXPECT_FLOAT_EQ(C(2,3), 16.0f);
+
+	EXPECT_FLOAT_EQ(C(3,0), 4.0f);
+    EXPECT_FLOAT_EQ(C(3,1), 8.0f);
+    EXPECT_FLOAT_EQ(C(3,2), 16.0f);
+    EXPECT_FLOAT_EQ(C(3,3), 32.0f);
+}
+
 TEST(MatrixOperation, Multiply4x4MatrixByTuple)
 {
     matrix<4> A;
