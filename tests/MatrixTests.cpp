@@ -351,3 +351,17 @@ TEST(MatrixOperation, Submatrix4x4Is3x3)
     EXPECT_FLOAT_EQ(B(2,1), -1.0f);
     EXPECT_FLOAT_EQ(B(2,2), 1.0f);
 }
+
+TEST(MatrixOperation, minor3x3matrix)
+{
+    matrix<3> A;
+    A(0,0) = 3.0f;  A(0,1) = 5.0f;   A(0,2) = 0.0f; 
+    A(1,0) = 2.0f;  A(1,1) = -1.0f;  A(1,2) = -7.0f;  
+    A(2,0) = 6.0f;  A(2,1) = -1.0f;  A(2,2) = 5.0f; 
+
+    // |  3 |  5 |  0 |
+    // |  2 | -1 | -7 |
+    // |  6 | -1 |  5 |
+
+    EXPECT_FLOAT_EQ(minor(A, 1, 0), 25.0f);
+}
