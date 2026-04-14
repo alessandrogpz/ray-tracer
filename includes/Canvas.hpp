@@ -6,27 +6,27 @@
 #include "../includes/Colors.hpp"
 
 struct canvas {
-    int width;
-    int height;
+    size_t width;
+    size_t height;
     color initialColor;
     std::vector<color> pixels;
 
     // 2D representation in 1D array
     // index = (y * width) + x
 
-    canvas(int w,  int h) : width(w), height(h) {
+    canvas(size_t w,  size_t h) : width(w), height(h) {
         //Inititalize the verctor with w * h black colors
         pixels.resize(w * h, color(0, 0, 0));
     }
 
-    canvas(int w, int h, color c) : width(w), height(h), initialColor(c) {
+    canvas(size_t w, size_t h, color c) : width(w), height(h), initialColor(c) {
         //Inititalize the verctor with w * h with initialColor
         pixels.resize(w * h, initialColor);
     }
 };
 
-void writePixel(canvas &c, int x, int y, color col);
-color pixelAt(const canvas &c, int x, int y);
+void writePixel(canvas &c, size_t x, size_t y, color col);
+color pixelAt(const canvas &c, size_t x, size_t y);
 std::string canvasToPPM(const canvas &c);
 void savePPM(const std::string& filename, const std::string& ppmData);
 

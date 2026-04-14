@@ -46,9 +46,9 @@ environment createEnvironment(tuple wind, tuple gravity)
 void writePixelBlock(canvas &c, int h, int w, int startX, int startY, color col) {
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
-            int drawX = startX + j;
-            int drawY = startY + i;
-            if (drawX >= 0 && drawX < c.width && drawY >= 0 && drawY < c.height) {
+            size_t drawX = startX + j;
+            size_t drawY = startY + i;
+            if (drawX < c.width && drawY < c.height) {
                 writePixel(c, drawX, drawY, col);
             }
         }

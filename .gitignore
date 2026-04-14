@@ -54,4 +54,4 @@ my_viz
 *.ppm
 
 # --- Raytracer main.cpp Test Enviroment ---
-main.cpp
+#test.cpp

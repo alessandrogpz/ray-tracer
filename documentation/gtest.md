@@ -97,8 +97,12 @@ mkdir -p build && cd build
 	# 42
 	cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/gtest_install
 
-# 3. Build the project (using all CPU cores)
-make -j$(nproc)
+# 3. Build the project
+    # Serial (Default in UNIX)
+    cmake --build .
+
+    # Build the project (using all CPU cores)
+    cmake --build . -j
 
 # 4. Run the tests
 ./run_tests

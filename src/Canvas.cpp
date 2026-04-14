@@ -7,17 +7,17 @@
 #include <fstream>
 #include <iostream>
 
-void writePixel(canvas &c, int x, int y, color col)
+void writePixel(canvas &c, size_t x, size_t y, color col)
 {
     // Basic canvas boundary check
-    if(x >= 0 && x < c.width && y >= 0 && y < c.height)
+    if(x < c.width && y < c.height)
         c.pixels[(y * c.width) + x] = col;
 }
 
-color pixelAt(const canvas &c, int x, int y)
+color pixelAt(const canvas &c, size_t x, size_t y)
 {
     // Basic canvas boundary check
-    if(x >= 0 && x < c.width && y >= 0 && y < c.height)
+    if(x < c.width && y < c.height)
         return c.pixels[(y * c.width) + x];
 
     return color(1,1,1);
@@ -39,10 +39,10 @@ std::string canvasToPPM(const canvas &c) {
     std::string ppm = std::format("P3\n{} {}\n255\n", c.width, c.height);
 
     // 2. Pixel Data
-    for (int y = 0; y < c.height; ++y) {
+    for (size_t y = 0; y < c.height; ++y) {
         std::string currentLine = "";
         
-        for (int x = 0; x < c.width; ++x) {
+        for (size_t x = 0; x < c.width; ++x) {
             color col = pixelAt(c, x, y);
             
             std::array<int, 3> components = { 
@@ -51,7 +51,7 @@ std::string canvasToPPM(const canvas &c) {
                 scaleColor(col.b) 
             };
 
-            for (int i = 0; i < 3; ++i) {
+            for (size_t i = 0; i < 3; ++i) {
                 std::string s = std::to_string(components[i]);
 
                 // PPM line formater

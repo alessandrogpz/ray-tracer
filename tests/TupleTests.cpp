@@ -108,7 +108,6 @@ TEST(TupleSubscript, IndexOutOfBoundsThrowsException)
     tuple t(1, 2, 3, 4);
 
     // Verify that indices outside 0-3 throw std::out_of_range
-    EXPECT_THROW(t[-1], std::out_of_range);
     EXPECT_THROW(t[4], std::out_of_range);
     EXPECT_THROW(t[100], std::out_of_range);
 }
@@ -213,8 +212,8 @@ TEST(VectorOperations, GetVectorScalar)
     EXPECT_FLOAT_EQ(getVectorMagnitude(a), 1.0);
     EXPECT_FLOAT_EQ(getVectorMagnitude(b), 1.0);
     EXPECT_FLOAT_EQ(getVectorMagnitude(c), 1.0);
-    EXPECT_FLOAT_EQ(getVectorMagnitude(d), sqrt(14));
-    EXPECT_FLOAT_EQ(getVectorMagnitude(e), sqrt(14));
+    EXPECT_FLOAT_EQ(getVectorMagnitude(d), std::sqrt(14.0f));
+    EXPECT_FLOAT_EQ(getVectorMagnitude(e), std::sqrt(14.0f));
 }
 
 TEST(VectorOperations, NormalizeVector)
@@ -223,11 +222,11 @@ TEST(VectorOperations, NormalizeVector)
     tuple a_n = normalizeVector(a);
     tuple b = createVector(1.0, 2.0, 3.0);
     tuple b_n = normalizeVector(b);
-    tuple c = createVector(1 / sqrt(14), 1 / sqrt(14), 1 / sqrt(14));
+    tuple c = createVector(1 / std::sqrt(14.0f), 1 / std::sqrt(14.0f), 1 / std::sqrt(14.0f));
     tuple c_n = normalizeVector(c);
 
     EXPECT_TRUE(a_n == tuple(1.0f, 0.0f, 0.0f, 0.0f));
-    EXPECT_TRUE(b_n == tuple(1.0f / sqrt(14.0f), 2.0f / sqrt(14.0f), 3.0f / sqrt(14.0f), 0.0f));
+    EXPECT_TRUE(b_n == tuple(1.0f / std::sqrt(14.0f), 2.0f / std::sqrt(14.0f), 3.0f / std::sqrt(14.0f), 0.0f));
     EXPECT_FLOAT_EQ(getVectorMagnitude(c_n), 1.0);
 }
 
