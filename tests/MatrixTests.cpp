@@ -301,3 +301,53 @@ TEST(MatrixOperation, Determinant2x2Matrix)
 
     EXPECT_FLOAT_EQ(determinantMatrix(A), 17.0f);
 }
+
+TEST(MatrixOperation, Submatrix3x3Is2x2)
+{
+    matrix<3> A;
+    A(0,0) = 1.0f;   A(0,1) = 5.0f;   A(0,2) = 0.0f;
+    A(1,0) = -3.0f;  A(1,1) = 2.0f;   A(1,2) = 7.0f;
+    A(2,0) = 0.0f;   A(2,1) = 6.0f;   A(2,2) = -3.0f;
+
+    // Submatrix(A, 0, 2) - Remove row 0, col 2
+    // |  1 |  5 |  0 |      | -3 |  2 |
+    // | -3 |  2 |  7 |  =>  |  0 |  6 |
+    // |  0 |  6 | -3 |
+
+    matrix<2> B = submatrix(A, 0, 2);
+
+    EXPECT_FLOAT_EQ(B(0,0), -3.0f);
+    EXPECT_FLOAT_EQ(B(0,1), 2.0f);
+
+    EXPECT_FLOAT_EQ(B(1,0), 0.0f);
+    EXPECT_FLOAT_EQ(B(1,1), 6.0f);
+}
+
+TEST(MatrixOperation, Submatrix4x4Is3x3)
+{
+    matrix<4> A;
+    A(0,0) = -6.0f;  A(0,1) = 1.0f;  A(0,2) = 1.0f;  A(0,3) = 6.0f;
+    A(1,0) = -8.0f;  A(1,1) = 5.0f;  A(1,2) = 8.0f;  A(1,3) = 6.0f;
+    A(2,0) = -1.0f;  A(2,1) = 0.0f;  A(2,2) = 8.0f;  A(2,3) = 2.0f;
+    A(3,0) = -7.0f;  A(3,1) = 1.0f;  A(3,2) = -1.0f; A(3,3) = 1.0f;
+
+    // Submatrix(A, 2, 1) - Remove row 2, col 1
+    // | -6 |  1 |  1 |  6 |      | -6 |  1 |  6 |
+    // | -8 |  5 |  8 |  6 |  =>  | -8 |  8 |  6 |
+    // | -1 |  0 |  8 |  2 |      | -7 | -1 |  1 |
+    // | -7 |  1 | -1 |  1 |
+
+    matrix<3> B = submatrix(A, 2, 1);
+
+    EXPECT_FLOAT_EQ(B(0,0), -6.0f);
+    EXPECT_FLOAT_EQ(B(0,1), 1.0f);
+    EXPECT_FLOAT_EQ(B(0,2), 6.0f);
+
+    EXPECT_FLOAT_EQ(B(1,0), -8.0f);
+    EXPECT_FLOAT_EQ(B(1,1), 8.0f);
+    EXPECT_FLOAT_EQ(B(1,2), 6.0f);
+
+    EXPECT_FLOAT_EQ(B(2,0), -7.0f);
+    EXPECT_FLOAT_EQ(B(2,1), -1.0f);
+    EXPECT_FLOAT_EQ(B(2,2), 1.0f);
+}

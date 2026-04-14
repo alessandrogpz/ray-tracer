@@ -100,4 +100,27 @@ float determinantMatrix(const matrix<N> &m) {
     return determinant;
 }
 
+template <int N> requires (N >= 2)
+matrix<N-1> submatrix(const matrix<N>& m, int skip_row, int skip_col)
+{   
+    matrix<N-1> result;
+
+    int dest_row = 0;
+    for (int row = 0; row < N; row++)
+    {
+        if (row == skip_row) continue;
+
+        int dest_col = 0;
+        for (int col = 0; col < N; col++)
+        {
+            if (col == skip_col) continue;
+
+            result(dest_row, dest_col) = m(row, col);
+            dest_col++;
+        }
+        dest_row++;
+    }
+    return result;
+}
+
 #endif
