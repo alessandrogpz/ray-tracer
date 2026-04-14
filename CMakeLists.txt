@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(RayTracer)
 
-# Use C++17 or C++20 for modern features
+# C++20
 set(CMAKE_CXX_STANDARD 20)
 
 # 1. Find the GTest package

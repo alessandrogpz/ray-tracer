@@ -11,7 +11,7 @@
  * representing the updated state after a single time step (tick).
  * 
  * build:
- * g++ -std=c++20 project_trajectory.cpp ../src/Tuple.cpp ../src/Canvas.cpp ../src/Colors.cpp -o buid
+ * g++ -std=c++20 project_trajectory.cpp ../src/Tuple.cpp ../src/Canvas.cpp ../src/Colors.cpp ../src/Utils.cpp -o build
  */
 
 struct projectile {

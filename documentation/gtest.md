@@ -92,20 +92,28 @@ rm -rf build
 mkdir -p build && cd build
 
 # 2. Configure with CMake
-	# Home
+	# Unix
 	cmake ..
 	# 42
 	cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/gtest_install
+    # Windows
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -A x64
 
 # 3. Build the project
-    # Serial (Default in UNIX)
+    # Unix: Serial (Default in UNIX)
     cmake --build .
 
-    # Build the project (using all CPU cores)
+    # Unix:  Using all CPU cores
     cmake --build . -j
 
+    # Windows
+    cmake --build . --config Debug
+
 # 4. Run the tests
-./run_tests
+    # Unix
+    ./run_tests
+
+    # ./Debug/run_tests.exe
 
 ```
 
