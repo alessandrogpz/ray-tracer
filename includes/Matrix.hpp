@@ -123,7 +123,7 @@ matrix<N-1> submatrix(const matrix<N>& m, int skip_row, int skip_col)
     return result;
 }
 
-template <int N> requires (N >= 2)
+template <int N> requires (N >= 3)
 float minor(const matrix<N>& m, int skip_row, int skip_col)
 {
     return determinantMatrix(submatrix(m, skip_row, skip_col));
