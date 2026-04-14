@@ -432,3 +432,125 @@ TEST(MatrixOperation, IsNotInvertible)
     EXPECT_FLOAT_EQ(A.determinant(), 0.0f);
     EXPECT_FALSE(A.isInvertible());
 }
+
+TEST(MatrixOperation, CalculateInverse4x4)
+{
+    matrix<4> A;
+    A(0,0) = -5.0f; A(0,1) = 2.0f;  A(0,2) = 6.0f;  A(0,3) = -8.0f;
+    A(1,0) = 1.0f;  A(1,1) = -5.0f; A(1,2) = 1.0f;  A(1,3) = 8.0f;
+    A(2,0) = 7.0f;  A(2,1) = 7.0f;  A(2,2) = -6.0f; A(2,3) = -7.0f;
+    A(3,0) = 1.0f;  A(3,1) = -3.0f; A(3,2) = 7.0f;  A(3,3) = 4.0f;
+
+    matrix<4> B = A.inverse();
+
+    // Intermediate checks to verify the math steps
+    EXPECT_FLOAT_EQ(A.determinant(), 532.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(2, 3), -160.0f);
+    EXPECT_FLOAT_EQ(B(3, 2), -160.0f / 532.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(3, 2), 105.0f);
+    EXPECT_FLOAT_EQ(B(2, 3), 105.0f / 532.0f);
+
+    // Final matrix verification
+    // Note: We use EXPECT_NEAR here with a tolerance of 0.00001f because 
+    // the book's test case rounds the expected fractions to 5 decimal places.
+    EXPECT_NEAR(B(0,0), 0.21805f, 0.00001f);
+    EXPECT_NEAR(B(0,1), 0.45113f, 0.00001f);
+    EXPECT_NEAR(B(0,2), 0.24060f, 0.00001f);
+    EXPECT_NEAR(B(0,3), -0.04511f, 0.00001f);
+
+    EXPECT_NEAR(B(1,0), -0.80827f, 0.00001f);
+    EXPECT_NEAR(B(1,1), -1.45677f, 0.00001f);
+    EXPECT_NEAR(B(1,2), -0.44361f, 0.00001f);
+    EXPECT_NEAR(B(1,3), 0.52068f, 0.00001f);
+
+    EXPECT_NEAR(B(2,0), -0.07895f, 0.00001f);
+    EXPECT_NEAR(B(2,1), -0.22368f, 0.00001f);
+    EXPECT_NEAR(B(2,2), -0.05263f, 0.00001f);
+    EXPECT_NEAR(B(2,3), 0.19737f, 0.00001f);
+
+    EXPECT_NEAR(B(3,0), -0.52256f, 0.00001f);
+    EXPECT_NEAR(B(3,1), -0.81391f, 0.00001f);
+    EXPECT_NEAR(B(3,2), -0.30075f, 0.00001f);
+    EXPECT_NEAR(B(3,3), 0.30639f, 0.00001f);
+}
+
+TEST(MatrixOperation, CalculateInverseAnother4x4)
+{
+    matrix<4> A;
+    A(0,0) = 8.0f;  A(0,1) = -5.0f; A(0,2) = 9.0f;  A(0,3) = 2.0f;
+    A(1,0) = 7.0f;  A(1,1) = 5.0f;  A(1,2) = 6.0f;  A(1,3) = 1.0f;
+    A(2,0) = -6.0f; A(2,1) = 0.0f;  A(2,2) = 9.0f;  A(2,3) = 6.0f;
+    A(3,0) = -3.0f; A(3,1) = 0.0f;  A(3,2) = -9.0f; A(3,3) = -4.0f;
+
+    matrix<4> B = A.inverse();
+
+    EXPECT_NEAR(B(0,0), -0.15385f, 0.00001f);
+    EXPECT_NEAR(B(0,1), -0.15385f, 0.00001f);
+    EXPECT_NEAR(B(0,2), -0.28205f, 0.00001f);
+    EXPECT_NEAR(B(0,3), -0.53846f, 0.00001f);
+
+    EXPECT_NEAR(B(1,0), -0.07692f, 0.00001f);
+    EXPECT_NEAR(B(1,1), 0.12308f, 0.00001f);
+    EXPECT_NEAR(B(1,2), 0.02564f, 0.00001f);
+    EXPECT_NEAR(B(1,3), 0.03077f, 0.00001f);
+
+    EXPECT_NEAR(B(2,0), 0.35897f, 0.00001f);
+    EXPECT_NEAR(B(2,1), 0.35897f, 0.00001f);
+    EXPECT_NEAR(B(2,2), 0.43590f, 0.00001f);
+    EXPECT_NEAR(B(2,3), 0.92308f, 0.00001f);
+
+    EXPECT_NEAR(B(3,0), -0.69231f, 0.00001f);
+    EXPECT_NEAR(B(3,1), -0.69231f, 0.00001f);
+    EXPECT_NEAR(B(3,2), -0.76923f, 0.00001f);
+    EXPECT_NEAR(B(3,3), -1.92308f, 0.00001f);
+}
+
+TEST(MatrixOperation, CalculateInverseThird4x4)
+{
+    matrix<4> A;
+    A(0,0) = 9.0f;  A(0,1) = 3.0f;  A(0,2) = 0.0f;  A(0,3) = 9.0f;
+    A(1,0) = -5.0f; A(1,1) = -2.0f; A(1,2) = -6.0f; A(1,3) = -3.0f;
+    A(2,0) = -4.0f; A(2,1) = 9.0f;  A(2,2) = 6.0f;  A(2,3) = 4.0f;
+    A(3,0) = -7.0f; A(3,1) = 6.0f;  A(3,2) = 6.0f;  A(3,3) = 2.0f;
+
+    matrix<4> B = A.inverse();
+
+    EXPECT_NEAR(B(0,0), -0.04074f, 0.00001f);
+    EXPECT_NEAR(B(0,1), -0.07778f, 0.00001f);
+    EXPECT_NEAR(B(0,2), 0.14444f, 0.00001f);
+    EXPECT_NEAR(B(0,3), -0.22222f, 0.00001f);
+
+    EXPECT_NEAR(B(1,0), -0.07778f, 0.00001f);
+    EXPECT_NEAR(B(1,1), 0.03333f, 0.00001f);
+    EXPECT_NEAR(B(1,2), 0.36667f, 0.00001f);
+    EXPECT_NEAR(B(1,3), -0.33333f, 0.00001f);
+
+    EXPECT_NEAR(B(2,0), -0.02901f, 0.00001f);
+    EXPECT_NEAR(B(2,1), -0.14630f, 0.00001f);
+    EXPECT_NEAR(B(2,2), -0.10926f, 0.00001f);
+    EXPECT_NEAR(B(2,3), 0.12963f, 0.00001f);
+
+    EXPECT_NEAR(B(3,0), 0.17778f, 0.00001f);
+    EXPECT_NEAR(B(3,1), 0.06667f, 0.00001f);
+    EXPECT_NEAR(B(3,2), -0.26667f, 0.00001f);
+    EXPECT_NEAR(B(3,3), 0.33333f, 0.00001f);
+}
+
+TEST(MatrixOperation, MultiplyProductByInverse)
+{
+    matrix<4> A;
+    A(0,0) = 3.0f;  A(0,1) = -9.0f; A(0,2) = 7.0f;  A(0,3) = 3.0f;
+    A(1,0) = 3.0f;  A(1,1) = -8.0f; A(1,2) = 2.0f;  A(1,3) = -9.0f;
+    A(2,0) = -4.0f; A(2,1) = 4.0f;  A(2,2) = 4.0f;  A(2,3) = 1.0f;
+    A(3,0) = -6.0f; A(3,1) = 5.0f;  A(3,2) = -1.0f; A(3,3) = 1.0f;
+
+    matrix<4> B;
+    B(0,0) = 8.0f;  B(0,1) = 2.0f;  B(0,2) = 2.0f;  B(0,3) = 2.0f;
+    B(1,0) = 3.0f;  B(1,1) = -1.0f; B(1,2) = 7.0f;  B(1,3) = 0.0f;
+    B(2,0) = 7.0f;  B(2,1) = 0.0f;  B(2,2) = 5.0f;  B(2,3) = 4.0f;
+    B(3,0) = 6.0f;  B(3,1) = -2.0f; B(3,2) = 0.0f;  B(3,3) = 5.0f;
+
+    matrix<4> C = A * B;
+
+    EXPECT_TRUE(C * B.inverse() == A);
+}

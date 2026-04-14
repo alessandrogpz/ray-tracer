@@ -1,6 +1,8 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
+#include <stdexcept>
+
 #include "../includes/Utils.hpp"
 #include "../includes/Tuple.hpp"
 
@@ -125,6 +127,27 @@ struct matrix {
 
     bool isInvertible() const {
         return !equal(determinant(), 0.0f);
+    }
+
+    matrix<N> inverse() const
+    {
+        if (!isInvertible()) {
+            throw std::runtime_error("Attempted to invert a non-invertible matrix.");
+        }
+
+        matrix<N> result;
+        float current_det = determinant();
+
+        for (int row = 0; row < N; row++)
+        {
+            for (int col = 0; col < N; col++)
+            {
+                float c = cofactor(col, row); 
+                result(row, col) = c / current_det;
+            }
+        }
+        
+        return result;
     }
 };
 
