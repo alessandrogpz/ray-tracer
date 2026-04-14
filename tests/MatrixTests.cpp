@@ -292,3 +292,12 @@ TEST(MatrixOperation, Transpose4x4IdentityMatrix)
 
     EXPECT_TRUE(result == I);
 }
+
+TEST(MatrixOperation, Determinant2x2Matrix)
+{
+    matrix<2> A;
+    A(0,0) = 1.0f;  A(0,1) = 5.0f;
+    A(1,0) = -3.0f; A(1,1) = 2.0f;
+
+    EXPECT_FLOAT_EQ(determinantMatrix(A), 17.0f);
+}

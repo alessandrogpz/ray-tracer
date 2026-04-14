@@ -85,4 +85,19 @@ matrix<N> transposeMatrix(const matrix<N>& m) {
     return result;
 }
 
+template <int N>
+float determinantMatrix(const matrix<N> &m) {
+
+    float determinant = 0.0f;
+
+    if constexpr (N == 2)
+    {
+        return (m(0,0) * m(1,1)) - (m(0,1) * m(1,0));
+    }
+
+    // WIP
+
+    return determinant;
+}
+
 #endif
