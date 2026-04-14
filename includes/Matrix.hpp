@@ -129,4 +129,16 @@ float minor(const matrix<N>& m, int skip_row, int skip_col)
     return determinantMatrix(submatrix(m, skip_row, skip_col));
 }
 
+template <int N> requires (N >= 3)
+float cofactor(const matrix<N>& m, int skip_row, int skip_col)
+{
+    float calculated_minor = minor(m, skip_row, skip_col);
+
+    if ((skip_row + skip_col) % 2 != 0) {
+        return -calculated_minor;
+    }
+    
+    return calculated_minor;
+}
+
 #endif

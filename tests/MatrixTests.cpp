@@ -365,3 +365,17 @@ TEST(MatrixOperation, minor3x3matrix)
 
     EXPECT_FLOAT_EQ(minor(A, 1, 0), 25.0f);
 }
+
+TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
+{
+    matrix<3> A;
+    A(0,0) = 3.0f;  A(0,1) = 5.0f;   A(0,2) = 0.0f;
+    A(1,0) = 2.0f;  A(1,1) = -1.0f;  A(1,2) = -7.0f;
+    A(2,0) = 6.0f;  A(2,1) = -1.0f;  A(2,2) = 5.0f;
+
+    EXPECT_FLOAT_EQ(minor(A, 0, 0), -12.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 0), -12.0f);
+    
+    EXPECT_FLOAT_EQ(minor(A, 1, 0), 25.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 1, 0), -25.0f);
+}
