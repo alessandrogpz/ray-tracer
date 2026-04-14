@@ -88,16 +88,18 @@ matrix<N> transposeMatrix(const matrix<N>& m) {
 template <int N>
 float determinantMatrix(const matrix<N> &m) {
 
-    float determinant = 0.0f;
-
     if constexpr (N == 2)
     {
         return (m(0,0) * m(1,1)) - (m(0,1) * m(1,0));
+    } else {
+        float determinant = 0.0f;
+
+        for (int col = 0; col < N; ++col) {
+            determinant += m(0, col) * cofactor(m, 0, col);
+        }
+
+        return determinant;
     }
-
-    // WIP
-
-    return determinant;
 }
 
 template <int N> requires (N >= 2)

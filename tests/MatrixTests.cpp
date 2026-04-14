@@ -379,3 +379,31 @@ TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
     EXPECT_FLOAT_EQ(minor(A, 1, 0), 25.0f);
     EXPECT_FLOAT_EQ(cofactor(A, 1, 0), -25.0f);
 }
+
+TEST(MatrixOperation, Determinant3x3Matrix)
+{
+    matrix<3> A;
+    A(0,0) = 1.0f;  A(0,1) = 2.0f;  A(0,2) = 6.0f;
+    A(1,0) = -5.0f; A(1,1) = 8.0f;  A(1,2) = -4.0f;
+    A(2,0) = 2.0f;  A(2,1) = 6.0f;  A(2,2) = 4.0f;
+
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 0), 56.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 1), 12.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 2), -46.0f);
+    EXPECT_FLOAT_EQ(determinantMatrix(A), -196.0f);
+}
+
+TEST(MatrixOperation, Determinant4x4Matrix)
+{
+    matrix<4> A;
+    A(0,0) = -2.0f; A(0,1) = -8.0f; A(0,2) = 3.0f;  A(0,3) = 5.0f;
+    A(1,0) = -3.0f; A(1,1) = 1.0f;  A(1,2) = 7.0f;  A(1,3) = 3.0f;
+    A(2,0) = 1.0f;  A(2,1) = 2.0f;  A(2,2) = -9.0f; A(2,3) = 6.0f;
+    A(3,0) = -6.0f; A(3,1) = 7.0f;  A(3,2) = 7.0f;  A(3,3) = -9.0f;
+
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 0), 690.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 1), 447.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 2), 210.0f);
+    EXPECT_FLOAT_EQ(cofactor(A, 0, 3), 51.0f);
+    EXPECT_FLOAT_EQ(determinantMatrix(A), -4071.0f);
+}
