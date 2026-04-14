@@ -122,6 +122,10 @@ struct matrix {
         }
         return calc_minor;
     }
+
+    bool isInvertible() const {
+        return !equal(determinant(), 0.0f);
+    }
 };
 
 #endif

@@ -407,3 +407,28 @@ TEST(MatrixOperation, Determinant4x4Matrix)
     EXPECT_FLOAT_EQ(A.cofactor(0, 3), 51.0f);
     EXPECT_FLOAT_EQ(A.determinant(), -4071.0f);
 }
+
+TEST(MatrixOperation, IsInvertible)
+{
+    matrix<4> A;
+    A(0,0) = 6.0f;  A(0,1) = 4.0f;  A(0,2) = 4.0f;  A(0,3) = 4.0f;
+    A(1,0) = 5.0f;  A(1,1) = 5.0f;  A(1,2) = 7.0f;  A(1,3) = 6.0f;
+    A(2,0) = 4.0f;  A(2,1) = -9.0f; A(2,2) = 3.0f;  A(2,3) = -7.0f;
+    A(3,0) = 9.0f;  A(3,1) = 1.0f;  A(3,2) = 7.0f;  A(3,3) = -6.0f;
+
+    EXPECT_FLOAT_EQ(A.determinant(), -2120.0f);
+    EXPECT_TRUE(A.isInvertible());
+}
+
+TEST(MatrixOperation, IsNotInvertible)
+{
+    matrix<4> A;
+    A(0,0) = -4.0f; A(0,1) = 2.0f;  A(0,2) = -2.0f; A(0,3) = -3.0f;
+    A(1,0) = 9.0f;  A(1,1) = 6.0f;  A(1,2) = 2.0f;  A(1,3) = 6.0f;
+    A(2,0) = 0.0f;  A(2,1) = -5.0f; A(2,2) = 1.0f;  A(2,3) = -5.0f;
+    A(3,0) = 0.0f;  A(3,1) = 0.0f;  A(3,2) = 0.0f;  A(3,3) = 0.0f;
+
+    // Use EXPECT_NEAR or EXPECT_FLOAT_EQ depending on how your float comparison is setup
+    EXPECT_FLOAT_EQ(A.determinant(), 0.0f);
+    EXPECT_FALSE(A.isInvertible());
+}
