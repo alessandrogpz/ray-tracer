@@ -72,75 +72,56 @@ struct matrix {
 
         return tuple(res[0], res[1], res[2], res[3]);
     }
+
+    matrix<N> transpose() const {
+        matrix<N> result;
+        for (int r = 0; r < N; r++) {
+            for (int c = 0; c < N; c++) {
+                result(c, r) = (*this)(r, c);
+            }
+        }
+        return result;
+    }
+
+    float determinant() const {
+        if constexpr (N == 2) {
+            return ((*this)(0,0) * (*this)(1,1)) - ((*this)(0,1) * (*this)(1,0));
+        } else {
+            float det = 0.0f;
+            for (int col = 0; col < N; ++col) {
+                det += (*this)(0, col) * cofactor(0, col);
+            }
+            return det;
+        }
+    }
+
+    matrix<N-1> submatrix(int skip_row, int skip_col) const requires (N >= 2) {   
+        matrix<N-1> result;
+        int dest_row = 0;
+        for (int row = 0; row < N; row++) {
+            if (row == skip_row) continue;
+            int dest_col = 0;
+            for (int col = 0; col < N; col++) {
+                if (col == skip_col) continue;
+                result(dest_row, dest_col) = (*this)(row, col);
+                dest_col++;
+            }
+            dest_row++;
+        }
+        return result;
+    }
+
+    float minor(int skip_row, int skip_col) const requires (N >= 3) {
+        return submatrix(skip_row, skip_col).determinant();
+    }
+
+    float cofactor(int skip_row, int skip_col) const requires (N >= 3) {
+        float calc_minor = minor(skip_row, skip_col);
+        if ((skip_row + skip_col) % 2 != 0) {
+            return -calc_minor;
+        }
+        return calc_minor;
+    }
 };
-
-template <int N>
-matrix<N> transposeMatrix(const matrix<N>& m) {
-    matrix<N> result;
-    for (int r = 0; r < N; r++) {
-        for (int c = 0; c < N; c++) {
-            result(c, r) = m(r, c);
-        }
-    }
-    return result;
-}
-
-template <int N>
-float determinantMatrix(const matrix<N> &m) {
-
-    if constexpr (N == 2)
-    {
-        return (m(0,0) * m(1,1)) - (m(0,1) * m(1,0));
-    } else {
-        float determinant = 0.0f;
-
-        for (int col = 0; col < N; ++col) {
-            determinant += m(0, col) * cofactor(m, 0, col);
-        }
-
-        return determinant;
-    }
-}
-
-template <int N> requires (N >= 2)
-matrix<N-1> submatrix(const matrix<N>& m, int skip_row, int skip_col)
-{   
-    matrix<N-1> result;
-
-    int dest_row = 0;
-    for (int row = 0; row < N; row++)
-    {
-        if (row == skip_row) continue;
-
-        int dest_col = 0;
-        for (int col = 0; col < N; col++)
-        {
-            if (col == skip_col) continue;
-
-            result(dest_row, dest_col) = m(row, col);
-            dest_col++;
-        }
-        dest_row++;
-    }
-    return result;
-}
-
-template <int N> requires (N >= 3)
-float minor(const matrix<N>& m, int skip_row, int skip_col)
-{
-    return determinantMatrix(submatrix(m, skip_row, skip_col));
-}
-
-template <int N> requires (N >= 3)
-float cofactor(const matrix<N>& m, int skip_row, int skip_col)
-{
-    float calculated_minor = minor(m, skip_row, skip_col);
-
-    if ((skip_row + skip_col) % 2 != 0) {
-        return -calculated_minor;
-    }
-    
-    return calculated_minor;
-}
 
 #endif

@@ -256,7 +256,7 @@ TEST(MatrixOperation, Transpose4x4Matrix)
     // | 1 | 8 | 5 | 3 |      | 3 | 0 | 5 | 5 |
     // | 0 | 0 | 5 | 8 |      | 0 | 8 | 3 | 8 |
 
-    matrix<4> B = transposeMatrix(A);
+    matrix<4> B = A.transpose();
 
     EXPECT_FLOAT_EQ(B(0,0), 0.0f);
     EXPECT_FLOAT_EQ(B(0,1), 9.0f);
@@ -288,7 +288,7 @@ TEST(MatrixOperation, Transpose4x4IdentityMatrix)
     I(2,0) = 0.0f; I(2,1) = 0.0f; I(2,2) = 1.0f; I(2,3) = 0.0f;
     I(3,0) = 0.0f; I(3,1) = 0.0f; I(3,2) = 0.0f; I(3,3) = 1.0f;
 
-    matrix<4> result = transposeMatrix(I);
+    matrix<4> result = I.transpose();
 
     EXPECT_TRUE(result == I);
 }
@@ -299,7 +299,7 @@ TEST(MatrixOperation, Determinant2x2Matrix)
     A(0,0) = 1.0f;  A(0,1) = 5.0f;
     A(1,0) = -3.0f; A(1,1) = 2.0f;
 
-    EXPECT_FLOAT_EQ(determinantMatrix(A), 17.0f);
+    EXPECT_FLOAT_EQ(A.determinant(), 17.0f);
 }
 
 TEST(MatrixOperation, Submatrix3x3Is2x2)
@@ -314,7 +314,7 @@ TEST(MatrixOperation, Submatrix3x3Is2x2)
     // | -3 |  2 |  7 |  =>  |  0 |  6 |
     // |  0 |  6 | -3 |
 
-    matrix<2> B = submatrix(A, 0, 2);
+    matrix<2> B = A.submatrix(0, 2);
 
     EXPECT_FLOAT_EQ(B(0,0), -3.0f);
     EXPECT_FLOAT_EQ(B(0,1), 2.0f);
@@ -337,7 +337,7 @@ TEST(MatrixOperation, Submatrix4x4Is3x3)
     // | -1 |  0 |  8 |  2 |      | -7 | -1 |  1 |
     // | -7 |  1 | -1 |  1 |
 
-    matrix<3> B = submatrix(A, 2, 1);
+    matrix<3> B = A.submatrix(2, 1);
 
     EXPECT_FLOAT_EQ(B(0,0), -6.0f);
     EXPECT_FLOAT_EQ(B(0,1), 1.0f);
@@ -363,7 +363,7 @@ TEST(MatrixOperation, minor3x3matrix)
     // |  2 | -1 | -7 |
     // |  6 | -1 |  5 |
 
-    EXPECT_FLOAT_EQ(minor(A, 1, 0), 25.0f);
+    EXPECT_FLOAT_EQ(A.minor(1, 0), 25.0f);
 }
 
 TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
@@ -373,11 +373,11 @@ TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
     A(1,0) = 2.0f;  A(1,1) = -1.0f;  A(1,2) = -7.0f;
     A(2,0) = 6.0f;  A(2,1) = -1.0f;  A(2,2) = 5.0f;
 
-    EXPECT_FLOAT_EQ(minor(A, 0, 0), -12.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 0), -12.0f);
+    EXPECT_FLOAT_EQ(A.minor(0, 0), -12.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 0), -12.0f);
     
-    EXPECT_FLOAT_EQ(minor(A, 1, 0), 25.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 1, 0), -25.0f);
+    EXPECT_FLOAT_EQ(A.minor(1, 0), 25.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(1, 0), -25.0f);
 }
 
 TEST(MatrixOperation, Determinant3x3Matrix)
@@ -387,10 +387,10 @@ TEST(MatrixOperation, Determinant3x3Matrix)
     A(1,0) = -5.0f; A(1,1) = 8.0f;  A(1,2) = -4.0f;
     A(2,0) = 2.0f;  A(2,1) = 6.0f;  A(2,2) = 4.0f;
 
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 0), 56.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 1), 12.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 2), -46.0f);
-    EXPECT_FLOAT_EQ(determinantMatrix(A), -196.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 0), 56.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 1), 12.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 2), -46.0f);
+    EXPECT_FLOAT_EQ(A.determinant(), -196.0f);
 }
 
 TEST(MatrixOperation, Determinant4x4Matrix)
@@ -401,9 +401,9 @@ TEST(MatrixOperation, Determinant4x4Matrix)
     A(2,0) = 1.0f;  A(2,1) = 2.0f;  A(2,2) = -9.0f; A(2,3) = 6.0f;
     A(3,0) = -6.0f; A(3,1) = 7.0f;  A(3,2) = 7.0f;  A(3,3) = -9.0f;
 
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 0), 690.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 1), 447.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 2), 210.0f);
-    EXPECT_FLOAT_EQ(cofactor(A, 0, 3), 51.0f);
-    EXPECT_FLOAT_EQ(determinantMatrix(A), -4071.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 0), 690.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 1), 447.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 2), 210.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 3), 51.0f);
+    EXPECT_FLOAT_EQ(A.determinant(), -4071.0f);
 }
