@@ -34,7 +34,7 @@ matrix<4> translation(float x, float y, float z) {
     return transform;
 }
 
-matrix<4> scaling(float x, float y, float z) {
+matrix<4> scale(float x, float y, float z) {
     
     matrix<4> scale = identity();
 

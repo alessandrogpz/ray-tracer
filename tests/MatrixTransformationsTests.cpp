@@ -35,25 +35,25 @@ TEST(MatrixTransformations, MultiplyTranslationMatrixByVector)
     EXPECT_EQ(transform * p, p);
 }
 
-TEST(MatrixTransformations, ScalingMatrixByPoint)
+TEST(MatrixTransformations, ScaleMatrixByPoint)
 {
-    matrix<4> transform = scaling(2.0f, 3.0f, 4.0f);
+    matrix<4> transform = scale(2.0f, 3.0f, 4.0f);
     tuple p = createPoint(-4.0f, 6.0f, 8.0f);
 
     EXPECT_EQ(transform * p, createPoint(-8.0f, 18.0f, 32.0f));
 }
 
-TEST(MatrixTransformations, ScalingMatrixByVector)
+TEST(MatrixTransformations, ScaleMatrixByVector)
 {
-    matrix<4> transform = scaling(2.0f, 3.0f, 4.0f);
+    matrix<4> transform = scale(2.0f, 3.0f, 4.0f);
     tuple v = createVector(-4.0f, 6.0f, 8.0f);
 
     EXPECT_EQ(transform * v, createVector(-8.0f, 18.0f, 32.0f));
 }
 
-TEST(MatrixTransformations, ScalingInverseMatrixByVector)
+TEST(MatrixTransformations, ScaleInverseMatrixByVector)
 {
-    matrix<4> transform = scaling(2.0f, 3.0f, 4.0f);
+    matrix<4> transform = scale(2.0f, 3.0f, 4.0f);
     matrix<4> inv = transform.inverse();
     tuple v = createVector(-4.0f, 6.0f, 8.0f);
 
@@ -62,7 +62,7 @@ TEST(MatrixTransformations, ScalingInverseMatrixByVector)
 
 TEST(MatrixTransformations, ReflectingMatrixOnXAxis)
 {
-    matrix<4> transform = scaling(-1.0f, 1.0f, 1.0f);
+    matrix<4> transform = scale(-1.0f, 1.0f, 1.0f);
     tuple p = createPoint(2.0f, 3.0f, 4.0f);
 
     EXPECT_EQ(transform * p, createPoint(-2.0f, 3.0f, 4.0f));
