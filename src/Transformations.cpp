@@ -30,3 +30,20 @@ matrix<4> translation(float x, float y, float z) {
     // | 0.0  | 0.0  | 0.0  | 1.0  |
 
     return transform;
+}
+
+matrix<4> scaling(float x, float y, float z) {
+    
+    matrix<4> scale = identity();
+
+    scale(0, 0) = x;
+    scale(1, 1) = y;
+    scale(2, 2) = z;
+
+    // | x    | 0.0  | 0.0  | 0.0  |
+    // | 0.0  | y    | 0.0  | 0.0  |
+    // | 0.0  | 0.0  | z    | 0.0  |
+    // | 0.0  | 0.0  | 0.0  | 1.0  |
+
+    return scale;
+}

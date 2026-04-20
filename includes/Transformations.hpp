@@ -5,6 +5,6 @@
 
 matrix<4> identity();
 matrix<4> translation(float x, float y, float z);
-
+matrix<4> scaling(float x, float y, float z);
 
 #endif
