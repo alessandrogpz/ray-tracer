@@ -9,7 +9,7 @@
 
 TEST(MatrixTransformations, MultiplyPointByTranslationMatrix)
 {
-    matrix<4> transform = Translation(5.0f, -3.0f, 2.0f);
+    matrix<4> transform = translation(5.0f, -3.0f, 2.0f);
     tuple p = createPoint(-3.0f, 4.0f, 5.0f);
     
     EXPECT_EQ(transform * p, createPoint(2.0f, 1.0f, 7.0f));
@@ -17,7 +17,7 @@ TEST(MatrixTransformations, MultiplyPointByTranslationMatrix)
 
 TEST(MatrixTransformations, MultiplyPointByInverseOfTranslationMatrix)
 {
-    matrix<4> tranform = Translation(5.0f, -3.0f, 2.0f);
+    matrix<4> tranform = translation(5.0f, -3.0f, 2.0f);
     matrix<4> inv = tranform.inverse();
 
     tuple p = createPoint(-3.0f, 4.0f, 5.0f);
@@ -27,7 +27,7 @@ TEST(MatrixTransformations, MultiplyPointByInverseOfTranslationMatrix)
 
 TEST(MatrixTransformations, MultiplyTranslationMatrixByVector)
 {
-    matrix<4> transform = Translation(5.0f, -3.0f, 2.0f);
+    matrix<4> transform = translation(5.0f, -3.0f, 2.0f);
     tuple p = createVector(-3.0f, 4.0f, 5.0f);
 
     EXPECT_EQ(transform * p, p);

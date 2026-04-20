@@ -3,8 +3,8 @@
 
 #include "Matrix.hpp"
 
-matrix<4> Identity();
+matrix<4> identity();
+matrix<4> translation(float x, float y, float z);
 
-matrix<4> Translation(float x, float y, float z);
 
 #endif
