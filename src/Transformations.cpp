@@ -1,5 +1,7 @@
 #include "../includes/Transformations.hpp"
 
+#include <cmath>
+
 matrix<4> identity() {
     matrix<4> I; // Default all components to 0.0f
 
@@ -46,4 +48,55 @@ matrix<4> scaling(float x, float y, float z) {
     // | 0.0  | 0.0  | 0.0  | 1.0  |
 
     return scale;
+}
+
+matrix<4> rotation_x(float radians) {
+    
+    matrix<4> transform = identity();
+    
+    transform(1, 1) = std::cos(radians);
+    transform(1, 2) = -std::sin(radians);
+    transform(2, 1) = std::sin(radians);
+    transform(2, 2) = std::cos(radians);
+
+    // | 1.0 | 0.0    |  0.0    | 0.0 |
+    // | 0.0 | cos(r) | -sin(r) | 0.0 |
+    // | 0.0 | sin(r) |  cos(r) | 0.0 |
+    // | 0.0 | 0.0    |  0.0    | 1.0 |
+
+    return transform;
+}
+
+matrix<4> rotation_y(float radians) {
+    
+    matrix<4> transform = identity();
+    
+    transform(0, 0) = std::cos(radians);
+    transform(0, 2) = std::sin(radians);
+    transform(2, 0) = -std::sin(radians);
+    transform(2, 2) = std::cos(radians);
+
+    // |  cos(r) | 0.0 | sin(r) | 0.0 |
+    // |  0.0    | 1.0 | 0.0    | 0.0 |
+    // | -sin(r) | 0.0 | cos(r) | 0.0 |
+    // |  0.0    | 0.0 | 0.0    | 1.0 |
+
+    return transform;
+}
+
+matrix<4> rotation_z(float radians) {
+    
+    matrix<4> transform = identity();
+    
+    transform(0, 0) = std::cos(radians);
+    transform(0, 1) = -std::sin(radians);
+    transform(1, 0) = std::sin(radians);
+    transform(1, 1) = std::cos(radians);
+
+    // | cos(r) | -sin(r) | 0.0 | 0.0 |
+    // | sin(r) |  cos(r) | 0.0 | 0.0 |
+    // | 0.0    |  0.0    | 1.0 | 0.0 |
+    // | 0.0    |  0.0    | 0.0 | 1.0 |
+
+    return transform;
 }

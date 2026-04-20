@@ -4,6 +4,8 @@
 #include "../includes/Utils.hpp"
 #include "../includes/Transformations.hpp"
 
+#include <cmath>
+
 // ---------------------------------------------------
 // Matrix Transformation
 
@@ -64,4 +66,43 @@ TEST(MatrixTransformations, ReflectingMatrixOnXAxis)
     tuple p = createPoint(2.0f, 3.0f, 4.0f);
 
     EXPECT_EQ(transform * p, createPoint(-2.0f, 3.0f, 4.0f));
+}
+
+TEST(MatrixTransformations, RotatingPointAroundXAxis)
+{
+    tuple p = createPoint(0.0f, 1.0f, 0.0f);
+    matrix<4> half_quarter = rotation_x(static_cast<float>(M_PI / 4.0));
+    matrix<4> full_quarter = rotation_x(static_cast<float>(M_PI / 2.0));
+
+    EXPECT_EQ(half_quarter * p, createPoint(0.0f, std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f));
+    EXPECT_EQ(full_quarter * p, createPoint(0.0f, 0.0f, 1.0f));
+}
+
+TEST(MatrixTransformations, RotatePointAroundXAxisInReverseUsingInverse)
+{
+    tuple p = createPoint(0.0f, 1.0f, 0.0f);
+    matrix<4> half_quarter = rotation_x(static_cast<float>(M_PI / 4.0));
+    matrix<4> inv = half_quarter.inverse();
+
+    EXPECT_EQ(inv * p, createPoint(0.0f, std::sqrt(2.0f) / 2.0f, - std::sqrt(2.0f) / 2.0f));
+}
+
+TEST(MatrixTransformations, RotatingPointAroundYAxis)
+{
+    tuple p = createPoint(0.0f, 0.0f, 1.0f);
+    matrix<4> half_quarter = rotation_y(static_cast<float>(M_PI / 4.0));
+    matrix<4> full_quarter = rotation_y(static_cast<float>(M_PI / 2.0));
+
+    EXPECT_EQ(half_quarter * p, createPoint(std::sqrt(2.0f) / 2.0f, 0.0f, std::sqrt(2.0f) / 2.0f));
+    EXPECT_EQ(full_quarter * p, createPoint(1.0f, 0.0f, 0.0f));
+}
+
+TEST(MatrixTransformations, RotatingPointAroundZAxis)
+{
+    tuple p = createPoint(0.0f, 1.0f, 0.0f);
+    matrix<4> half_quarter = rotation_z(static_cast<float>(M_PI / 4.0));
+    matrix<4> full_quarter = rotation_z(static_cast<float>(M_PI / 2.0));
+
+    EXPECT_EQ(half_quarter * p, createPoint(-std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f, 0.0f));
+    EXPECT_EQ(full_quarter * p, createPoint(-1.0f, 0.0f, 0.0f));
 }
