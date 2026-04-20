@@ -15,12 +15,14 @@ add_executable(run_tests
     tests/TupleTests.cpp 
     tests/ColorsTests.cpp
     tests/CanvasTests.cpp
-    tests/MatrixTests.cpp
+    tests/MatrixOperationsTests.cpp
+    tests/MatrixTransformationsTests.cpp
     src/Tuple.cpp
     src/Colors.cpp
     src/Canvas.cpp
     src/Matrix.cpp
     src/Utils.cpp
+    src/Transformations.cpp
 )
 
 if(MSVC)
