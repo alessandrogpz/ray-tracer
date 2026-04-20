@@ -100,3 +100,22 @@ matrix<4> rotation_z(float radians) {
 
     return transform;
 }
+
+matrix<4> shear(float xy, float xz, float yx, float yz, float zx, float zy) {
+
+    matrix<4> transform = identity();
+
+    transform(0, 1) = xy;
+    transform(0, 2) = xz;
+    transform(1, 0) = yx;
+    transform(1, 2) = yz;
+    transform(2, 0) = zx;
+    transform(2, 1) = zy;
+
+    // | 1.0  | xy   | xz   | 0.0  |
+    // | yx   | 1.0  | yz   | 0.0  |
+    // | zx   | zy   | 1.0  | 0.0  |
+    // | 0.0  | 0.0  | 0.0  | 1.0  |
+
+    return transform;
+}

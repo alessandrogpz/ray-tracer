@@ -106,3 +106,45 @@ TEST(MatrixTransformations, RotatingPointAroundZAxis)
     EXPECT_EQ(half_quarter * p, createPoint(-std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f, 0.0f));
     EXPECT_EQ(full_quarter * p, createPoint(-1.0f, 0.0f, 0.0f));
 }
+
+TEST(MatrixTransformations, ShearingMovesXInProportionToY)
+{
+    matrix<4> transform = shear(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+    tuple p = createPoint(2.0f, 3.0f, 4.0f);
+    EXPECT_EQ(transform * p, createPoint(5.0f, 3.0f, 4.0f));
+}
+
+TEST(MatrixTransformations, ShearingMovesXInProportionToZ)
+{
+    matrix<4> transform = shear(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+    tuple p = createPoint(2.0f, 3.0f, 4.0f);
+    EXPECT_EQ(transform * p, createPoint(6.0f, 3.0f, 4.0f));
+}
+
+TEST(MatrixTransformations, ShearingMovesYInProportionToX)
+{
+    matrix<4> transform = shear(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+    tuple p = createPoint(2.0f, 3.0f, 4.0f);
+    EXPECT_EQ(transform * p, createPoint(2.0f, 5.0f, 4.0f));
+}
+
+TEST(MatrixTransformations, ShearingMovesYInProportionToZ)
+{
+    matrix<4> transform = shear(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+    tuple p = createPoint(2.0f, 3.0f, 4.0f);
+    EXPECT_EQ(transform * p, createPoint(2.0f, 7.0f, 4.0f));
+}
+
+TEST(MatrixTransformations, ShearingMovesZInProportionToX)
+{
+    matrix<4> transform = shear(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    tuple p = createPoint(2.0f, 3.0f, 4.0f);
+    EXPECT_EQ(transform * p, createPoint(2.0f, 3.0f, 6.0f));
+}
+
+TEST(MatrixTransformations, ShearingMovesZInProportionToY)
+{
+    matrix<4> transform = shear(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+    tuple p = createPoint(2.0f, 3.0f, 4.0f);
+    EXPECT_EQ(transform * p, createPoint(2.0f, 3.0f, 7.0f));
+}
