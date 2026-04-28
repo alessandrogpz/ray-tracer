@@ -1,3 +1,5 @@
+#include <string>
+
 import rt.utils;
 import rt.tuple;
 import rt.colors;
