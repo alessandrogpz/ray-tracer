@@ -45,7 +45,7 @@ projectile createProjectile(tuple position, tuple velocity)
 
 environment createEnvironment(tuple wind, tuple gravity)
 {
-    return environment(gravity, wind);
+    return {gravity, wind};
 }
 
 

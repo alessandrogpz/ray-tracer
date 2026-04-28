@@ -26,12 +26,12 @@ export namespace rt {
         // index = (y * width) + x
 
         canvas(size_t w, size_t h) : width(w), height(h) {
-            //Inititalize the verctor with w * h black colors
+            //Initialize the vector with w * h black colors
             pixels.resize(w * h, color(0, 0, 0));
         }
 
         canvas(size_t w, size_t h, color c) : width(w), height(h), initialColor(c) {
-            //Inititalize the verctor with w * h with initialColor
+            //Initialize the vector with w * h with initialColor
             pixels.resize(w * h, initialColor);
         }
     };
@@ -69,7 +69,7 @@ export namespace rt {
 
         // 2. Pixel Data
         for (size_t y = 0; y < c.height; ++y) {
-            std::string currentLine = "";
+            std::string currentLine;
 
             for (size_t x = 0; x < c.width; ++x) {
                 color col = pixelAt(c, x, y);

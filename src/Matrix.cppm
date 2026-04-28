@@ -12,7 +12,7 @@ export namespace rt {
 
     template <size_t N>
     struct matrix {
-        float data[N][N];
+        float data[N][N]{};
 
         // Default constructor: Initializes all elements to 0
         matrix() {

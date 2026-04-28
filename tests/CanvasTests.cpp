@@ -53,7 +53,7 @@ TEST(CanvasToPPM, PPMHeader) {
     std::getline(ss, line);
     EXPECT_EQ(line, "P3");
 
-    // Line 2: Dimensions (Widht Height)
+    // Line 2: Dimensions (Width Height)
     std::getline(ss, line);
     EXPECT_EQ(line, "5 3");
 
@@ -77,7 +77,7 @@ TEST(CanvasToPPM, PPMPixelData) {
     std::stringstream ss(ppm);
     std::string line;
 
-    // Get passt PPM header
+    // Get past PPM header
     for (int i = 0; i < 3; i++)
         std::getline(ss, line);
 
@@ -101,7 +101,7 @@ TEST(CanvasToPPM, PPMLongPixelDataLines) {
     std::stringstream ss(ppm);
     std::string line;
 
-    // Get passt PPM header
+    // Get past PPM header
     for (int i = 0; i < 3; i++)
         std::getline(ss, line);
 

@@ -24,8 +24,8 @@ TEST(MatrixTransformations, MultiplyPointByTranslationMatrix)
 
 TEST(MatrixTransformations, MultiplyPointByInverseOfTranslationMatrix)
 {
-    matrix<4> tranform = translation(5.0f, -3.0f, 2.0f);
-    matrix<4> inv = tranform.inverse();
+    matrix<4> transform = translation(5.0f, -3.0f, 2.0f);
+    matrix<4> inv = transform.inverse();
 
     tuple p = createPoint(-3.0f, 4.0f, 5.0f);
 
