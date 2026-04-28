@@ -1,4 +1,4 @@
-#include <vector>
+#include <string>
 
 import rt.utils;
 import rt.tuple;
@@ -17,7 +17,7 @@ using namespace rt;
  * representing the updated state after a single time step (tick).
  * 
  * build:
- * g++ -std=c++20 project_trajectory.cpp ../src/Tuple.cpp ../src/Canvas.cpp ../src/Colors.cpp ../src/Utils.cpp -o build
+ * g++ -std=c++20 -fmodules-ts ../src/Utils.cppm ../src/Tuple.cppm ../src/Colors.cppm ../src/Canvas.cppm ../src/Matrix.cppm ../src/Transformations.cppm project_trajectory.cpp -o project_trajectory
  */
 
 struct projectile {
