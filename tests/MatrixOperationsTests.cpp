@@ -4,6 +4,8 @@
 #include "Tuple.hpp"
 #include "Utils.hpp"
 
+using namespace rt;
+
 // ---------------------------------------------------
 // Matrix Creation
 

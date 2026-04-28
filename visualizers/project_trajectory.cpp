@@ -4,6 +4,8 @@
 
 #include <vector>
 
+using namespace rt;
+
 /**
  * A Projectile has a position (Point) and a velocity (Vector).
  * An Environment has wind (Vector) and gravity (Vector).

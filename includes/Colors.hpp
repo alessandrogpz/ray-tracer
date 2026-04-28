@@ -1,35 +1,39 @@
 #ifndef COLORS_HPP
 #define COLORS_HPP
 
-struct color
-{
-    float r, g, b;
+namespace rt {
 
-    color() : r(0), g(0), b(0) {}
-    color(float _r, float _g, float _b)
-        : r(_r), g(_g), b(_b) {}
+    struct color
+    {
+        float r, g, b;
 
-    // Addition: a + b
-    [[nodiscard]] color operator+(const color& other) const {
-        return color(r + other.r, g + other.g, b + other.b);
-    }
+        color() : r(0), g(0), b(0) {}
+        color(float _r, float _g, float _b)
+            : r(_r), g(_g), b(_b) {}
 
-    // Subtraction: a - b
-    [[nodiscard]] color operator-(const color& other) const {
-        return color(r - other.r, g - other.g, b - other.b);
-    }
+        // Addition: a + b
+        [[nodiscard]] color operator+(const color& other) const {
+            return color(r + other.r, g + other.g, b + other.b);
+        }
 
-    // Scalar Multiplication a * scalar
-    [[nodiscard]] color operator*(float scalar) const {
-        return color(r * scalar, g * scalar, b * scalar);
-    }
+        // Subtraction: a - b
+        [[nodiscard]] color operator-(const color& other) const {
+            return color(r - other.r, g - other.g, b - other.b);
+        }
 
-    // Multiplying Colors
-    [[nodiscard]] color operator*(const color &other) const {
-        return color(r * other.r, g * other.g, b * other.b);
-    }
-};
+        // Scalar Multiplication a * scalar
+        [[nodiscard]] color operator*(float scalar) const {
+            return color(r * scalar, g * scalar, b * scalar);
+        }
 
-[[nodiscard]] color createColor(float r, float g, float blue);
+        // Multiplying Colors
+        [[nodiscard]] color operator*(const color &other) const {
+            return color(r * other.r, g * other.g, b * other.b);
+        }
+    };
+
+    [[nodiscard]] color createColor(float r, float g, float blue);
+
+} // namespace rt
 
 #endif

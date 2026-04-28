@@ -6,6 +6,8 @@
 #include <cmath>
 #include <stdexcept>
 
+using namespace rt;
+
 // ---------------------------------------------------
 // Tuple Creation
 

@@ -2,6 +2,8 @@
 #include "Colors.hpp"
 #include "Tuple.hpp"
 
+using namespace rt;
+
 /**
  * Manual compilation:
  *  g++ -std=c++20 main.cpp src/Canvas.cpp src/Colors.cpp src/Tuple.cpp src/Utils.cpp  

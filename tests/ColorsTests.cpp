@@ -2,6 +2,8 @@
 
 #include "Colors.hpp"
 
+using namespace rt;
+
 // ------------------------------------------------------
 // Color Creation
 

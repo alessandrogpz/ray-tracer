@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+using namespace rt;
+
 // ---------------------------------------------------
 // Matrix Transformation
 

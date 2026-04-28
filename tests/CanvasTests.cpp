@@ -4,6 +4,8 @@
 #include "Canvas.hpp"
 #include "Utils.hpp"
 
+using namespace rt;
+
 // ---------------------------------------------------
 // Canvas Creation
 
