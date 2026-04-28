@@ -8,8 +8,10 @@ module;
 #include <fstream>
 #include <iostream>
 #include <format>
+#include <print>
 
 export module rt.canvas;
+
 import rt.colors;
 
 export namespace rt {
@@ -23,7 +25,7 @@ export namespace rt {
         // 2D representation in 1D array
         // index = (y * width) + x
 
-        canvas(size_t w,  size_t h) : width(w), height(h) {
+        canvas(size_t w, size_t h) : width(w), height(h) {
             //Inititalize the verctor with w * h black colors
             pixels.resize(w * h, color(0, 0, 0));
         }
@@ -53,10 +55,10 @@ export namespace rt {
     int scaleColor(float color_float) {
         // 1. Scale by 255
         float scaled = color_float * 255.0f;
-        
+
         // 2. Apply ceiling
         float ceiled = std::ceil(scaled);
-        
+
         // 3. Cast to int and clamp between 0 and 255
         return std::clamp(static_cast<int>(ceiled), 0, 255);
     }
@@ -68,14 +70,14 @@ export namespace rt {
         // 2. Pixel Data
         for (size_t y = 0; y < c.height; ++y) {
             std::string currentLine = "";
-            
+
             for (size_t x = 0; x < c.width; ++x) {
                 color col = pixelAt(c, x, y);
-                
-                std::array<int, 3> components = { 
-                    scaleColor(col.r), 
-                    scaleColor(col.g), 
-                    scaleColor(col.b) 
+
+                std::array components = {
+                    scaleColor(col.r),
+                    scaleColor(col.g),
+                    scaleColor(col.b)
                 };
 
                 for (size_t i = 0; i < 3; ++i) {
@@ -91,7 +93,7 @@ export namespace rt {
                     if (!currentLine.empty()) {
                         currentLine += " ";
                     }
-                    
+
                     currentLine += s;
                 }
             }
@@ -109,15 +111,14 @@ export namespace rt {
         std::ofstream outFile(filename + ".ppm");
 
         if(!outFile.is_open()) {
-            std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
+            std::println(std::cerr, "Error: Could not open file {}.ppm", filename);
             return;
         }
 
         outFile << ppmData;
 
         outFile.close();
-        
-        std::cout << "Successfully saved to " << filename << std::endl;
+        std::println("Successfully saved to {}.ppm", filename);
     }
 
 } // namespace rt
