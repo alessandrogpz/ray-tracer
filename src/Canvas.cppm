@@ -1,14 +1,38 @@
-#include "Canvas.hpp"
+module;
 
-#include <cassert>
-#include <format>
+#include <vector>
+#include <string>
+#include <array>
 #include <algorithm>
 #include <cmath>
-#include <array>
 #include <fstream>
 #include <iostream>
+#include <format>
 
-namespace rt {
+export module rt.canvas;
+import rt.colors;
+
+export namespace rt {
+
+    struct canvas {
+        size_t width;
+        size_t height;
+        color initialColor;
+        std::vector<color> pixels;
+
+        // 2D representation in 1D array
+        // index = (y * width) + x
+
+        canvas(size_t w,  size_t h) : width(w), height(h) {
+            //Inititalize the verctor with w * h black colors
+            pixels.resize(w * h, color(0, 0, 0));
+        }
+
+        canvas(size_t w, size_t h, color c) : width(w), height(h), initialColor(c) {
+            //Inititalize the verctor with w * h with initialColor
+            pixels.resize(w * h, initialColor);
+        }
+    };
 
     void writePixel(canvas &c, size_t x, size_t y, color col)
     {
@@ -17,7 +41,7 @@ namespace rt {
             c.pixels[(y * c.width) + x] = col;
     }
 
-    color pixelAt(const canvas &c, size_t x, size_t y)
+    [[nodiscard]] color pixelAt(const canvas &c, size_t x, size_t y)
     {
         // Basic canvas boundary check
         if(x < c.width && y < c.height)
@@ -37,7 +61,7 @@ namespace rt {
         return std::clamp(static_cast<int>(ceiled), 0, 255);
     }
 
-    std::string canvasToPPM(const canvas &c) {
+    [[nodiscard]] std::string canvasToPPM(const canvas &c) {
         // 1. Header
         std::string ppm = std::format("P3\n{} {}\n255\n", c.width, c.height);
 
@@ -95,4 +119,5 @@ namespace rt {
         
         std::cout << "Successfully saved to " << filename << std::endl;
     }
+
 } // namespace rt

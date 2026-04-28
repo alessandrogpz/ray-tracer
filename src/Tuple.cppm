@@ -1,12 +1,13 @@
-#ifndef TUPLE_HPP
-#define TUPLE_HPP
+module;
 
-#include "Utils.hpp"
-
+#include <cmath>
 #include <cassert>
 #include <stdexcept>
 
-namespace rt {
+export module rt.tuple;
+import rt.utils;
+
+export namespace rt {
 
     struct tuple
     {
@@ -76,15 +77,48 @@ namespace rt {
         }
     };
 
-    [[nodiscard]] tuple createPoint(float x, float y, float z);
-    [[nodiscard]] tuple createVector(float x, float y, float z);
+    [[nodiscard]] tuple createPoint(float x, float y, float z)
+    {
+        return tuple(x, y, z, 1.0f);
+    }
 
-    [[nodiscard]] tuple negateTuple(tuple a);
-    [[nodiscard]] float getVectorMagnitude(tuple a);
-    [[nodiscard]] tuple normalizeVector(tuple a);
-    [[nodiscard]] float dotProduct(tuple a, tuple b);
-    [[nodiscard]] tuple crossProduct(tuple a, tuple b);
+    [[nodiscard]] tuple createVector(float x, float y, float z)
+    {
+        return tuple(x, y, z, 0.0f);
+    }
 
-    } // namespace rt
+    [[nodiscard]] tuple negateTuple(tuple a)
+    {
+        return tuple(a * -1);
+    }
 
-#endif
+    [[nodiscard]] float getVectorMagnitude(tuple a)
+    {
+        assert(equal(a.w, 0.0f) && "Argument 'a' to getVectorMagnitude must be a vector");
+        return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+    }
+
+    [[nodiscard]] tuple normalizeVector(tuple a)
+    {
+        assert(equal(a.w, 0.0f) && "Argument 'a' to normalizeVector must be a vector");
+        float inv_mag = 1.0f / getVectorMagnitude(a);
+        return createVector(a.x * inv_mag, a.y * inv_mag, a.z * inv_mag);
+    }
+
+    [[nodiscard]] float dotProduct(tuple a, tuple b)
+    {
+        return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+    }
+
+    [[nodiscard]] tuple crossProduct(tuple a, tuple b)
+    {
+        assert(equal(a.w, 0.0f) && "Argument 'a' to crossProduct must be a vector");
+        assert(equal(b.w, 0.0f) && "Argument 'b' to crossProduct must be a vector");
+
+        return (
+            createVector(a.y * b.z - a.z * b.y,
+                        a.z * b.x - a.x * b.z,
+                        a.x * b.y - a.y * b.x));
+    }
+
+} // namespace rt

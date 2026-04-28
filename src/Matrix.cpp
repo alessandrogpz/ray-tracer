@@ -1,4 +1,0 @@
-namespace rt {
-
-
-} // namespace rt

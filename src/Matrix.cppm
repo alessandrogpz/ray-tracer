@@ -1,12 +1,14 @@
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
+module;
 
-#include "Utils.hpp"
-#include "Tuple.hpp"
-
+#include <cstddef>
 #include <stdexcept>
 
-namespace rt {
+export module rt.matrix;
+
+import rt.utils;
+import rt.tuple;
+
+export namespace rt {
 
     template <size_t N>
     struct matrix {
@@ -32,7 +34,7 @@ namespace rt {
         }
 
         // Overload for matrix comparison (==)
-        [[nodiscard]] friend bool operator==(const matrix<N>& a, const matrix<N>& b) {
+        [[nodiscard]] friend inline bool operator==(const matrix<N>& a, const matrix<N>& b) {
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     if (!equal(a(r, c), b(r, c))) {
@@ -44,12 +46,12 @@ namespace rt {
         }
 
         // Overload for matrix comparison (!=)
-        [[nodiscard]] friend bool operator!=(const matrix<N>& a, const matrix<N>& b) {
+        [[nodiscard]] friend inline bool operator!=(const matrix<N>& a, const matrix<N>& b) {
             return !(a == b);
         }
 
         // Overload for matrix multiplication
-        [[nodiscard]] friend matrix<N> operator*(const matrix<N>& a, const matrix<N>& b){
+        [[nodiscard]] friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b){
             matrix<N> result;
 
             for (size_t r = 0; r < N; r++) {
@@ -65,7 +67,7 @@ namespace rt {
         }
 
         // Overload for matrix * tuple multiplication
-        [[nodiscard]] friend tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
+        [[nodiscard]] friend inline tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
             float res[4] = {0, 0, 0, 0};
 
             for (size_t r = 0; r < 4; r++) {
@@ -154,5 +156,3 @@ namespace rt {
     };
 
 } // namespace rt
-
-#endif

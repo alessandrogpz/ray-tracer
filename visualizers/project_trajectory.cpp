@@ -1,8 +1,11 @@
-#include "Tuple.hpp"
-#include "Colors.hpp"
-#include "Canvas.hpp"
-
 #include <vector>
+
+import rt.utils;
+import rt.tuple;
+import rt.colors;
+import rt.canvas;
+import rt.matrix;
+import rt.transformations;
 
 using namespace rt;
 

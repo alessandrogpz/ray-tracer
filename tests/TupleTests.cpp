@@ -1,10 +1,14 @@
 #include <gtest/gtest.h>
 
-#include "Tuple.hpp"
-#include "Utils.hpp"
-
 #include <cmath>
 #include <stdexcept>
+
+import rt.utils;
+import rt.tuple;
+import rt.colors;
+import rt.canvas;
+import rt.matrix;
+import rt.transformations;
 
 using namespace rt;
 

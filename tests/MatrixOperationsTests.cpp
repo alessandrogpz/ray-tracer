@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
 
-#include "Matrix.hpp"
-#include "Tuple.hpp"
-#include "Utils.hpp"
+import rt.utils;
+import rt.tuple;
+import rt.colors;
+import rt.canvas;
+import rt.matrix;
+import rt.transformations;
 
 using namespace rt;
 

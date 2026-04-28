@@ -1,7 +1,8 @@
-#ifndef COLORS_HPP
-#define COLORS_HPP
+module;
 
-namespace rt {
+export module rt.colors;
+
+export namespace rt {
 
     struct color
     {
@@ -32,8 +33,9 @@ namespace rt {
         }
     };
 
-    [[nodiscard]] color createColor(float r, float g, float blue);
+    [[nodiscard]] color createColor(float r, float g, float blue)
+    {
+        return color(r, g, blue);
+    }
 
 } // namespace rt
-
-#endif
