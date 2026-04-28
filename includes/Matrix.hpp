@@ -1,10 +1,10 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include <stdexcept>
+#include "Utils.hpp"
+#include "Tuple.hpp"
 
-#include "../includes/Utils.hpp"
-#include "../includes/Tuple.hpp"
+#include <stdexcept>
 
 template <size_t N>
 struct matrix {

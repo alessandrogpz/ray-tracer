@@ -1,6 +1,6 @@
-#include "includes/Canvas.hpp"
-#include "includes/Colors.hpp"
-#include "includes/Tuple.hpp"
+#include "Canvas.hpp"
+#include "Colors.hpp"
+#include "Tuple.hpp"
 
 /**
  * Manual compilation:

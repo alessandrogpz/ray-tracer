@@ -1,9 +1,10 @@
 #ifndef TUPLE_HPP
 #define TUPLE_HPP
 
+#include "Utils.hpp"
+
 #include <cassert>
 #include <stdexcept>
-#include "../includes/Utils.hpp"
 
 struct tuple
 {

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "../includes/Colors.hpp"
+
+#include "Colors.hpp"
 
 // ------------------------------------------------------
 // Color Creation

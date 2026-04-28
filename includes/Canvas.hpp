@@ -1,9 +1,10 @@
 #ifndef CANVAS_HPP
 #define CANVAS_HPP
 
+#include "Colors.hpp"
+
 #include <vector>
 #include <string>
-#include "../includes/Colors.hpp"
 
 struct canvas {
     size_t width;

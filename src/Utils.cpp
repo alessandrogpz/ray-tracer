@@ -1,4 +1,5 @@
-#include "../includes/Utils.hpp"
+#include "Utils.hpp"
+
 #include <cmath>
 
 bool equal(float a, float b)

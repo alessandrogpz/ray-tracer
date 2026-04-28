@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include "../includes/Tuple.hpp"
-#include "../includes/Utils.hpp"
+
+#include "Tuple.hpp"
+#include "Utils.hpp"
+
 #include <cmath>
 #include <stdexcept>
 

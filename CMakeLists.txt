@@ -25,6 +25,8 @@ add_executable(run_tests
     src/Transformations.cpp
 )
 
+target_include_directories(run_tests PRIVATE ${CMAKE_SOURCE_DIR}/includes)
+
 if(MSVC)
     target_compile_options(run_tests PRIVATE 
         /W4           # High warning level

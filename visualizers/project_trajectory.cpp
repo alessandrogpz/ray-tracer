@@ -1,6 +1,7 @@
-#include "../includes/Tuple.hpp"
-#include "../includes/Colors.hpp"
-#include "../includes/Canvas.hpp"
+#include "Tuple.hpp"
+#include "Colors.hpp"
+#include "Canvas.hpp"
+
 #include <vector>
 
 /**

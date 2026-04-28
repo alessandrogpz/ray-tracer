@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
-#include "../includes/Matrix.hpp"
-#include "../includes/Tuple.hpp"
-#include "../includes/Utils.hpp"
+
+#include "Matrix.hpp"
+#include "Tuple.hpp"
+#include "Utils.hpp"
 
 // ---------------------------------------------------
 // Matrix Creation

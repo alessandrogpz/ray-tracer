@@ -1,4 +1,5 @@
-#include "../includes/Canvas.hpp"
+#include "Canvas.hpp"
+
 #include <cassert>
 #include <format>
 #include <algorithm>
