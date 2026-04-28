@@ -15,22 +15,22 @@ struct tuple
         : x(_x), y(_y), z(_z), w(_w) {}
 
     // Addition: a + b
-    tuple operator+(const tuple& other) const {
+    [[nodiscard]] tuple operator+(const tuple& other) const {
         return tuple(x + other.x, y + other.y, z + other.z, w + other.w);
     }
 
     // Subtraction: a - b
-    tuple operator-(const tuple& other) const {
+    [[nodiscard]] tuple operator-(const tuple& other) const {
         return tuple(x - other.x, y - other.y, z - other.z, w - other.w);
     }
 
     // Scalar Multiplication: a * scalar
-    tuple operator*(float scalar) const {
+    [[nodiscard]] tuple operator*(float scalar) const {
         return tuple(x * scalar, y * scalar, z * scalar, w * scalar);
     }
 
     // Scalar Division: a / scalar
-    tuple operator/(float scalar) const {
+    [[nodiscard]] tuple operator/(float scalar) const {
         assert(scalar != 0.0f && "Attempted to divide a tuple by zero");
 
 	    float scalar_inv = 1.0f / scalar;
@@ -74,13 +74,13 @@ struct tuple
     }
 };
 
-tuple createPoint(float x, float y, float z);
-tuple createVector(float x, float y, float z);
+[[nodiscard]] tuple createPoint(float x, float y, float z);
+[[nodiscard]] tuple createVector(float x, float y, float z);
 
-tuple negateTuple(tuple a);
-float getVectorMagnitude(tuple a);
-tuple normalizeVector(tuple a);
-float dotProduct(tuple a, tuple b);
-tuple crossProduct(tuple a, tuple b);
+[[nodiscard]] tuple negateTuple(tuple a);
+[[nodiscard]] float getVectorMagnitude(tuple a);
+[[nodiscard]] tuple normalizeVector(tuple a);
+[[nodiscard]] float dotProduct(tuple a, tuple b);
+[[nodiscard]] tuple crossProduct(tuple a, tuple b);
 
 #endif

@@ -27,8 +27,8 @@ struct canvas {
 };
 
 void writePixel(canvas &c, size_t x, size_t y, color col);
-color pixelAt(const canvas &c, size_t x, size_t y);
-std::string canvasToPPM(const canvas &c);
+[[nodiscard]] color pixelAt(const canvas &c, size_t x, size_t y);
+[[nodiscard]] std::string canvasToPPM(const canvas &c);
 void savePPM(const std::string& filename, const std::string& ppmData);
 
 #endif

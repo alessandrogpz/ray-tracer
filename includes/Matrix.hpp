@@ -30,7 +30,7 @@ struct matrix {
     }
 
     // Overload for matrix comparison (==)
-    friend bool operator==(const matrix<N>& a, const matrix<N>& b) {
+    [[nodiscard]] friend bool operator==(const matrix<N>& a, const matrix<N>& b) {
         for (size_t r = 0; r < N; r++) {
             for (size_t c = 0; c < N; c++) {
                 if (!equal(a(r, c), b(r, c))) {
@@ -42,12 +42,12 @@ struct matrix {
     }
 
     // Overload for matrix comparison (!=)
-    friend bool operator!=(const matrix<N>& a, const matrix<N>& b) {
+    [[nodiscard]] friend bool operator!=(const matrix<N>& a, const matrix<N>& b) {
         return !(a == b);
     }
 
     // Overload for matrix multiplication
-    friend matrix<N> operator*(const matrix<N>& a, const matrix<N>& b){
+    [[nodiscard]] friend matrix<N> operator*(const matrix<N>& a, const matrix<N>& b){
         matrix<N> result;
 
         for (size_t r = 0; r < N; r++) {
@@ -63,7 +63,7 @@ struct matrix {
     }
 
     // Overload for matrix * tuple multiplication
-    friend tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
+    [[nodiscard]] friend tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
         float res[4] = {0, 0, 0, 0};
 
         for (size_t r = 0; r < 4; r++) {
@@ -75,7 +75,7 @@ struct matrix {
         return tuple(res[0], res[1], res[2], res[3]);
     }
 
-    matrix<N> transpose() const {
+    [[nodiscard]] matrix<N> transpose() const {
         matrix<N> result;
         for (size_t r = 0; r < N; r++) {
             for (size_t c = 0; c < N; c++) {
@@ -85,7 +85,7 @@ struct matrix {
         return result;
     }
 
-    float determinant() const {
+    [[nodiscard]] float determinant() const {
         if constexpr (N == 2) {
             return ((*this)(0,0) * (*this)(1,1)) - ((*this)(0,1) * (*this)(1,0));
         } else {
@@ -97,7 +97,7 @@ struct matrix {
         }
     }
 
-    matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {   
+    [[nodiscard]] matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {   
         matrix<N-1> result;
         size_t dest_row = 0;
         for (size_t row = 0; row < N; row++) {
@@ -113,11 +113,11 @@ struct matrix {
         return result;
     }
 
-    float minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+    [[nodiscard]] float minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
         return submatrix(skip_row, skip_col).determinant();
     }
 
-    float cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+    [[nodiscard]] float cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
         float calc_minor = minor(skip_row, skip_col);
         if ((skip_row + skip_col) % 2 != 0) {
             return -calc_minor;
@@ -125,11 +125,11 @@ struct matrix {
         return calc_minor;
     }
 
-    bool isInvertible() const {
+    [[nodiscard]] bool isInvertible() const {
         return !equal(determinant(), 0.0f);
     }
 
-    matrix<N> inverse() const
+    [[nodiscard]] matrix<N> inverse() const
     {
         if (!isInvertible()) {
             throw std::runtime_error("Attempted to invert a non-invertible matrix.");
