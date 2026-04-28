@@ -47,7 +47,7 @@ export namespace rt {
         if(x < c.width && y < c.height)
             return c.pixels[(y * c.width) + x];
 
-        return color(1,1,1);
+        return {1,1,1};
     }
 
     int scaleColor(float color_float) {

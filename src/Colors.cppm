@@ -14,28 +14,28 @@ export namespace rt {
 
         // Addition: a + b
         [[nodiscard]] color operator+(const color& other) const {
-            return color(r + other.r, g + other.g, b + other.b);
+            return {r + other.r, g + other.g, b + other.b};
         }
 
         // Subtraction: a - b
         [[nodiscard]] color operator-(const color& other) const {
-            return color(r - other.r, g - other.g, b - other.b);
+            return {r - other.r, g - other.g, b - other.b};
         }
 
         // Scalar Multiplication a * scalar
         [[nodiscard]] color operator*(float scalar) const {
-            return color(r * scalar, g * scalar, b * scalar);
+            return {r * scalar, g * scalar, b * scalar};
         }
 
         // Multiplying Colors
         [[nodiscard]] color operator*(const color &other) const {
-            return color(r * other.r, g * other.g, b * other.b);
+            return {r * other.r, g * other.g, b * other.b};
         }
     };
 
     [[nodiscard]] color createColor(float r, float g, float blue)
     {
-        return color(r, g, blue);
+        return {r, g, blue};
     }
 
 } // namespace rt

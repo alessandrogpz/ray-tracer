@@ -76,7 +76,7 @@ export namespace rt {
                 }
             }
 
-            return tuple(res[0], res[1], res[2], res[3]);
+            return {res[0], res[1], res[2], res[3]};
         }
 
         [[nodiscard]] matrix<N> transpose() const {

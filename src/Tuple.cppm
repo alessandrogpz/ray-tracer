@@ -19,17 +19,17 @@ export namespace rt {
 
         // Addition: a + b
         [[nodiscard]] tuple operator+(const tuple& other) const {
-            return tuple(x + other.x, y + other.y, z + other.z, w + other.w);
+            return {x + other.x, y + other.y, z + other.z, w + other.w};
         }
 
         // Subtraction: a - b
         [[nodiscard]] tuple operator-(const tuple& other) const {
-            return tuple(x - other.x, y - other.y, z - other.z, w - other.w);
+            return {x - other.x, y - other.y, z - other.z, w - other.w};
         }
 
         // Scalar Multiplication: a * scalar
         [[nodiscard]] tuple operator*(float scalar) const {
-            return tuple(x * scalar, y * scalar, z * scalar, w * scalar);
+            return {x * scalar, y * scalar, z * scalar, w * scalar};
         }
 
         // Scalar Division: a / scalar
@@ -37,7 +37,7 @@ export namespace rt {
             assert(scalar != 0.0f && "Attempted to divide a tuple by zero");
 
             float scalar_inv = 1.0f / scalar;
-            return tuple(x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv);
+            return {x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv};
         }
 
         // Getter: float f = t[0];
@@ -79,12 +79,12 @@ export namespace rt {
 
     [[nodiscard]] tuple createPoint(float x, float y, float z)
     {
-        return tuple(x, y, z, 1.0f);
+        return {x, y, z, 1.0f};
     }
 
     [[nodiscard]] tuple createVector(float x, float y, float z)
     {
-        return tuple(x, y, z, 0.0f);
+        return {x, y, z, 0.0f};
     }
 
     [[nodiscard]] tuple negateTuple(tuple a)
