@@ -21,33 +21,29 @@ using namespace rt;
  */
 
 struct projectile {
-    tuple position;
-    tuple velocity;
-    
-    projectile() : position(0,0,0,1), velocity(0,0,0,0) {} // Default
-    projectile(tuple p, tuple v) : position(p), velocity(v) {}
+    point position;
+    vector velocity;
+
+    projectile() : position(createPoint(0, 0, 0)), velocity(createVector(0, 0, 0)) {}
+    projectile(point p, vector v) : position(p), velocity(v) {}
 };
 
 struct environment {
-    tuple gravity;
-    tuple wind;
-    
-    environment(tuple g, tuple w) : gravity(g), wind(w) {}
+    vector gravity;
+    vector wind;
+
+    environment(vector g, vector w) : gravity(g), wind(w) {}
 };
 
-projectile createProjectile(tuple position, tuple velocity)
+projectile createProjectile(point position, vector velocity)
 {
-    projectile newProjectile;
-    newProjectile.position = position;
-    newProjectile.velocity = velocity;
-    return newProjectile;
+    return {position, velocity};
 }
 
-environment createEnvironment(tuple wind, tuple gravity)
+environment createEnvironment(vector wind, vector gravity)
 {
     return {gravity, wind};
 }
-
 
 void writePixelBlock(canvas &c, int h, int w, int startX, int startY, color col) {
     for (int i = 0; i < h; i++) {
@@ -61,38 +57,27 @@ void writePixelBlock(canvas &c, int h, int w, int startX, int startY, color col)
     }
 }
 
-
 int main() {
     canvas c(1000, 1000);
     color green(0, 1, 0);
 
-    // Create a raw direction vector
-    tuple direction = createVector(1, 1.5, 0);
+    vector direction = createVector(1.0f, 1.5f, 0.0f);
+    vector unit_direction = normalizeVector(direction);
 
-    // Normalize it using your standalone function
-    tuple unit_direction = normalizeVector(direction);
-
-    // Scale it by your desired speed
     float speed = 11.25f;
-    tuple velocity = unit_direction * speed;
+    vector velocity = unit_direction * speed;
 
-    // Final projectile initialization
-    projectile proj(createPoint(0, 1, 0), velocity);
+    projectile proj(createPoint(0.0f, 1.0f, 0.0f), velocity);
+    environment env(createVector(0.0f, -0.1f, 0.0f), createVector(-0.01f, 0.0f, 0.0f));
 
-    environment env(tuple(0, -0.1, 0, 0), tuple(-0.01, 0, 0, 0));
-
-    // Run until the projectile hits the ground (y <= 0)
     while (proj.position.y > 0) {
-        // Map world coordinates to canvas coordinates
         int x = static_cast<int>(proj.position.x);
         int y = 1000 - static_cast<int>(proj.position.y);
 
-        // Check bounds before drawing
         if (x >= 0 && x < 1000 && y >= 0 && y < 1000) {
             writePixelBlock(c, 5, 5, x, y, green);
         }
 
-        // Update Physics (Euler Integration)
         proj.position = proj.position + proj.velocity;
         proj.velocity = proj.velocity + env.gravity + env.wind;
     }
