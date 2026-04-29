@@ -14,12 +14,13 @@ add_library(raytracer_core STATIC)
 target_sources(raytracer_core
   PUBLIC
     FILE_SET CXX_MODULES FILES
-      src/Utils.cppm
-      src/Tuple.cppm
-      src/Colors.cppm
-      src/Canvas.cppm
-      src/Matrix.cppm
-      src/Transformations.cppm
+        src/Utils.cppm
+        src/Tuple.cppm
+        src/Colors.cppm
+        src/Canvas.cppm
+        src/Matrix.cppm
+        src/Transformations.cppm
+        src/Ray.cppm
 )
 
 # Apply compilation warnings to the core library
@@ -40,6 +41,7 @@ add_executable(run_tests
     tests/CanvasTests.cpp
     tests/MatrixOperationsTests.cpp
     tests/MatrixTransformationsTests.cpp
+    tests/RayTests.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
