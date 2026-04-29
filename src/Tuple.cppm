@@ -77,14 +77,25 @@ export namespace rt {
         }
     };
 
+    // Distinct types that inherit from tuple
+    struct point : public tuple {
+        point(float x, float y, float z) : tuple(x, y, z, 1.0f) {}
+        point(const tuple& t) : tuple(t) { assert(equal(t.w, 1.0f)); }
+    };
+
+    struct vector : public tuple {
+        vector(float x, float y, float z) : tuple(x, y, z, 0.0f) {}
+        vector(const tuple& t) : tuple(t) { assert(equal(t.w, 0.0f)); }
+    };
+
     [[nodiscard]] tuple createPoint(float x, float y, float z)
     {
-        return {x, y, z, 1.0f};
+        return point(x, y, z);
     }
 
     [[nodiscard]] tuple createVector(float x, float y, float z)
     {
-        return {x, y, z, 0.0f};
+        return vector(x, y, z);
     }
 
     [[nodiscard]] tuple negateTuple(tuple a)
