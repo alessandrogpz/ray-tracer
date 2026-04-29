@@ -12,7 +12,9 @@ Documentation of this project is structured using the [Diátaxis framework](http
 
 - **[Tutorial](documentation/tutorials/getting_started.md)**: A step-by-step guide to build and run your first render.
 - **[How-To Guides](documentation/how-to/run_tests.md)**: Practical guides for specific tasks, such as running the test suite.
-- **[Reference](documentation/reference/core_math.md)**: Technical descriptions of the underlying APIs, Code style and mathematical structures (Tuples, Matrices, etc.).
+- **References**: Technical descriptions of the underlying APIs, code style, and mathematical structures.
+    - [Core Mathematics](documentation/references/core_math.md)
+    - [C++ Implementation Details](documentation/references/c++_implementation_details.md)
 - **[Explanation](documentation/explanation/architecture.md)**: High-level architectural overview and explanations of the ray tracing concepts.
 
 ## Contributing

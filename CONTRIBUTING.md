@@ -1,4 +1,4 @@
-# Contributing to the Ray Tracer Challenge
+# Contributing to the Ray Tracer
 
 ## Code of Conduct
 
@@ -44,7 +44,7 @@ For detailed instructions on how to write and run tests, see:
 
 - **Language:** C++23.
 - **Style:** We aim for clean, readable code. Please adhere to modern C++ best practices (e.g., using smart pointers where appropriate, `auto` for type deduction when it enhances readability, and `constexpr` for compile-time constants).
-- **Parameter Passing:** Pass large objects (like `Canvas` or `Matrix`) by `const Type&` to avoid expensive memory copies. Pass fundamental types and small structs (like `Tuple`, `Color`) by value, as copying tiny amounts of data is often faster and more cache-friendly for the CPU.
+- **Parameter Passing:** Pass large objects (like `Canvas` or `Matrix`) by `const Type&` to avoid expensive memory copies. Pass fundamental types and small structs (like `Tuple`, `Point`, `Vector`, `Color`) by value, as copying tiny amounts of data is often faster and more cache-friendly for the CPU. More can be read at **[Reference: C++ Implementation Details](documentation/references/c++_implementation_details.md)**
 - **Naming Conventions:** 
   - Classes and Structs: `PascalCase`
   - Functions: `camelCase`
