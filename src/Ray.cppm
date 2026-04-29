@@ -17,4 +17,9 @@ export namespace rt
         ray(point _origin, vector _direction)
             : origin(_origin), direction(_direction) {}
     };
+
+    [[nodiscard]] point position(const ray& r, float time)
+    {
+        return r.origin + r.direction * time;
+    }
 }
