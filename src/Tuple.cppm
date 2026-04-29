@@ -82,52 +82,52 @@ export namespace rt {
 
     // Specific Geometry Overloads (Non-member functions) -------------------------
     // Point + Vector = Point
-    [[nodiscard]] inline point operator+(const point& p, const vector& v) {
+    [[nodiscard]] inline point operator+(point p, vector v) {
         return {p.x + v.x, p.y + v.y, p.z + v.z};
     }
 
     // Vector + Point = Point (Commutative property)
-    [[nodiscard]] inline point operator+(const vector& v, const point& p) {
-        return p + v; // Simply reuse the logic above
+    [[nodiscard]] inline point operator+(vector v, point p) {
+        return p + v;
     }
 
     // Vector + Vector
-    [[nodiscard]] inline vector operator+(const vector& v1, const vector& v2) {
+    [[nodiscard]] inline vector operator+(vector v1, vector v2) {
         return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
     }
 
     // Point - Point
-    [[nodiscard]] inline vector operator-(const point& a, const point& b) {
+    [[nodiscard]] inline vector operator-(point a, point b) {
         return {a.x - b.x, a.y - b.y, a.z - b.z};
     }
 
     // Point - Vector
-    [[nodiscard]] inline point operator-(const point& p, const vector& v) {
+    [[nodiscard]] inline point operator-(point p, vector v) {
         return {p.x - v.x, p.y - v.y, p.z - v.z};
     }
 
     // Vector - Vector
-    [[nodiscard]] inline vector operator-(const vector& v1, const vector& v2) {
+    [[nodiscard]] inline vector operator-(vector v1, vector v2) {
         return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
     }
 
     // Vector * -1 (Only Vectors can be Inverted)
-    [[nodiscard]] inline vector operator-(const vector& v) {
+    [[nodiscard]] inline vector operator-(vector v) {
         return {-v.x, -v.y, -v.z};
     }
 
     // Vector * Scalar
-    [[nodiscard]] inline vector operator*(const vector& v, float scalar) {
+    [[nodiscard]] inline vector operator*(vector v, float scalar) {
         return {v.x * scalar, v.y * scalar, v.z * scalar};
     }
 
     // Scalar * Vector (Commutative)
-    [[nodiscard]] inline vector operator*(float scalar, const vector& v) {
+    [[nodiscard]] inline vector operator*(float scalar, vector v) {
         return v * scalar;
     }
 
     // Vector / Scalar
-    [[nodiscard]] inline vector operator/(const vector& v, float scalar) {
+    [[nodiscard]] inline vector operator/(vector v, float scalar) {
         assert(scalar != 0.0f && "Attempted to divide a vector by zero");
         float inv = 1.0f / scalar;
         return {v.x * inv, v.y * inv, v.z * inv};
