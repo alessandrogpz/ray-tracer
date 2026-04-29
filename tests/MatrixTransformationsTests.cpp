@@ -153,3 +153,27 @@ TEST(MatrixTransformations, ShearingMovesZInProportionToY)
     tuple p = createPoint(2.0f, 3.0f, 4.0f);
     EXPECT_EQ(transform * p, createPoint(2.0f, 3.0f, 7.0f));
 }
+
+TEST(MatrixTransformations, TransformationsInSequnce)
+{
+    tuple p = createPoint(1.0f, 0.0f, 1.0f);
+    matrix<4> A = rotation_x(M_PI / 2.0f);
+    matrix<4> B = scale(5.0f, 5.0f, 5.0f);
+    matrix<4> C = translation(10.0f, 5.0f, 7.0f);
+
+    // Applying rotation
+    tuple p2 = A * p;
+    EXPECT_EQ(p2, createPoint(1.0f, -1.0f, 0.0f));
+
+    // Applying scaling
+    tuple p3 = B * p2;
+    EXPECT_EQ(p3, createPoint(5.0f, -5.0f, 0.0f));
+
+    // Applying translation
+    tuple p4 = C * p3;
+    EXPECT_EQ(p4, createPoint(15.0f, 0.0f, 7.0f));
+
+    // Chaining transformations
+    tuple p5 = C * B * A * p;
+    EXPECT_EQ(p5, createPoint(15.0f, 0.0f, 7.0f));
+}
