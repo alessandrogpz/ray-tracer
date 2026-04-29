@@ -15,9 +15,19 @@ using namespace rt;
 // ---------------------------------------------------
 // Tuple Creation
 
+TEST(TupleCreation, CreateGenericTuple)
+{
+    tuple t1 = tuple(4.3f, -4.2f, 3.1f, -5.7f);
+
+    EXPECT_FLOAT_EQ(t1.x, 4.3f);
+    EXPECT_FLOAT_EQ(t1.y, -4.2f);
+    EXPECT_FLOAT_EQ(t1.z, 3.1f);
+    EXPECT_FLOAT_EQ(t1.w, -5.7f);
+}
+
 TEST(TupleCreation, CreatePointSetsWToOne)
 {
-	tuple p1 = createPoint(4.3f, -4.2f, 3.1f);
+	point p1 = createPoint(4.3f, -4.2f, 3.1f);
 
 	EXPECT_FLOAT_EQ(p1.x, 4.3f);
 	EXPECT_FLOAT_EQ(p1.y, -4.2f);
@@ -27,7 +37,7 @@ TEST(TupleCreation, CreatePointSetsWToOne)
 
 TEST(TupleCreation, CreateVectorSetsWToZero)
 {
-	tuple v1 = createVector(4.3f, -4.2f, 3.1f);
+	vector v1 = createVector(4.3f, -4.2f, 3.1f);
 
 	EXPECT_FLOAT_EQ(v1.x, 4.3f);
 	EXPECT_FLOAT_EQ(v1.y, -4.2f);
@@ -72,6 +82,16 @@ TEST(TupleComparison, DifferentTuplesAreNotEqual) {
     tuple a(1.0f, 2.0f, 3.0f, 1.0f);
     tuple b(4.0f, 5.0f, 6.0f, 0.0f);
     
+    EXPECT_FALSE(a == b);
+    EXPECT_TRUE(a != b);
+}
+
+// Test completely different types
+TEST(TupleComparison, DifferentTupleTypesAreNotEqual)
+{
+    point a(1.0f, 2.0f, 3.0f);
+    vector b(1.0f, 2.0f, 3.0f);
+
     EXPECT_FALSE(a == b);
     EXPECT_TRUE(a != b);
 }
@@ -125,71 +145,60 @@ TEST(TupleSubscript, IndexOutOfBoundsThrowsException)
 
 TEST(TupleOperations, AddPointToVector)
 {
-    tuple p1 = createPoint(3.1f, -2, 5);
-    tuple v1 = createVector(-2, 3, 1);
+    point p1 = createPoint(3.1f, -2, 5);
+    vector v1 = createVector(-2, 3, 1);
 
     // Operator Overload
-    tuple v2 = p1 + v1;
+    point v2 = p1 + v1;
 
-    EXPECT_TRUE(v2 == tuple(1.1f, 1.0f, 6.0f, 1.0f));
+    EXPECT_TRUE(v2 == point(1.1f, 1.0f, 6.0f));
 }
 
 TEST(TupleOperations, AddVectorToVector)
 {
-    tuple v1 = createVector(3, -2, 5.1f);
-    tuple v2 = createVector(-2, 3, 1);
+    vector v1 = createVector(3, -2, 5.1f);
+    vector v2 = createVector(-2, 3, 1);
 
     // Operator Overload
     tuple v3 = v1 + v2;
 
-    EXPECT_TRUE(v3 == tuple(1.0f, 1.0f, 6.1f, 0.0f));
+    EXPECT_TRUE(v3 == vector(1.0f, 1.0f, 6.1f));
 }
 
 TEST(TupleOperations, SubtractPointFromPoint)
 {
-    tuple p1 = createPoint(3, 2, 1);
-    tuple p2 = createPoint(5, 6, 7);
+    point p1 = createPoint(3, 2, 1);
+    point p2 = createPoint(5, 6, 7);
 
     // Operator Overload
-    tuple v1 = p1 - p2;
+    vector v1 = p1 - p2;
 
-    EXPECT_TRUE(v1 == tuple(-2.0f, -4.0f, -6.0f, 0.0f));
+    EXPECT_TRUE(v1 == vector(-2.0f, -4.0f, -6.0f));
 }
 
 TEST(TupleOperations, SubtractVectorFromPoint)
 {
-    tuple p1 = createPoint(3, 2, 1);
-    tuple v1 = createVector(5, 6, 7);
+    point p1 = createPoint(3, 2, 1);
+    vector v1 = createVector(5, 6, 7);
 
     // Operator Overload
-    tuple p2 = p1 - v1;
+    point p2 = p1 - v1;
 
-    EXPECT_TRUE(p2 == tuple(-2.0f, -4.0f, -6.0f, 1.0f));
+    EXPECT_TRUE(p2 == point(-2.0f, -4.0f, -6.0f));
 }
 
 TEST(TupleOperations, SubtractVectorFromVector)
 {
-    tuple v1 = createVector(3, 2, 1);
-    tuple v2 = createVector(5, 6, 7);
+    vector v1 = createVector(3, 2, 1);
+    vector v2 = createVector(5, 6, 7);
 
     // Operator Overload
     tuple v3 = v1 - v2;
 
-    EXPECT_TRUE(v3 == tuple(-2.0f, -4.0f, -6.0f, 0.0f));
+    EXPECT_TRUE(v3 == vector(-2.0f, -4.0f, -6.0f));
 }
 
-TEST(TupleOperations, NegateTuple)
-{
-    tuple a = tuple(1, -2, 3, -4);
-    tuple b = negateTuple(a);
-
-    EXPECT_TRUE(b == tuple(-1.0f, 2.0f, -3.0f, 4.0f));
-}
-
-// ------------------------------------------------------
-// Vector Operations
-
-TEST(vectorOperations, MultiplicationByScalar)
+TEST(TupleOperations, MultiplyGenericTupleByScalar)
 {
     tuple v1(1.0, -2.0, 3.0, -4.0);
 
@@ -199,23 +208,56 @@ TEST(vectorOperations, MultiplicationByScalar)
     EXPECT_TRUE(v2 == tuple(3.5f, -7.0f, 10.5f, -14.0f));
 }
 
-TEST(vectorOperations, DivisionByScalar)
+TEST(TupleOperations, DivideGenericTupleByScalar)
 {
     tuple v1(1.0, -2.0, 3.0, -4.0);
 
     // Operator Overload
     tuple v2 = v1 / 2;
 
-    EXPECT_TRUE(v2 == tuple(0.5f, -1.0f, 1.5f, -2.0f)); 
+    EXPECT_TRUE(v2 == tuple(0.5f, -1.0f, 1.5f, -2.0f));
+}
+
+// ------------------------------------------------------
+// Vector Operations
+
+TEST(VectorOperations, NegateVector)
+{
+    vector a = vector(1, -2, 3);
+    vector b = -a;
+    vector c = (negateVector(a));
+
+    EXPECT_TRUE(b == vector(-1.0f, 2.0f, -3.0f));
+    EXPECT_TRUE(c == vector(-1.0f, 2.0f, -3.0f));
+}
+
+TEST(VectorOperations, MultiplicationByScalar)
+{
+    vector v1 = createVector(1.0f, -2.0f, 3.0f);
+
+    // Vector Specific Operator Overload
+    vector v2 = v1 * 3.5f;
+
+    EXPECT_TRUE(v2 == vector(3.5f, -7.0f, 10.5f));
+}
+
+TEST(VectorOperations, DivisionByScalar)
+{
+    vector v1 = createVector(1.0f, -2.0f, 3.0f);
+
+    // Vector Specific Operator Overload
+    vector v2 = v1 / 2.0f;
+
+    EXPECT_TRUE(v2 == vector(0.5f, -1.0f, 1.5f));
 }
 
 TEST(VectorOperations, GetVectorScalar)
 {
-    tuple a = createVector(1.0, 0.0, 0.0);
-    tuple b = createVector(0.0, 1.0, 0.0);
-    tuple c = createVector(0.0, 0.0, 1.0);
-    tuple d = createVector(1.0, 2.0, 3.0);
-    tuple e = createVector(-1.0, -2.0, -3.0);
+    vector a = createVector(1.0, 0.0, 0.0);
+    vector b = createVector(0.0, 1.0, 0.0);
+    vector c = createVector(0.0, 0.0, 1.0);
+    vector d = createVector(1.0, 2.0, 3.0);
+    vector e = createVector(-1.0, -2.0, -3.0);
 
     EXPECT_FLOAT_EQ(getVectorMagnitude(a), 1.0);
     EXPECT_FLOAT_EQ(getVectorMagnitude(b), 1.0);
@@ -226,38 +268,38 @@ TEST(VectorOperations, GetVectorScalar)
 
 TEST(VectorOperations, NormalizeVector)
 {
-    tuple a = createVector(4.0, 0.0, 0.0);
-    tuple a_n = normalizeVector(a);
-    tuple b = createVector(1.0, 2.0, 3.0);
-    tuple b_n = normalizeVector(b);
-    tuple c = createVector(1 / std::sqrt(14.0f), 1 / std::sqrt(14.0f), 1 / std::sqrt(14.0f));
-    tuple c_n = normalizeVector(c);
+    vector a = createVector(4.0, 0.0, 0.0);
+    vector a_n = normalizeVector(a);
+    vector b = createVector(1.0, 2.0, 3.0);
+    vector b_n = normalizeVector(b);
+    vector c = createVector(1 / std::sqrt(14.0f), 1 / std::sqrt(14.0f), 1 / std::sqrt(14.0f));
+    vector c_n = normalizeVector(c);
 
-    EXPECT_TRUE(a_n == tuple(1.0f, 0.0f, 0.0f, 0.0f));
-    EXPECT_TRUE(b_n == tuple(1.0f / std::sqrt(14.0f), 2.0f / std::sqrt(14.0f), 3.0f / std::sqrt(14.0f), 0.0f));
+    EXPECT_TRUE(a_n == vector(1.0f, 0.0f, 0.0f));
+    EXPECT_TRUE(b_n == vector(1.0f / std::sqrt(14.0f), 2.0f / std::sqrt(14.0f), 3.0f / std::sqrt(14.0f)));
     EXPECT_FLOAT_EQ(getVectorMagnitude(c_n), 1.0);
 }
 
 TEST(VectorOperations, VectorsDotProduct)
 {
-    tuple a = createVector(1.0, 2.0, 3.0);
-    tuple b = createVector(2.0, 3.0, 4.0);
+    vector a = createVector(1.0, 2.0, 3.0);
+    vector b = createVector(2.0, 3.0, 4.0);
 
     EXPECT_FLOAT_EQ(dotProduct(a, b), 20.0);
 }
 
 TEST(VectorOperations, VectorsCrossProduct)
 {
-    tuple a = createVector(1.0, 2.0, 3.0);
-    tuple b = createVector(2.0, 3.0, 4.0);
+    vector a = createVector(1.0, 2.0, 3.0);
+    vector b = createVector(2.0, 3.0, 4.0);
 
-    tuple a_first = crossProduct(a, b);
+    vector a_first = crossProduct(a, b);
 
-    EXPECT_TRUE(a_first == tuple(-1.0f, 2.0f, -1.0f, 0.0f));
+    EXPECT_TRUE(a_first == vector(-1.0f, 2.0f, -1.0f));
 
-    tuple b_first = crossProduct(b, a);
+    vector b_first = crossProduct(b, a);
 
-    EXPECT_TRUE(b_first == tuple(1.0f, -2.0f, 1.0f, 0.0f));
+    EXPECT_TRUE(b_first == vector(1.0f, -2.0f, 1.0f));
 }
 
 // ------------------------------------------------------

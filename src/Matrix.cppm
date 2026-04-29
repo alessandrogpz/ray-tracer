@@ -1,6 +1,5 @@
 module;
 
-#include <cstddef>
 #include <stdexcept>
 
 export module rt.matrix;
@@ -23,6 +22,7 @@ export namespace rt {
             }
         }
 
+        // Getters & Setters -----------------------------------------------------------------
         // Setter: m(row, col)
         float& operator()(size_t row, size_t col) {
             return data[row][col];
@@ -33,7 +33,8 @@ export namespace rt {
             return data[row][col];
         }
 
-        // Overload for matrix comparison (==)
+        // Overload Operators ----------------------------------------------------------------
+        // Matrix Comparison (==)
         [[nodiscard]] friend inline bool operator==(const matrix<N>& a, const matrix<N>& b) {
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
@@ -45,15 +46,14 @@ export namespace rt {
             return true;
         }
 
-        // Overload for matrix comparison (!=)
+        // Matrix Comparison (!=)
         [[nodiscard]] friend inline bool operator!=(const matrix<N>& a, const matrix<N>& b) {
             return !(a == b);
         }
 
-        // Overload for matrix multiplication
-        [[nodiscard]] friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b){
+        // Matrix * Matrix
+        [[nodiscard]] friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b) {
             matrix<N> result;
-
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     float sum = 0.0f;
@@ -66,19 +66,28 @@ export namespace rt {
             return result;
         }
 
-        // Overload for matrix * tuple multiplication
+        // Matrix * Tuple (Base)
         [[nodiscard]] friend inline tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
             float res[4] = {0, 0, 0, 0};
-
             for (size_t r = 0; r < 4; r++) {
                 for (size_t c = 0; c < 4; c++) {
                     res[r] += m(r, c) * t[c];
                 }
             }
-
             return {res[0], res[1], res[2], res[3]};
         }
 
+        // Matrix * Point
+        [[nodiscard]] friend inline point operator*(const matrix<N>& m, const point& p) requires (N == 4) {
+            return point(m * static_cast<const tuple&>(p));
+        }
+
+        // Matrix * Vector
+        [[nodiscard]] friend inline vector operator*(const matrix<N>& m, const vector& v) requires (N == 4) {
+            return vector(m * static_cast<const tuple&>(v));
+        }
+
+        // Matrix Operations --------------------------------------------------------------------
         [[nodiscard]] matrix<N> transpose() const {
             matrix<N> result;
             for (size_t r = 0; r < N; r++) {

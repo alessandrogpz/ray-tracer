@@ -15,8 +15,8 @@ using namespace rt;
 
 TEST(RayCreation, CreatingAndQueryingARay)
 {
-    tuple origin = createPoint(1.0f, 2.0f, 3.0f);
-    tuple direction = createVector(4.0f, 5.0f, 6.0f);
+    point origin = createPoint(1.0f, 2.0f, 3.0f);
+    vector direction = createVector(4.0f, 5.0f, 6.0f);
 
     ray r = ray(origin, direction);
 
