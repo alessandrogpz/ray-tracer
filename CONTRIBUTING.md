@@ -23,7 +23,7 @@ I gladly accept pull requests for bug fixes, new features, and documentation imp
 ## Development Setup
 
 To set up your local development environment, please follow our step-by-step guide:
-**[Getting Started Tutorial](documentation/tutorials/getting_started.md)**
+**[Getting Started Tutorial](documentation/tutorials/GettingStarted.md)**
 
 ### Prerequisites Refresher
 - A modern C++ compiler supporting **C++23**
@@ -38,13 +38,13 @@ This project strictly follows **Test-Driven Development (TDD)** principles.
 - Before submitting a pull request, ensure all tests pass successfully. 
 
 For detailed instructions on how to write and run tests, see:
-**[How-To: Run Tests](documentation/how-to/run_tests.md)**
+**[How-To: Run Tests](documentation/how-to/RunTests.md)**
 
 ## Coding Standards
 
 - **Language:** C++23.
 - **Style:** We aim for clean, readable code. Please adhere to modern C++ best practices (e.g., using smart pointers where appropriate, `auto` for type deduction when it enhances readability, and `constexpr` for compile-time constants).
-- **Parameter Passing:** Pass large objects (like `Canvas` or `Matrix`) by `const Type&` to avoid expensive memory copies. Pass fundamental types and small structs (like `Tuple`, `Point`, `Vector`, `Color`) by value, as copying tiny amounts of data is often faster and more cache-friendly for the CPU. More can be read at **[Reference: C++ Implementation Details](documentation/references/c++_implementation_details.md)**
+- **Parameter Passing:** Pass large objects (like `Canvas` or `Matrix`) by `const Type&` to avoid expensive memory copies. Pass fundamental types and small structs (like `Tuple`, `Point`, `Vector`, `Color`) by value, as copying tiny amounts of data is often faster and more cache-friendly for the CPU. More can be read at **[Reference: C++ Implementation Details](documentation/references/C++ImplementationDetails.md)**
 - **Naming Conventions:** 
   - Classes and Structs: `PascalCase`
   - Functions: `camelCase`
@@ -80,13 +80,13 @@ git commit -m "<type>: <title>" \
 
 **Additional types:**
 - `perf`: Performance improvements
-- `build`: Changes to build system or dependencies
+- `build`: Changes to build the system or dependencies
 - `ci`: Continuous integration changes
 - `revert`: Reverting a previous commit
 
 ## Understanding the Architecture
 
 Before making significant changes, we recommend reading our architectural overview to understand how the ray tracer pipeline operates:
-**[Architecture Explanation](documentation/explanation/architecture.md)**
+**[Architecture Explanation](documentation/explanation/Architecture.md)**
 
 Thank you for contributing!

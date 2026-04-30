@@ -4,7 +4,7 @@ This guide provides practical instructions on how to execute the existing test s
 
 ## How to Run Existing Tests
 
-If you have already built the project (see the [Getting Started Tutorial](../tutorials/getting_started.md)), you can run the tests by executing the binary produced by CMake.
+If you have already built the project (see the [Getting Started Tutorial](../tutorials/GettingStarted.md)), you can run the tests by executing the binary produced by CMake.
 
 1. Navigate to your `build` directory:
    ```bash
@@ -65,7 +65,7 @@ When testing mathematical operations in a ray tracer, exact floating-point compa
 
 ## How to Add a New Test File to CMake
 
-If you created a entirely new test file (e.g., `tests/NewFeatureTests.cpp`), you must tell CMake to compile it.
+If you created an entirely new test file (e.g., `tests/NewFeatureTests.cpp`), you must tell CMake to compile it.
 
 1. Open `CMakeLists.txt` in the root directory.
 2. Locate the `add_executable(run_tests ...)` block.

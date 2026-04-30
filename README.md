@@ -10,12 +10,14 @@ This project simulates light rays to render 3D scenes. It's built for performanc
 
 Documentation of this project is structured using the [Diátaxis framework](https://diataxis.fr/).
 
-- **[Tutorial](documentation/tutorials/getting_started.md)**: A step-by-step guide to build and run your first render.
-- **[How-To Guides](documentation/how-to/run_tests.md)**: Practical guides for specific tasks, such as running the test suite.
+- **[Tutorial](documentation/tutorials/GettingStarted.md)**: A step-by-step guide to build and run your first render.
+- **[How-To Guides](documentation/how-to/RunTests.md)**: Practical guides for specific tasks, such as running the test suite.
 - **References**: Technical descriptions of the underlying APIs, code style, and mathematical structures.
-    - [Core Mathematics](documentation/references/core_math.md)
-    - [C++ Implementation Details](documentation/references/c++_implementation_details.md)
-- **[Explanation](documentation/explanation/architecture.md)**: High-level architectural overview and explanations of the ray tracing concepts.
+    - [Core Mathematics](documentation/references/CoreMath.md)
+    - [C++ Implementation Details](documentation/references/C++ImplementationDetails.md)
+- **Explanation**: High-level architectural overview and explanations of algorithms and concepts used.
+    - [Architecture](documentation/explanation/Architecture.md)
+    - [Ray-Sphere Intersection](documentation/explanation/RaySphereIntersectionAlgorithm.md)
 
 ## Contributing
 
