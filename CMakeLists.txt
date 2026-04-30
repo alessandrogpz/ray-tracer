@@ -6,8 +6,18 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# 1. Find the GTest package
-find_package(GTest REQUIRED)
+# 1. Fetch and build GoogleTest automatically
+include(FetchContent)
+
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
+)
+
+# Prevent GoogleTest from overriding Windows compiler/linker runtime settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+FetchContent_MakeAvailable(googletest)
 
 # 2. Create a library for your core source modules so they can be reused
 add_library(raytracer_core STATIC)
