@@ -29,6 +29,12 @@ export namespace rt
         return r.origin + r.direction * time;
     }
 
+    /**
+    * @brief Calculates the intersection points of a ray and a sphere.
+    *
+    * For a detailed explanation of the analytic solution and the math behind this algorithm,
+    * see: documentation/explanation/RaySphereIntersection.md
+    */
     [[nodiscard]]
     std::vector<float> intersect(const sphere& s, const ray& r)
     {
