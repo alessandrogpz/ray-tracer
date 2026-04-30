@@ -12,12 +12,14 @@ Before we begin, ensure your system has the following tools installed:
 - **Ninja** build system (required by CMake for C++ Modules).
 - **GoogleTest** (gtest) for building and running the test suite.
 
+> **Note:** If you haven't set up your development environment yet, please refer to our [Environment Setup Guide](../how-to/EnvironmentSetup.md) for detailed, OS-specific installation instructions for these dependencies.
+
 ## Step 1: Clone the Repository
 
 First, obtain a copy of the source code. Open your terminal and run:
 
 ```bash
-git clone <your-repository-url> ray-tracer
+git clone <ray_tracer-repository-url> ray-tracer
 cd ray-tracer
 ```
 

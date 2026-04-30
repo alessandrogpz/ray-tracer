@@ -58,7 +58,7 @@ Tests are located in the `tests/` directory. If you are adding a new feature or 
 
 ### Pro-Tips for Floating Point Math
 
-When testing mathematical operations in a ray tracer, exact floating-point comparisons (`==`) are dangerous due to precision issues.
+When testing mathematical operations, exact floating-point comparisons (`==`) are dangerous due to precision issues.
 
 - Use `EXPECT_FLOAT_EQ(val1, val2)` for simple float checks.
 - Use `EXPECT_NEAR(val1, val2, 0.0001)` when checking complex math or matrix transformations to account for rounding errors.

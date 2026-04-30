@@ -11,7 +11,9 @@ This project simulates light rays to render 3D scenes. It's built for performanc
 Documentation of this project is structured using the [Diátaxis framework](https://diataxis.fr/).
 
 - **[Tutorial](documentation/tutorials/GettingStarted.md)**: A step-by-step guide to build and run your first render.
-- **[How-To Guides](documentation/how-to/RunTests.md)**: Practical guides for specific tasks, such as running the test suite.
+- **How-To Guides**: Practical guides for specific tasks.
+    - [Environment Setup](documentation/how-to/EnvironmentSetup.md)
+    - [Run Tests](documentation/how-to/RunTests.md)
 - **References**: Technical descriptions of the underlying APIs, code style, and mathematical structures.
     - [Core Mathematics](documentation/references/CoreMath.md)
     - [C++ Implementation Details](documentation/references/C++ImplementationDetails.md)
