@@ -32,8 +32,12 @@ export namespace rt
     /**
     * @brief Calculates the intersection points of a ray and a sphere.
     *
-    * For a detailed explanation of the analytic solution and the math behind this algorithm,
-    * see: documentation/explanation/RaySphereIntersection.md
+    * Uses the quadratic formula to solve for time `t` where the ray intersects the sphere's surface.
+    * Math reference: documentation/explanation/RaySphereIntersection.md
+    *
+    * @param s The target sphere geometry.
+    * @param r The ray being cast.
+    *  @return std::vector<float> A collection of `t` values representing intersection distances. Empty if no intersection.
     */
     [[nodiscard]]
     std::vector<float> intersect(const sphere& s, const ray& r)

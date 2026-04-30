@@ -50,7 +50,7 @@ For detailed instructions on how to write and run tests, see:
   - Functions: `camelCase`
   - Variables: `snake_case`
   - Macros/Constants: `UPPER_SNAKE_CASE`
-- **Documentation:** If you add a complex algorithm or modify the core architecture, please update the corresponding conceptual documentation in `documentation/explanation/`.
+- **Comments & Documentation:** For non-trivial algorithms, use docstrings following the **[Docstring Guideline](documentation/references/DocstringGuidelines.md)** to explain the "why" or "how", and link to the relevant `documentation/explanation/` markdown file.
 
 ## Git Commit Guidelines
 

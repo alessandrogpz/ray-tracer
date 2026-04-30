@@ -118,6 +118,7 @@ export namespace rt {
             }
         }
 
+        // Returns a smaller (N-1) matrix by dropping the specified row and column.
         [[nodiscard]]
         matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {
             matrix<N-1> result;
@@ -154,6 +155,7 @@ export namespace rt {
             return !equal(determinant(), 0.0f);
         }
 
+        // Throws std::runtime_error if the matrix cannot be inverted (determinant is 0).
         [[nodiscard]]
         matrix<N> inverse() const
         {

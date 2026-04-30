@@ -15,6 +15,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
 - **References**: Technical descriptions of the underlying APIs, code style, and mathematical structures.
     - [Core Mathematics](documentation/references/CoreMath.md)
     - [C++ Implementation Details](documentation/references/C++ImplementationDetails.md)
+    - [Docstring Guidelines](documentation/references/DocstringGuidelines.md)
 - **Explanation**: High-level architectural overview and explanations of algorithms and concepts used.
     - [Architecture](documentation/explanation/Architecture.md)
     - [Ray-Sphere Intersection](documentation/explanation/RaySphereIntersectionAlgorithm.md)
