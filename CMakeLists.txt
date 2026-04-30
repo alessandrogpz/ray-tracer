@@ -46,13 +46,13 @@ else()
 endif()
 
 # 3. Create the Google Tests executable
-add_executable(run_tests 
-    tests/TupleTests.cpp 
-    tests/ColorsTests.cpp
-    tests/CanvasTests.cpp
-    tests/MatrixOperationsTests.cpp
-    tests/MatrixTransformationsTests.cpp
-    tests/RayTests.cpp
+add_executable(run_tests
+        tests/Tuple.t.cpp
+        tests/Colors.t.cpp
+        tests/Canvas.t.cpp
+        tests/MatrixOperations.t.cpp
+        tests/MatrixTransformations.t.cpp
+        tests/Ray.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
