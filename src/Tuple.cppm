@@ -19,12 +19,14 @@ export namespace rt {
 
         // Generic Tuple Scalar Overload Operations --------------------------------------
         // Scalar Multiplication: a * scalar
-        [[nodiscard]] tuple operator*(float scalar) const {
+        [[nodiscard]]
+        tuple operator*(float scalar) const {
             return {x * scalar, y * scalar, z * scalar, w * scalar};
         }
 
         // Scalar Division: a / scalar
-        [[nodiscard]] tuple operator/(float scalar) const {
+        [[nodiscard]]
+        tuple operator/(float scalar) const {
             assert(scalar != 0.0f && "Attempted to divide a tuple by zero");
 
             float scalar_inv = 1.0f / scalar;
@@ -82,90 +84,107 @@ export namespace rt {
 
     // Specific Geometry Overloads (Non-member functions) -------------------------
     // Point + Vector = Point
-    [[nodiscard]] inline point operator+(point p, vector v) {
+    [[nodiscard]]
+    inline point operator+(point p, vector v) {
         return {p.x + v.x, p.y + v.y, p.z + v.z};
     }
 
     // Vector + Point = Point (Commutative property)
-    [[nodiscard]] inline point operator+(vector v, point p) {
+    [[nodiscard]]
+    inline point operator+(vector v, point p) {
         return p + v;
     }
 
     // Vector + Vector
-    [[nodiscard]] inline vector operator+(vector v1, vector v2) {
+    [[nodiscard]]
+    inline vector operator+(vector v1, vector v2) {
         return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
     }
 
     // Point - Point
-    [[nodiscard]] inline vector operator-(point a, point b) {
+    [[nodiscard]]
+    inline vector operator-(point a, point b) {
         return {a.x - b.x, a.y - b.y, a.z - b.z};
     }
 
     // Point - Vector
-    [[nodiscard]] inline point operator-(point p, vector v) {
+    [[nodiscard]]
+    inline point operator-(point p, vector v) {
         return {p.x - v.x, p.y - v.y, p.z - v.z};
     }
 
     // Vector - Vector
-    [[nodiscard]] inline vector operator-(vector v1, vector v2) {
+    [[nodiscard]]
+    inline vector operator-(vector v1, vector v2) {
         return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
     }
 
     // Vector * -1 (Only Vectors can be Inverted)
-    [[nodiscard]] inline vector operator-(vector v) {
+    [[nodiscard]]
+    inline vector operator-(vector v) {
         return {-v.x, -v.y, -v.z};
     }
 
     // Vector * Scalar
-    [[nodiscard]] inline vector operator*(vector v, float scalar) {
+    [[nodiscard]]
+    inline vector operator*(vector v, float scalar) {
         return {v.x * scalar, v.y * scalar, v.z * scalar};
     }
 
     // Scalar * Vector (Commutative)
-    [[nodiscard]] inline vector operator*(float scalar, vector v) {
+    [[nodiscard]]
+    inline vector operator*(float scalar, vector v) {
         return v * scalar;
     }
 
     // Vector / Scalar
-    [[nodiscard]] inline vector operator/(vector v, float scalar) {
+    [[nodiscard]]
+    inline vector operator/(vector v, float scalar) {
         assert(scalar != 0.0f && "Attempted to divide a vector by zero");
         float inv = 1.0f / scalar;
         return {v.x * inv, v.y * inv, v.z * inv};
     }
 
     // Factory Utilities ---------------------------------------------------------
-    [[nodiscard]] point createPoint(float x, float y, float z)
+    [[nodiscard]]
+    point createPoint(float x, float y, float z)
     {
         return {x, y, z};
     }
 
-    [[nodiscard]] vector createVector(float x, float y, float z)
+    [[nodiscard]]
+    vector createVector(float x, float y, float z)
     {
         return {x, y, z};
     }
 
     // Operation Utilities ------------------------------------------------------
-    [[nodiscard]] inline vector negateVector(vector a) {
+    [[nodiscard]]
+    inline vector negateVector(vector a) {
         return -a;
     }
 
-    [[nodiscard]] float getVectorMagnitude(vector a)
+    [[nodiscard]]
+    float getVectorMagnitude(vector a)
     {
         return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
     }
 
-    [[nodiscard]] vector normalizeVector(vector a)
+    [[nodiscard]]
+    vector normalizeVector(vector a)
     {
         float inv_mag = 1.0f / getVectorMagnitude(a);
         return createVector(a.x * inv_mag, a.y * inv_mag, a.z * inv_mag);
     }
 
-    [[nodiscard]] float dotProduct(vector a, vector b)
+    [[nodiscard]]
+    float dotProduct(vector a, vector b)
     {
         return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
     }
 
-    [[nodiscard]] vector crossProduct(vector a, vector b)
+    [[nodiscard]]
+    vector crossProduct(vector a, vector b)
     {
         return (
             createVector(a.y * b.z - a.z * b.y,

@@ -35,7 +35,8 @@ export namespace rt {
 
         // Overload Operators ----------------------------------------------------------------
         // Matrix Comparison (==)
-        [[nodiscard]] friend inline bool operator==(const matrix<N>& a, const matrix<N>& b) {
+        [[nodiscard]]
+        friend inline bool operator==(const matrix<N>& a, const matrix<N>& b) {
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     if (!equal(a(r, c), b(r, c))) {
@@ -47,12 +48,14 @@ export namespace rt {
         }
 
         // Matrix Comparison (!=)
-        [[nodiscard]] friend inline bool operator!=(const matrix<N>& a, const matrix<N>& b) {
+        [[nodiscard]]
+        friend inline bool operator!=(const matrix<N>& a, const matrix<N>& b) {
             return !(a == b);
         }
 
         // Matrix * Matrix
-        [[nodiscard]] friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b) {
+        [[nodiscard]]
+        friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b) {
             matrix<N> result;
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
@@ -67,7 +70,8 @@ export namespace rt {
         }
 
         // Matrix * Tuple (Base)
-        [[nodiscard]] friend inline tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
+        [[nodiscard]]
+        friend inline tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
             float res[4] = {0, 0, 0, 0};
             for (size_t r = 0; r < 4; r++) {
                 for (size_t c = 0; c < 4; c++) {
@@ -78,17 +82,20 @@ export namespace rt {
         }
 
         // Matrix * Point
-        [[nodiscard]] friend inline point operator*(const matrix<N>& m, const point& p) requires (N == 4) {
+        [[nodiscard]]
+        friend inline point operator*(const matrix<N>& m, const point& p) requires (N == 4) {
             return point(m * static_cast<const tuple&>(p));
         }
 
         // Matrix * Vector
-        [[nodiscard]] friend inline vector operator*(const matrix<N>& m, const vector& v) requires (N == 4) {
+        [[nodiscard]]
+        friend inline vector operator*(const matrix<N>& m, const vector& v) requires (N == 4) {
             return vector(m * static_cast<const tuple&>(v));
         }
 
         // Matrix Operations --------------------------------------------------------------------
-        [[nodiscard]] matrix<N> transpose() const {
+        [[nodiscard]]
+        matrix<N> transpose() const {
             matrix<N> result;
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
@@ -98,7 +105,8 @@ export namespace rt {
             return result;
         }
 
-        [[nodiscard]] float determinant() const {
+        [[nodiscard]]
+        float determinant() const {
             if constexpr (N == 2) {
                 return ((*this)(0,0) * (*this)(1,1)) - ((*this)(0,1) * (*this)(1,0));
             } else {
@@ -110,7 +118,8 @@ export namespace rt {
             }
         }
 
-        [[nodiscard]] matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {   
+        [[nodiscard]]
+        matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {
             matrix<N-1> result;
             size_t dest_row = 0;
             for (size_t row = 0; row < N; row++) {
@@ -126,11 +135,13 @@ export namespace rt {
             return result;
         }
 
-        [[nodiscard]] float minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+        [[nodiscard]]
+        float minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
             return submatrix(skip_row, skip_col).determinant();
         }
 
-        [[nodiscard]] float cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+        [[nodiscard]]
+        float cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
             float calc_minor = minor(skip_row, skip_col);
             if ((skip_row + skip_col) % 2 != 0) {
                 return -calc_minor;
@@ -138,11 +149,13 @@ export namespace rt {
             return calc_minor;
         }
 
-        [[nodiscard]] bool isInvertible() const {
+        [[nodiscard]]
+        bool isInvertible() const {
             return !equal(determinant(), 0.0f);
         }
 
-        [[nodiscard]] matrix<N> inverse() const
+        [[nodiscard]]
+        matrix<N> inverse() const
         {
             if (!isInvertible()) {
                 throw std::runtime_error("Attempted to invert a non-invertible matrix.");

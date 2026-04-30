@@ -43,7 +43,8 @@ export namespace rt {
             c.pixels[(y * c.width) + x] = col;
     }
 
-    [[nodiscard]] color pixelAt(const canvas &c, size_t x, size_t y)
+    [[nodiscard]]
+    color pixelAt(const canvas &c, size_t x, size_t y)
     {
         // Basic canvas boundary check
         if(x < c.width && y < c.height)
@@ -63,7 +64,8 @@ export namespace rt {
         return std::clamp(static_cast<int>(ceiled), 0, 255);
     }
 
-    [[nodiscard]] std::string canvasToPPM(const canvas &c) {
+    [[nodiscard]]
+    std::string canvasToPPM(const canvas &c) {
         // 1. Header
         std::string ppm = std::format("P3\n{} {}\n255\n", c.width, c.height);
 

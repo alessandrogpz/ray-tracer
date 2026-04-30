@@ -8,7 +8,8 @@ import rt.matrix;
 
 export namespace rt {
 
-    [[nodiscard]] matrix<4> identity() {
+    [[nodiscard]]
+    matrix<4> identity() {
         matrix<4> I; // Default all components to 0.0f
 
         I(0, 0) = 1.0f;
@@ -19,7 +20,8 @@ export namespace rt {
         return I;
     }
 
-    [[nodiscard]] matrix<4> translation(float x, float y, float z) {
+    [[nodiscard]]
+    matrix<4> translation(float x, float y, float z) {
 
         matrix<4> transform = identity();
 
@@ -30,7 +32,8 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]] matrix<4> scale(float x, float y, float z) {
+    [[nodiscard]]
+    matrix<4> scale(float x, float y, float z) {
         
         matrix<4> scale_mat = identity();
 
@@ -41,7 +44,8 @@ export namespace rt {
         return scale_mat;
     }
 
-    [[nodiscard]] matrix<4> rotation_x(float radians) {
+    [[nodiscard]]
+    matrix<4> rotation_x(float radians) {
         
         matrix<4> transform = identity();
         
@@ -53,7 +57,8 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]] matrix<4> rotation_y(float radians) {
+    [[nodiscard]]
+    matrix<4> rotation_y(float radians) {
         
         matrix<4> transform = identity();
         
@@ -65,7 +70,8 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]] matrix<4> rotation_z(float radians) {
+    [[nodiscard]]
+    matrix<4> rotation_z(float radians) {
         
         matrix<4> transform = identity();
         
@@ -77,7 +83,8 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]] matrix<4> shear(float xy, float xz, float yx, float yz, float zx, float zy) {
+    [[nodiscard]]
+    matrix<4> shear(float xy, float xz, float yx, float yz, float zx, float zy) {
 
         matrix<4> transform = identity();
 

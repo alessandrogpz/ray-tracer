@@ -18,7 +18,8 @@ export namespace rt
             : origin(_origin), direction(_direction) {}
     };
 
-    [[nodiscard]] point position(const ray& r, float time)
+    [[nodiscard]]
+    point position(const ray& r, float time)
     {
         return r.origin + r.direction * time;
     }
