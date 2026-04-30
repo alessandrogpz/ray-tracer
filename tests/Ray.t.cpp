@@ -8,6 +8,7 @@ import rt.matrix;
 import rt.transformations;
 import rt.ray;
 import rt.shapes;
+import rt.intersection;
 
 using namespace rt;
 
@@ -54,11 +55,11 @@ TEST(RayIntersection, IntersectingRayWithSphereAtTwoPoints)
 
     auto s = sphere();
 
-    std::vector<float> xs = intersect(s, r);
+    std::vector<intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0], 4.0f);
-    EXPECT_EQ(xs[1], 6.0f);
+    EXPECT_EQ(xs[0].t, 4.0f);
+    EXPECT_EQ(xs[1].t, 6.0f);
 }
 
 TEST(RayIntersection, IntersectingRayWithSphereAtTangent)
@@ -70,11 +71,11 @@ TEST(RayIntersection, IntersectingRayWithSphereAtTangent)
     point sphere_origin = createPoint(0.0f, 1.0f, 0.0f);
     auto s = sphere(sphere_origin, 1.0f);
 
-    std::vector<float> xs = intersect(s, r);
+    std::vector<intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0], 5.0f);
-    EXPECT_EQ(xs[1], 5.0f);
+    EXPECT_EQ(xs[0].t, 5.0f);
+    EXPECT_EQ(xs[1].t, 5.0f);
 }
 
 TEST(RayIntersection, RayMissesIntersectingWithSphere)
@@ -86,7 +87,7 @@ TEST(RayIntersection, RayMissesIntersectingWithSphere)
     point sphere_origin = createPoint(0.0f, 2.0f, 0.0f);
     auto s = sphere(sphere_origin, 1.0f);
 
-    std::vector<float> xs = intersect(s, r);
+    std::vector<intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 0);
 }
@@ -99,11 +100,11 @@ TEST(RayIntersection, RayOriginatesInsideTheSphere)
 
     auto s = sphere();
 
-    std::vector<float> xs = intersect(s, r);
+    std::vector<intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0], -1.0f);
-    EXPECT_EQ(xs[1], 1.0f);
+    EXPECT_EQ(xs[0].t, -1.0f);
+    EXPECT_EQ(xs[1].t, 1.0f);
 }
 
 TEST(RayIntersection, RayOriginatesInFrontOfTheSphere)
@@ -114,9 +115,21 @@ TEST(RayIntersection, RayOriginatesInFrontOfTheSphere)
 
     auto s = sphere();
 
-    std::vector<float> xs = intersect(s, r);
+    std::vector<intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0], -6.0f);
-    EXPECT_EQ(xs[1], -4.0f);
+    EXPECT_EQ(xs[0].t, -6.0f);
+    EXPECT_EQ(xs[1].t, -4.0f);
+}
+
+TEST(SphereIntersectionTest, IntersectSetsTheObjectOnTheIntersection)
+{
+    auto r = ray(createPoint(0.0f, 0.0f, -5.0f), createVector(0.0f, 0.0f, 1.0f));
+    const auto s = sphere();
+
+    std::vector<intersection> xs = intersect(s, r);
+
+    ASSERT_EQ(xs.size(), 2);
+    EXPECT_EQ(xs[0].obj, &s);
+    EXPECT_EQ(xs[1].obj, &s);
 }

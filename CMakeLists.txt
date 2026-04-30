@@ -32,6 +32,7 @@ target_sources(raytracer_core
         src/Transformations.cppm
         src/Ray.cppm
         src/Shapes.cppm
+        src/Intersection.cppm
 )
 
 # Apply compilation warnings to the core library
@@ -53,6 +54,7 @@ add_executable(run_tests
         tests/MatrixOperations.t.cpp
         tests/MatrixTransformations.t.cpp
         tests/Ray.t.cpp
+        tests/Intersection.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 

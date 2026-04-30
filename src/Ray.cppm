@@ -7,6 +7,7 @@ export module rt.ray;
 
 import rt.tuple;
 import rt.shapes;
+import rt.intersection;
 
 export namespace rt
 {
@@ -30,17 +31,17 @@ export namespace rt
     }
 
     /**
-    * @brief Calculates the intersection points of a ray and a sphere.
-    *
-    * Uses the quadratic formula to solve for time `t` where the ray intersects the sphere's surface.
-    * Math reference: documentation/explanation/RaySphereIntersection.md
-    *
-    * @param s The target sphere geometry.
-    * @param r The ray being cast.
-    *  @return std::vector<float> A collection of `t` values representing intersection distances. Empty if no intersection.
+     * @brief Calculates the intersection points of a ray and a sphere.
+     *
+     * Uses the quadratic formula to solve for time `t` where the ray intersects the sphere's surface.
+     * Math reference: documentation/explanation/RaySphereIntersection.md
+     *
+     * @param s The target sphere geometry.
+     * @param r The ray being cast.
+     * @return std::vector<intersection> A collection of intersection records containing the `t` values and a pointer to the hit object. Empty if no intersection.
     */
     [[nodiscard]]
-    std::vector<float> intersect(const sphere& s, const ray& r)
+    std::vector<intersection> intersect(const sphere& s, const ray& r)
     {
         vector sphere_to_ray = r.origin - s.origin;
 
@@ -56,6 +57,6 @@ export namespace rt
         float t1 = (-b - std::sqrt(discriminant)) / (2.0f * a);
         float t2 = (-b + std::sqrt(discriminant)) / (2.0f * a);
 
-        return {t1, t2};
+        return { intersection(t1, &s), intersection(t2, &s) };
     }
 }

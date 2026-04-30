@@ -16,16 +16,16 @@ Here is an example demonstrating the proper formatting, taken directly from our 
 ```cpp
 /**
  * @brief Calculates the intersection points of a ray and a sphere.
- * 
- * For a detailed explanation of the analytic solution and the math behind this algorithm, 
- * see: documentation/explanation/RaySphereIntersectionAlgorithm.md
- * 
- * @param s The sphere to test for intersection.
+ *
+ * Uses the quadratic formula to solve for time `t` where the ray intersects the sphere's surface.
+ * Math reference: documentation/explanation/RaySphereIntersection.md
+ *
+ * @param s The target sphere geometry.
  * @param r The ray being cast.
- * @return std::vector<float> A collection of `t` values where the ray intersects the sphere.
- */
+ * @return std::vector<intersection> A collection of intersection records containing the `t` values and a pointer to the hit object. Empty if no intersection.
+*/
 [[nodiscard]]
-std::vector<float> intersect(const sphere& s, const ray& r)
+std::vector<intersection> intersect(const sphere& s, const ray& r)
 {
     // Implementation...
 }
