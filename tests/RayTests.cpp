@@ -7,6 +7,7 @@ import rt.canvas;
 import rt.matrix;
 import rt.transformations;
 import rt.ray;
+import rt.shapes;
 
 using namespace rt;
 
@@ -40,4 +41,82 @@ TEST(RayOperation, ComputingPointFromDistance)
     EXPECT_EQ(pos2, point(3.0f, 3.0f, 4.0f));
     EXPECT_EQ(pos3, point(1.0f, 3.0f, 4.0f));
     EXPECT_EQ(pos4, point(4.5f, 3.0f, 4.0f));
+}
+
+// --------------------------------------------------
+// Ray Intersection With Object
+
+TEST(RayIntersection, IntersectingRayWithSphereAtTwoPoints)
+{
+    point origin = createPoint(0.0f, 0.0f, -5.0f);
+    vector direction = createVector(0.0f, 0.0f, 1.0f);
+    auto r = ray(origin, direction);
+
+    auto s = sphere();
+
+    std::vector<float> xs = intersect(s, r);
+
+    EXPECT_EQ(xs.size(), 2);
+    EXPECT_EQ(xs[0], 4.0f);
+    EXPECT_EQ(xs[1], 6.0f);
+}
+
+TEST(RayIntersection, IntersectingRayWithSphereAtTangent)
+{
+    point origin = createPoint(0.0f, 0.0f, -5.0f);
+    vector direction = createVector(0.0f, 0.0f, 1.0f);
+    auto r = ray(origin, direction);
+
+    point sphere_origin = createPoint(0.0f, 1.0f, 0.0f);
+    auto s = sphere(sphere_origin, 1.0f);
+
+    std::vector<float> xs = intersect(s, r);
+
+    EXPECT_EQ(xs.size(), 2);
+    EXPECT_EQ(xs[0], 5.0f);
+    EXPECT_EQ(xs[1], 5.0f);
+}
+
+TEST(RayIntersection, RayMissesIntersectingWithSphere)
+{
+    point origin = createPoint(0.0f, 0.0f, -5.0f);
+    vector direction = createVector(0.0f, 0.0f, 1.0f);
+    auto r = ray(origin, direction);
+
+    point sphere_origin = createPoint(0.0f, 2.0f, 0.0f);
+    auto s = sphere(sphere_origin, 1.0f);
+
+    std::vector<float> xs = intersect(s, r);
+
+    EXPECT_EQ(xs.size(), 0);
+}
+
+TEST(RayIntersection, RayOriginatesInsideTheSphere)
+{
+    point origin = createPoint(0.0f, 0.0f, 0.0f);
+    vector direction = createVector(0.0f, 0.0f, 1.0f);
+    auto r = ray(origin, direction);
+
+    auto s = sphere();
+
+    std::vector<float> xs = intersect(s, r);
+
+    EXPECT_EQ(xs.size(), 2);
+    EXPECT_EQ(xs[0], -1.0f);
+    EXPECT_EQ(xs[1], 1.0f);
+}
+
+TEST(RayIntersection, RayOriginatesInFrontOfTheSphere)
+{
+    point origin = createPoint(0.0f, 0.0f, 5.0f);
+    vector direction = createVector(0.0f, 0.0f, 1.0f);
+    auto r = ray(origin, direction);
+
+    auto s = sphere();
+
+    std::vector<float> xs = intersect(s, r);
+
+    EXPECT_EQ(xs.size(), 2);
+    EXPECT_EQ(xs[0], -6.0f);
+    EXPECT_EQ(xs[1], -4.0f);
 }

@@ -21,6 +21,7 @@ target_sources(raytracer_core
         src/Matrix.cppm
         src/Transformations.cppm
         src/Ray.cppm
+        src/Shapes.cppm
 )
 
 # Apply compilation warnings to the core library
