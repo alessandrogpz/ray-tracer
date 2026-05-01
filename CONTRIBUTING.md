@@ -30,6 +30,7 @@ To set up your local development environment, please follow our step-by-step gui
 - **CMake** (3.28+ required for C++ Modules)
 - **Ninja** build system (required for C++ Modules)
 - **GoogleTest** (for running the test suite)
+- **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to enable it.
 
 ## Testing Guidelines
 
