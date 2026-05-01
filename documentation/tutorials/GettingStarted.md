@@ -11,7 +11,7 @@ Before we begin, ensure your system has the following tools installed:
 - **GoogleTest** (gtest) for building and running the test suite.
 - **(Optional) OpenMP** for CPU multithreading (see [Multithreading Guide](../tutorials/MultithreadingGuide.md)).
 
-> **Note:** If you haven't set up your development environment yet, please refer to our [Environment Setup Guide](../how-to/EnvironmentSetup.md) for detailed, OS-specific installation instructions for these dependencies.
+> **Note:** If you haven't set up your development environment yet, please refer to our [Environment Setup Guide](EnvironmentSetup.md) for detailed, OS-specific installation instructions for these dependencies.
 
 ## Step 1: Clone the Repository
 

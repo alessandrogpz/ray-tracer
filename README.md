@@ -12,9 +12,9 @@ Documentation of this project is structured using the [Diátaxis framework](http
 
 - **Tutorial**: A step-by-step guide to build and run the ray tracer.
     - [Getting Started](documentation/tutorials/GettingStarted.md)
+    - [Environment Setup](documentation/tutorials/EnvironmentSetup.md)
     - [Multithreading Guide](documentation/tutorials/MultithreadingGuide.md)
 - **How-To Guides**: Practical guides for specific tasks.
-    - [Environment Setup](documentation/how-to/EnvironmentSetup.md)
     - [Run Tests](documentation/how-to/RunTests.md)
     - [Write Tests](documentation/how-to/WriteTests.md)
 - **References**: Technical descriptions of the underlying APIs, code style, and mathematical structures.

@@ -71,7 +71,7 @@ int main()
             auto xs3 = intersect(s3, r);
             xs.insert(xs.end(), xs3.begin(), xs3.end());
 
-            // If a valid hit occurs, color the pixel red
+            // If a valid hit occurs, color the pixel with the appropriate object color
             if (auto h = hit(xs))
             {
                 if (h->obj == &s1)

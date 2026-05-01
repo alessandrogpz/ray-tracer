@@ -1,11 +1,11 @@
-# How-To: Development Setup & System Requirements
+# Tutorial: Development Setup & System Requirements
 
 ## Base Requirements
 *   **Compiler**: A C++23 compatible compiler (MSVC, Clang 16+, or GCC 13+)
 *   **Build System**: CMake (3.28 or newer)
 *   **Generator**: Ninja
 *   **Test Suite**: GoogleTest (gtest)
-*   **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](../tutorials/MultithreadingGuide.md) for instructions on how to enable it.
+*   **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to enable it.
 
 > **Note on GoogleTest:** You do not need to manually install GoogleTest (gtest) on your system. The project's `CMakeLists.txt` is configured to fetch and build GoogleTest automatically when you configure and build the project using CMake.
 

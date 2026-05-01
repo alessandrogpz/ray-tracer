@@ -23,7 +23,7 @@ We gladly accept pull requests for bug fixes, new features, and documentation im
 ## Development Setup
 
 To set up your local development environment, please follow our step-by-step guide:
-- **[How-To: Setup Local Development Environment](documentation/how-to/EnvironmentSetup.md)**
+- **[How-To: Setup Local Development Environment](documentation/tutorials/EnvironmentSetup.md)**
 
 ### Prerequisites Refresher
 - A modern C++ compiler supporting **C++23**
