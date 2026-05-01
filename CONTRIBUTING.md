@@ -13,7 +13,7 @@ If you find a bug in the source code or a mistake in the documentation, you can 
 Enhancement suggestions are tracked as GitHub issues. When creating an enhancement issue, please provide a clear and descriptive title and a detailed description of the proposed feature or improvement.
 
 ### Pull Requests
-I gladly accept pull requests for bug fixes, new features, and documentation improvements.
+We gladly accept pull requests for bug fixes, new features, and documentation improvements.
 
 1. **Fork** the repository and create your branch from `main`.
 2. **Build and test** your changes locally. 
@@ -23,7 +23,7 @@ I gladly accept pull requests for bug fixes, new features, and documentation imp
 ## Development Setup
 
 To set up your local development environment, please follow our step-by-step guide:
-**[Getting Started Tutorial](documentation/tutorials/GettingStarted.md)**
+- **[How-To: Setup Local Development Environment](documentation/how-to/EnvironmentSetup.md)**
 
 ### Prerequisites Refresher
 - A modern C++ compiler supporting **C++23**
@@ -38,7 +38,8 @@ This project strictly follows **Test-Driven Development (TDD)** principles.
 - Before submitting a pull request, ensure all tests pass successfully. 
 
 For detailed instructions on how to write and run tests, see:
-**[How-To: Run Tests](documentation/how-to/RunTests.md)**
+- **[How-To: Run Tests](documentation/how-to/RunTests.md)**
+- **[How-To: Write Tests](documentation/how-to/WriteTests.md)**
 
 ## Coding Standards
 

@@ -1,7 +1,5 @@
 # Tutorial: Getting Started with the Ray Tracer
 
-Welcome! This tutorial is designed for new contributors (like our persona, Jamie) and users who want to build the ray tracer for the first time.
-
 By the end of this tutorial, you will have successfully cloned the repository, compiled the project using CMake, and verified your setup by running the test suite.
 
 ## Prerequisites
