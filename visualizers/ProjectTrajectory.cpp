@@ -83,7 +83,7 @@ int main() {
     }
 
     std::string ppmContent = canvasToPPM(c);
-    savePPM("project_trajectory_output.ppm", ppmContent);
+    savePPM("OutputProjectTrajectory.ppm", ppmContent);
 
     return 0;
 }

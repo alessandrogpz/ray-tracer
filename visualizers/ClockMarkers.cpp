@@ -30,7 +30,7 @@ int main()
 
     std::string ppmContent = canvasToPPM(c);
 
-    savePPM("clock_markers", ppmContent);
+    savePPM("OutputClockMarkers", ppmContent);
 
     return 0;
 }
