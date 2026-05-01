@@ -6,21 +6,27 @@ The `intersect(sphere, ray)` function determines the points where a ray intersec
 
 To find where a ray and a sphere intersect, we need to find the points in 3D space that satisfy both the equation of the ray and the equation of the sphere.
 
-### 1. The Equation of a Ray
+### 1. World Space vs. Object Space (Transformations)
+
+In a 3D engine, spheres are frequently scaled, rotated, or translated using a transformation matrix. Trying to calculate intersections against a distorted sphere requires incredibly complex math.
+
+Instead of changing the sphere, we change the ray. We multiply the ray by the **inverse** of the sphere's transformation matrix. This converts the ray from "World Space" into the sphere's "Local Object Space." In this local space, every sphere acts like a standard, un-transformed sphere sitting at the origin, which makes the subsequent math much easier.
+
+### 2. The Equation of a Ray
 
 A ray is defined by an origin point ($O$) and a direction vector ($D$). Any point ($P$) on the ray can be found by traveling a certain distance ($t$) along its direction:
 
 $$ P = O + tD $$
 
-### 2. The Equation of a Sphere
+*(Note: In our math below, $O$ and $D$ refer to the origin and direction of the transformed `local_ray`.)*
 
-A sphere is defined by its center point ($C$) and its radius ($r$). Any point ($P$) lies on the surface of the sphere if the distance from the center to that point is exactly equal to the radius. Using the Pythagorean theorem (or dot product), this is expressed as:
+### 3. The Equation of a Sphere
+
+A sphere is defined by its center point ($C$) and its radius ($r$). Any point ($P$) lies on the surface of the sphere if the distance from the center to that point is exactly equal to the radius. Using the dot product, this is expressed as:
 
 $$ (P - C) \cdot (P - C) = r^2 $$
 
-For our simplified case, the sphere is at the world origin ($C = (0, 0, 0)$) and is a unit sphere ($r = 1$). 
-
-### 3. Combining the Equations
+### 4. Combining the Equations
 
 To find the intersection, we substitute the ray equation into the sphere equation. This means we are looking for a distance ($t$) where the resulting point $P$ is on the sphere.
 
@@ -28,7 +34,7 @@ Substitute $P = O + tD$ into $(P - C) \cdot (P - C) = r^2$:
 
 $$ (O + tD - C) \cdot (O + tD - C) = r^2 $$
 
-Let the vector from the sphere's center to the ray's origin be $\vec{V} = O - C$. In our code, this is `sphere_to_ray`. 
+Let the vector from the sphere's center to the ray's origin be $\vec{V} = O - C$. In our code, this is `sphere_to_ray`.
 The equation simplifies to:
 
 $$ (tD + \vec{V}) \cdot (tD + \vec{V}) = r^2 $$
@@ -37,16 +43,16 @@ Expanding the dot product gives a quadratic equation in terms of $t$:
 
 $$ (D \cdot D)t^2 + 2(D \cdot \vec{V})t + (\vec{V} \cdot \vec{V} - r^2) = 0 $$
 
-### 4. Solving the Quadratic Equation
+### 5. Solving the Quadratic Equation
 
 This matches the standard quadratic form:
 
 $$ at^2 + bt + c = 0 $$
 
-Where our coefficients map directly to our code:
-*   **$a$** = $D \cdot D$ (`dotProduct(r.direction, r.direction)`)
-*   **$b$** = $2(D \cdot \vec{V})$ (`2.0f * dotProduct(r.direction, sphere_to_ray)`)
-*   **$c$** = $\vec{V} \cdot \vec{V} - r^2$ (`dotProduct(sphere_to_ray, sphere_to_ray) - 1.0f`)
+Where our coefficients map directly to our code using the `local_ray`:
+*   **$a$** = $D \cdot D$ (`dotProduct(local_ray.direction, local_ray.direction)`)
+*   **$b$** = $2(D \cdot \vec{V})$ (`2.0f * dotProduct(local_ray.direction, sphere_to_ray)`)
+*   **$c$** = $\vec{V} \cdot \vec{V} - r^2$ (`dotProduct(sphere_to_ray, sphere_to_ray) - (s.radius * s.radius)`)
 
 To solve for $t$, we use the quadratic formula:
 

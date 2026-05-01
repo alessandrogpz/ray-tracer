@@ -11,10 +11,11 @@ export module rt.ray;
 import rt.tuple;
 import rt.shapes;
 import rt.intersection;
+import rt.matrix;
+import rt.transformations;
 
 export namespace rt
 {
-
     struct ray
     {
         point origin;
@@ -27,29 +28,40 @@ export namespace rt
             : origin(_origin), direction(_direction) {}
     };
 
-    [[nodiscard]]
     point position(const ray& r, float time)
     {
         return r.origin + r.direction * time;
     }
 
+    // Applies a transformation matrix to a ray, returning a new ray.
+    [[nodiscard]]
+    rt::ray transformRay(const ray &r, const matrix<4> &m)
+    {
+        return {m * r.origin, m * r.direction};
+    }
+
     /**
      * @brief Calculates the intersection points of a ray and a sphere.
      *
-     * Uses the quadratic formula to solve for time `t` where the ray intersects the sphere's surface.
+     * Transforms the ray into the sphere's local object space using the sphere's inverse
+     * transformation matrix, then uses the quadratic formula to solve for the intersection times `t`.
      * Math reference: documentation/explanation/RaySphereIntersection.md
      *
-     * @param s The target sphere geometry.
-     * @param r The ray being cast.
+     * @param s The target sphere geometry (includes scale/translation matrices).
+     * @param r The ray being cast in world space.
      * @return std::vector<intersection> A collection of intersection records containing the `t` values and a pointer to the hit object. Empty if no intersection.
     */
     [[nodiscard]]
     std::vector<intersection> intersect(const sphere& s, const ray& r)
     {
-        vector sphere_to_ray = r.origin - s.origin;
+        // 1. Transform the ray by the inverse of the sphere's matrix
+        ray local_ray = transformRay(r, s.transform.inverse());
 
-        float a = dotProduct(r.direction, r.direction);
-        float b = 2.0f * dotProduct(r.direction, sphere_to_ray);
+        // 2. Use local_ray for all subsequent math
+        vector sphere_to_ray = local_ray.origin - s.origin;
+
+        float a = dotProduct(local_ray.direction, local_ray.direction);
+        float b = 2.0f * dotProduct(local_ray.direction, sphere_to_ray);
         float c = dotProduct(sphere_to_ray, sphere_to_ray) - (s.radius * s.radius);
 
         float discriminant = (b * b) - (4 * a * c);
@@ -70,7 +82,7 @@ export namespace rt
      *
      * @param intersectionSet A collection of intersection records to evaluate.
      * @return std::optional<intersection> The closest valid hit, or std::nullopt if no valid intersections exist.
-     */
+    */
     [[nodiscard]]
     std::optional<intersection> hit(const std::vector<intersection>& intersectionSet)
     {
@@ -81,5 +93,4 @@ export namespace rt
 
         return *std::ranges::min_element(valid_hits, {}, &intersection::t);
     }
-
 }

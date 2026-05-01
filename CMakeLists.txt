@@ -55,6 +55,7 @@ add_executable(run_tests
         tests/MatrixTransformations.t.cpp
         tests/Ray.t.cpp
         tests/Intersection.t.cpp
+        tests/Shapes.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 

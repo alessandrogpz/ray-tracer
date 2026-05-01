@@ -3,6 +3,8 @@ module;
 export module rt.shapes;
 
 import rt.tuple;
+import rt.matrix;
+import rt.transformations;
 
 export namespace rt
 {
@@ -11,6 +13,8 @@ export namespace rt
         int id;
         point origin;
         float radius;
+        matrix<4> transform {identity()};
+
 
         // Main constructor for ID generation
         explicit sphere(point _origin, float _radius) : origin(_origin), radius(_radius)
@@ -25,6 +29,11 @@ export namespace rt
         bool operator==(const sphere& other) const
         {
             return id == other.id;
+        }
+
+        void set_transform(const matrix<4>& t)
+        {
+            transform = t;
         }
     };
 }

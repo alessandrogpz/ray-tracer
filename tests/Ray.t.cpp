@@ -44,149 +44,27 @@ TEST(RayOperation, ComputingPointFromDistance)
     EXPECT_EQ(pos4, point(4.5f, 3.0f, 4.0f));
 }
 
-// --------------------------------------------------
-// Ray Intersection With Object
+// -------------------------------------------------------------------
+// Transforming Rays & Spheres
 
-TEST(RayIntersection, IntersectingRayWithSphereAtTwoPoints)
+TEST(TransformRay, TranslatingARay)
 {
-    point origin = createPoint(0.0f, 0.0f, -5.0f);
-    vector direction = createVector(0.0f, 0.0f, 1.0f);
-    auto r = ray(origin, direction);
+    const auto r = ray(point(1.0f,2.0f,3.0f), vector(0.0f, 1.0f, 0.0f));
+    const auto m = translation(3.0f, 4.0f, 5.0f);
 
-    auto s = sphere();
+    const auto r2 = transformRay(r, m);
 
-    std::vector<intersection> xs = intersect(s, r);
-
-    EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 4.0f);
-    EXPECT_EQ(xs[1].t, 6.0f);
+    EXPECT_EQ(r2.origin, point(4.0f, 6.0f, 8.0f));
+    EXPECT_EQ(r2.direction, vector(0.0f, 1.0f, 0.0f));
 }
 
-TEST(RayIntersection, IntersectingRayWithSphereAtTangent)
+TEST(TransformRay, ScalingARay)
 {
-    point origin = createPoint(0.0f, 0.0f, -5.0f);
-    vector direction = createVector(0.0f, 0.0f, 1.0f);
-    auto r = ray(origin, direction);
+    const auto r = ray(point(1.0f,2.0f,3.0f), vector(0.0f, 1.0f, 0.0f));
+    const auto m = scale(2.0f, 3.0f, 4.0f);
 
-    point sphere_origin = createPoint(0.0f, 1.0f, 0.0f);
-    auto s = sphere(sphere_origin, 1.0f);
+    const auto r2 = transformRay(r, m);
 
-    std::vector<intersection> xs = intersect(s, r);
-
-    EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 5.0f);
-    EXPECT_EQ(xs[1].t, 5.0f);
-}
-
-TEST(RayIntersection, RayMissesIntersectingWithSphere)
-{
-    point origin = createPoint(0.0f, 0.0f, -5.0f);
-    vector direction = createVector(0.0f, 0.0f, 1.0f);
-    auto r = ray(origin, direction);
-
-    point sphere_origin = createPoint(0.0f, 2.0f, 0.0f);
-    auto s = sphere(sphere_origin, 1.0f);
-
-    std::vector<intersection> xs = intersect(s, r);
-
-    EXPECT_EQ(xs.size(), 0);
-}
-
-TEST(RayIntersection, RayOriginatesInsideTheSphere)
-{
-    point origin = createPoint(0.0f, 0.0f, 0.0f);
-    vector direction = createVector(0.0f, 0.0f, 1.0f);
-    auto r = ray(origin, direction);
-
-    auto s = sphere();
-
-    std::vector<intersection> xs = intersect(s, r);
-
-    EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, -1.0f);
-    EXPECT_EQ(xs[1].t, 1.0f);
-}
-
-TEST(RayIntersection, RayOriginatesInFrontOfTheSphere)
-{
-    point origin = createPoint(0.0f, 0.0f, 5.0f);
-    vector direction = createVector(0.0f, 0.0f, 1.0f);
-    auto r = ray(origin, direction);
-
-    auto s = sphere();
-
-    std::vector<intersection> xs = intersect(s, r);
-
-    EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, -6.0f);
-    EXPECT_EQ(xs[1].t, -4.0f);
-}
-
-TEST(SphereIntersectionTest, IntersectSetsTheObjectOnTheIntersection)
-{
-    auto r = ray(createPoint(0.0f, 0.0f, -5.0f), createVector(0.0f, 0.0f, 1.0f));
-    const auto s = sphere();
-
-    std::vector<intersection> xs = intersect(s, r);
-
-    ASSERT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].obj, &s);
-    EXPECT_EQ(xs[1].obj, &s);
-}
-
-TEST(SphereIntersectionTests, HitWhenAllIntersectionsHavePositiveT)
-{
-    const auto s = sphere();
-    const auto i1 = intersection(1.0f, &s);
-    const auto i2 = intersection(2.0f, &s);
-
-    std::vector<intersection> xs = {i1, i2};
-
-    const auto i = hit(xs);
-
-    EXPECT_FLOAT_EQ(i->t, i1.t);
-    EXPECT_EQ(i->obj, i1.obj);
-}
-
-TEST(SphereIntersectionTests, HitWhenSomeIntersectionsHaveNegativeT)
-{
-    const auto s = sphere();
-    const auto i1 = intersection(-1.0f, &s);
-    const auto i2 = intersection(2.0f, &s);
-
-    std::vector<intersection> xs = {i1, i2};
-
-    const auto i = hit(xs);
-
-    EXPECT_FLOAT_EQ(i->t, i2.t);
-    EXPECT_EQ(i->obj, i2.obj);
-}
-
-TEST(SphereIntersectionTests, HitWhenAllIntersectionsHaveNegativeT)
-{
-    const auto s = sphere();
-    const auto i1 = intersection(-2.0f, &s);
-    const auto i2 = intersection(-1.0f, &s);
-
-    std::vector<intersection> xs = {i1, i2};
-
-    const auto i = hit(xs);
-
-    EXPECT_FALSE(i);
-}
-
-TEST(SphereIntersectionTests, HitTheLowestNonnegativeIntersection)
-{
-    const auto s = sphere();
-    const auto i1 = intersection(5.0f, &s);
-    const auto i2 = intersection(7.0f, &s);
-    const auto i3 = intersection(-3.0f, &s);
-    const auto i4 = intersection(2.0f, &s);
-
-    std::vector<intersection> xs = {i1, i2, i3, i4};
-
-    const auto i = hit(xs);
-
-    EXPECT_FLOAT_EQ(i->t, i4.t);
-    EXPECT_EQ(i->obj, i4.obj);
+    EXPECT_EQ(r2.origin, point(2.0f, 6.0f, 12.0f));
+    EXPECT_EQ(r2.direction, vector(0.0f, 3.0f, 0.0f));
 }
