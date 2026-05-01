@@ -12,6 +12,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
 
 - **Tutorial**: A step-by-step guide to build and run the ray tracer.
     - [Getting Started](documentation/tutorials/GettingStarted.md)
+    - [Multithreading Guide](documentation/tutorials/MultithreadingGuide.md)
 - **How-To Guides**: Practical guides for specific tasks.
     - [Environment Setup](documentation/how-to/EnvironmentSetup.md)
     - [Run Tests](documentation/how-to/RunTests.md)
@@ -32,3 +33,4 @@ Contributions are welcome! Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) fo
 - **Language**: C++23
 - **Build System**: CMake (3.28+) and Ninja
 - **Testing**: GoogleTest (gTest)
+- (Optional) **Multithreading**: OpenMP (libomp)

@@ -9,6 +9,7 @@ Before we begin, ensure your system has the following tools installed:
 - **CMake** (version 3.28 or higher, required for C++ Modules).
 - **Ninja** build system (required by CMake for C++ Modules).
 - **GoogleTest** (gtest) for building and running the test suite.
+- **(Optional) OpenMP** for CPU multithreading (see [Multithreading Guide](../tutorials/MultithreadingGuide.md)).
 
 > **Note:** If you haven't set up your development environment yet, please refer to our [Environment Setup Guide](../how-to/EnvironmentSetup.md) for detailed, OS-specific installation instructions for these dependencies.
 
