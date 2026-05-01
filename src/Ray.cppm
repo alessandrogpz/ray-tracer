@@ -2,6 +2,9 @@ module;
 
 #include <vector>
 #include <cmath>
+#include <ranges>
+#include <algorithm>
+#include <optional>
 
 export module rt.ray;
 
@@ -59,4 +62,24 @@ export namespace rt
 
         return { intersection(t1, &s), intersection(t2, &s) };
     }
+
+    /**
+     * @brief Identifies the closest valid intersection from a collection.
+     *
+     * Filters out intersections that occur behind the ray origin (t < 0) and returns the one with the smallest 't' value.
+     *
+     * @param intersectionSet A collection of intersection records to evaluate.
+     * @return std::optional<intersection> The closest valid hit, or std::nullopt if no valid intersections exist.
+     */
+    [[nodiscard]]
+    std::optional<intersection> hit(const std::vector<intersection>& intersectionSet)
+    {
+        auto valid_hits = intersectionSet | std::views::filter([](const auto& i) { return i.t >= 0.0f; });
+
+        if (valid_hits.empty())
+            return std::nullopt;
+
+        return *std::ranges::min_element(valid_hits, {}, &intersection::t);
+    }
+
 }
