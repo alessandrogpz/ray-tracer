@@ -78,9 +78,3 @@ add_executable(visualizers
         visualizers/SphereShadow.cpp
 )
 target_link_libraries(visualizers PRIVATE raytracer_core)
-
-# 5. Create the Freestyle Test executable
-add_executable(test_manual
-        test_manual.cpp
-)
-target_link_libraries(test_manual PRIVATE raytracer_core)

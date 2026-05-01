@@ -47,11 +47,5 @@ Session.vim
 *.log
 *.tmp
 
-# --- Raylib Build Files ---
-my_viz
-
 # --- Raytracer Build Files ---
 *.ppm
-
-# --- Raytracer main.cpp Test Enviroment ---
-#test.cpp
