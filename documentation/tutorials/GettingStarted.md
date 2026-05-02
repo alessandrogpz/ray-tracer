@@ -43,7 +43,7 @@ cmake -G Ninja ..
 
 *CMake reads the `CMakeLists.txt` from the parent directory (`..`) and configures the Ninja build files.*
 
-## Step 4: Build the Project
+## Step 4: Build the Project & Visualizers
 
 With the configuration complete, you can compile the ray tracer and the test runner. 
 
@@ -52,8 +52,20 @@ With the configuration complete, you can compile the ray tracer and the test run
 cmake --build . -j
 ```
 
-## Step 5: Run the Test Suite
+This command will compile all executables present in the `CMakeLists.txt`.
 
+*(Alternatively, if you know the target name, e.g., `SphereShadow`, you can build it specifically: `cmake --build . --target SphereShadow`)*
+
+### Available Visualizers
+The project currently includes the following visualizers in the `visualizers/` directory:
+
+1. **`ClockMarkers.cpp`**: Plots twelve points arranged in a circle, demonstrating matrix rotations and translations, saving the result as `OutputClockMarkers.ppm`.
+2. **`ProjectTrajectory.cpp`**: Simulates the physics of a projectile affected by gravity and wind, rendering its path as a green curve on a canvas, saving the result as `OutputProjectTrajectory.ppm`.
+3. **`SphereShadow.cpp`**: Uses the core ray-tracing engine (rays and intersections) to render 3D spheres on a 2D canvas, demonstrating hit detection, saving the result as `OutputSphereShadow.ppm`.
+
+## Step 5: Run the Test Suite and Visualizers
+
+### Running Tests
 If the build succeeds, CMake will have generated an executable named `run_tests` in your build directory. This executable contains all the unit tests that verify the ray tracer's math and logic.
 
 Run it using:
@@ -62,7 +74,7 @@ Run it using:
 ./run_tests
 ```
 
-### Expected Output
+#### Expected Output
 
 You should see an output from GoogleTest displaying the progress of the tests. If everything is working correctly, the final lines will look like this:
 
@@ -70,3 +82,11 @@ You should see an output from GoogleTest displaying the progress of the tests. I
 [==========] X tests from Y test suites ran. (Z ms total)
 [  PASSED  ] X tests.
 ```
+
+### Running Visualizers
+In addition to the tests, you can run the generated visualizer executables from the same build directory. For example:
+
+```bash
+./SphereShadow
+```
+Running these visualizer files will output a `.ppm` [Portable Pixmap](https://en.wikipedia.org/wiki/Netpbm) image file (e.g., `OutputSphereShadow.ppm`). You can then open and visualize the generated `.ppm` file using an image viewer that supports the format.

@@ -71,10 +71,19 @@ add_executable(run_tests
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
-# 4. Create the Visualizer executable
-add_executable(visualizers
-        # visualizers/ClockMarkers.cpp
-        # visualizers/ProjectTrajectory.cpp
+# 4. (Optional) Create Example Visualizers Executables
+add_executable(ClockMarkers
+        visualizers/ClockMarkers.cpp
+)
+
+add_executable(ProjectTrajectory
+        visualizers/ProjectTrajectory.cpp
+)
+
+add_executable(SphereShadow
         visualizers/SphereShadow.cpp
 )
-target_link_libraries(visualizers PRIVATE raytracer_core)
+
+target_link_libraries(ClockMarkers PRIVATE raytracer_core)
+target_link_libraries(ProjectTrajectory PRIVATE raytracer_core)
+target_link_libraries(SphereShadow PRIVATE raytracer_core)
