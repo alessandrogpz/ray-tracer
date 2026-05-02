@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <cmath>
+#include <numbers>
 
 import rt.utils;
 import rt.tuple;
@@ -76,8 +77,8 @@ TEST(MatrixTransformations, ReflectingMatrixOnXAxis)
 TEST(MatrixTransformations, RotatingPointAroundXAxis)
 {
     point p = createPoint(0.0f, 1.0f, 0.0f);
-    matrix<4> half_quarter = rotation_x(static_cast<float>(M_PI / 4.0));
-    matrix<4> full_quarter = rotation_x(static_cast<float>(M_PI / 2.0));
+    matrix<4> half_quarter = rotation_x(static_cast<float>(std::numbers::pi / 4.0));
+    matrix<4> full_quarter = rotation_x(static_cast<float>(std::numbers::pi / 2.0));
 
     EXPECT_EQ(half_quarter * p, point(0.0f, std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f));
     EXPECT_EQ(full_quarter * p, point(0.0f, 0.0f, 1.0f));
@@ -86,7 +87,7 @@ TEST(MatrixTransformations, RotatingPointAroundXAxis)
 TEST(MatrixTransformations, RotatePointAroundXAxisInReverseUsingInverse)
 {
     point p = createPoint(0.0f, 1.0f, 0.0f);
-    matrix<4> half_quarter = rotation_x(static_cast<float>(M_PI / 4.0));
+    matrix<4> half_quarter = rotation_x(static_cast<float>(std::numbers::pi / 4.0));
     matrix<4> inv = half_quarter.inverse();
 
     EXPECT_EQ(inv * p, point(0.0f, std::sqrt(2.0f) / 2.0f, - std::sqrt(2.0f) / 2.0f));
@@ -95,8 +96,8 @@ TEST(MatrixTransformations, RotatePointAroundXAxisInReverseUsingInverse)
 TEST(MatrixTransformations, RotatingPointAroundYAxis)
 {
     point p = createPoint(0.0f, 0.0f, 1.0f);
-    matrix<4> half_quarter = rotation_y(static_cast<float>(M_PI / 4.0));
-    matrix<4> full_quarter = rotation_y(static_cast<float>(M_PI / 2.0));
+    matrix<4> half_quarter = rotation_y(static_cast<float>(std::numbers::pi / 4.0));
+    matrix<4> full_quarter = rotation_y(static_cast<float>(std::numbers::pi / 2.0));
 
     EXPECT_EQ(half_quarter * p, point(std::sqrt(2.0f) / 2.0f, 0.0f, std::sqrt(2.0f) / 2.0f));
     EXPECT_EQ(full_quarter * p, point(1.0f, 0.0f, 0.0f));
@@ -105,8 +106,8 @@ TEST(MatrixTransformations, RotatingPointAroundYAxis)
 TEST(MatrixTransformations, RotatingPointAroundZAxis)
 {
     point p = createPoint(0.0f, 1.0f, 0.0f);
-    matrix<4> half_quarter = rotation_z(static_cast<float>(M_PI / 4.0));
-    matrix<4> full_quarter = rotation_z(static_cast<float>(M_PI / 2.0));
+    matrix<4> half_quarter = rotation_z(static_cast<float>(std::numbers::pi / 4.0));
+    matrix<4> full_quarter = rotation_z(static_cast<float>(std::numbers::pi / 2.0));
 
     EXPECT_EQ(half_quarter * p, point(-std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f, 0.0f));
     EXPECT_EQ(full_quarter * p, point(-1.0f, 0.0f, 0.0f));
@@ -157,7 +158,7 @@ TEST(MatrixTransformations, ShearingMovesZInProportionToY)
 TEST(MatrixTransformations, TransformationsInSequnce)
 {
     point p = createPoint(1.0f, 0.0f, 1.0f);
-    matrix<4> A = rotation_x(M_PI / 2.0f);
+    matrix<4> A = rotation_x(std::numbers::pi / 2.0f);
     matrix<4> B = scale(5.0f, 5.0f, 5.0f);
     matrix<4> C = translation(10.0f, 5.0f, 7.0f);
 
