@@ -13,7 +13,9 @@
 
 ## Operating System Guides
 
-### Windows
+### 1. Windows
+
+#### 1.1 Visual Studio
 
 The most reliable environment for C++ modules on Windows is **Visual Studio 2022**.
 
@@ -24,6 +26,26 @@ The most reliable environment for C++ modules on Windows is **Visual Studio 2022
    *   `C++ CMake tools for Windows` *(Note: This conveniently includes both CMake and Ninja).*
 
 *Note: OpenMP is built natively into MSVC. No extra package installation is required for multithreading.*
+
+#### 1.2. Standalone Terminal Setup
+If you prefer not to install the full Visual Studio IDE, you can install the necessary tools individually via the command line.
+
+1. **Install the Toolchain**: Open PowerShell as an Administrator and run:
+
+   - Install CMake (Build system)
+   ```powershell
+   winget install Kitware.CMake
+   ```
+   
+   - Install Ninja (Generator)
+   ```powershell
+   winget install Ninja-build.Ninja
+   ```
+   
+   - Install LLVM/Clang (Compiler supporting C++23)
+   ```powershell
+   winget install LLVM.LLVM
+   ```
 
 ### macOS
 

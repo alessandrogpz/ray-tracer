@@ -89,4 +89,11 @@ In addition to the tests, you can run the generated visualizer executables from 
 ```bash
 ./SphereShadow
 ```
-Running these visualizer files will output a `.ppm` [Portable Pixmap](https://en.wikipedia.org/wiki/Netpbm) image file (e.g., `OutputSphereShadow.ppm`). You can then open and visualize the generated `.ppm` file using an image viewer that supports the format.
+Executing a visualizer outputs a `.ppm` [Portable Pixmap](https://en.wikipedia.org/wiki/Netpbm) image file (e.g., `OutputSphereShadow.ppm`).
+
+> **Viewing .ppm Files on Windows:**
+> Standard Windows applications like "Photos" or "Paint" do not support this format natively. Use one of the following:
+
+*   **[IrfanView](https://www.irfanview.com/)**: A fast, lightweight image viewer that supports `.ppm`.
+*   **[GIMP](https://www.gimp.org/)**: A free, open-source editor that supports `.ppm` format natively.
+*   **VS Code Extensions**: Search for "PPM Viewer" in the Marketplace to view images directly inside the editor.
