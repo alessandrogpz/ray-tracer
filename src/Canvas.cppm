@@ -8,7 +8,6 @@ module;
 #include <fstream>
 #include <iostream>
 #include <format>
-#include <print>
 
 export module rt.canvas;
 
@@ -113,14 +112,14 @@ export namespace rt {
         std::ofstream outFile(filename + ".ppm");
 
         if(!outFile.is_open()) {
-            std::println(std::cerr, "Error: Could not open file {}.ppm", filename);
+            std::cerr << std::format("Error: Could not open file {}.ppm", filename);
             return;
         }
 
         outFile << ppmData;
 
         outFile.close();
-        std::println("Successfully saved to {}.ppm", filename);
+        std::cout << std::format("Successfully saved to {}.ppm", filename);
     }
 
 } // namespace rt
