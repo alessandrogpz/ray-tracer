@@ -65,9 +65,9 @@ TEST(CanvasToPPM, PPMHeader) {
 TEST(CanvasToPPM, PPMPixelData) {
     canvas c(5, 3);
 
-    color c1(1.5f, 0.0f, 0.0f);
-    color c2(0.0f, 0.5f, 0.0f);
-    color c3(-0.5f, 0.0f, 1.0f);
+    color c1(1.5, 0.0, 0.0);
+    color c2(0.0, 0.5, 0.0);
+    color c3(-0.5, 0.0, 1.0);
 
     writePixel(c, 0, 0, c1);
     writePixel(c, 2, 1, c2);
@@ -93,7 +93,7 @@ TEST(CanvasToPPM, PPMPixelData) {
 }
 
 TEST(CanvasToPPM, PPMLongPixelDataLines) {
-    color c1(1.0f, 0.8f, 0.6f);
+    color c1(1.0, 0.8, 0.6);
     
     canvas c(10, 2, c1);
 

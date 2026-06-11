@@ -37,7 +37,7 @@ As an example, in `visualizers/SphereShadow.cpp`, uncomment / add the following 
 for (size_t y = 0; y < CANVAS_SIZE; ++y)
 {
 // Compute the world y coordinate (top = +half, bottom = -half)
-float world_y = half - pixel_size * y;
+double world_y = half - pixel_size * y;
 
     for (size_t x = 0; x < CANVAS_SIZE; ++x)
     {

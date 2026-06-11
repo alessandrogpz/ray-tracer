@@ -61,14 +61,14 @@ int main() {
     canvas c(1000, 1000);
     color green(0, 1, 0);
 
-    vector direction = createVector(1.0f, 1.5f, 0.0f);
+    vector direction = createVector(1.0, 1.5, 0.0);
     vector unit_direction = normalizeVector(direction);
 
-    float speed = 11.25f;
+    double speed = 11.25;
     vector velocity = unit_direction * speed;
 
-    projectile proj(createPoint(0.0f, 1.0f, 0.0f), velocity);
-    environment env(createVector(0.0f, -0.1f, 0.0f), createVector(-0.01f, 0.0f, 0.0f));
+    projectile proj(createPoint(0.0, 1.0, 0.0), velocity);
+    environment env(createVector(0.0, -0.1, 0.0), createVector(-0.01, 0.0, 0.0));
 
     while (proj.position.y > 0) {
         int x = static_cast<int>(proj.position.x);

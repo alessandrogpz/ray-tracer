@@ -12,9 +12,9 @@ using namespace rt;
 TEST(IntersectionCreation, AnIntersectionEncapsulatesTAndObject)
 {
     auto s = sphere();
-    auto i = intersection(3.5f, &s);
+    auto i = intersection(3.5, &s);
 
-    EXPECT_FLOAT_EQ(i.t, 3.5f);
+    EXPECT_DOUBLE_EQ(i.t, 3.5);
     EXPECT_EQ(i.obj, &s);
 }
 
@@ -24,14 +24,14 @@ TEST(IntersectionCreation, AnIntersectionEncapsulatesTAndObject)
 TEST(AggregatingIntersections, IntersectionSetValidation)
 {
     const auto s = sphere();
-    auto i1 = intersection(1.0f, &s);
-    auto i2 = intersection(2.0f, &s);
+    auto i1 = intersection(1.0, &s);
+    auto i2 = intersection(2.0, &s);
 
     std::vector<intersection> xs = {i1, i2};
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_FLOAT_EQ(xs[0].t, 1.0f);
-    EXPECT_FLOAT_EQ(xs[1].t, 2.0f);
+    EXPECT_DOUBLE_EQ(xs[0].t, 1.0);
+    EXPECT_DOUBLE_EQ(xs[1].t, 2.0);
 }
 
 //-------------------------------------------------------------
@@ -40,36 +40,36 @@ TEST(AggregatingIntersections, IntersectionSetValidation)
 TEST(SphereIntersectionTests, HitWhenAllIntersectionsHavePositiveT)
 {
     const auto s = sphere();
-    const auto i1 = intersection(1.0f, &s);
-    const auto i2 = intersection(2.0f, &s);
+    const auto i1 = intersection(1.0, &s);
+    const auto i2 = intersection(2.0, &s);
 
     std::vector<intersection> xs = {i1, i2};
 
     const auto i = hit(xs);
 
-    EXPECT_FLOAT_EQ(i->t, i1.t);
+    EXPECT_DOUBLE_EQ(i->t, i1.t);
     EXPECT_EQ(i->obj, i1.obj);
 }
 
 TEST(SphereIntersectionTests, HitWhenSomeIntersectionsHaveNegativeT)
 {
     const auto s = sphere();
-    const auto i1 = intersection(-1.0f, &s);
-    const auto i2 = intersection(2.0f, &s);
+    const auto i1 = intersection(-1.0, &s);
+    const auto i2 = intersection(2.0, &s);
 
     std::vector<intersection> xs = {i1, i2};
 
     const auto i = hit(xs);
 
-    EXPECT_FLOAT_EQ(i->t, i2.t);
+    EXPECT_DOUBLE_EQ(i->t, i2.t);
     EXPECT_EQ(i->obj, i2.obj);
 }
 
 TEST(SphereIntersectionTests, HitWhenAllIntersectionsHaveNegativeT)
 {
     const auto s = sphere();
-    const auto i1 = intersection(-2.0f, &s);
-    const auto i2 = intersection(-1.0f, &s);
+    const auto i1 = intersection(-2.0, &s);
+    const auto i2 = intersection(-1.0, &s);
 
     std::vector<intersection> xs = {i1, i2};
 
@@ -81,15 +81,15 @@ TEST(SphereIntersectionTests, HitWhenAllIntersectionsHaveNegativeT)
 TEST(SphereIntersectionTests, HitTheLowestNonnegativeIntersection)
 {
     const auto s = sphere();
-    const auto i1 = intersection(5.0f, &s);
-    const auto i2 = intersection(7.0f, &s);
-    const auto i3 = intersection(-3.0f, &s);
-    const auto i4 = intersection(2.0f, &s);
+    const auto i1 = intersection(5.0, &s);
+    const auto i2 = intersection(7.0, &s);
+    const auto i3 = intersection(-3.0, &s);
+    const auto i4 = intersection(2.0, &s);
 
     std::vector<intersection> xs = {i1, i2, i3, i4};
 
     const auto i = hit(xs);
 
-    EXPECT_FLOAT_EQ(i->t, i4.t);
+    EXPECT_DOUBLE_EQ(i->t, i4.t);
     EXPECT_EQ(i->obj, i4.obj);
 }

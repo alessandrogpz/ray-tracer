@@ -52,12 +52,12 @@ export namespace rt {
         return {1,1,1};
     }
 
-    int scaleColor(float color_float) {
+    int scaleColor(double color_float) {
         // 1. Scale by 255
-        float scaled = color_float * 255.0f;
+        double scaled = color_float * 255.0;
 
         // 2. Apply ceiling
-        float ceiled = std::ceil(scaled);
+        double ceiled = std::ceil(scaled);
 
         // 3. Cast to int and clamp between 0 and 255
         return std::clamp(static_cast<int>(ceiled), 0, 255);

@@ -21,14 +21,14 @@ export namespace rt
         point origin;
         vector direction;
 
-        ray() : origin(createPoint(0.0f, 0.0f, 0.0f)),
-                direction(createVector(0.0f, 0.0f, 0.0f)) {}
+        ray() : origin(createPoint(0.0, 0.0, 0.0)),
+                direction(createVector(0.0, 0.0, 0.0)) {}
 
         ray(point _origin, vector _direction)
             : origin(_origin), direction(_direction) {}
     };
 
-    point position(const ray& r, float time)
+    point position(const ray& r, double time)
     {
         return r.origin + r.direction * time;
     }
@@ -60,17 +60,17 @@ export namespace rt
         // 2. Use local_ray for all subsequent math
         vector sphere_to_ray = local_ray.origin - s.origin;
 
-        float a = dotProduct(local_ray.direction, local_ray.direction);
-        float b = 2.0f * dotProduct(local_ray.direction, sphere_to_ray);
-        float c = dotProduct(sphere_to_ray, sphere_to_ray) - (s.radius * s.radius);
+        double a = dotProduct(local_ray.direction, local_ray.direction);
+        double b = 2.0 * dotProduct(local_ray.direction, sphere_to_ray);
+        double c = dotProduct(sphere_to_ray, sphere_to_ray) - (s.radius * s.radius);
 
-        float discriminant = (b * b) - (4 * a * c);
+        double discriminant = (b * b) - (4 * a * c);
 
         if (discriminant < 0)
             return {}; // No intersection
 
-        float t1 = (-b - std::sqrt(discriminant)) / (2.0f * a);
-        float t2 = (-b + std::sqrt(discriminant)) / (2.0f * a);
+        double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
+        double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
 
         return { intersection(t1, &s), intersection(t2, &s) };
     }
@@ -86,7 +86,7 @@ export namespace rt
     [[nodiscard]]
     std::optional<intersection> hit(const std::vector<intersection>& intersectionSet)
     {
-        auto valid_hits = intersectionSet | std::views::filter([](const auto& i) { return i.t >= 0.0f; });
+        auto valid_hits = intersectionSet | std::views::filter([](const auto& i) { return i.t >= 0.0; });
 
         if (valid_hits.empty())
             return std::nullopt;

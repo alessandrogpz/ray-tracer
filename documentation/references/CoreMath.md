@@ -4,7 +4,7 @@ This section provides technical details regarding the foundational mathematical 
 
 ## Tuples
 
-A `Tuple` is the fundamental data structure used to represent coordinates and directions in 3D space. It is composed of four floating-point numbers: `x`, `y`, `z`, and `w`.
+A `Tuple` is the fundamental data structure used to represent coordinates and directions in 3D space. It is composed of four double-precision floating-point numbers: `x`, `y`, `z`, and `w`.
 
 - **`x, y, z`**: Represent the position or magnitude along the three axes.
 - **`w`**: The homogeneous coordinate. It is crucial for distinguishing between points and vectors and for allowing matrix translations.
@@ -20,7 +20,7 @@ A `Tuple` is the fundamental data structure used to represent coordinates and di
 
 Colors in the ray tracer are implemented similarly to Tuples, but they represent the Red, Green, and Blue (RGB) components of light.
 
-- **`red, green, blue`**: Floating-point values typically ranging from `0.0` (no intensity) to `1.0` (full intensity).
+- **`red, green, blue`**: Double-precision values typically ranging from `0.0` (no intensity) to `1.0` (full intensity).
 - Operations on colors include addition (combining light), subtraction, and scalar multiplication (adjusting brightness).
 
 *Reference code: `src/Colors.cppm`*

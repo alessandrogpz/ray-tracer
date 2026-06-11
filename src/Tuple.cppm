@@ -11,31 +11,31 @@ export namespace rt {
 
     struct tuple
     {
-        float x, y, z, w;
+        double x, y, z, w;
 
         tuple() : x(0), y(0), z(0), w(0) {}
-        tuple(float _x, float _y, float _z, float _w)
+        tuple(double _x, double _y, double _z, double _w)
             : x(_x), y(_y), z(_z), w(_w) {}
 
         // Generic Tuple Scalar Overload Operations --------------------------------------
         // Scalar Multiplication: a * scalar
         [[nodiscard]]
-        tuple operator*(float scalar) const {
+        tuple operator*(double scalar) const {
             return {x * scalar, y * scalar, z * scalar, w * scalar};
         }
 
         // Scalar Division: a / scalar
         [[nodiscard]]
-        tuple operator/(float scalar) const {
-            assert(scalar != 0.0f && "Attempted to divide a tuple by zero");
+        tuple operator/(double scalar) const {
+            assert(scalar != 0.0 && "Attempted to divide a tuple by zero");
 
-            float scalar_inv = 1.0f / scalar;
+            double scalar_inv = 1.0 / scalar;
             return {x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv};
         }
 
         // Getters & Setters -----------------------------------------------------------
-        // Getter: float f = t[0];
-        float operator[](size_t index) const {
+        // Getter: double f = t[0];
+        double operator[](size_t index) const {
             switch (index) {
                 case 0: return x;
                 case 1: return y;
@@ -45,8 +45,8 @@ export namespace rt {
             }
         }
 
-        // Setter: t[0] = 5.0f;
-        float& operator[](size_t index) {
+        // Setter: t[0] = 5.0;
+        double& operator[](size_t index) {
             switch (index) {
                 case 0: return x;
                 case 1: return y;
@@ -73,13 +73,13 @@ export namespace rt {
 
     // Distinct Derived types inheriting from tuple -------------------------------
     struct point : public tuple {
-        point(float x, float y, float z) : tuple(x, y, z, 1.0f) {}
-        explicit point(const tuple& t) : tuple(t) { assert(equal(t.w, 1.0f)); }
+        point(double x, double y, double z) : tuple(x, y, z, 1.0) {}
+        explicit point(const tuple& t) : tuple(t) { assert(equal(t.w, 1.0)); }
     };
 
     struct vector : public tuple {
-        vector(float x, float y, float z) : tuple(x, y, z, 0.0f) {}
-        explicit vector(const tuple& t) : tuple(t) { assert(equal(t.w, 0.0f)); }
+        vector(double x, double y, double z) : tuple(x, y, z, 0.0) {}
+        explicit vector(const tuple& t) : tuple(t) { assert(equal(t.w, 0.0)); }
     };
 
     // Specific Geometry Overloads (Non-member functions) -------------------------
@@ -127,33 +127,33 @@ export namespace rt {
 
     // Vector * Scalar
     [[nodiscard]]
-    inline vector operator*(vector v, float scalar) {
+    inline vector operator*(vector v, double scalar) {
         return {v.x * scalar, v.y * scalar, v.z * scalar};
     }
 
     // Scalar * Vector (Commutative)
     [[nodiscard]]
-    inline vector operator*(float scalar, vector v) {
+    inline vector operator*(double scalar, vector v) {
         return v * scalar;
     }
 
     // Vector / Scalar
     [[nodiscard]]
-    inline vector operator/(vector v, float scalar) {
-        assert(scalar != 0.0f && "Attempted to divide a vector by zero");
-        float inv = 1.0f / scalar;
+    inline vector operator/(vector v, double scalar) {
+        assert(scalar != 0.0 && "Attempted to divide a vector by zero");
+        double inv = 1.0 / scalar;
         return {v.x * inv, v.y * inv, v.z * inv};
     }
 
     // Factory Utilities ---------------------------------------------------------
     [[nodiscard]]
-    point createPoint(float x, float y, float z)
+    point createPoint(double x, double y, double z)
     {
         return {x, y, z};
     }
 
     [[nodiscard]]
-    vector createVector(float x, float y, float z)
+    vector createVector(double x, double y, double z)
     {
         return {x, y, z};
     }
@@ -165,7 +165,7 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    float getVectorMagnitude(vector a)
+    double getVectorMagnitude(vector a)
     {
         return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
     }
@@ -173,12 +173,12 @@ export namespace rt {
     [[nodiscard]]
     vector normalizeVector(vector a)
     {
-        float inv_mag = 1.0f / getVectorMagnitude(a);
+        double inv_mag = 1.0 / getVectorMagnitude(a);
         return createVector(a.x * inv_mag, a.y * inv_mag, a.z * inv_mag);
     }
 
     [[nodiscard]]
-    float dotProduct(vector a, vector b)
+    double dotProduct(vector a, vector b)
     {
         return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
     }

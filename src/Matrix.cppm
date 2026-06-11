@@ -11,25 +11,25 @@ export namespace rt {
 
     template <size_t N>
     struct matrix {
-        float data[N][N]{};
+        double data[N][N]{};
 
         // Default constructor: Initializes all elements to 0
         matrix() {
             for (size_t i = 0; i < N; ++i) {
                 for (size_t j = 0; j < N; ++j) {
-                    data[i][j] = 0.0f;
+                    data[i][j] = 0.0;
                 }
             }
         }
 
         // Getters & Setters -----------------------------------------------------------------
         // Setter: m(row, col)
-        float& operator()(size_t row, size_t col) {
+        double& operator()(size_t row, size_t col) {
             return data[row][col];
         }
 
         // Getter
-        float operator()(size_t row, size_t col) const {
+        double operator()(size_t row, size_t col) const {
             return data[row][col];
         }
 
@@ -59,7 +59,7 @@ export namespace rt {
             matrix<N> result;
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
-                    float sum = 0.0f;
+                    double sum = 0.0;
                     for (size_t k = 0; k < N; k++) {
                         sum += a(r, k) * b(k, c);
                     }
@@ -72,7 +72,7 @@ export namespace rt {
         // Matrix * Tuple (Base)
         [[nodiscard]]
         friend inline tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
-            float res[4] = {0, 0, 0, 0};
+            double res[4] = {0, 0, 0, 0};
             for (size_t r = 0; r < 4; r++) {
                 for (size_t c = 0; c < 4; c++) {
                     res[r] += m(r, c) * t[c];
@@ -106,11 +106,11 @@ export namespace rt {
         }
 
         [[nodiscard]]
-        float determinant() const {
+        double determinant() const {
             if constexpr (N == 2) {
                 return ((*this)(0,0) * (*this)(1,1)) - ((*this)(0,1) * (*this)(1,0));
             } else {
-                float det = 0.0f;
+                double det = 0.0;
                 for (size_t col = 0; col < N; ++col) {
                     det += (*this)(0, col) * cofactor(0, col);
                 }
@@ -137,13 +137,13 @@ export namespace rt {
         }
 
         [[nodiscard]]
-        float minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+        double minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
             return submatrix(skip_row, skip_col).determinant();
         }
 
         [[nodiscard]]
-        float cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
-            float calc_minor = minor(skip_row, skip_col);
+        double cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+            double calc_minor = minor(skip_row, skip_col);
             if ((skip_row + skip_col) % 2 != 0) {
                 return -calc_minor;
             }
@@ -152,7 +152,7 @@ export namespace rt {
 
         [[nodiscard]]
         bool isInvertible() const {
-            return !equal(determinant(), 0.0f);
+            return !equal(determinant(), 0.0);
         }
 
         // Throws std::runtime_error if the matrix cannot be inverted (determinant is 0).
@@ -164,13 +164,13 @@ export namespace rt {
             }
 
             matrix<N> result;
-            float current_det = determinant();
+            double current_det = determinant();
 
             for (size_t row = 0; row < N; row++)
             {
                 for (size_t col = 0; col < N; col++)
                 {
-                    float c = cofactor(col, row); 
+                    double c = cofactor(col, row); 
                     result(row, col) = c / current_det;
                 }
             }

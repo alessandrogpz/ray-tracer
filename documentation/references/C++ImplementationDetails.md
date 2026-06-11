@@ -11,7 +11,7 @@ When writing mathematical operations or engine logic, follow these strict rules 
 Modern 64-bit calling conventions pass small objects (up to 16 bytes) directly into CPU registers (such as SSE/AVX registers). Passing these by value avoids pointer indirection and aliasing issues, allowing the compiler to optimize mathematical operations heavily.
 
 * **Rule:** Pass primitives and 16-byte structures by value.
-* **Applies to:** `float`, `int`, `tuple`, `point`, `vector`, `color`.
+* **Applies to:** `double`, `int`, `tuple`, `point`, `vector`, `color`.
 * **Example:** `vector normalizeVector(vector a)`
 * **Example:** `vector operator+(vector v1, vector v2)`
 
@@ -21,7 +21,7 @@ Objects larger than 16 bytes cannot fit entirely into the standard fast register
 
 * **Rule:** Pass objects larger than 16 bytes by `const` reference.
 * **Applies to:** `ray` (32 bytes), `matrix` (64 bytes for 4x4), scene geometry, and `canvas`.
-* **Example:** `point position(const ray& r, float time)`
+* **Example:** `point position(const ray& r, double time)`
 * **Example:** `color pixelAt(const canvas& c, int x, int y)`
 
 ### 3. Pass by Reference for Mutation

@@ -12,19 +12,19 @@ export namespace rt
     {
         int id;
         point origin;
-        float radius;
+        double radius;
         matrix<4> transform {identity()};
 
 
         // Main constructor for ID generation
-        explicit sphere(point _origin, float _radius) : origin(_origin), radius(_radius)
+        explicit sphere(point _origin, double _radius) : origin(_origin), radius(_radius)
         {
             static int next_id = 0;
             id = ++next_id;
         }
 
         // Default constructor delegates to the main constructor
-        sphere() : sphere(createPoint(0.0f, 0.0f, 0.0f), 1.0f) {}
+        sphere() : sphere(createPoint(0.0, 0.0, 0.0), 1.0) {}
 
         bool operator==(const sphere& other) const
         {

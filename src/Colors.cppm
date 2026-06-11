@@ -6,10 +6,10 @@ export namespace rt {
 
     struct color
     {
-        float r, g, b;
+        double r, g, b;
 
         color() : r(0), g(0), b(0) {}
-        color(float _r, float _g, float _b)
+        color(double _r, double _g, double _b)
             : r(_r), g(_g), b(_b) {}
 
         // Addition: a + b
@@ -26,7 +26,7 @@ export namespace rt {
 
         // Scalar Multiplication a * scalar
         [[nodiscard]]
-        color operator*(float scalar) const {
+        color operator*(double scalar) const {
             return {r * scalar, g * scalar, b * scalar};
         }
 
@@ -38,7 +38,7 @@ export namespace rt {
     };
 
     [[nodiscard]]
-    color createColor(float r, float g, float blue)
+    color createColor(double r, double g, double blue)
     {
         return {r, g, blue};
     }

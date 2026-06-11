@@ -9,9 +9,9 @@ export namespace rt
     // Tracks the intersection distance (t) and references the original hit object.
     struct intersection
     {
-        float t;
+        double t;
         const sphere* obj;
 
-        intersection(float _t, const sphere* _obj) : t(_t), obj(_obj) {}
+        intersection(double _t, const sphere* _obj) : t(_t), obj(_obj) {}
     };
 }

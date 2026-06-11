@@ -15,8 +15,8 @@ int main()
     color yellow(1, 1, 0);
     canvas c(100, 100);
 
-    point marker = createPoint(0.0f, 40.0f, 0.0f);
-    matrix<4> rot = rotation_z(std::numbers::pi / 6.0f);
+    point marker = createPoint(0.0, 40.0, 0.0);
+    matrix<4> rot = rotation_z(std::numbers::pi / 6.0);
 
     for (int i = 0; i < 12; i++)
     {
