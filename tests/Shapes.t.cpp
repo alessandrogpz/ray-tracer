@@ -1,4 +1,6 @@
+#include <complex>
 #include <gtest/gtest.h>
+#include <numbers>
 
 import rt.utils;
 import rt.tuple;
@@ -164,4 +166,69 @@ TEST(SphereTransformation, IntersectingATranslatedSphereWithARay)
     const auto xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 0);
+}
+
+// ---------------------------------------------------
+// Sphere Normal
+
+TEST(SphereNormal, SphereNormalAtPointOnAxisX)
+{
+    const auto s = sphere();
+    const auto n = normalAt(s, point(1, 0, 0));
+    EXPECT_EQ(vector(1, 0, 0), n);
+}
+
+TEST(SphereNormal, SphereNormalAtPointOnAxisy)
+{
+    const auto s = sphere();
+    const auto n = normalAt(s, point(0, 1, 0));
+    EXPECT_EQ(vector(0, 1, 0), n);
+}
+
+TEST(SphereNormal, SphereNormalAtPointOnAxisz)
+{
+    const auto s = sphere();
+    const auto n = normalAt(s, point(0, 0, 1));
+    EXPECT_EQ(vector(0, 0, 1), n);
+}
+
+TEST(SphereNormal, SphereNormalAtNonaxialPoint)
+{
+    const auto s = sphere();
+    const auto n = normalAt(s, point(std::sqrt(3) / 3,
+                                             std::sqrt(3) / 3,
+                                             std::sqrt(3) / 3));
+
+    EXPECT_EQ(vector(std::sqrt(3) / 3,
+                     std::sqrt(3) / 3,
+                     std::sqrt(3) / 3), n);
+}
+
+TEST(SphereNormal, SphereNormalIsNormalized)
+{
+    const auto s = sphere();
+    const auto n = normalAt(s, point(std::sqrt(3) / 3,
+                                             std::sqrt(3) / 3,
+                                             std::sqrt(3) / 3));
+
+    EXPECT_EQ(normalizeVector(n), n);
+}
+
+TEST(SphereNormal, SphereNormalOnTranslatedSphere)
+{
+    auto s = sphere();
+    s.set_transform(translation(0, 1, 0));
+
+    const auto n = normalAt(s, point(0, 1.70711, -0.70711));
+    EXPECT_EQ(vector(0, 0.70711, -0.70711), n);
+}
+
+TEST(SphereNormal, SphereNormalOnATransformedSphere)
+{
+    auto s = sphere();
+    const auto m = scale(1, 0.5, 1) * rotation_z(std::numbers::pi / 5.0);
+    s.set_transform(m);
+
+    const auto n = normalAt(s, point(0, std::sqrt(2.0) / 2.0, -std::sqrt(2.0) / 2.0));
+    EXPECT_EQ(vector(0, 0.97014, -0.24254), n);
 }
