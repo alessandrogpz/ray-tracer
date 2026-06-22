@@ -16,6 +16,9 @@ Tests are located in the `tests/` directory. If you are adding a new feature or 
    import rt.tuple; // Replace with your module
    ```
 
+   > [!NOTE]
+   > For a full list of available modules and their relationships, refer to the [C++ Module & Dependency Architecture Reference](../references/C++Architecture.md).
+
 3. **Write the Test Macro**
    Use the `TEST()` macro provided by GoogleTest. The first argument is the Test Suite Name (usually the class or module name), and the second is the Test Case Name.
    ```cpp

@@ -88,7 +88,8 @@ git commit -m "<type>: <title>" \
 
 ## Understanding the Architecture
 
-Before making significant changes, we recommend reading our architectural overview to understand how the ray tracer pipeline operates:
-**[Architecture Explanation](documentation/explanation/Architecture.md)**
+Before making significant changes, we recommend reading our architectural overviews:
+- **[Conceptual Ray Tracing Pipeline](documentation/explanation/Architecture.md)**
+- **[C++ Module & Dependency Architecture](documentation/references/C++Architecture.md)**
 
 Thank you for contributing!

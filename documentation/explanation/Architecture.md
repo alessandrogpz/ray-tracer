@@ -45,3 +45,9 @@ Once a hit is confirmed, we need to determine the color of that pixel. This invo
 
 ### 4. Writing to Canvas
 The final computed color is written to the corresponding pixel on the `Canvas`. Once all pixels are calculated, the canvas is exported as an image file.
+
+---
+
+## See Also
+
+- For detailed information on the C++20 module layout, build files, and dependency graph, refer to the **[C++ Module & Dependency Architecture Reference](../references/C++Architecture.md)**.
