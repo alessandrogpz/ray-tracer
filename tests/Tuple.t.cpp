@@ -303,6 +303,25 @@ TEST(VectorOperations, VectorsCrossProduct)
 }
 
 // ------------------------------------------------------
+TEST(VectorReflection, ReflectVectorApproaching45)
+{
+    vector a = createVector(1, -1, 0);
+    vector n = createVector(0, 1, 0);
+    vector reflection = reflect(a, n);
+
+    EXPECT_EQ(reflection, createVector(1, 1, 0));
+}
+
+TEST(VectorReflection, ReflectAVectorOffSlantedSurface)
+{
+    vector a = createVector(0, -1, 0);
+    vector n = createVector(sqrt(2) / 2, sqrt(2) / 2, 0);
+    vector reflection = reflect(a, n);
+
+    EXPECT_EQ(reflection, createVector(1, 0, 0));
+}
+
+// ------------------------------------------------------
 // Utilities
 
 TEST(Utilities, Equality)

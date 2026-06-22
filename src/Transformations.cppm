@@ -5,6 +5,7 @@ module;
 export module rt.transformations;
 
 import rt.matrix;
+import rt.tuple;
 
 export namespace rt {
 
@@ -96,6 +97,39 @@ export namespace rt {
         transform(2, 1) = zy;
 
         return transform;
+    }
+
+    [[nodiscard]]
+    matrix<4> reflection(rt::vector normal)
+    {
+        matrix<4> outer_product{};
+
+        double x = normal.x;
+        double y = normal.y;
+        double z = normal.z;
+        double w = normal.w;
+
+        outer_product(0, 0) = x * x;
+        outer_product(0, 1) = x * y;
+        outer_product(0, 2) = x * z;
+        outer_product(0, 3) = x * w;
+
+        outer_product(1, 0) = y * x;
+        outer_product(1, 1) = y * y;
+        outer_product(1, 2) = y * z;
+        outer_product(1, 3) = y * w;
+
+        outer_product(2, 0) = z * x;
+        outer_product(2, 1) = z * y;
+        outer_product(2, 2) = z * z;
+        outer_product(2, 3) = z * w;
+
+        outer_product(3, 0) = w * x;
+        outer_product(3, 1) = w * y;
+        outer_product(3, 2) = w * z;
+        outer_product(3, 3) = w * w;
+
+        return identity() - outer_product * 2 ;
     }
 
 } // namespace rt

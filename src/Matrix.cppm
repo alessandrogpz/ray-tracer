@@ -53,6 +53,45 @@ export namespace rt {
             return !(a == b);
         }
 
+        // Matrix * Scalar
+        [[nodiscard]]
+        friend inline matrix<N> operator*(const matrix<N>& a, const double s)
+        {
+            matrix<N> result{};
+            for (size_t r = 0; r < N; r++) {
+                for (size_t c = 0; c < N; c++) {
+                    result(r, c) = a(r, c) * s;
+                }
+            }
+            return result;
+        }
+
+        // Matrix + Matrix
+        [[nodiscard]]
+        friend inline matrix<N> operator+(const matrix<N>&a, const matrix<N>& b)
+        {
+            matrix<N> result{};
+            for (size_t r = 0; r < N; r++) {
+                for (size_t c = 0; c < N; c++) {
+                    result(r, c) = a(r, c) + b(r, c);
+                }
+            }
+            return result;
+        }
+
+        // Matrix - Matrix
+        [[nodiscard]]
+        friend inline matrix<N> operator-(const matrix<N>&a, const matrix<N>& b)
+        {
+            matrix<N> result{};
+            for (size_t r = 0; r < N; r++) {
+                for (size_t c = 0; c < N; c++) {
+                    result(r, c) = a(r, c) - b(r, c);
+                }
+            }
+            return result;
+        }
+
         // Matrix * Matrix
         [[nodiscard]]
         friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b) {

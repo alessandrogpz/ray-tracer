@@ -560,3 +560,53 @@ TEST(MatrixOperation, MultiplyProductByInverse)
 
     EXPECT_TRUE(C * B.inverse() == A);
 }
+
+TEST(MatrixOperation, AddTwoMatrices)
+{
+    matrix<2> A;
+    A(0,0) = 1.0; A(0,1) = 2.0;
+    A(1,0) = 3.0; A(1,1) = 4.0;
+
+    matrix<2> B;
+    B(0,0) = 5.0; B(0,1) = 6.0;
+    B(1,0) = 7.0; B(1,1) = 8.0;
+
+    matrix<2> C = A + B;
+
+    EXPECT_DOUBLE_EQ(C(0,0), 6.0);
+    EXPECT_DOUBLE_EQ(C(0,1), 8.0);
+    EXPECT_DOUBLE_EQ(C(1,0), 10.0);
+    EXPECT_DOUBLE_EQ(C(1,1), 12.0);
+}
+
+TEST(MatrixOperation, SubtractTwoMatrices)
+{
+    matrix<2> A;
+    A(0,0) = 5.0; A(0,1) = 6.0;
+    A(1,0) = 7.0; A(1,1) = 8.0;
+
+    matrix<2> B;
+    B(0,0) = 1.0; B(0,1) = 2.0;
+    B(1,0) = 3.0; B(1,1) = 4.0;
+
+    matrix<2> C = A - B;
+
+    EXPECT_DOUBLE_EQ(C(0,0), 4.0);
+    EXPECT_DOUBLE_EQ(C(0,1), 4.0);
+    EXPECT_DOUBLE_EQ(C(1,0), 4.0);
+    EXPECT_DOUBLE_EQ(C(1,1), 4.0);
+}
+
+TEST(MatrixOperation, MultiplyMatrixByScalar)
+{
+    matrix<2> A;
+    A(0,0) = 1.0; A(0,1) = -2.0;
+    A(1,0) = 3.0; A(1,1) = 4.0;
+
+    matrix<2> B = A * 2.5;
+
+    EXPECT_DOUBLE_EQ(B(0,0), 2.5);
+    EXPECT_DOUBLE_EQ(B(0,1), -5.0);
+    EXPECT_DOUBLE_EQ(B(1,0), 7.5);
+    EXPECT_DOUBLE_EQ(B(1,1), 10.0);
+}

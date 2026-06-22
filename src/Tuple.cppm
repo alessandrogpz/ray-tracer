@@ -192,4 +192,9 @@ export namespace rt {
                         a.x * b.y - a.y * b.x));
     }
 
+    [[nodiscard]]
+    vector reflect(vector in, vector normal)
+    {
+        return in - normal * 2.0 * dotProduct(in, normal);
+    }
 } // namespace rt

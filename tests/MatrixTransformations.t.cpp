@@ -178,3 +178,18 @@ TEST(MatrixTransformations, TransformationsInSequnce)
     point p5 = C * B * A * p;
     EXPECT_EQ(p5, point(15.0, 0.0, 7.0));
 }
+
+TEST(MatrixTransformations, ReflectionMatrixCalculatesCorrectVector)
+{
+    // Scenario 1: Reflecting a vector approaching at 45 degrees
+    vector v1 = createVector(1.0, -1.0, 0.0);
+    vector n1 = createVector(0.0, 1.0, 0.0);
+    matrix<4> R1 = reflection(n1);
+    EXPECT_EQ(R1 * v1, vector(1.0, 1.0, 0.0));
+
+    // Scenario 2: Reflecting a vector off a slanted surface
+    vector v2 = createVector(0.0, -1.0, 0.0);
+    vector n2 = createVector(std::sqrt(2.0) / 2.0, std::sqrt(2.0) / 2.0, 0.0);
+    matrix<4> R2 = reflection(n2);
+    EXPECT_EQ(R2 * v2, vector(1.0, 0.0, 0.0));
+}
