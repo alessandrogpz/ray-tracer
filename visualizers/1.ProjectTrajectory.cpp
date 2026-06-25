@@ -1,4 +1,6 @@
 #include <string>
+#include <chrono>
+#include <iostream>
 
 import rt.utils;
 import rt.tuple;
@@ -58,6 +60,7 @@ void writePixelBlock(Canvas &c, int h, int w, int startX, int startY, Color col)
 }
 
 int main() {
+    auto start_time = std::chrono::high_resolution_clock::now();
     Canvas c(1000, 1000);
     Color green(0, 1, 0);
 
@@ -84,6 +87,10 @@ int main() {
 
     std::string ppmContent = canvasToPPM(c);
     savePPM("OutputProjectTrajectory.ppm", ppmContent);
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+    std::cout << "Execution time: " << elapsed.count() << " ms\n";
 
     return 0;
 }

@@ -1,5 +1,7 @@
 #include <string>
 #include <numbers>
+#include <chrono>
+#include <iostream>
 
 import rt.tuple;
 import rt.utils;
@@ -15,6 +17,7 @@ using namespace rt;
 
 int main()
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     Color black(0.0, 0.0, 0.0);
     Color red(1.0, 0.0, 0.0);
     Color blue(0.0, 0.0, 1.0);
@@ -86,6 +89,10 @@ int main()
 
     std::string ppmContent = canvasToPPM(c);
     savePPM("OutputMultipleSphereShadows", ppmContent);
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+    std::cout << "Execution time: " << elapsed.count() << " ms\n";
 
     return 0;
 }

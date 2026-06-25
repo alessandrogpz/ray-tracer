@@ -5,6 +5,8 @@
 #include <string>
 #include <optional>
 #include <vector>
+#include <chrono>
+#include <iostream>
 
 import rt.tuple;
 import rt.utils;
@@ -22,6 +24,7 @@ using namespace rt;
 
 int main()
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
     // Background color (very dark gray to make the sphere pop)
     Color background_color(0.05, 0.05, 0.05);
 
@@ -81,6 +84,10 @@ int main()
 
     std::string ppmContent = canvasToPPM(c);
     savePPM("OutputSpherePhongReflection", ppmContent);
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+    std::cout << "Execution time: " << elapsed.count() << " ms\n";
 
     return 0;
 }
