@@ -7,6 +7,12 @@ import rt.materials;
 
 export namespace rt {
 
+    // TODO: When introducing the "World" scene container and adding new shape primitives,
+    // implement Data-Oriented Design (DOD) memory layouts:
+    // 1. Store shapes contiguously in standard vectors (e.g. std::vector<Sphere>, std::vector<Plane>)
+    //    inside the World object to maximize CPU cache line prefetching.
+    // 2. Refactor Intersection to use a lightweight index/ID instead of concrete shape pointers
+    //    to eliminate pointer chasing and cache misses.
     struct Sphere {
         int id;
         Point origin;
