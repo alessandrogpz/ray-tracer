@@ -1,6 +1,7 @@
 module;
 
 #include <cassert>
+#include <cmath>
 
 module rt.tuple;
 

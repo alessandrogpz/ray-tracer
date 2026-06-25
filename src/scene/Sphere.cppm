@@ -22,10 +22,11 @@ export namespace rt {
         [[nodiscard]] bool operator==(const Sphere& other) const;
 
         [[nodiscard]] Vector local_normal_at(Point local_point) const override;
-        [[nodiscard]] std::vector<double> local_intersect(Point local_origin, Vector local_direction) const override;
+        [[nodiscard]] LocalIntersections local_intersect(Point local_origin, Vector local_direction) const override;
     };
 
     [[nodiscard]] std::vector<Intersection> intersect(const Shape& s, const Ray& r);
+    void intersect(const Shape& s, const Ray& r, std::vector<Intersection>& xs);
     [[nodiscard]] Vector normalAt(const Shape& s, Point p);
 
 } // namespace rt

@@ -54,6 +54,9 @@ int main()
     // A white point light source, positioned behind, above, and to the left of the eye
     PointLight light(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
+    std::vector<Intersection> xs;
+    xs.reserve(2);
+
     // Iterate over every row (y) and column (x) of the Canvas
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
@@ -73,7 +76,8 @@ int main()
             Ray r(ray_origin, direction);
 
             // Cast the Ray and check for intersections
-            auto xs = intersect(s, r);
+            xs.clear();
+            intersect(s, r, xs);
 
             // If a valid hit occurs, calculate lighting and Color the pixel
             if (auto h = hit(xs))

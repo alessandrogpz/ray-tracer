@@ -39,6 +39,9 @@ int main()
 
     Sphere s = Sphere();
 
+    std::vector<Intersection> xs;
+    xs.reserve(2);
+
     // Iterate over every row (y) and column (x) of the Canvas
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
@@ -58,7 +61,8 @@ int main()
             Ray r(ray_origin, direction);
 
             // Cast the Ray and check for intersections
-            auto xs = intersect(s, r);
+            xs.clear();
+            intersect(s, r, xs);
 
             // If a valid hit occurs, Color the pixel red
             if (auto h = hit(xs))

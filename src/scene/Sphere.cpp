@@ -1,3 +1,5 @@
+module;
+#include <cmath>
 module rt.sphere;
 
 import std;
@@ -28,7 +30,7 @@ namespace rt {
         return local_point - origin;
     }
 
-    std::vector<double> Sphere::local_intersect(Point local_origin, Vector local_direction) const {
+    LocalIntersections Sphere::local_intersect(Point local_origin, Vector local_direction) const {
         Vector sphere_to_ray = local_origin - origin;
 
         double a = dotProduct(local_direction, local_direction);
@@ -43,18 +45,24 @@ namespace rt {
         double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
         double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
 
-        return {t1, t2};
+        return {2, t1, t2};
     }
 
     std::vector<Intersection> intersect(const Shape& s, const Ray& r) {
         Ray local_ray = transformRay(r, s.get_transform_inverse());
-        std::vector<double> ts = s.local_intersect(local_ray.origin, local_ray.direction);
+        LocalIntersections ts = s.local_intersect(local_ray.origin, local_ray.direction);
         std::vector<Intersection> xs;
-        xs.reserve(ts.size());
-        for (double t : ts) {
-            xs.emplace_back(t, &s);
-        }
+        xs.reserve(ts.count);
+        if (ts.count > 0) xs.emplace_back(ts.t0, &s);
+        if (ts.count > 1) xs.emplace_back(ts.t1, &s);
         return xs;
+    }
+
+    void intersect(const Shape& s, const Ray& r, std::vector<Intersection>& xs) {
+        Ray local_ray = transformRay(r, s.get_transform_inverse());
+        LocalIntersections ts = s.local_intersect(local_ray.origin, local_ray.direction);
+        if (ts.count > 0) xs.emplace_back(ts.t0, &s);
+        if (ts.count > 1) xs.emplace_back(ts.t1, &s);
     }
 
     Vector normalAt(const Shape& s, Point p) {

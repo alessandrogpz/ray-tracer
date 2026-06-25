@@ -53,7 +53,10 @@ int main()
     s3.set_transform(transform_s3);
 
     // Iterate over every row (y) and column (x) of the Canvas
-    // #pragma omp parallel for // Add multithreading support
+    std::vector<Intersection> xs;
+    xs.reserve(6);
+
+    // Iterate over every row (y) and column (x) of the Canvas
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
         // Compute the world y coordinate (top = +half_height, bottom = -half_height)
@@ -72,13 +75,10 @@ int main()
             Ray r(ray_origin, direction);
 
             // Cast the Ray and check for intersections
-            auto xs = intersect(s1, r);
-
-            auto xs2 = intersect(s2, r);
-            xs.insert(xs.end(), xs2.begin(), xs2.end());
-
-            auto xs3 = intersect(s3, r);
-            xs.insert(xs.end(), xs3.begin(), xs3.end());
+            xs.clear();
+            intersect(s1, r, xs);
+            intersect(s2, r, xs);
+            intersect(s3, r, xs);
 
             // If a valid hit occurs, Color the pixel with the appropriate object Color
             if (auto h = hit(xs))
