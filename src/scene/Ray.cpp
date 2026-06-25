@@ -31,7 +31,7 @@ namespace rt {
     }
 
     std::vector<Intersection> intersect(const Sphere& s, const Ray& r) {
-        Ray local_ray = transformRay(r, s.transform.inverse());
+        Ray local_ray = transformRay(r, s.get_transform_inverse());
         Vector sphere_to_ray = local_ray.origin - s.origin;
 
         double a = dotProduct(local_ray.direction, local_ray.direction);

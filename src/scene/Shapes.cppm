@@ -11,7 +11,6 @@ export namespace rt {
         int id;
         Point origin;
         double radius;
-        Matrix<4> transform {identity()};
         Material material{};
 
         explicit Sphere(Point _origin, double _radius, Material _material = Material());
@@ -19,6 +18,14 @@ export namespace rt {
 
         [[nodiscard]] bool operator==(const Sphere& other) const;
         void set_transform(const Matrix<4>& t);
+        [[nodiscard]] const Matrix<4>& get_transform() const;
+        [[nodiscard]] const Matrix<4>& get_transform_inverse() const;
+        [[nodiscard]] const Matrix<4>& get_transform_inverse_transpose() const;
+
+    private:
+        Matrix<4> transform {identity()};
+        Matrix<4> transform_inverse {identity()};
+        Matrix<4> transform_inverse_transpose {identity()};
     };
 
     [[nodiscard]] Vector normalAt(const Sphere& s, Point p);

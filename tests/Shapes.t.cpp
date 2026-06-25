@@ -20,7 +20,7 @@ TEST(SphereCreation, DefaultSphere)
 {
     const auto s = Sphere();
 
-    EXPECT_EQ(s.transform, identity());
+    EXPECT_EQ(s.get_transform(), identity());
     EXPECT_EQ(s.origin, Point(0.0, 0.0, 0.0));
     EXPECT_DOUBLE_EQ(s.radius, 1.0);
 }
@@ -28,10 +28,10 @@ TEST(SphereCreation, DefaultSphere)
 TEST(SphereCreation, UserCreatedSphere)
 {
     auto s = Sphere(Point(1.0, 2.0, 3.0), 2.5);
-    s.transform = translation(3.0, 4.0, 5.0);
+    s.set_transform(translation(3.0, 4.0, 5.0));
 
     EXPECT_EQ(s.origin, Point(1.0, 2.0, 3.0));
-    EXPECT_EQ(s.transform, translation(3.0, 4.0, 5.0));
+    EXPECT_EQ(s.get_transform(), translation(3.0, 4.0, 5.0));
     EXPECT_DOUBLE_EQ(s.radius, 2.5);
 }
 
@@ -133,9 +133,9 @@ TEST(SphereTransformation, ChangingSphereTranfrom)
     auto s = Sphere();
     const auto t = translation(2.0, 3.0, 4.0);
 
-    s.transform = t;
+    s.set_transform(t);
 
-    EXPECT_EQ(s.transform, t);
+    EXPECT_EQ(s.get_transform(), t);
 }
 
 // ---------------------------------------------------
@@ -147,7 +147,7 @@ TEST(SphereTransformation, IntersectingAScaledSphereWithARay)
     auto s = Sphere();
 
     const auto t = scale(2.0, 2.0, 2.0);
-    s.transform = t;
+    s.set_transform(t);
 
     const auto xs = intersect(s, r);
 
@@ -162,7 +162,7 @@ TEST(SphereTransformation, IntersectingATranslatedSphereWithARay)
     auto s = Sphere();
 
     const auto t = translation(5.0, 0.0, 0.0);
-    s.transform = t;
+    s.set_transform(t);
 
     const auto xs = intersect(s, r);
 
