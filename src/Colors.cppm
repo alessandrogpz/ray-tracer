@@ -6,13 +6,12 @@ import rt.utils;
 
 export namespace rt {
 
-    struct Color
-    {
-        double r, g, b;
+    struct Color {
+        double r, g, b, a;
 
-        Color() : r(1.0), g(1.0), b(1.0) {}
-        Color(double _r, double _g, double _b)
-            : r(_r), g(_g), b(_b) {}
+        Color() : r(1.0), g(1.0), b(1.0), a(1.0) {}
+        Color(double _r, double _g, double _b, double _a = 1.0)
+            : r(_r), g(_g), b(_b), a(_a) {}
 
         // Addition: a + b
         [[nodiscard]]

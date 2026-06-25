@@ -9,6 +9,7 @@ import rt.transformations;
 import rt.ray;
 import rt.shapes;
 import rt.intersection;
+import rt.materials;
 
 using namespace rt;
 
@@ -232,3 +233,25 @@ TEST(SphereNormal, SphereNormalOnATransformedSphere)
     const auto n = normalAt(s, Point(0, std::sqrt(2.0) / 2.0, -std::sqrt(2.0) / 2.0));
     EXPECT_EQ(Vector(0, 0.97014, -0.24254), n);
 }
+
+// ---------------------------------------------------
+// Sphere Material
+
+TEST(SphereMaterial, SphereDefaultMaterial)
+{
+    const auto s = Sphere();
+
+    EXPECT_EQ(s.material, Material());
+}
+
+TEST(SphereMaterial, SphereAssignedMaterial)
+{
+    auto s = Sphere();
+    auto m = Material();
+    m.ambient = 1.0;
+    s.material = m;
+
+    EXPECT_EQ(s.material, m);
+}
+
+

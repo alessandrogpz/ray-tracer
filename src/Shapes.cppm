@@ -5,6 +5,7 @@ export module rt.shapes;
 import rt.tuple;
 import rt.matrix;
 import rt.transformations;
+import rt.materials;
 
 export namespace rt
 {
@@ -14,17 +15,19 @@ export namespace rt
         Point origin;
         double radius;
         Matrix<4> transform {identity()};
+        Material material{};
 
 
         // Main constructor for ID generation
-        explicit Sphere(Point _origin, double _radius) : origin(_origin), radius(_radius)
+        explicit Sphere(Point _origin, double _radius, Material _material = Material())
+            : origin(_origin), radius(_radius), material(_material)
         {
             static int next_id = 0;
             id = ++next_id;
         }
 
         // Default constructor delegates to the main constructor
-        Sphere() : Sphere(createPoint(0.0, 0.0, 0.0), 1.0) {}
+        Sphere() : Sphere(Point(), 1.0, Material()) {}
 
         bool operator==(const Sphere& other) const
         {
