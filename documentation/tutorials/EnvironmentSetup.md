@@ -1,8 +1,8 @@
 # Tutorial: Development Setup & System Requirements
 
 ## Base Requirements
-*   **Compiler**: A C++23 compatible compiler (MSVC, Clang 16+, or GCC 13+)
-*   **Build System**: CMake (3.28 or newer)
+*   **Compiler**: A C++23 compiler supporting standard library modules (`import std;`) (MSVC VS22 17.6+, Clang 18.1+, or GCC 14+)
+*   **Build System**: CMake (3.28 or newer, matching the experimental UUID gates)
 *   **Generator**: Ninja
 *   **Test Suite**: GoogleTest (gtest)
 *   **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to enable it.
@@ -67,10 +67,10 @@ Apple's default compiler (Apple Clang) often lags behind in its support for C++2
 
 Default package managers in Ubuntu/Debian often contain outdated versions of CMake that do not support C++23 modules. You must use the official Kitware repository to get CMake 3.28+.
 
-1. Install the GCC 13 compiler, Ninja, and the OpenMP development library:
+1. Install the GCC 14 compiler, Ninja, and the OpenMP development library:
    ```bash
-   sudo apt update && sudo apt install g++-13 ninja-build libomp-dev
-
+   sudo apt update && sudo apt install g++-14 ninja-build libomp-dev
+   ```
 2. Add the Kitware repository signature and list to get the latest CMake:
    ```bash
    wget -O - [https://apt.kitware.com/keys/kitware-archive-latest.asc](https://apt.kitware.com/keys/kitware-archive-latest.asc) 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
