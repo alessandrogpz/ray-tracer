@@ -209,11 +209,11 @@ export namespace rt {
             {
                 for (size_t col = 0; col < N; col++)
                 {
-                    double c = cofactor(col, row); 
+                    double c = cofactor(col, row);
                     result(row, col) = c / current_det;
                 }
             }
-            
+
             return result;
         }
     };

@@ -29,18 +29,30 @@ add_library(raytracer_core STATIC)
 target_sources(raytracer_core
   PUBLIC
     FILE_SET CXX_MODULES FILES
-        src/Utils.cppm
-        src/Tuple.cppm
-        src/Colors.cppm
-        src/Canvas.cppm
-        src/Matrix.cppm
-        src/Transformations.cppm
-        src/Ray.cppm
-        src/Shapes.cppm
-        src/Intersection.cppm
-        src/Lights.cppm
-        src/Materials.cppm
-        src/Shading.cppm
+        src/math/Utils.cppm
+        src/math/Tuple.cppm
+        src/math/Matrix.cppm
+        src/math/Transformations.cppm
+        src/core/Colors.cppm
+        src/core/Canvas.cppm
+        src/scene/Shapes.cppm
+        src/scene/Ray.cppm
+        src/scene/Intersection.cppm
+        src/scene/Lights.cppm
+        src/scene/Materials.cppm
+        src/scene/Shading.cppm
+  PRIVATE
+        src/math/Utils.cpp
+        src/math/Tuple.cpp
+        src/math/Transformations.cpp
+        src/core/Colors.cpp
+        src/core/Canvas.cpp
+        src/scene/Shapes.cpp
+        src/scene/Ray.cpp
+        src/scene/Intersection.cpp
+        src/scene/Lights.cpp
+        src/scene/Materials.cpp
+        src/scene/Shading.cpp
 )
 
 # Optional!

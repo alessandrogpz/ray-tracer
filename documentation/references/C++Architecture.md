@@ -4,19 +4,22 @@ This reference guide documents the code-level structure of the Ray Tracer engine
 
 ## 1. Module Layout and Responsibilities
 
-Our codebase is organized into modular C++20 units (`.cppm` files). Below is the list of exported modules and their responsibilities:
+Our codebase is organized into modular C++20 units, split into module interfaces (`.cppm`) and module implementations (`.cpp`), categorized under subfolders `math/`, `core/`, and `scene/` under `src/`. Below is the list of exported modules, their file paths, and their responsibilities:
 
-| Module Name | File Path | Direct Imports | Responsibility |
+| Module Name | File Paths | Direct Imports | Responsibility |
 | :--- | :--- | :--- | :--- |
-| **`rt.utils`** | `src/Utils.cppm` | None | Low-level utility functions (e.g., approximate equality checks). |
-| **`rt.tuple`** | `src/Tuple.cppm` | `rt.utils` | Primitives (`Tuple`, `Point`, `Vector`) and Vector operations (addition, cross/dot product, normalization, reflection). |
-| **`rt.colors`** | `src/Colors.cppm` | None | The `Color` structure and Color blend operations. |
-| **`rt.canvas`** | `src/Canvas.cppm` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
-| **`rt.matrix`** | `src/Matrix.cppm` | `rt.utils`, `rt.tuple` | Template-based `Matrix<N>` definition, Matrix determinant, cofactor, submatrix, inversion, and Matrix multiplication. |
-| **`rt.transformations`**| `src/Transformations.cppm` | `rt.matrix`, `rt.tuple` | Linear transformations (translation, scale, rotation, shear, and Householder reflection matrices). |
-| **`rt.shapes`** | `src/Shapes.cppm` | `rt.tuple`, `rt.matrix`, `rt.transformations` | Geometric primitive models (`Sphere` struct definition, transform properties). |
-| **`rt.intersection`** | `src/Intersection.cppm` | `rt.shapes` | Tracking records of Ray-object intersections (t-distance and shape pointer). |
-| **`rt.ray`** | `src/Ray.cppm` | `rt.tuple`, `rt.shapes`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and Ray-Sphere Intersection testing algorithms. |
+| **`rt.utils`** | `src/math/Utils.cppm`, `.cpp` | None | Low-level utility functions (e.g., approximate equality checks). |
+| **`rt.tuple`** | `src/math/Tuple.cppm`, `.cpp` | `rt.utils` | Primitives (`Tuple`, `Point`, `Vector`) and Vector operations (addition, cross/dot product, normalization, reflection). |
+| **`rt.matrix`** | `src/math/Matrix.cppm` | `rt.utils`, `rt.tuple` | Template-based `Matrix<N>` definition, Matrix determinant, cofactor, submatrix, inversion, and Matrix multiplication. *(Templates remain in interface)* |
+| **`rt.transformations`**| `src/math/Transformations.cppm`, `.cpp` | `rt.matrix`, `rt.tuple` | Linear transformations (translation, scale, rotation, shear, and Householder reflection matrices). |
+| **`rt.colors`** | `src/core/Colors.cppm`, `.cpp` | `rt.utils` | The `Color` structure and Color blend operations. |
+| **`rt.canvas`** | `src/core/Canvas.cppm`, `.cpp` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
+| **`rt.shapes`** | `src/scene/Shapes.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials` | Geometric primitive models (`Sphere` struct definition, transform properties). |
+| **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | `rt.shapes` | Tracking records of Ray-object intersections (t-distance and shape pointer). |
+| **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.shapes`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and Ray-Sphere Intersection testing algorithms. |
+| **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
+| **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.utils` | Surface reflection material definition (ambient, diffuse, specular, shininess). |
+| **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.lights` | Phong reflection model lighting calculations. |
 
 ---
 

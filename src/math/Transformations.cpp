@@ -2,14 +2,13 @@ module;
 
 #include <cmath>
 
-export module rt.transformations;
+module rt.transformations;
 
 import rt.matrix;
 import rt.tuple;
 
-export namespace rt {
+namespace rt {
 
-    [[nodiscard]]
     Matrix<4> identity() {
         Matrix<4> I; // Default all components to 0.0
 
@@ -21,9 +20,7 @@ export namespace rt {
         return I;
     }
 
-    [[nodiscard]]
     Matrix<4> translation(double x, double y, double z) {
-
         Matrix<4> transform = identity();
 
         transform(0, 3) = x;
@@ -33,9 +30,7 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]]
     Matrix<4> scale(double x, double y, double z) {
-        
         Matrix<4> scale_mat = identity();
 
         scale_mat(0, 0) = x;
@@ -45,11 +40,9 @@ export namespace rt {
         return scale_mat;
     }
 
-    [[nodiscard]]
     Matrix<4> rotation_x(double radians) {
-        
         Matrix<4> transform = identity();
-        
+
         transform(1, 1) = std::cos(radians);
         transform(1, 2) = -std::sin(radians);
         transform(2, 1) = std::sin(radians);
@@ -58,11 +51,9 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]]
     Matrix<4> rotation_y(double radians) {
-        
         Matrix<4> transform = identity();
-        
+
         transform(0, 0) = std::cos(radians);
         transform(0, 2) = std::sin(radians);
         transform(2, 0) = -std::sin(radians);
@@ -71,11 +62,9 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]]
     Matrix<4> rotation_z(double radians) {
-        
         Matrix<4> transform = identity();
-        
+
         transform(0, 0) = std::cos(radians);
         transform(0, 1) = -std::sin(radians);
         transform(1, 0) = std::sin(radians);
@@ -84,9 +73,7 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]]
     Matrix<4> shear(double xy, double xz, double yx, double yz, double zx, double zy) {
-
         Matrix<4> transform = identity();
 
         transform(0, 1) = xy;
@@ -99,9 +86,7 @@ export namespace rt {
         return transform;
     }
 
-    [[nodiscard]]
-    Matrix<4> reflection(rt::Vector normal)
-    {
+    Matrix<4> reflection(Vector normal) {
         Matrix<4> outer_product{};
 
         double x = normal.x;
@@ -129,7 +114,7 @@ export namespace rt {
         outer_product(3, 2) = w * z;
         outer_product(3, 3) = w * w;
 
-        return identity() - outer_product * 2 ;
+        return identity() - outer_product * 2;
     }
 
 } // namespace rt

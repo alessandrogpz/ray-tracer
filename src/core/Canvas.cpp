@@ -9,66 +9,40 @@ module;
 #include <iostream>
 #include <format>
 
-export module rt.canvas;
+module rt.canvas;
 
 import rt.colors;
 
-export namespace rt {
+namespace rt {
 
-    struct Canvas {
-        size_t width;
-        size_t height;
-        Color initialColor;
-        std::vector<Color> pixels;
+    Canvas::Canvas(size_t w, size_t h) : width(w), height(h) {
+        pixels.resize(w * h, Color(0.0, 0.0, 0.0));
+    }
 
-        // 2D representation in 1D array
-        // index = (y * width) + x
+    Canvas::Canvas(size_t w, size_t h, Color c) : width(w), height(h), initialColor(c) {
+        pixels.resize(w * h, initialColor);
+    }
 
-        Canvas(size_t w, size_t h) : width(w), height(h) {
-            //Initialize the Vector with w * h black colors
-            pixels.resize(w * h, Color(0, 0, 0));
-        }
-
-        Canvas(size_t w, size_t h, Color c) : width(w), height(h), initialColor(c) {
-            //Initialize the Vector with w * h with initialColor
-            pixels.resize(w * h, initialColor);
-        }
-    };
-
-    void writePixel(Canvas &c, size_t x, size_t y, Color col)
-    {
-        // Basic Canvas boundary check
-        if(x < c.width && y < c.height)
+    void writePixel(Canvas &c, size_t x, size_t y, Color col) {
+        if (x < c.width && y < c.height)
             c.pixels[(y * c.width) + x] = col;
     }
 
-    [[nodiscard]]
-    Color pixelAt(const Canvas &c, size_t x, size_t y)
-    {
-        // Basic Canvas boundary check
-        if(x < c.width && y < c.height)
+    Color pixelAt(const Canvas &c, size_t x, size_t y) {
+        if (x < c.width && y < c.height)
             return c.pixels[(y * c.width) + x];
-
-        return {1,1,1};
+        return {1.0, 1.0, 1.0};
     }
 
     int scaleColor(double color_float) {
-        // 1. Scale by 255
         double scaled = color_float * 255.0;
-
-        // 2. Apply ceiling
         double ceiled = std::ceil(scaled);
-
-        // 3. Cast to int and clamp between 0 and 255
         return std::clamp(static_cast<int>(ceiled), 0, 255);
     }
 
-    [[nodiscard]]
     std::string canvasToPPM(const Canvas &c) {
-        // 1. Header
         std::string ppm = std::format("P3\n{} {}\n255\n", c.width, c.height);
 
-        // 2. Pixel Data
         for (size_t y = 0; y < c.height; ++y) {
             std::string currentLine;
 
@@ -84,13 +58,11 @@ export namespace rt {
                 for (size_t i = 0; i < 3; ++i) {
                     std::string s = std::to_string(components[i]);
 
-                    // PPM line formater
                     if (currentLine.length() + s.length() + 1 > 70) {
                         ppm += currentLine + "\n";
                         currentLine = "";
                     }
 
-                    // Add a space if the line isn't empty
                     if (!currentLine.empty()) {
                         currentLine += " ";
                     }
@@ -98,7 +70,6 @@ export namespace rt {
                     currentLine += s;
                 }
             }
-            // 3. End of a Canvas with \n row
             if (!currentLine.empty()) {
                 ppm += currentLine + "\n";
             }
@@ -107,19 +78,17 @@ export namespace rt {
         return ppm;
     }
 
-    void savePPM(const std::string& filename, const std::string& ppmData)
-    {
+    void savePPM(const std::string& filename, const std::string& ppmData) {
         std::ofstream outFile(filename + ".ppm");
 
-        if(!outFile.is_open()) {
-            std::cerr << std::format("Error: Could not open file {}.ppm", filename);
+        if (!outFile.is_open()) {
+            std::cerr << std::format("Error: Could not open file {}.ppm\n", filename);
             return;
         }
 
         outFile << ppmData;
-
         outFile.close();
-        std::cout << std::format("Successfully saved to {}.ppm", filename);
+        std::cout << std::format("Successfully saved to {}.ppm\n", filename);
     }
 
 } // namespace rt
