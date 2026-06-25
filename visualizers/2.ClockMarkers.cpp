@@ -12,21 +12,36 @@ import rt.colors;
 
 using namespace rt;
 
+void writePixelBlock(Canvas &c, int h, int w, int startX, int startY, Color col) {
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            size_t drawX = startX + j;
+            size_t drawY = startY + i;
+            if (drawX < c.width && drawY < c.height) {
+                writePixel(c, drawX, drawY, col);
+            }
+        }
+    }
+}
+
 int main()
 {
     auto start_time = std::chrono::high_resolution_clock::now();
     Color yellow(1, 1, 0);
-    Canvas c(100, 100);
+    constexpr size_t CANVAS_WIDTH = 2560;
+    constexpr size_t CANVAS_HEIGHT = 1440;
+    Canvas c(CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    Point marker = createPoint(0.0, 40.0, 0.0);
+    double radius = static_cast<double>(CANVAS_HEIGHT) * 0.4;
+    Point marker = createPoint(0.0, radius, 0.0);
     Matrix<4> rot = rotation_z(std::numbers::pi / 6.0);
 
     for (int i = 0; i < 12; i++)
     {
-        int x = static_cast<int>(marker.x + 50);
-        int y = static_cast<int>(marker.y + 50);
+        int x = static_cast<int>(marker.x + static_cast<double>(CANVAS_WIDTH) / 2.0);
+        int y = static_cast<int>(marker.y + static_cast<double>(CANVAS_HEIGHT) / 2.0);
 
-        writePixel(c, x, y, yellow);
+        writePixelBlock(c, 8, 8, x - 4, y - 4, yellow);
 
         marker = rot * marker;
     }

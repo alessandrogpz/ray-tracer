@@ -28,15 +28,21 @@ int main()
     // Background color (very dark gray to make the sphere pop)
     Color background_color(0.05, 0.05, 0.05);
 
-    constexpr size_t CANVAS_SIZE = 500;
-    Canvas c(CANVAS_SIZE, CANVAS_SIZE, background_color);
+    constexpr size_t CANVAS_WIDTH = 2560;
+    constexpr size_t CANVAS_HEIGHT = 1440;
+    Canvas c(CANVAS_WIDTH, CANVAS_HEIGHT, background_color);
 
     Point ray_origin = Point(0.0, 0.0, -5.0);
     double wall_z = 10.0;
     double wall_size = 7.0;
 
-    double pixel_size = wall_size / CANVAS_SIZE;
-    double half = wall_size / 2.0;
+    double aspect_ratio = static_cast<double>(CANVAS_WIDTH) / CANVAS_HEIGHT;
+    double wall_height = wall_size;
+    double wall_width = wall_size * aspect_ratio;
+
+    double pixel_size = wall_height / CANVAS_HEIGHT;
+    double half_width = wall_width / 2.0;
+    double half_height = wall_height / 2.0;
 
     // Create a single sphere and customize its Material
     Sphere s = Sphere();
@@ -49,15 +55,15 @@ int main()
     PointLight light(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
     // Iterate over every row (y) and column (x) of the Canvas
-    for (size_t y = 0; y < CANVAS_SIZE; ++y)
+    for (size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
-        // Compute the world y coordinate (top = +half, bottom = -half)
-        double world_y = half - pixel_size * y;
+        // Compute the world y coordinate (top = +half_height, bottom = -half_height)
+        double world_y = half_height - pixel_size * y;
 
-        for (size_t x = 0; x < CANVAS_SIZE; ++x)
+        for (size_t x = 0; x < CANVAS_WIDTH; ++x)
         {
-            // Compute the world x coordinate (left = -half, right = +half)
-            double world_x = -half + pixel_size * x;
+            // Compute the world x coordinate (left = -half_width, right = +half_width)
+            double world_x = -half_width + pixel_size * x;
 
             // Define the Point on the wall that the Ray will target
             Point position_on_wall = Point(world_x, world_y, wall_z);
