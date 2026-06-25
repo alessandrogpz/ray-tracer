@@ -57,7 +57,7 @@ To prepare the ray tracer for type-segregated memory arrays within a scene conta
 1. **Decoupling from Ray Primitives**:
    We redefined the `Shape` virtual interface to accept raw data types rather than a composite `Ray` object:
    ```cpp
-   [[nodiscard]] virtual std::vector<double> local_intersect(Point local_origin, Vector local_direction) const = 0;
+   [[nodiscard]] virtual LocalIntersections local_intersect(Point local_origin, Vector local_direction) const = 0;
    ```
    This broke circular dependencies between C++20 modules (`rt.ray` ➡️ `rt.sphere` ➡️ `rt.intersection` ➡️ `rt.ray`), allowing `rt.shape_base` to remain an independent module.
 
@@ -76,4 +76,9 @@ To prepare the ray tracer for type-segregated memory arrays within a scene conta
 
 4. **APIs Compatibility**:
    We kept `Intersection` records holding a base `const Shape* obj` pointer. Direct properties (like `obj->material`) are accessed immediately from the base class, and virtual dispatch (`normalAt`) is only invoked **once** per ray (during the shading phase for the closest hit), avoiding virtual call overhead on missed rays.
+
+5. **Eliminating Heap Allocations (LocalIntersections & Reused Vectors)**:
+   Originally, `local_intersect` returned a `std::vector<double>` and `intersect` returned a `std::vector<Intersection>` per call. For a 2K rendering loop with 3 spheres, this resulted in **~22 million heap allocations and deallocations** per frame. To eliminate this bottleneck:
+   * **Stack-Allocated Result Struct**: `local_intersect` returns a stack-allocated, fixed-size `LocalIntersections` struct containing a count and a fixed size double array. This fits in CPU registers and avoids any heap allocation.
+   * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Shape& s, const Ray& r, std::vector<Intersection>& xs)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity (6 elements), and calling `xs.clear()` on each pixel iteration, we reduced heap allocations inside the render loop to **zero**.
 
