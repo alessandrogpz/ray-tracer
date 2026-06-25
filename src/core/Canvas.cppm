@@ -2,6 +2,8 @@ module;
 
 #include <vector>
 #include <string>
+#include <iostream>
+#include <cstdint>
 
 export module rt.canvas;
 
@@ -9,11 +11,18 @@ import rt.colors;
 
 export namespace rt {
 
+    struct PixelRGBA8 {
+        std::uint8_t r;
+        std::uint8_t g;
+        std::uint8_t b;
+        std::uint8_t a;
+    };
+
     struct Canvas {
         size_t width;
         size_t height;
         Color initialColor;
-        std::vector<Color> pixels;
+        std::vector<PixelRGBA8> pixels;
 
         Canvas(size_t w, size_t h);
         Canvas(size_t w, size_t h, Color c);
