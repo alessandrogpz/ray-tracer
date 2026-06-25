@@ -51,3 +51,4 @@ The final computed Color is written to the corresponding pixel on the `Canvas`. 
 ## See Also
 
 - For detailed information on the C++20 module layout, build files, and dependency graph, refer to the **[C++ Module & Dependency Architecture Reference](../references/C++Architecture.md)**.
+- For information on code optimization, cache line utility, and our packed pixel grid design, see the **[Data-Oriented Design Explanation](DataOrientedDesign.md)**.
