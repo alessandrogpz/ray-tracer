@@ -17,8 +17,6 @@ int main()
 {
     Color black(0.0, 0.0, 0.0);
     Color red(1.0, 0.0, 0.0);
-    Color blue(0.0, 0.0, 1.0);
-    Color yellow(1.0, 1.0, 0.0);
 
     constexpr size_t CANVAS_SIZE = 250;
     Canvas c(CANVAS_SIZE, CANVAS_SIZE, black);
@@ -30,21 +28,9 @@ int main()
     double pixel_size = wall_size / CANVAS_SIZE;
     double half = wall_size / 2.0;
 
-    Sphere s1 = Sphere();
-    Sphere s2 = Sphere();
-    Sphere s3 = Sphere();
-
-    Matrix<4> transform_s1 = translation(0.0, 0.0, 0.0);
-    s1.set_transform(transform_s1);
-
-    Matrix<4> transform_s2 = translation(0.5, 0.5, -0.5) * scale(0.5, 0.5, 0.5);
-    s2.set_transform(transform_s2);
-
-    Matrix<4> transform_s3 = translation(-0.5, -0.5, -0.5) * scale(0.5, 0.5, 0.5);
-    s3.set_transform(transform_s3);
+    Sphere s = Sphere();
 
     // Iterate over every row (y) and column (x) of the Canvas
-    // #pragma omp parallel for // Add multithreading support
     for (size_t y = 0; y < CANVAS_SIZE; ++y)
     {
         // Compute the world y coordinate (top = +half, bottom = -half)
@@ -63,23 +49,12 @@ int main()
             Ray r(ray_origin, direction);
 
             // Cast the Ray and check for intersections
-            auto xs = intersect(s1, r);
+            auto xs = intersect(s, r);
 
-            auto xs2 = intersect(s2, r);
-            xs.insert(xs.end(), xs2.begin(), xs2.end());
-
-            auto xs3 = intersect(s3, r);
-            xs.insert(xs.end(), xs3.begin(), xs3.end());
-
-            // If a valid hit occurs, Color the pixel with the appropriate object Color
+            // If a valid hit occurs, Color the pixel red
             if (auto h = hit(xs))
             {
-                if (h->obj == &s1)
-                    writePixel(c, x, y, red);
-                else if (h->obj == &s3)
-                    writePixel(c, x, y, yellow);
-                else if (h->obj == &s2)
-                    writePixel(c, x, y, blue);
+                writePixel(c, x, y, red);
             }
         }
     }

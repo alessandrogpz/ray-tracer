@@ -54,14 +54,17 @@ cmake --build . -j
 
 This command will compile all executables present in the `CMakeLists.txt`.
 
-*(Alternatively, if you know the target name, e.g., `SphereShadow`, you can build it specifically: `cmake --build . --target SphereShadow`)*
+*(Alternatively, if you know the target name, e.g., `3.SphereShadow`, you can build it specifically: `cmake --build . --target 3.SphereShadow`)*
 
 ### Available Visualizers
-The project currently includes the following visualizers in the `visualizers/` directory:
+The project currently includes the following visualizers in the `visualizers/` directory, listed in order of complexity:
 
-1. **`ClockMarkers.cpp`**: Plots twelve points arranged in a circle, demonstrating Matrix rotations and translations, saving the result as `OutputClockMarkers.ppm`.
-2. **`ProjectTrajectory.cpp`**: Simulates the physics of a projectile affected by gravity and wind, rendering its path as a green curve on a Canvas, saving the result as `OutputProjectTrajectory.ppm`.
-3. **`SphereShadow.cpp`**: Uses the core Ray-tracing engine (rays and intersections) to render 3D spheres on a 2D Canvas, demonstrating hit detection, saving the result as `OutputSphereShadow.ppm`.
+1. **`1.ProjectTrajectory.cpp`**: Simulates the physics of a projectile affected by gravity and wind, rendering its path as a green curve on a Canvas, saving the result as `OutputProjectTrajectory.ppm`.
+2. **`2.ClockMarkers.cpp`**: Plots twelve points arranged in a circle, demonstrating Matrix rotations and translations, saving the result as `OutputClockMarkers.ppm`.
+3. **`3.SphereShadow.cpp`**: Renders the silhouette of a single sphere by casting rays and coloring hit pixels, saving the result as `OutputSphereShadow.ppm`.
+4. **`4.MultipleSphereShadows.cpp`**: Renders flat shadows of three intersecting spheres, saving the result as `OutputMultipleSphereShadows.ppm`.
+5. **`5.SpherePhongReflection.cpp`**: Renders a single sphere with complete Phong lighting (ambient, diffuse, and specular highlights), saving the result as `OutputSpherePhongReflection.ppm`.
+6. **`6.MultipleSpherePhongReflections.cpp`**: Renders three intersecting spheres with complete Phong lighting, saving the result as `OutputMultipleSpherePhongReflections.ppm`.
 
 ## Step 5: Run the Test Suite and Visualizers
 
@@ -87,7 +90,7 @@ You should see an output from GoogleTest displaying the progress of the tests. I
 In addition to the tests, you can run the generated visualizer executables from the same build directory. For example:
 
 ```bash
-./SphereShadow
+./3.SphereShadow
 ```
 Executing a visualizer outputs a `.ppm` [Portable Pixmap](https://en.wikipedia.org/wiki/Netpbm) image file (e.g., `OutputSphereShadow.ppm`).
 

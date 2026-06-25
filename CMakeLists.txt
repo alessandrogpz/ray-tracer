@@ -78,13 +78,17 @@ add_executable(run_tests
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
 # 4. (Optional) Create Example Visualizers Executables
-add_executable(ClockMarkers visualizers/ClockMarkers.cpp)
-add_executable(ProjectTrajectory visualizers/ProjectTrajectory.cpp)
-add_executable(SphereShadow visualizers/SphereShadow.cpp)
-add_executable(SpherePhongReflection visualizers/SpherePhongReflection.cpp)
+add_executable(1.ProjectTrajectory visualizers/1.ProjectTrajectory.cpp)
+add_executable(2.ClockMarkers visualizers/2.ClockMarkers.cpp)
+add_executable(3.SphereShadow visualizers/3.SphereShadow.cpp)
+add_executable(4.MultipleSphereShadows visualizers/4.MultipleSphereShadows.cpp)
+add_executable(5.SpherePhongReflection visualizers/5.SpherePhongReflection.cpp)
+add_executable(6.MultipleSpherePhongReflections visualizers/6.MultipleSpherePhongReflections.cpp)
 
-target_link_libraries(ClockMarkers PRIVATE raytracer_core)
-target_link_libraries(ProjectTrajectory PRIVATE raytracer_core)
-target_link_libraries(SphereShadow PRIVATE raytracer_core)
-target_link_libraries(SpherePhongReflection PRIVATE raytracer_core)
+target_link_libraries(1.ProjectTrajectory PRIVATE raytracer_core)
+target_link_libraries(2.ClockMarkers PRIVATE raytracer_core)
+target_link_libraries(3.SphereShadow PRIVATE raytracer_core)
+target_link_libraries(4.MultipleSphereShadows PRIVATE raytracer_core)
+target_link_libraries(5.SpherePhongReflection PRIVATE raytracer_core)
+target_link_libraries(6.MultipleSpherePhongReflections PRIVATE raytracer_core)
 
