@@ -10,6 +10,8 @@ export namespace rt
         Color intensity{};
         Point position{};
 
-        PointLight() : intensity(Color()), position(Point()) {}
+        PointLight() = default;
+        PointLight(const Point& _position, const Color& _intensity)
+            : intensity(_intensity), position(_position) {}
     };
 }

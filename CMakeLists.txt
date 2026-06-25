@@ -39,6 +39,7 @@ target_sources(raytracer_core
         src/Shapes.cppm
         src/Intersection.cppm
         src/Lights.cppm
+        src/Materials.cppm
 )
 
 # Optional!
@@ -70,6 +71,7 @@ add_executable(run_tests
         tests/Intersection.t.cpp
         tests/Shapes.t.cpp
         tests/Lights.t.cpp
+        tests/Materials.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 

@@ -10,7 +10,7 @@ export namespace rt {
     {
         double r, g, b;
 
-        Color() : r(0), g(0), b(0) {}
+        Color() : r(1.0), g(1.0), b(1.0) {}
         Color(double _r, double _g, double _b)
             : r(_r), g(_g), b(_b) {}
 
