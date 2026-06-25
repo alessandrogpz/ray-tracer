@@ -25,6 +25,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
 - **Explanation**: High-level architectural overview and explanations of algorithms and concepts used.
     - [Architecture](documentation/explanation/Architecture.md)
     - [Ray-Sphere Intersection](documentation/explanation/RaySphereIntersectionAlgorithm.md)
+    - [Phong Reflection Model](documentation/explanation/PhongReflectionModel.md)
 
 ## Contributing
 
