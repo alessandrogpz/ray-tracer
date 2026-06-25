@@ -11,23 +11,23 @@ using namespace rt;
 
 TEST(IntersectionCreation, AnIntersectionEncapsulatesTAndObject)
 {
-    auto s = sphere();
-    auto i = intersection(3.5, &s);
+    auto s = Sphere();
+    auto i = Intersection(3.5, &s);
 
     EXPECT_DOUBLE_EQ(i.t, 3.5);
     EXPECT_EQ(i.obj, &s);
 }
 
 //-------------------------------------------------------------
-// Aggregating multiple intersections into a standard vector.
+// Aggregating multiple intersections into a standard Vector.
 
 TEST(AggregatingIntersections, IntersectionSetValidation)
 {
-    const auto s = sphere();
-    auto i1 = intersection(1.0, &s);
-    auto i2 = intersection(2.0, &s);
+    const auto s = Sphere();
+    auto i1 = Intersection(1.0, &s);
+    auto i2 = Intersection(2.0, &s);
 
-    std::vector<intersection> xs = {i1, i2};
+    std::vector<Intersection> xs = {i1, i2};
 
     EXPECT_EQ(xs.size(), 2);
     EXPECT_DOUBLE_EQ(xs[0].t, 1.0);
@@ -39,11 +39,11 @@ TEST(AggregatingIntersections, IntersectionSetValidation)
 
 TEST(SphereIntersectionTests, HitWhenAllIntersectionsHavePositiveT)
 {
-    const auto s = sphere();
-    const auto i1 = intersection(1.0, &s);
-    const auto i2 = intersection(2.0, &s);
+    const auto s = Sphere();
+    const auto i1 = Intersection(1.0, &s);
+    const auto i2 = Intersection(2.0, &s);
 
-    std::vector<intersection> xs = {i1, i2};
+    std::vector<Intersection> xs = {i1, i2};
 
     const auto i = hit(xs);
 
@@ -53,11 +53,11 @@ TEST(SphereIntersectionTests, HitWhenAllIntersectionsHavePositiveT)
 
 TEST(SphereIntersectionTests, HitWhenSomeIntersectionsHaveNegativeT)
 {
-    const auto s = sphere();
-    const auto i1 = intersection(-1.0, &s);
-    const auto i2 = intersection(2.0, &s);
+    const auto s = Sphere();
+    const auto i1 = Intersection(-1.0, &s);
+    const auto i2 = Intersection(2.0, &s);
 
-    std::vector<intersection> xs = {i1, i2};
+    std::vector<Intersection> xs = {i1, i2};
 
     const auto i = hit(xs);
 
@@ -67,11 +67,11 @@ TEST(SphereIntersectionTests, HitWhenSomeIntersectionsHaveNegativeT)
 
 TEST(SphereIntersectionTests, HitWhenAllIntersectionsHaveNegativeT)
 {
-    const auto s = sphere();
-    const auto i1 = intersection(-2.0, &s);
-    const auto i2 = intersection(-1.0, &s);
+    const auto s = Sphere();
+    const auto i1 = Intersection(-2.0, &s);
+    const auto i2 = Intersection(-1.0, &s);
 
-    std::vector<intersection> xs = {i1, i2};
+    std::vector<Intersection> xs = {i1, i2};
 
     const auto i = hit(xs);
 
@@ -80,13 +80,13 @@ TEST(SphereIntersectionTests, HitWhenAllIntersectionsHaveNegativeT)
 
 TEST(SphereIntersectionTests, HitTheLowestNonnegativeIntersection)
 {
-    const auto s = sphere();
-    const auto i1 = intersection(5.0, &s);
-    const auto i2 = intersection(7.0, &s);
-    const auto i3 = intersection(-3.0, &s);
-    const auto i4 = intersection(2.0, &s);
+    const auto s = Sphere();
+    const auto i1 = Intersection(5.0, &s);
+    const auto i2 = Intersection(7.0, &s);
+    const auto i3 = Intersection(-3.0, &s);
+    const auto i4 = Intersection(2.0, &s);
 
-    std::vector<intersection> xs = {i1, i2, i3, i4};
+    std::vector<Intersection> xs = {i1, i2, i3, i4};
 
     const auto i = hit(xs);
 

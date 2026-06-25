@@ -15,37 +15,37 @@ import rt.colors;
 
 export namespace rt {
 
-    struct canvas {
+    struct Canvas {
         size_t width;
         size_t height;
-        color initialColor;
-        std::vector<color> pixels;
+        Color initialColor;
+        std::vector<Color> pixels;
 
         // 2D representation in 1D array
         // index = (y * width) + x
 
-        canvas(size_t w, size_t h) : width(w), height(h) {
-            //Initialize the vector with w * h black colors
-            pixels.resize(w * h, color(0, 0, 0));
+        Canvas(size_t w, size_t h) : width(w), height(h) {
+            //Initialize the Vector with w * h black colors
+            pixels.resize(w * h, Color(0, 0, 0));
         }
 
-        canvas(size_t w, size_t h, color c) : width(w), height(h), initialColor(c) {
-            //Initialize the vector with w * h with initialColor
+        Canvas(size_t w, size_t h, Color c) : width(w), height(h), initialColor(c) {
+            //Initialize the Vector with w * h with initialColor
             pixels.resize(w * h, initialColor);
         }
     };
 
-    void writePixel(canvas &c, size_t x, size_t y, color col)
+    void writePixel(Canvas &c, size_t x, size_t y, Color col)
     {
-        // Basic canvas boundary check
+        // Basic Canvas boundary check
         if(x < c.width && y < c.height)
             c.pixels[(y * c.width) + x] = col;
     }
 
     [[nodiscard]]
-    color pixelAt(const canvas &c, size_t x, size_t y)
+    Color pixelAt(const Canvas &c, size_t x, size_t y)
     {
-        // Basic canvas boundary check
+        // Basic Canvas boundary check
         if(x < c.width && y < c.height)
             return c.pixels[(y * c.width) + x];
 
@@ -64,7 +64,7 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    std::string canvasToPPM(const canvas &c) {
+    std::string canvasToPPM(const Canvas &c) {
         // 1. Header
         std::string ppm = std::format("P3\n{} {}\n255\n", c.width, c.height);
 
@@ -73,7 +73,7 @@ export namespace rt {
             std::string currentLine;
 
             for (size_t x = 0; x < c.width; ++x) {
-                color col = pixelAt(c, x, y);
+                Color col = pixelAt(c, x, y);
 
                 std::array components = {
                     scaleColor(col.r),
@@ -98,7 +98,7 @@ export namespace rt {
                     currentLine += s;
                 }
             }
-            // 3. End of a canvas with \n row
+            // 3. End of a Canvas with \n row
             if (!currentLine.empty()) {
                 ppm += currentLine + "\n";
             }

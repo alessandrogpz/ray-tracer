@@ -14,7 +14,7 @@ using namespace rt;
 
 TEST(MatrixCreation, createMatrix2x2)
 {
-    matrix<2> m2;
+    Matrix<2> m2;
     m2(0,0) = -3.0;    m2(0,1) = 5.0;
     m2(1,0) = 1.0;     m2(1,1) = -2.0;
 
@@ -29,7 +29,7 @@ TEST(MatrixCreation, createMatrix2x2)
 
 TEST(MatrixCreation, createMatrix3x3)
 {
-    matrix<3> m3;
+    Matrix<3> m3;
     m3(0,0) = -3.0;    m3(0,1) = 5.0;     m3(0,2) = 0.0;
     m3(1,0) = 1.0;     m3(1,1) = -2.0;    m3(1,2) = -7.0;
     m3(2,0) = 0.0;     m3(2,1) = 1.0;     m3(2,2) = 1.0;
@@ -53,7 +53,7 @@ TEST(MatrixCreation, createMatrix3x3)
 
 TEST(MatrixCreation, createMatrix4x4)
 {
-	matrix<4> m4;
+	Matrix<4> m4;
     m4(0,0) = 1.0;     m4(0,1) = 2.0;     m4(0,2) = 3.0;     m4(0,3) = 4.0;
     m4(1,0) = 5.5;     m4(1,1) = 6.5;     m4(1,2) = 7.5;     m4(1,3) = 8.5;
     m4(2,0) = 9.0;     m4(2,1) = 10.0;    m4(2,2) = 11.0;    m4(2,3) = 12.0;
@@ -91,13 +91,13 @@ TEST(MatrixCreation, createMatrix4x4)
 
 TEST(MatrixComparison, identicalMatricesAreEqual)
 {  
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
     A(1,0) = 5.5;     A(1,1) = 6.5;     A(1,2) = 7.5;     A(1,3) = 8.5;
     A(2,0) = 9.0;     A(2,1) = 10.0;    A(2,2) = 11.0;    A(2,3) = 12.0;
     A(3,0) = 13.5;    A(3,1) = 14.5;    A(3,2) = 15.5;    A(3,3) = 16.5;
 
-    matrix<4> B;
+    Matrix<4> B;
     B(0,0) = 1.0;     B(0,1) = 2.0;     B(0,2) = 3.0;     B(0,3) = 4.0;
     B(1,0) = 5.5;     B(1,1) = 6.5;     B(1,2) = 7.5;     B(1,3) = 8.5;
     B(2,0) = 9.0;     B(2,1) = 10.0;    B(2,2) = 11.0;    B(2,3) = 12.0;
@@ -108,11 +108,11 @@ TEST(MatrixComparison, identicalMatricesAreEqual)
 
 TEST(MatrixComparison, verySimilarMatricesAreEqual)
 {
-    matrix<2> A;
+    Matrix<2> A;
     A(0,0) = 1.000000;
     A(1,1) = 1.000000;
 
-    matrix<2> B;
+    Matrix<2> B;
     // Difference is 0.000001, which is smaller than 0.00001 EPSILON
     B(0,0) = 1.000001; 
     B(1,1) = 0.999999;
@@ -122,13 +122,13 @@ TEST(MatrixComparison, verySimilarMatricesAreEqual)
 
 TEST(MatrixComparison, differentMatricesAreNotEqual)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
     A(1,0) = 5.5;     A(1,1) = 6.5;     A(1,2) = 7.5;     A(1,3) = 8.5;
     A(2,0) = 9.0;     A(2,1) = 10.0;    A(2,2) = 11.0;    A(2,3) = 12.0;
     A(3,0) = 13.5;    A(3,1) = 14.5;    A(3,2) = 15.5;    A(3,3) = 16.5;
 
-    matrix<4> B;
+    Matrix<4> B;
     B(0,0) = 2.0;     B(0,1) = 3.0;     B(0,2) = 4.0;     B(0,3) = 5.0;
     B(1,0) = 5.5;     B(1,1) = 6.5;     B(1,2) = 7.5;     B(1,3) = 8.5;
     B(2,0) = 9.0;     B(2,1) = 10.0;    B(2,2) = 11.0;    B(2,3) = 12.0;
@@ -140,10 +140,10 @@ TEST(MatrixComparison, differentMatricesAreNotEqual)
 
 TEST(MatrixComparison, slightlyDifferentOutsideEpsilonAreNotEqual)
 {
-    matrix<2> A;
+    Matrix<2> A;
     A(0,0) = 1.0;
 
-    matrix<2> B;
+    Matrix<2> B;
     // Difference is 0.0001, which is larger than 0.00001 EPSILON
     B(0,0) = 1.0001; 
 
@@ -155,19 +155,19 @@ TEST(MatrixComparison, slightlyDifferentOutsideEpsilonAreNotEqual)
 
 TEST(MatrixOperation, MultiplyTwo4x4Matrices)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
     A(1,0) = 5.0;     A(1,1) = 6.0;     A(1,2) = 7.0;     A(1,3) = 8.0;
     A(2,0) = 9.0;     A(2,1) = 8.0;     A(2,2) = 7.0;     A(2,3) = 6.0;
     A(3,0) = 5.0;     A(3,1) = 4.0;     A(3,2) = 3.0;     A(3,3) = 2.0;
 
-    matrix<4> B;
+    Matrix<4> B;
     B(0,0) = -2.0;     B(0,1) = 1.0;     B(0,2) = 2.0;     B(0,3) = 3.0;
     B(1,0) = 3.0;      B(1,1) = 2.0;     B(1,2) = 1.0;     B(1,3) = -1.0;
     B(2,0) = 4.0;      B(2,1) = 3.0;     B(2,2) = 6.0;     B(2,3) = 5.0;
     B(3,0) = 1.0;      B(3,1) = 2.0;     B(3,2) = 7.0;     B(3,3) = 8.0;
 
-    matrix<4> C = A * B;
+    Matrix<4> C = A * B;
 
     EXPECT_DOUBLE_EQ(C(0,0), 20.0);
     EXPECT_DOUBLE_EQ(C(0,1), 22.0);
@@ -192,13 +192,13 @@ TEST(MatrixOperation, MultiplyTwo4x4Matrices)
 
 TEST(MatrixOperation, Multiply4x4MatrixBy4x4IdentityMatrix)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
     A(1,0) = 1.0;     A(1,1) = 2.0;     A(1,2) = 4.0;     A(1,3) = 8.0;
     A(2,0) = 2.0;     A(2,1) = 4.0;     A(2,2) = 8.0;     A(2,3) = 16.0;
     A(3,0) = 4.0;     A(3,1) = 8.0;     A(3,2) = 16.0;    A(3,3) = 32.0;
 
-    matrix<4> B;
+    Matrix<4> B;
     B(0,0) = 1.0;      B(0,1) = 0.0;     B(0,2) = 0.0;     B(0,3) = 0.0;
     B(1,0) = 0.0;      B(1,1) = 1.0;     B(1,2) = 0.0;     B(1,3) = 0.0;
     B(2,0) = 0.0;      B(2,1) = 0.0;     B(2,2) = 1.0;     B(2,3) = 0.0;
@@ -210,7 +210,7 @@ TEST(MatrixOperation, Multiply4x4MatrixBy4x4IdentityMatrix)
     // | 0    | 0    | 1    | 0    |
     // | 0    | 0    | 0    | 1    |
 
-    matrix<4> C = A * B;
+    Matrix<4> C = A * B;
 
     EXPECT_DOUBLE_EQ(C(0,0), 1.0);
     EXPECT_DOUBLE_EQ(C(0,1), 2.0);
@@ -235,22 +235,22 @@ TEST(MatrixOperation, Multiply4x4MatrixBy4x4IdentityMatrix)
 
 TEST(MatrixOperation, Multiply4x4MatrixByTuple)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
     A(1,0) = 2.0;     A(1,1) = 4.0;     A(1,2) = 4.0;     A(1,3) = 2.0;
     A(2,0) = 8.0;     A(2,1) = 6.0;     A(2,2) = 4.0;     A(2,3) = 1.0;
     A(3,0) = 0.0;     A(3,1) = 0.0;     A(3,2) = 0.0;     A(3,3) = 1.0;
 
-    tuple b(1.0, 2.0, 3.0, 1.0);
+    Tuple b(1.0, 2.0, 3.0, 1.0);
 
-    tuple c(A * b);
+    Tuple c(A * b);
 
-    EXPECT_TRUE(c == tuple(18.0, 24.0, 33.0, 1.0));
+    EXPECT_TRUE(c == Tuple(18.0, 24.0, 33.0, 1.0));
 }
 
 TEST(MatrixOperation, Transpose4x4Matrix)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 0.0;     A(0,1) = 9.0;     A(0,2) = 3.0;     A(0,3) = 0.0;
     A(1,0) = 9.0;     A(1,1) = 8.0;     A(1,2) = 0.0;     A(1,3) = 8.0;
     A(2,0) = 1.0;     A(2,1) = 8.0;     A(2,2) = 5.0;     A(2,3) = 3.0;
@@ -262,7 +262,7 @@ TEST(MatrixOperation, Transpose4x4Matrix)
     // | 1 | 8 | 5 | 3 |      | 3 | 0 | 5 | 5 |
     // | 0 | 0 | 5 | 8 |      | 0 | 8 | 3 | 8 |
 
-    matrix<4> B = A.transpose();
+    Matrix<4> B = A.transpose();
 
     EXPECT_DOUBLE_EQ(B(0,0), 0.0);
     EXPECT_DOUBLE_EQ(B(0,1), 9.0);
@@ -288,20 +288,20 @@ TEST(MatrixOperation, Transpose4x4Matrix)
 TEST(MatrixOperation, Transpose4x4IdentityMatrix)
 {
     // Define the 4x4 Identity Matrix
-    matrix<4> I;
+    Matrix<4> I;
     I(0,0) = 1.0; I(0,1) = 0.0; I(0,2) = 0.0; I(0,3) = 0.0;
     I(1,0) = 0.0; I(1,1) = 1.0; I(1,2) = 0.0; I(1,3) = 0.0;
     I(2,0) = 0.0; I(2,1) = 0.0; I(2,2) = 1.0; I(2,3) = 0.0;
     I(3,0) = 0.0; I(3,1) = 0.0; I(3,2) = 0.0; I(3,3) = 1.0;
 
-    matrix<4> result = I.transpose();
+    Matrix<4> result = I.transpose();
 
     EXPECT_TRUE(result == I);
 }
 
 TEST(MatrixOperation, Determinant2x2Matrix)
 {
-    matrix<2> A;
+    Matrix<2> A;
     A(0,0) = 1.0;  A(0,1) = 5.0;
     A(1,0) = -3.0; A(1,1) = 2.0;
 
@@ -310,7 +310,7 @@ TEST(MatrixOperation, Determinant2x2Matrix)
 
 TEST(MatrixOperation, Submatrix3x3Is2x2)
 {
-    matrix<3> A;
+    Matrix<3> A;
     A(0,0) = 1.0;   A(0,1) = 5.0;   A(0,2) = 0.0;
     A(1,0) = -3.0;  A(1,1) = 2.0;   A(1,2) = 7.0;
     A(2,0) = 0.0;   A(2,1) = 6.0;   A(2,2) = -3.0;
@@ -320,7 +320,7 @@ TEST(MatrixOperation, Submatrix3x3Is2x2)
     // | -3 |  2 |  7 |  =>  |  0 |  6 |
     // |  0 |  6 | -3 |
 
-    matrix<2> B = A.submatrix(0, 2);
+    Matrix<2> B = A.submatrix(0, 2);
 
     EXPECT_DOUBLE_EQ(B(0,0), -3.0);
     EXPECT_DOUBLE_EQ(B(0,1), 2.0);
@@ -331,7 +331,7 @@ TEST(MatrixOperation, Submatrix3x3Is2x2)
 
 TEST(MatrixOperation, Submatrix4x4Is3x3)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = -6.0;  A(0,1) = 1.0;  A(0,2) = 1.0;  A(0,3) = 6.0;
     A(1,0) = -8.0;  A(1,1) = 5.0;  A(1,2) = 8.0;  A(1,3) = 6.0;
     A(2,0) = -1.0;  A(2,1) = 0.0;  A(2,2) = 8.0;  A(2,3) = 2.0;
@@ -343,7 +343,7 @@ TEST(MatrixOperation, Submatrix4x4Is3x3)
     // | -1 |  0 |  8 |  2 |      | -7 | -1 |  1 |
     // | -7 |  1 | -1 |  1 |
 
-    matrix<3> B = A.submatrix(2, 1);
+    Matrix<3> B = A.submatrix(2, 1);
 
     EXPECT_DOUBLE_EQ(B(0,0), -6.0);
     EXPECT_DOUBLE_EQ(B(0,1), 1.0);
@@ -360,7 +360,7 @@ TEST(MatrixOperation, Submatrix4x4Is3x3)
 
 TEST(MatrixOperation, minor3x3matrix)
 {
-    matrix<3> A;
+    Matrix<3> A;
     A(0,0) = 3.0;  A(0,1) = 5.0;   A(0,2) = 0.0; 
     A(1,0) = 2.0;  A(1,1) = -1.0;  A(1,2) = -7.0;  
     A(2,0) = 6.0;  A(2,1) = -1.0;  A(2,2) = 5.0; 
@@ -374,7 +374,7 @@ TEST(MatrixOperation, minor3x3matrix)
 
 TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
 {
-    matrix<3> A;
+    Matrix<3> A;
     A(0,0) = 3.0;  A(0,1) = 5.0;   A(0,2) = 0.0;
     A(1,0) = 2.0;  A(1,1) = -1.0;  A(1,2) = -7.0;
     A(2,0) = 6.0;  A(2,1) = -1.0;  A(2,2) = 5.0;
@@ -388,7 +388,7 @@ TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
 
 TEST(MatrixOperation, Determinant3x3Matrix)
 {
-    matrix<3> A;
+    Matrix<3> A;
     A(0,0) = 1.0;  A(0,1) = 2.0;  A(0,2) = 6.0;
     A(1,0) = -5.0; A(1,1) = 8.0;  A(1,2) = -4.0;
     A(2,0) = 2.0;  A(2,1) = 6.0;  A(2,2) = 4.0;
@@ -401,7 +401,7 @@ TEST(MatrixOperation, Determinant3x3Matrix)
 
 TEST(MatrixOperation, Determinant4x4Matrix)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = -2.0; A(0,1) = -8.0; A(0,2) = 3.0;  A(0,3) = 5.0;
     A(1,0) = -3.0; A(1,1) = 1.0;  A(1,2) = 7.0;  A(1,3) = 3.0;
     A(2,0) = 1.0;  A(2,1) = 2.0;  A(2,2) = -9.0; A(2,3) = 6.0;
@@ -416,7 +416,7 @@ TEST(MatrixOperation, Determinant4x4Matrix)
 
 TEST(MatrixOperation, IsInvertible)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 6.0;  A(0,1) = 4.0;  A(0,2) = 4.0;  A(0,3) = 4.0;
     A(1,0) = 5.0;  A(1,1) = 5.0;  A(1,2) = 7.0;  A(1,3) = 6.0;
     A(2,0) = 4.0;  A(2,1) = -9.0; A(2,2) = 3.0;  A(2,3) = -7.0;
@@ -428,7 +428,7 @@ TEST(MatrixOperation, IsInvertible)
 
 TEST(MatrixOperation, IsNotInvertible)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = -4.0; A(0,1) = 2.0;  A(0,2) = -2.0; A(0,3) = -3.0;
     A(1,0) = 9.0;  A(1,1) = 6.0;  A(1,2) = 2.0;  A(1,3) = 6.0;
     A(2,0) = 0.0;  A(2,1) = -5.0; A(2,2) = 1.0;  A(2,3) = -5.0;
@@ -441,13 +441,13 @@ TEST(MatrixOperation, IsNotInvertible)
 
 TEST(MatrixOperation, CalculateInverse4x4)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = -5.0; A(0,1) = 2.0;  A(0,2) = 6.0;  A(0,3) = -8.0;
     A(1,0) = 1.0;  A(1,1) = -5.0; A(1,2) = 1.0;  A(1,3) = 8.0;
     A(2,0) = 7.0;  A(2,1) = 7.0;  A(2,2) = -6.0; A(2,3) = -7.0;
     A(3,0) = 1.0;  A(3,1) = -3.0; A(3,2) = 7.0;  A(3,3) = 4.0;
 
-    matrix<4> B = A.inverse();
+    Matrix<4> B = A.inverse();
 
     // Intermediate checks to verify the math steps
     EXPECT_DOUBLE_EQ(A.determinant(), 532.0);
@@ -456,7 +456,7 @@ TEST(MatrixOperation, CalculateInverse4x4)
     EXPECT_DOUBLE_EQ(A.cofactor(3, 2), 105.0);
     EXPECT_DOUBLE_EQ(B(2, 3), 105.0 / 532.0);
 
-    // Final matrix verification
+    // Final Matrix verification
     // Note: We use EXPECT_NEAR here with a tolerance of 0.00001 because 
     // the book's test case rounds the expected fractions to 5 decimal places.
     EXPECT_NEAR(B(0,0), 0.21805, 0.00001);
@@ -482,13 +482,13 @@ TEST(MatrixOperation, CalculateInverse4x4)
 
 TEST(MatrixOperation, CalculateInverseAnother4x4)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 8.0;  A(0,1) = -5.0; A(0,2) = 9.0;  A(0,3) = 2.0;
     A(1,0) = 7.0;  A(1,1) = 5.0;  A(1,2) = 6.0;  A(1,3) = 1.0;
     A(2,0) = -6.0; A(2,1) = 0.0;  A(2,2) = 9.0;  A(2,3) = 6.0;
     A(3,0) = -3.0; A(3,1) = 0.0;  A(3,2) = -9.0; A(3,3) = -4.0;
 
-    matrix<4> B = A.inverse();
+    Matrix<4> B = A.inverse();
 
     EXPECT_NEAR(B(0,0), -0.15385, 0.00001);
     EXPECT_NEAR(B(0,1), -0.15385, 0.00001);
@@ -513,13 +513,13 @@ TEST(MatrixOperation, CalculateInverseAnother4x4)
 
 TEST(MatrixOperation, CalculateInverseThird4x4)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 9.0;  A(0,1) = 3.0;  A(0,2) = 0.0;  A(0,3) = 9.0;
     A(1,0) = -5.0; A(1,1) = -2.0; A(1,2) = -6.0; A(1,3) = -3.0;
     A(2,0) = -4.0; A(2,1) = 9.0;  A(2,2) = 6.0;  A(2,3) = 4.0;
     A(3,0) = -7.0; A(3,1) = 6.0;  A(3,2) = 6.0;  A(3,3) = 2.0;
 
-    matrix<4> B = A.inverse();
+    Matrix<4> B = A.inverse();
 
     EXPECT_NEAR(B(0,0), -0.04074, 0.00001);
     EXPECT_NEAR(B(0,1), -0.07778, 0.00001);
@@ -544,34 +544,34 @@ TEST(MatrixOperation, CalculateInverseThird4x4)
 
 TEST(MatrixOperation, MultiplyProductByInverse)
 {
-    matrix<4> A;
+    Matrix<4> A;
     A(0,0) = 3.0;  A(0,1) = -9.0; A(0,2) = 7.0;  A(0,3) = 3.0;
     A(1,0) = 3.0;  A(1,1) = -8.0; A(1,2) = 2.0;  A(1,3) = -9.0;
     A(2,0) = -4.0; A(2,1) = 4.0;  A(2,2) = 4.0;  A(2,3) = 1.0;
     A(3,0) = -6.0; A(3,1) = 5.0;  A(3,2) = -1.0; A(3,3) = 1.0;
 
-    matrix<4> B;
+    Matrix<4> B;
     B(0,0) = 8.0;  B(0,1) = 2.0;  B(0,2) = 2.0;  B(0,3) = 2.0;
     B(1,0) = 3.0;  B(1,1) = -1.0; B(1,2) = 7.0;  B(1,3) = 0.0;
     B(2,0) = 7.0;  B(2,1) = 0.0;  B(2,2) = 5.0;  B(2,3) = 4.0;
     B(3,0) = 6.0;  B(3,1) = -2.0; B(3,2) = 0.0;  B(3,3) = 5.0;
 
-    matrix<4> C = A * B;
+    Matrix<4> C = A * B;
 
     EXPECT_TRUE(C * B.inverse() == A);
 }
 
 TEST(MatrixOperation, AddTwoMatrices)
 {
-    matrix<2> A;
+    Matrix<2> A;
     A(0,0) = 1.0; A(0,1) = 2.0;
     A(1,0) = 3.0; A(1,1) = 4.0;
 
-    matrix<2> B;
+    Matrix<2> B;
     B(0,0) = 5.0; B(0,1) = 6.0;
     B(1,0) = 7.0; B(1,1) = 8.0;
 
-    matrix<2> C = A + B;
+    Matrix<2> C = A + B;
 
     EXPECT_DOUBLE_EQ(C(0,0), 6.0);
     EXPECT_DOUBLE_EQ(C(0,1), 8.0);
@@ -581,15 +581,15 @@ TEST(MatrixOperation, AddTwoMatrices)
 
 TEST(MatrixOperation, SubtractTwoMatrices)
 {
-    matrix<2> A;
+    Matrix<2> A;
     A(0,0) = 5.0; A(0,1) = 6.0;
     A(1,0) = 7.0; A(1,1) = 8.0;
 
-    matrix<2> B;
+    Matrix<2> B;
     B(0,0) = 1.0; B(0,1) = 2.0;
     B(1,0) = 3.0; B(1,1) = 4.0;
 
-    matrix<2> C = A - B;
+    Matrix<2> C = A - B;
 
     EXPECT_DOUBLE_EQ(C(0,0), 4.0);
     EXPECT_DOUBLE_EQ(C(0,1), 4.0);
@@ -599,11 +599,11 @@ TEST(MatrixOperation, SubtractTwoMatrices)
 
 TEST(MatrixOperation, MultiplyMatrixByScalar)
 {
-    matrix<2> A;
+    Matrix<2> A;
     A(0,0) = 1.0; A(0,1) = -2.0;
     A(1,0) = 3.0; A(1,1) = 4.0;
 
-    matrix<2> B = A * 2.5;
+    Matrix<2> B = A * 2.5;
 
     EXPECT_DOUBLE_EQ(B(0,0), 2.5);
     EXPECT_DOUBLE_EQ(B(0,1), -5.0);

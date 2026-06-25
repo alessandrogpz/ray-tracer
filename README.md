@@ -1,6 +1,6 @@
 # Ray Tracer
 
-This is a C++ implementation of a 3D ray tracer, built from scratch following test-driven development principles.
+This is a C++ implementation of a 3D Ray tracer, built from scratch following test-driven development principles.
 
 ## Overview
 
@@ -10,7 +10,7 @@ This project simulates light rays to render 3D scenes. It's built for performanc
 
 Documentation of this project is structured using the [Diátaxis framework](https://diataxis.fr/).
 
-- **Tutorial**: A step-by-step guide to build and run the ray tracer.
+- **Tutorial**: A step-by-step guide to build and run the Ray tracer.
     - [Getting Started](documentation/tutorials/GettingStarted.md)
     - [Environment Setup](documentation/tutorials/EnvironmentSetup.md)
     - [Multithreading Guide](documentation/tutorials/MultithreadingGuide.md)

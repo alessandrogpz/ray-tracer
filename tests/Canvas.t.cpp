@@ -13,7 +13,7 @@ using namespace rt;
 // Canvas Creation
 
 TEST(CanvasTest, CreatingCanvas) {
-    canvas c(10, 20);
+    Canvas c(10, 20);
     EXPECT_EQ(c.width, 10);
     EXPECT_EQ(c.height, 20);
     
@@ -29,11 +29,11 @@ TEST(CanvasTest, CreatingCanvas) {
 // Write Pixel
 
 TEST(CanvasTest, WritingPixels) {
-    canvas c(10, 20);
-    color red(1, 0, 0);
+    Canvas c(10, 20);
+    Color red(1, 0, 0);
     writePixel(c, 2, 3, red);
     
-    color result = pixelAt(c, 2, 3);
+    Color result = pixelAt(c, 2, 3);
     EXPECT_TRUE(equal(result.r, 1));
     EXPECT_TRUE(equal(result.g, 0));
     EXPECT_TRUE(equal(result.b, 0));
@@ -43,7 +43,7 @@ TEST(CanvasTest, WritingPixels) {
 // Canvas to PPM
 
 TEST(CanvasToPPM, PPMHeader) {
-    canvas c(5, 3);
+    Canvas c(5, 3);
 
     std::string ppm = canvasToPPM(c);
     std::stringstream ss(ppm);
@@ -63,11 +63,11 @@ TEST(CanvasToPPM, PPMHeader) {
 }
 
 TEST(CanvasToPPM, PPMPixelData) {
-    canvas c(5, 3);
+    Canvas c(5, 3);
 
-    color c1(1.5, 0.0, 0.0);
-    color c2(0.0, 0.5, 0.0);
-    color c3(-0.5, 0.0, 1.0);
+    Color c1(1.5, 0.0, 0.0);
+    Color c2(0.0, 0.5, 0.0);
+    Color c3(-0.5, 0.0, 1.0);
 
     writePixel(c, 0, 0, c1);
     writePixel(c, 2, 1, c2);
@@ -93,9 +93,9 @@ TEST(CanvasToPPM, PPMPixelData) {
 }
 
 TEST(CanvasToPPM, PPMLongPixelDataLines) {
-    color c1(1.0, 0.8, 0.6);
+    Color c1(1.0, 0.8, 0.6);
     
-    canvas c(10, 2, c1);
+    Canvas c(10, 2, c1);
 
     std::string ppm = canvasToPPM(c);
     std::stringstream ss(ppm);
@@ -120,7 +120,7 @@ TEST(CanvasToPPM, PPMLongPixelDataLines) {
 }
 
 TEST(CanvasToPPM, PPMNewlineTerminated) {
-    canvas c(5, 3);
+    Canvas c(5, 3);
     std::string ppm = canvasToPPM(c);
 
     ASSERT_FALSE(ppm.empty());

@@ -10,8 +10,8 @@ import rt.tuple;
 export namespace rt {
 
     [[nodiscard]]
-    matrix<4> identity() {
-        matrix<4> I; // Default all components to 0.0
+    Matrix<4> identity() {
+        Matrix<4> I; // Default all components to 0.0
 
         I(0, 0) = 1.0;
         I(1, 1) = 1.0;
@@ -22,9 +22,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> translation(double x, double y, double z) {
+    Matrix<4> translation(double x, double y, double z) {
 
-        matrix<4> transform = identity();
+        Matrix<4> transform = identity();
 
         transform(0, 3) = x;
         transform(1, 3) = y;
@@ -34,9 +34,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> scale(double x, double y, double z) {
+    Matrix<4> scale(double x, double y, double z) {
         
-        matrix<4> scale_mat = identity();
+        Matrix<4> scale_mat = identity();
 
         scale_mat(0, 0) = x;
         scale_mat(1, 1) = y;
@@ -46,9 +46,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> rotation_x(double radians) {
+    Matrix<4> rotation_x(double radians) {
         
-        matrix<4> transform = identity();
+        Matrix<4> transform = identity();
         
         transform(1, 1) = std::cos(radians);
         transform(1, 2) = -std::sin(radians);
@@ -59,9 +59,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> rotation_y(double radians) {
+    Matrix<4> rotation_y(double radians) {
         
-        matrix<4> transform = identity();
+        Matrix<4> transform = identity();
         
         transform(0, 0) = std::cos(radians);
         transform(0, 2) = std::sin(radians);
@@ -72,9 +72,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> rotation_z(double radians) {
+    Matrix<4> rotation_z(double radians) {
         
-        matrix<4> transform = identity();
+        Matrix<4> transform = identity();
         
         transform(0, 0) = std::cos(radians);
         transform(0, 1) = -std::sin(radians);
@@ -85,9 +85,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> shear(double xy, double xz, double yx, double yz, double zx, double zy) {
+    Matrix<4> shear(double xy, double xz, double yx, double yz, double zx, double zy) {
 
-        matrix<4> transform = identity();
+        Matrix<4> transform = identity();
 
         transform(0, 1) = xy;
         transform(0, 2) = xz;
@@ -100,9 +100,9 @@ export namespace rt {
     }
 
     [[nodiscard]]
-    matrix<4> reflection(rt::vector normal)
+    Matrix<4> reflection(rt::Vector normal)
     {
-        matrix<4> outer_product{};
+        Matrix<4> outer_product{};
 
         double x = normal.x;
         double y = normal.y;

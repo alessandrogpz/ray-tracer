@@ -7,7 +7,7 @@ This project follows a standardized docstring format for documenting functions, 
 *   **Location**: Docstrings should be placed immediately above the function declaration or struct definition.
 *   **Format**: Use the `/** ... */` block comment syntax.
 *   **Tags**: Utilize Doxygen-style tags (e.g., `@brief`, `@param`, `@return`, `@note`) to structure the information.
-*   **Cross-referencing**: When a function's logic is complex or relies on extensive mathematical theory (like the analytic solution for ray-sphere intersection), use the docstring to briefly explain what the function does, and provide a direct file path reference to the corresponding document in the `documentation/explanation/` or `documentation/references/` folders.
+*   **Cross-referencing**: When a function's logic is complex or relies on extensive mathematical theory (like the analytic solution for Ray-Sphere Intersection), use the docstring to briefly explain what the function does, and provide a direct file path reference to the corresponding document in the `documentation/explanation/` or `documentation/references/` folders.
 
 ## Example: Function Documentation
 
@@ -15,17 +15,17 @@ Here is an example demonstrating the proper formatting, taken directly from our 
 
 ```cpp
 /**
- * @brief Calculates the intersection points of a ray and a sphere.
+ * @brief Calculates the Intersection points of a Ray and a Sphere.
  *
- * Uses the quadratic formula to solve for time `t` where the ray intersects the sphere's surface.
+ * Uses the quadratic formula to solve for time `t` where the Ray intersects the Sphere's surface.
  * Math reference: documentation/explanation/RaySphereIntersection.md
  *
- * @param s The target sphere geometry.
- * @param r The ray being cast.
- * @return std::vector<intersection> A collection of intersection records containing the `t` values and a pointer to the hit object. Empty if no intersection.
+ * @param s The target Sphere geometry.
+ * @param r The Ray being cast.
+ * @return std::vector<Intersection> A collection of Intersection records containing the `t` values and a pointer to the hit object. Empty if no Intersection.
 */
 [[nodiscard]]
-std::vector<intersection> intersect(const sphere& s, const ray& r)
+std::vector<Intersection> intersect(const Sphere& s, const Ray& r)
 {
     // Implementation...
 }

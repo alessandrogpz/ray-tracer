@@ -5,11 +5,11 @@ import rt.colors;
 
 export namespace rt
 {
-    struct point_light
+    struct PointLight
     {
-        color intensity{};
-        point position{};
+        Color intensity{};
+        Point position{};
 
-        point_light() : intensity(color()), position(point()) {}
+        PointLight() : intensity(Color()), position(Point()) {}
     };
 }

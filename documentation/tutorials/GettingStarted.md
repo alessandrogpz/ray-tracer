@@ -18,8 +18,8 @@ Before we begin, ensure your system has the following tools installed:
 First, obtain a copy of the source code. Open your terminal and run:
 
 ```bash
-git clone <ray_tracer-repository-url> ray-tracer
-cd ray-tracer
+git clone <ray_tracer-repository-url> Ray-tracer
+cd Ray-tracer
 ```
 
 ## Step 2: Create a Build Directory
@@ -45,7 +45,7 @@ cmake -G Ninja ..
 
 ## Step 4: Build the Project & Visualizers
 
-With the configuration complete, you can compile the ray tracer and the test runner. 
+With the configuration complete, you can compile the Ray tracer and the test runner. 
 
 ```bash
 # Compile using all available CPU cores
@@ -59,14 +59,14 @@ This command will compile all executables present in the `CMakeLists.txt`.
 ### Available Visualizers
 The project currently includes the following visualizers in the `visualizers/` directory:
 
-1. **`ClockMarkers.cpp`**: Plots twelve points arranged in a circle, demonstrating matrix rotations and translations, saving the result as `OutputClockMarkers.ppm`.
-2. **`ProjectTrajectory.cpp`**: Simulates the physics of a projectile affected by gravity and wind, rendering its path as a green curve on a canvas, saving the result as `OutputProjectTrajectory.ppm`.
-3. **`SphereShadow.cpp`**: Uses the core ray-tracing engine (rays and intersections) to render 3D spheres on a 2D canvas, demonstrating hit detection, saving the result as `OutputSphereShadow.ppm`.
+1. **`ClockMarkers.cpp`**: Plots twelve points arranged in a circle, demonstrating Matrix rotations and translations, saving the result as `OutputClockMarkers.ppm`.
+2. **`ProjectTrajectory.cpp`**: Simulates the physics of a projectile affected by gravity and wind, rendering its path as a green curve on a Canvas, saving the result as `OutputProjectTrajectory.ppm`.
+3. **`SphereShadow.cpp`**: Uses the core Ray-tracing engine (rays and intersections) to render 3D spheres on a 2D Canvas, demonstrating hit detection, saving the result as `OutputSphereShadow.ppm`.
 
 ## Step 5: Run the Test Suite and Visualizers
 
 ### Running Tests
-If the build succeeds, CMake will have generated an executable named `run_tests` in your build directory. This executable contains all the unit tests that verify the ray tracer's math and logic.
+If the build succeeds, CMake will have generated an executable named `run_tests` in your build directory. This executable contains all the unit tests that verify the Ray tracer's math and logic.
 
 Run it using:
 

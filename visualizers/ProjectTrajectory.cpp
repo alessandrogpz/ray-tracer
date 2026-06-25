@@ -21,31 +21,31 @@ using namespace rt;
  */
 
 struct projectile {
-    point position;
-    vector velocity;
+    Point position;
+    Vector velocity;
 
     projectile() : position(createPoint(0, 0, 0)), velocity(createVector(0, 0, 0)) {}
-    projectile(point p, vector v) : position(p), velocity(v) {}
+    projectile(Point p, Vector v) : position(p), velocity(v) {}
 };
 
 struct environment {
-    vector gravity;
-    vector wind;
+    Vector gravity;
+    Vector wind;
 
-    environment(vector g, vector w) : gravity(g), wind(w) {}
+    environment(Vector g, Vector w) : gravity(g), wind(w) {}
 };
 
-projectile createProjectile(point position, vector velocity)
+projectile createProjectile(Point position, Vector velocity)
 {
     return {position, velocity};
 }
 
-environment createEnvironment(vector wind, vector gravity)
+environment createEnvironment(Vector wind, Vector gravity)
 {
     return {gravity, wind};
 }
 
-void writePixelBlock(canvas &c, int h, int w, int startX, int startY, color col) {
+void writePixelBlock(Canvas &c, int h, int w, int startX, int startY, Color col) {
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             size_t drawX = startX + j;
@@ -58,14 +58,14 @@ void writePixelBlock(canvas &c, int h, int w, int startX, int startY, color col)
 }
 
 int main() {
-    canvas c(1000, 1000);
-    color green(0, 1, 0);
+    Canvas c(1000, 1000);
+    Color green(0, 1, 0);
 
-    vector direction = createVector(1.0, 1.5, 0.0);
-    vector unit_direction = normalizeVector(direction);
+    Vector direction = createVector(1.0, 1.5, 0.0);
+    Vector unit_direction = normalizeVector(direction);
 
     double speed = 11.25;
-    vector velocity = unit_direction * speed;
+    Vector velocity = unit_direction * speed;
 
     projectile proj(createPoint(0.0, 1.0, 0.0), velocity);
     environment env(createVector(0.0, -0.1, 0.0), createVector(-0.01, 0.0, 0.0));

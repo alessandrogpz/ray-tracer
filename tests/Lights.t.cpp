@@ -11,9 +11,9 @@ using namespace rt;
 
 TEST(PointLightCreation, GeneratePointLight)
 {
-    point_light pl;
-    const color white{1.0, 1.0, 1.0};
-    const point origin{0.0, 0.0, 0.0};
+    PointLight pl;
+    const Color white{1.0, 1.0, 1.0};
+    const Point origin{0.0, 0.0, 0.0};
 
     pl.intensity = white;
     pl.position = origin;

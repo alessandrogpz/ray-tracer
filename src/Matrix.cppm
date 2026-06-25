@@ -10,11 +10,11 @@ import rt.tuple;
 export namespace rt {
 
     template <size_t N>
-    struct matrix {
+    struct Matrix {
         double data[N][N]{};
 
         // Default constructor: Initializes all elements to 0
-        matrix() {
+        Matrix() {
             for (size_t i = 0; i < N; ++i) {
                 for (size_t j = 0; j < N; ++j) {
                     data[i][j] = 0.0;
@@ -36,7 +36,7 @@ export namespace rt {
         // Overload Operators ----------------------------------------------------------------
         // Matrix Comparison (==)
         [[nodiscard]]
-        friend inline bool operator==(const matrix<N>& a, const matrix<N>& b) {
+        friend inline bool operator==(const Matrix<N>& a, const Matrix<N>& b) {
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     if (!equal(a(r, c), b(r, c))) {
@@ -49,15 +49,15 @@ export namespace rt {
 
         // Matrix Comparison (!=)
         [[nodiscard]]
-        friend inline bool operator!=(const matrix<N>& a, const matrix<N>& b) {
+        friend inline bool operator!=(const Matrix<N>& a, const Matrix<N>& b) {
             return !(a == b);
         }
 
         // Matrix * Scalar
         [[nodiscard]]
-        friend inline matrix<N> operator*(const matrix<N>& a, const double s)
+        friend inline Matrix<N> operator*(const Matrix<N>& a, const double s)
         {
-            matrix<N> result{};
+            Matrix<N> result{};
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     result(r, c) = a(r, c) * s;
@@ -68,9 +68,9 @@ export namespace rt {
 
         // Matrix + Matrix
         [[nodiscard]]
-        friend inline matrix<N> operator+(const matrix<N>&a, const matrix<N>& b)
+        friend inline Matrix<N> operator+(const Matrix<N>&a, const Matrix<N>& b)
         {
-            matrix<N> result{};
+            Matrix<N> result{};
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     result(r, c) = a(r, c) + b(r, c);
@@ -81,9 +81,9 @@ export namespace rt {
 
         // Matrix - Matrix
         [[nodiscard]]
-        friend inline matrix<N> operator-(const matrix<N>&a, const matrix<N>& b)
+        friend inline Matrix<N> operator-(const Matrix<N>&a, const Matrix<N>& b)
         {
-            matrix<N> result{};
+            Matrix<N> result{};
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     result(r, c) = a(r, c) - b(r, c);
@@ -94,8 +94,8 @@ export namespace rt {
 
         // Matrix * Matrix
         [[nodiscard]]
-        friend inline matrix<N> operator*(const matrix<N>& a, const matrix<N>& b) {
-            matrix<N> result;
+        friend inline Matrix<N> operator*(const Matrix<N>& a, const Matrix<N>& b) {
+            Matrix<N> result;
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     double sum = 0.0;
@@ -110,7 +110,7 @@ export namespace rt {
 
         // Matrix * Tuple (Base)
         [[nodiscard]]
-        friend inline tuple operator*(const matrix<N>& m, const tuple& t) requires (N == 4) {
+        friend inline Tuple operator*(const Matrix<N>& m, const Tuple& t) requires (N == 4) {
             double res[4] = {0, 0, 0, 0};
             for (size_t r = 0; r < 4; r++) {
                 for (size_t c = 0; c < 4; c++) {
@@ -122,20 +122,20 @@ export namespace rt {
 
         // Matrix * Point
         [[nodiscard]]
-        friend inline point operator*(const matrix<N>& m, const point& p) requires (N == 4) {
-            return point(m * static_cast<const tuple&>(p));
+        friend inline Point operator*(const Matrix<N>& m, const Point& p) requires (N == 4) {
+            return Point(m * static_cast<const Tuple&>(p));
         }
 
         // Matrix * Vector
         [[nodiscard]]
-        friend inline vector operator*(const matrix<N>& m, const vector& v) requires (N == 4) {
-            return vector(m * static_cast<const tuple&>(v));
+        friend inline Vector operator*(const Matrix<N>& m, const Vector& v) requires (N == 4) {
+            return Vector(m * static_cast<const Tuple&>(v));
         }
 
         // Matrix Operations --------------------------------------------------------------------
         [[nodiscard]]
-        matrix<N> transpose() const {
-            matrix<N> result;
+        Matrix<N> transpose() const {
+            Matrix<N> result;
             for (size_t r = 0; r < N; r++) {
                 for (size_t c = 0; c < N; c++) {
                     result(c, r) = (*this)(r, c);
@@ -157,10 +157,10 @@ export namespace rt {
             }
         }
 
-        // Returns a smaller (N-1) matrix by dropping the specified row and column.
+        // Returns a smaller (N-1) Matrix by dropping the specified row and column.
         [[nodiscard]]
-        matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {
-            matrix<N-1> result;
+        Matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {
+            Matrix<N-1> result;
             size_t dest_row = 0;
             for (size_t row = 0; row < N; row++) {
                 if (row == skip_row) continue;
@@ -194,15 +194,15 @@ export namespace rt {
             return !equal(determinant(), 0.0);
         }
 
-        // Throws std::runtime_error if the matrix cannot be inverted (determinant is 0).
+        // Throws std::runtime_error if the Matrix cannot be inverted (determinant is 0).
         [[nodiscard]]
-        matrix<N> inverse() const
+        Matrix<N> inverse() const
         {
             if (!isInvertible()) {
-                throw std::runtime_error("Attempted to invert a non-invertible matrix.");
+                throw std::runtime_error("Attempted to invert a non-invertible Matrix.");
             }
 
-            matrix<N> result;
+            Matrix<N> result;
             double current_det = determinant();
 
             for (size_t row = 0; row < N; row++)

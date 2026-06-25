@@ -6,12 +6,12 @@ import rt.shapes;
 
 export namespace rt
 {
-    // Tracks the intersection distance (t) and references the original hit object.
-    struct intersection
+    // Tracks the Intersection distance (t) and references the original hit object.
+    struct Intersection
     {
         double t;
-        const sphere* obj;
+        const Sphere* obj;
 
-        intersection(double _t, const sphere* _obj) : t(_t), obj(_obj) {}
+        Intersection(double _t, const Sphere* _obj) : t(_t), obj(_obj) {}
     };
 }

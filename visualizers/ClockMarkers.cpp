@@ -12,11 +12,11 @@ using namespace rt;
 
 int main()
 {
-    color yellow(1, 1, 0);
-    canvas c(100, 100);
+    Color yellow(1, 1, 0);
+    Canvas c(100, 100);
 
-    point marker = createPoint(0.0, 40.0, 0.0);
-    matrix<4> rot = rotation_z(std::numbers::pi / 6.0);
+    Point marker = createPoint(0.0, 40.0, 0.0);
+    Matrix<4> rot = rotation_z(std::numbers::pi / 6.0);
 
     for (int i = 0; i < 12; i++)
     {

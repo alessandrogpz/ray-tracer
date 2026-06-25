@@ -28,11 +28,11 @@ target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
 ```
 
 ### 2. Update the Rendering Loop
-In your main entry point file (where the main rendering loop occurs, such as `visualizers/SphereShadow.cpp`), you need to uncomment or add an OpenMP pragma directive to tell the compiler to parallelize the loop.
+In your main entry Point file (where the main rendering loop occurs, such as `visualizers/SphereShadow.cpp`), you need to uncomment or add an OpenMP pragma directive to tell the compiler to parallelize the loop.
 
-As an example, in `visualizers/SphereShadow.cpp`, uncomment / add the following line just above the outer `for` loop that iterates over the canvas pixels: `#pragma omp parallel for`
+As an example, in `visualizers/SphereShadow.cpp`, uncomment / add the following line just above the outer `for` loop that iterates over the Canvas pixels: `#pragma omp parallel for`
 ```c++
-// Iterate over every row (y) and column (x) of the canvas
+// Iterate over every row (y) and column (x) of the Canvas
 #pragma omp parallel for // Multithreading support enabled
 for (size_t y = 0; y < CANVAS_SIZE; ++y)
 {
