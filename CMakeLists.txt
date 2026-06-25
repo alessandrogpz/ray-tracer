@@ -17,7 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Optional!
 # Locates the OpenMP package on the host system to enable CPU multithreading.
 # Required for parallelizing our rendering loops (e.g., #pragma omp parallel for).
-# find_package(OpenMP REQUIRED)
+find_package(OpenMP REQUIRED)
 
 # 1. Fetch and build GoogleTest automatically
 include(FetchContent)
@@ -70,7 +70,7 @@ target_sources(raytracer_core
 # Using PUBLIC ensures that any executable linking against raytracer_core
 # (like our visualizers and tests) automatically inherits the correct
 # compiler and linker flags for OpenMP across all operating systems.
-# target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
+target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
 
 # Apply compilation warnings to the core library
 if(MSVC)

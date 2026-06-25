@@ -39,14 +39,14 @@ int main()
 
     Sphere s = Sphere();
 
-    std::vector<Intersection> xs;
-    xs.reserve(2);
-
     // Iterate over every row (y) and column (x) of the Canvas
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
         // Compute the world y coordinate (top = +half_height, bottom = -half_height)
         double world_y = half_height - pixel_size * y;
+
+        std::vector<Intersection> xs;
+        xs.reserve(2);
 
         for (std::size_t x = 0; x < CANVAS_WIDTH; ++x)
         {

@@ -53,14 +53,13 @@ int main()
     s3.set_transform(transform_s3);
 
     // Iterate over every row (y) and column (x) of the Canvas
-    std::vector<Intersection> xs;
-    xs.reserve(6);
-
-    // Iterate over every row (y) and column (x) of the Canvas
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
         // Compute the world y coordinate (top = +half_height, bottom = -half_height)
         double world_y = half_height - pixel_size * y;
+
+        std::vector<Intersection> xs;
+        xs.reserve(6);
 
         for (std::size_t x = 0; x < CANVAS_WIDTH; ++x)
         {
