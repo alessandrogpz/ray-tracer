@@ -64,7 +64,7 @@ To prevent C++ compiler deadlock (cyclic dependency loops), we separate function
 The project builds via **CMake (3.28+)** and the **Ninja** generator. The build tree is divided into:
 
 1. **`raytracer_core` (Static Library)**:
-   - A compiled static library containing all C++ modules (`src/*.cppm`). 
+   - A compiled static library containing all C++ module interfaces (`src/**/*.cppm`) and their corresponding implementations (`src/**/*.cpp`). 
    - All tests and visualizer executables link against this core library.
 2. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.

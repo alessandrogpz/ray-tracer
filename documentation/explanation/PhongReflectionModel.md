@@ -82,7 +82,7 @@ Where:
 
 ## 3. Code Mapping
 
-In our C++ implementation (`src/Shading.cppm`), these mathematical concepts map directly to the code:
+In our C++ implementation (`src/scene/Shading.cppm` and `src/scene/Shading.cpp`), these mathematical concepts map directly to the code:
 
 ```cpp
 Color lighting(Material material, PointLight light, Point point, Vector eye_vector, Vector normal_vector)
