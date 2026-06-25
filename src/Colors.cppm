@@ -2,6 +2,8 @@ module;
 
 export module rt.colors;
 
+import rt.utils;
+
 export namespace rt {
 
     struct color
@@ -34,6 +36,13 @@ export namespace rt {
         [[nodiscard]]
         color operator*(const color &other) const {
             return {r * other.r, g * other.g, b * other.b};
+        }
+
+        [[nodiscard]]
+        bool operator==(const color& other) const {
+            return equal(r, other.r) &&
+                   equal(g, other.g) &&
+                   equal(b, other.b);
         }
     };
 

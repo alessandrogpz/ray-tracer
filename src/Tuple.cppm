@@ -73,11 +73,13 @@ export namespace rt {
 
     // Distinct Derived types inheriting from tuple -------------------------------
     struct point : public tuple {
+        point() : tuple(0.0, 0.0, 0.0, 1.0) {}
         point(double x, double y, double z) : tuple(x, y, z, 1.0) {}
         explicit point(const tuple& t) : tuple(t) { assert(equal(t.w, 1.0)); }
     };
 
     struct vector : public tuple {
+        vector() : tuple (0.0, 0.0, 0.0, 0.0) {}
         vector(double x, double y, double z) : tuple(x, y, z, 0.0) {}
         explicit vector(const tuple& t) : tuple(t) { assert(equal(t.w, 0.0)); }
     };
