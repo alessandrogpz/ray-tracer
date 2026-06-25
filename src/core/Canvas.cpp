@@ -1,26 +1,16 @@
-module;
-
-#include <vector>
-#include <string>
-#include <array>
-#include <algorithm>
-#include <cmath>
-#include <fstream>
-#include <iostream>
-#include <format>
-#include <cstdint>
-
 module rt.canvas;
+
+import std;
 
 import rt.colors;
 
 namespace rt {
 
-    Canvas::Canvas(size_t w, size_t h) : width(w), height(h) {
+    Canvas::Canvas(std::size_t w, std::size_t h) : width(w), height(h) {
         pixels.resize(w * h, PixelRGBA8{0, 0, 0, 255});
     }
 
-    Canvas::Canvas(size_t w, size_t h, Color c) : width(w), height(h), initialColor(c) {
+    Canvas::Canvas(std::size_t w, std::size_t h, Color c) : width(w), height(h), initialColor(c) {
         PixelRGBA8 default_pixel{
             static_cast<std::uint8_t>(scaleColor(c.r)),
             static_cast<std::uint8_t>(scaleColor(c.g)),
@@ -31,7 +21,7 @@ namespace rt {
     }
 
     // Converts a Color to 4-byte PixelRGBA8 on write
-    void writePixel(Canvas &c, size_t x, size_t y, Color col) {
+    void writePixel(Canvas &c, std::size_t x, std::size_t y, Color col) {
         if (x < c.width && y < c.height) {
             c.pixels[(y * c.width) + x] = PixelRGBA8{
                 static_cast<std::uint8_t>(scaleColor(col.r)),
@@ -43,7 +33,7 @@ namespace rt {
     }
 
     // Converts PixelRGBA8 back to HDR Color on read
-    Color pixelAt(const Canvas &c, size_t x, size_t y) {
+    Color pixelAt(const Canvas &c, std::size_t x, std::size_t y) {
         if (x < c.width && y < c.height) {
             const PixelRGBA8 &p = c.pixels[(y * c.width) + x];
             return Color(
@@ -65,16 +55,16 @@ namespace rt {
     // Fast PPM conversion (Direct read from byte array, no float math)
     std::string canvasToPPM(const Canvas &c) {
         std::string ppm = std::format("P3\n{} {}\n255\n", c.width, c.height);
-        for (size_t y = 0; y < c.height; ++y) {
+        for (std::size_t y = 0; y < c.height; ++y) {
             std::string currentLine;
-            for (size_t x = 0; x < c.width; ++x) {
+            for (std::size_t x = 0; x < c.width; ++x) {
                 const PixelRGBA8 &p = c.pixels[(y * c.width) + x];
                 std::array components = {
                     static_cast<int>(p.r),
                     static_cast<int>(p.g),
                     static_cast<int>(p.b)
                 };
-                for (size_t i = 0; i < 3; ++i) {
+                for (std::size_t i = 0; i < 3; ++i) {
                     std::string s = std::to_string(components[i]);
                     if (currentLine.length() + s.length() + 1 > 70) {
                         ppm += currentLine + "\n";

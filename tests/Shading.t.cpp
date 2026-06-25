@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <cmath>
+import std;
 
 import rt.lights;
 import rt.tuple;
@@ -26,37 +26,38 @@ TEST(Lighting, EyeOffset45Degrees)
 {
     Material m;
     Point position;
-    Vector eye_v = Vector(0.0, sqrt(2) / 2, -sqrt(2) / 2);
-    Vector norma_v = Vector(0.0, 0.0, -1.0);
-    PointLight point_light(Point(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
+    Vector normal_vector = createVector(0.0, 0.0, -1.0);
+    PointLight light = PointLight(createPoint(0.0, 0.0, -10.0), Color(1.0, 1.0, 1.0));
 
-    Color result = lighting(m, point_light, position, eye_v, norma_v );
+    Vector eye_v = Vector(0.0, std::sqrt(2.0) / 2.0, -std::sqrt(2.0) / 2.0);
 
-    EXPECT_EQ(result, Color(1.0, 1.0, 1.0));
+    Color result = lighting(m, light, position, eye_v, normal_vector);
+    EXPECT_EQ(Color(1.0, 1.0, 1.0), result);
 }
 
 TEST(Lighting, LightOffset45Degrees)
 {
     Material m;
     Point position;
+    Vector normal_vector = createVector(0.0, 0.0, -1.0);
+    PointLight light = PointLight(createPoint(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+
     Vector eye_v = Vector(0.0, 0.0, -1.0);
-    Vector norma_v = Vector(0.0, 0.0, -1.0);
-    PointLight point_light(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
-    Color result = lighting(m, point_light, position, eye_v, norma_v );
-
-    EXPECT_EQ(result, Color(0.7364, 0.7364, 0.7364));
+    Color result = lighting(m, light, position, eye_v, normal_vector);
+    EXPECT_EQ(Color(0.7364, 0.7364, 0.7364), result);
 }
 
 TEST(Lighting, EyeInPathOfReflectionVector)
 {
     Material m;
     Point position;
-    Vector eye_v = Vector(0.0, -sqrt(2) / 2, -sqrt(2) / 2);
-    Vector norma_v = Vector(0.0, 0.0, -1.0);
-    PointLight point_light(Point(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+    Vector normal_vector = createVector(0.0, 0.0, -1.0);
+    PointLight light = PointLight(createPoint(0.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
-    Color result = lighting(m, point_light, position, eye_v, norma_v );
+    Vector eye_v = Vector(0.0, -std::sqrt(2.0) / 2.0, -std::sqrt(2.0) / 2.0);
+
+    Color result = lighting(m, light, position, eye_v, normal_vector);
 
     EXPECT_EQ(result, Color(1.6364, 1.6364, 1.6364));
 }

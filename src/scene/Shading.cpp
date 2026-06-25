@@ -1,8 +1,6 @@
-module;
-
-#include <cmath>
-
 module rt.shading;
+
+import std;
 
 import rt.materials;
 import rt.colors;

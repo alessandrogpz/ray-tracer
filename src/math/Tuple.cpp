@@ -1,10 +1,11 @@
 module;
 
-#include <cmath>
 #include <cassert>
-#include <stdexcept>
 
 module rt.tuple;
+
+import std;
+
 import rt.utils;
 
 namespace rt {
@@ -24,7 +25,7 @@ namespace rt {
         return {x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv};
     }
 
-    double Tuple::operator[](size_t index) const {
+    double Tuple::operator[](std::size_t index) const {
         switch (index) {
             case 0: return x;
             case 1: return y;
@@ -34,7 +35,7 @@ namespace rt {
         }
     }
 
-    double& Tuple::operator[](size_t index) {
+    double& Tuple::operator[](std::size_t index) {
         switch (index) {
             case 0: return x;
             case 1: return y;

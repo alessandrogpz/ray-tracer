@@ -1,9 +1,6 @@
-module;
-
-#include <vector>
-#include <optional>
-
 export module rt.ray;
+
+import std;
 
 import rt.tuple;
 import rt.intersection;

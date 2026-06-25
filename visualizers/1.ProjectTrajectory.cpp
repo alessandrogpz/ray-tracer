@@ -50,8 +50,8 @@ environment createEnvironment(Vector wind, Vector gravity)
 void writePixelBlock(Canvas &c, int h, int w, int startX, int startY, Color col) {
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
-            size_t drawX = startX + j;
-            size_t drawY = startY + i;
+            std::size_t drawX = startX + j;
+            std::size_t drawY = startY + i;
             if (drawX < c.width && drawY < c.height) {
                 writePixel(c, drawX, drawY, col);
             }
@@ -61,8 +61,8 @@ void writePixelBlock(Canvas &c, int h, int w, int startX, int startY, Color col)
 
 int main() {
     auto start_time = std::chrono::high_resolution_clock::now();
-    constexpr size_t CANVAS_WIDTH = 2560;
-    constexpr size_t CANVAS_HEIGHT = 1440;
+    constexpr std::size_t CANVAS_WIDTH = 2560;
+    constexpr std::size_t CANVAS_HEIGHT = 1440;
     Canvas c(CANVAS_WIDTH, CANVAS_HEIGHT);
     Color green(0, 1, 0);
 

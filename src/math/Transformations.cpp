@@ -1,8 +1,6 @@
-module;
-
-#include <cmath>
-
 module rt.transformations;
+
+import std;
 
 import rt.matrix;
 import rt.tuple;

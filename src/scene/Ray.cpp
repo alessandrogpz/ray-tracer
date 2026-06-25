@@ -1,12 +1,6 @@
-module;
-
-#include <vector>
-#include <cmath>
-#include <ranges>
-#include <algorithm>
-#include <optional>
-
 module rt.ray;
+
+import std;
 
 import rt.tuple;
 import rt.intersection;

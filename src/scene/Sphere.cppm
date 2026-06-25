@@ -1,8 +1,6 @@
-module;
-
-#include <vector>
-
 export module rt.sphere;
+
+import std;
 
 import rt.tuple;
 import rt.matrix;

@@ -23,8 +23,8 @@ int main()
     Color blue(0.0, 0.0, 1.0);
     Color yellow(1.0, 1.0, 0.0);
 
-    constexpr size_t CANVAS_WIDTH = 2560;
-    constexpr size_t CANVAS_HEIGHT = 1440;
+    constexpr std::size_t CANVAS_WIDTH = 2560;
+    constexpr std::size_t CANVAS_HEIGHT = 1440;
     Canvas c(CANVAS_WIDTH, CANVAS_HEIGHT, black);
 
     Point ray_origin = Point(0.0, 0.0, -10.0);
@@ -54,12 +54,12 @@ int main()
 
     // Iterate over every row (y) and column (x) of the Canvas
     // #pragma omp parallel for // Add multithreading support
-    for (size_t y = 0; y < CANVAS_HEIGHT; ++y)
+    for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
         // Compute the world y coordinate (top = +half_height, bottom = -half_height)
         double world_y = half_height - pixel_size * y;
 
-        for (size_t x = 0; x < CANVAS_WIDTH; ++x)
+        for (std::size_t x = 0; x < CANVAS_WIDTH; ++x)
         {
             // Compute the world x coordinate (left = -half_width, right = +half_width)
             double world_x = -half_width + pixel_size * x;

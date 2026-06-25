@@ -1,11 +1,6 @@
-module;
-
-#include <vector>
-#include <string>
-#include <iostream>
-#include <cstdint>
-
 export module rt.canvas;
+
+import std;
 
 import rt.colors;
 
@@ -19,17 +14,17 @@ export namespace rt {
     };
 
     struct Canvas {
-        size_t width;
-        size_t height;
+        std::size_t width;
+        std::size_t height;
         Color initialColor;
         std::vector<PixelRGBA8> pixels;
 
-        Canvas(size_t w, size_t h);
-        Canvas(size_t w, size_t h, Color c);
+        Canvas(std::size_t w, std::size_t h);
+        Canvas(std::size_t w, std::size_t h, Color c);
     };
 
-    void writePixel(Canvas &c, size_t x, size_t y, Color col);
-    [[nodiscard]] Color pixelAt(const Canvas &c, size_t x, size_t y);
+    void writePixel(Canvas &c, std::size_t x, std::size_t y, Color col);
+    [[nodiscard]] Color pixelAt(const Canvas &c, std::size_t x, std::size_t y);
     [[nodiscard]] int scaleColor(double color_float);
     [[nodiscard]] std::string canvasToPPM(const Canvas &c);
     void savePPM(const std::string& filename, const std::string& ppmData);

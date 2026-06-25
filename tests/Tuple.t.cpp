@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <cmath>
-#include <stdexcept>
+import std;
 
 import rt.utils;
 import rt.tuple;
@@ -315,7 +314,7 @@ TEST(VectorReflection, ReflectVectorApproaching45)
 TEST(VectorReflection, ReflectAVectorOffSlantedSurface)
 {
     Vector a = createVector(0, -1, 0);
-    Vector n = createVector(sqrt(2) / 2, sqrt(2) / 2, 0);
+    Vector n = createVector(std::sqrt(2.0) / 2.0, std::sqrt(2.0) / 2.0, 0);
     Vector reflection = reflect(a, n);
 
     EXPECT_EQ(reflection, createVector(1, 0, 0));

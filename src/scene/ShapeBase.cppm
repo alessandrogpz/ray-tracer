@@ -1,8 +1,6 @@
-module;
-
-#include <vector>
-
 export module rt.shape_base;
+
+import std;
 
 import rt.tuple;
 import rt.matrix;

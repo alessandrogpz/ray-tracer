@@ -1,8 +1,7 @@
-module;
-
-#include <cstddef>
-
 export module rt.tuple;
+
+import std;
+
 import rt.utils;
 
 export namespace rt {
@@ -19,8 +18,8 @@ export namespace rt {
         [[nodiscard]] Tuple operator/(double scalar) const;
 
         // Getters & Setters
-        [[nodiscard]] double operator[](size_t index) const;
-        double& operator[](size_t index);
+        [[nodiscard]] double operator[](std::size_t index) const;
+        double& operator[](std::size_t index);
 
         // Overloads for Tuple comparison
         [[nodiscard]] bool operator==(const Tuple& other) const;

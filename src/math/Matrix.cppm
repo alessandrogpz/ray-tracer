@@ -1,22 +1,20 @@
-module;
-
-#include <stdexcept>
-
 export module rt.matrix;
+
+import std;
 
 import rt.utils;
 import rt.tuple;
 
 export namespace rt {
 
-    template <size_t N>
+    template <std::size_t N>
     struct Matrix {
         double data[N][N]{};
 
         // Default constructor: Initializes all elements to 0
         Matrix() {
-            for (size_t i = 0; i < N; ++i) {
-                for (size_t j = 0; j < N; ++j) {
+            for (std::size_t i = 0; i < N; ++i) {
+                for (std::size_t j = 0; j < N; ++j) {
                     data[i][j] = 0.0;
                 }
             }
@@ -24,12 +22,12 @@ export namespace rt {
 
         // Getters & Setters -----------------------------------------------------------------
         // Setter: m(row, col)
-        double& operator()(size_t row, size_t col) {
+        double& operator()(std::size_t row, std::size_t col) {
             return data[row][col];
         }
 
         // Getter
-        double operator()(size_t row, size_t col) const {
+        double operator()(std::size_t row, std::size_t col) const {
             return data[row][col];
         }
 
@@ -37,8 +35,8 @@ export namespace rt {
         // Matrix Comparison (==)
         [[nodiscard]]
         friend inline bool operator==(const Matrix<N>& a, const Matrix<N>& b) {
-            for (size_t r = 0; r < N; r++) {
-                for (size_t c = 0; c < N; c++) {
+            for (std::size_t r = 0; r < N; r++) {
+                for (std::size_t c = 0; c < N; c++) {
                     if (!equal(a(r, c), b(r, c))) {
                         return false;
                     }
@@ -58,8 +56,8 @@ export namespace rt {
         friend inline Matrix<N> operator*(const Matrix<N>& a, const double s)
         {
             Matrix<N> result{};
-            for (size_t r = 0; r < N; r++) {
-                for (size_t c = 0; c < N; c++) {
+            for (std::size_t r = 0; r < N; r++) {
+                for (std::size_t c = 0; c < N; c++) {
                     result(r, c) = a(r, c) * s;
                 }
             }
@@ -71,8 +69,8 @@ export namespace rt {
         friend inline Matrix<N> operator+(const Matrix<N>&a, const Matrix<N>& b)
         {
             Matrix<N> result{};
-            for (size_t r = 0; r < N; r++) {
-                for (size_t c = 0; c < N; c++) {
+            for (std::size_t r = 0; r < N; r++) {
+                for (std::size_t c = 0; c < N; c++) {
                     result(r, c) = a(r, c) + b(r, c);
                 }
             }
@@ -84,8 +82,8 @@ export namespace rt {
         friend inline Matrix<N> operator-(const Matrix<N>&a, const Matrix<N>& b)
         {
             Matrix<N> result{};
-            for (size_t r = 0; r < N; r++) {
-                for (size_t c = 0; c < N; c++) {
+            for (std::size_t r = 0; r < N; r++) {
+                for (std::size_t c = 0; c < N; c++) {
                     result(r, c) = a(r, c) - b(r, c);
                 }
             }
@@ -96,10 +94,10 @@ export namespace rt {
         [[nodiscard]]
         friend inline Matrix<N> operator*(const Matrix<N>& a, const Matrix<N>& b) {
             Matrix<N> result;
-            for (size_t r = 0; r < N; r++) {
-                for (size_t c = 0; c < N; c++) {
+            for (std::size_t r = 0; r < N; r++) {
+                for (std::size_t c = 0; c < N; c++) {
                     double sum = 0.0;
-                    for (size_t k = 0; k < N; k++) {
+                    for (std::size_t k = 0; k < N; k++) {
                         sum += a(r, k) * b(k, c);
                     }
                     result(r, c) = sum;
@@ -112,8 +110,8 @@ export namespace rt {
         [[nodiscard]]
         friend inline Tuple operator*(const Matrix<N>& m, const Tuple& t) requires (N == 4) {
             double res[4] = {0, 0, 0, 0};
-            for (size_t r = 0; r < 4; r++) {
-                for (size_t c = 0; c < 4; c++) {
+            for (std::size_t r = 0; r < 4; r++) {
+                for (std::size_t c = 0; c < 4; c++) {
                     res[r] += m(r, c) * t[c];
                 }
             }
@@ -136,8 +134,8 @@ export namespace rt {
         [[nodiscard]]
         Matrix<N> transpose() const {
             Matrix<N> result;
-            for (size_t r = 0; r < N; r++) {
-                for (size_t c = 0; c < N; c++) {
+            for (std::size_t r = 0; r < N; r++) {
+                for (std::size_t c = 0; c < N; c++) {
                     result(c, r) = (*this)(r, c);
                 }
             }
@@ -150,7 +148,7 @@ export namespace rt {
                 return ((*this)(0,0) * (*this)(1,1)) - ((*this)(0,1) * (*this)(1,0));
             } else {
                 double det = 0.0;
-                for (size_t col = 0; col < N; ++col) {
+                for (std::size_t col = 0; col < N; ++col) {
                     det += (*this)(0, col) * cofactor(0, col);
                 }
                 return det;
@@ -159,13 +157,13 @@ export namespace rt {
 
         // Returns a smaller (N-1) Matrix by dropping the specified row and column.
         [[nodiscard]]
-        Matrix<N-1> submatrix(size_t skip_row, size_t skip_col) const requires (N >= 2) {
+        Matrix<N-1> submatrix(std::size_t skip_row, std::size_t skip_col) const requires (N >= 2) {
             Matrix<N-1> result;
-            size_t dest_row = 0;
-            for (size_t row = 0; row < N; row++) {
+            std::size_t dest_row = 0;
+            for (std::size_t row = 0; row < N; row++) {
                 if (row == skip_row) continue;
-                size_t dest_col = 0;
-                for (size_t col = 0; col < N; col++) {
+                std::size_t dest_col = 0;
+                for (std::size_t col = 0; col < N; col++) {
                     if (col == skip_col) continue;
                     result(dest_row, dest_col) = (*this)(row, col);
                     dest_col++;
@@ -176,12 +174,12 @@ export namespace rt {
         }
 
         [[nodiscard]]
-        double minor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+        double minor(std::size_t skip_row, std::size_t skip_col) const requires (N >= 3) {
             return submatrix(skip_row, skip_col).determinant();
         }
 
         [[nodiscard]]
-        double cofactor(size_t skip_row, size_t skip_col) const requires (N >= 3) {
+        double cofactor(std::size_t skip_row, std::size_t skip_col) const requires (N >= 3) {
             double calc_minor = minor(skip_row, skip_col);
             if ((skip_row + skip_col) % 2 != 0) {
                 return -calc_minor;
@@ -205,9 +203,9 @@ export namespace rt {
             Matrix<N> result;
             double current_det = determinant();
 
-            for (size_t row = 0; row < N; row++)
+            for (std::size_t row = 0; row < N; row++)
             {
-                for (size_t col = 0; col < N; col++)
+                for (std::size_t col = 0; col < N; col++)
                 {
                     double c = cofactor(col, row);
                     result(row, col) = c / current_det;

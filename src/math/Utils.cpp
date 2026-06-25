@@ -1,8 +1,6 @@
-module;
-
-#include <cmath>
-
 module rt.utils;
+
+import std;
 
 namespace rt {
     bool equal(double a, double b)

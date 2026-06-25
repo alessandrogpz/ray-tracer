@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <cmath>
-#include <numbers>
+import std;
 
 import rt.utils;
 import rt.tuple;

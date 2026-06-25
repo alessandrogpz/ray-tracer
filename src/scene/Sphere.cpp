@@ -1,9 +1,6 @@
-module;
-
-#include <vector>
-#include <cmath>
-
 module rt.sphere;
+
+import std;
 
 import rt.tuple;
 import rt.matrix;
