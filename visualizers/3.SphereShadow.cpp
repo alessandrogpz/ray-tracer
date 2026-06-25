@@ -9,7 +9,7 @@ import rt.canvas;
 import rt.colors;
 import rt.intersection;
 import rt.matrix;
-import rt.shapes;
+import rt.sphere;
 import rt.ray;
 import rt.transformations;
 

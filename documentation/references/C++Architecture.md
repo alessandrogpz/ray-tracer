@@ -14,9 +14,10 @@ Our codebase is organized into modular C++20 units, split into module interfaces
 | **`rt.transformations`**| `src/math/Transformations.cppm`, `.cpp` | `rt.matrix`, `rt.tuple` | Linear transformations (translation, scale, rotation, shear, and Householder reflection matrices). |
 | **`rt.colors`** | `src/core/Colors.cppm`, `.cpp` | `rt.utils` | The `Color` structure and Color blend operations. |
 | **`rt.canvas`** | `src/core/Canvas.cppm`, `.cpp` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
-| **`rt.shapes`** | `src/scene/Shapes.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials` | Geometric primitive models (`Sphere` struct definition, transform properties). |
-| **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | `rt.shapes` | Tracking records of Ray-object intersections (t-distance and shape pointer). |
-| **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.shapes`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and Ray-Sphere Intersection testing algorithms. |
+| **`rt.shape_base`** | `src/scene/ShapeBase.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials` | Abstract generic `Shape` base class with cached transform matrices. |
+| **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.shape_base`, `rt.ray` | Concrete `Sphere` shape definition inheriting from `Shape`. |
+| **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | `rt.shape_base` | Tracking records of Ray-object intersections (t-distance and shape pointer). |
+| **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and hit utility algorithms. |
 | **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
 | **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.utils` | Surface reflection material definition (ambient, diffuse, specular, shininess). |
 | **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.lights` | Phong reflection model lighting calculations. |
@@ -35,21 +36,30 @@ graph TD
     Tuple --> Matrix
     Tuple --> Transformations[rt.transformations]
     Tuple --> Ray[rt.ray]
-    Tuple --> Shapes[rt.shapes]
+    Tuple --> ShapeBase[rt.shape_base]
+    Tuple --> Sphere[rt.sphere]
     
     Matrix --> Transformations
-    Matrix --> Shapes
+    Matrix --> ShapeBase
+    Matrix --> Sphere
     Matrix --> Ray
     
-    Transformations --> Shapes
+    Transformations --> ShapeBase
+    Transformations --> Sphere
     Transformations --> Ray
+    
+    Materials[rt.materials] --> ShapeBase
+    Materials --> Sphere
     
     Colors[rt.colors] --> Canvas[rt.canvas]
     
-    Shapes --> Intersection[rt.intersection]
-    Shapes --> Ray
+    ShapeBase --> Intersection[rt.intersection]
+    ShapeBase --> Sphere
     
     Intersection --> Ray
+    Intersection --> Sphere
+    
+    Ray --> Sphere
 ```
 
 ### Avoiding Circular Imports

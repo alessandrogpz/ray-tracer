@@ -7,7 +7,7 @@ import rt.tuple;
 import rt.matrix;
 import rt.transformations;
 import rt.ray;
-import rt.shapes;
+import rt.sphere;
 import rt.intersection;
 import rt.materials;
 
@@ -253,5 +253,3 @@ TEST(SphereMaterial, SphereAssignedMaterial)
 
     EXPECT_EQ(s.material, m);
 }
-
-

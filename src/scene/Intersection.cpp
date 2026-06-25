@@ -1,9 +1,9 @@
 module rt.intersection;
 
-import rt.shapes;
+import rt.shape_base;
 
 namespace rt {
 
-    Intersection::Intersection(double _t, const Sphere* _obj) : t(_t), obj(_obj) {}
+    Intersection::Intersection(double _t, const Shape* _obj) : t(_t), obj(_obj) {}
 
 } // namespace rt

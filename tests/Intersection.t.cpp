@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 import rt.intersection;
-import rt.shapes;
+import rt.sphere;
 import rt.ray;
 
 using namespace rt;

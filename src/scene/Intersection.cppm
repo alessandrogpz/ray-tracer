@@ -1,14 +1,14 @@
 export module rt.intersection;
 
-import rt.shapes;
+import rt.shape_base;
 
 export namespace rt {
 
     struct Intersection {
         double t;
-        const Sphere* obj;
+        const Shape* obj;
 
-        Intersection(double _t, const Sphere* _obj);
+        Intersection(double _t, const Shape* _obj);
     };
 
 } // namespace rt

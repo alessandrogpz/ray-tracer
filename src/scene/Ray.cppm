@@ -6,7 +6,6 @@ module;
 export module rt.ray;
 
 import rt.tuple;
-import rt.shapes;
 import rt.intersection;
 import rt.matrix;
 
@@ -22,7 +21,6 @@ export namespace rt {
 
     [[nodiscard]] Point position(const Ray& r, double time);
     [[nodiscard]] Ray transformRay(const Ray &r, const Matrix<4> &m);
-    [[nodiscard]] std::vector<Intersection> intersect(const Sphere& s, const Ray& r);
     [[nodiscard]] std::optional<Intersection> hit(const std::vector<Intersection>& intersectionSet);
 
 } // namespace rt

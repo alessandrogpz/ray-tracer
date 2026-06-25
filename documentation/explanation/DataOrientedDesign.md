@@ -18,8 +18,6 @@ In high-performance software like a ray tracer, the main bottleneck is rarely CP
 
 ## 2. Case Study: 8-bit Canvas Grid Optimization
 
-A prime example of DOD implementation in this codebase is the optimization of the [Canvas](file:///home/aper/Documents/ray-tracer/src/core/Canvas.cppm) grid memory footprint.
-
 ### The Problem (OOP Approach)
 Originally, each pixel in the canvas was represented as a `Color` object containing four `double` components (Red, Green, Blue, Alpha).
 * **Memory Footprint**: 4 channels × 8 bytes (`double`) = **32 bytes per pixel**.
@@ -42,3 +40,40 @@ struct PixelRGBA8 {
   - **Write**: `scaleColor` scales/clamps `double` color components to $[0, 255]$ and stores them in `PixelRGBA8`.
   - **Read**: Converts `PixelRGBA8` channels back to `double` values (divided by `255.0`).
 * **PPM Export Speedup**: Exporting the canvas to PPM requires integer values ($0-255$). By storing the pixels as `uint8_t` natively, `canvasToPPM()` reads the integer values directly and avoids executing float-to-int conversion loops over millions of pixels, speeding up file output.
+
+---
+
+## 3. Case Study: DOD Shape Polymorphism
+
+### The Problem (OOP Approach)
+Typically in ray tracers, shape polymorphism is achieved via standard object-oriented hierarchies:
+* **Storage**: `std::vector<std::unique_ptr<Shape>> shapes`
+* **Intersection Loop**: For every ray, the engine iterates over the pointers, calls `virtual intersect(...)`, and resolves shape-specific logic dynamically.
+* **Impact**: Since shape objects are allocated individually on the heap, traversing the vector triggers **pointer chasing** across memory. Furthermore, virtual function calls inside the intersection loop disrupt instruction pipelines and degrade cache locality.
+
+### The DOD Optimization
+To prepare the ray tracer for type-segregated memory arrays within a scene container (`World`), we implemented a hybrid polymorphism design:
+
+1. **Decoupling from Ray Primitives**:
+   We redefined the `Shape` virtual interface to accept raw data types rather than a composite `Ray` object:
+   ```cpp
+   [[nodiscard]] virtual std::vector<double> local_intersect(Point local_origin, Vector local_direction) const = 0;
+   ```
+   This broke circular dependencies between C++20 modules (`rt.ray` ➡️ `rt.sphere` ➡️ `rt.intersection` ➡️ `rt.ray`), allowing `rt.shape_base` to remain an independent module.
+
+2. **File & Type Segregation**:
+   We renamed `Shapes.cppm` / `Shapes.cpp` to `Sphere.cppm` / `Sphere.cpp` to isolate `Sphere` as its own concrete structure inheriting from `Shape`. Additional shapes (e.g., `Triangle`, `Plane`) will follow this pattern as separate types.
+   
+3. **Contiguous World Vectors**:
+   This architecture enables a flat-memory `World` design:
+   ```cpp
+   struct World {
+       std::vector<Sphere> spheres;
+       std::vector<Triangle> triangles;
+   };
+   ```
+   When casting rays, the engine loops over each contiguous array sequentially. No pointer chasing or virtual function resolution occurs during the intersection checks.
+
+4. **APIs Compatibility**:
+   We kept `Intersection` records holding a base `const Shape* obj` pointer. Direct properties (like `obj->material`) are accessed immediately from the base class, and virtual dispatch (`normalAt`) is only invoked **once** per ray (during the shading phase for the closest hit), avoiding virtual call overhead on missed rays.
+

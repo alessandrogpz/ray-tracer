@@ -7,7 +7,7 @@ import rt.canvas;
 import rt.matrix;
 import rt.transformations;
 import rt.ray;
-import rt.shapes;
+import rt.sphere;
 import rt.intersection;
 
 using namespace rt;

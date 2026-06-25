@@ -35,7 +35,8 @@ target_sources(raytracer_core
         src/math/Transformations.cppm
         src/core/Colors.cppm
         src/core/Canvas.cppm
-        src/scene/Shapes.cppm
+        src/scene/ShapeBase.cppm
+        src/scene/Sphere.cppm
         src/scene/Ray.cppm
         src/scene/Intersection.cppm
         src/scene/Lights.cppm
@@ -47,7 +48,8 @@ target_sources(raytracer_core
         src/math/Transformations.cpp
         src/core/Colors.cpp
         src/core/Canvas.cpp
-        src/scene/Shapes.cpp
+        src/scene/ShapeBase.cpp
+        src/scene/Sphere.cpp
         src/scene/Ray.cpp
         src/scene/Intersection.cpp
         src/scene/Lights.cpp
@@ -82,7 +84,7 @@ add_executable(run_tests
         tests/MatrixTransformations.t.cpp
         tests/Ray.t.cpp
         tests/Intersection.t.cpp
-        tests/Shapes.t.cpp
+        tests/Sphere.t.cpp
         tests/Lights.t.cpp
         tests/Materials.t.cpp
         tests/Shading.t.cpp
