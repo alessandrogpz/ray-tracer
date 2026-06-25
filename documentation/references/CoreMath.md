@@ -18,10 +18,11 @@ A `Tuple` is the fundamental data structure used to represent coordinates and di
 
 ## Colors
 
-Colors in the Ray tracer are implemented similarly to Tuples, but they represent the Red, Green, and Blue (RGB) components of light.
+Colors in the Ray tracer are implemented similarly to Tuples, but they represent the Red, Green, Blue, and Alpha (RGBA) components of light.
 
-- **`red, green, blue`**: Double-precision values typically ranging from `0.0` (no intensity) to `1.0` (full intensity).
-- Operations on colors include addition (combining light), subtraction, and scalar multiplication (adjusting brightness).
+- **`r, g, b, a`**: Double-precision values representing Red, Green, Blue, and Alpha (transparency/opacity). Channels typically range from `0.0` (no intensity / fully transparent) to `1.0` (full intensity / fully opaque).
+- **Default value**: Default constructed color represents opaque white (`1.0, 1.0, 1.0, 1.0`). If alpha is omitted in custom instantiation, it defaults to `1.0` (opaque).
+- **Operations**: Operations on colors (`+`, `-`, scalar `*`, Hadamard/blend `*`) perform arithmetic on the RGB components and return a color with the default alpha of `1.0`. The equality operator `==` compares the RGB channels.
 
 *Reference code: `src/core/Colors.cppm`*
 
