@@ -3,6 +3,8 @@ export module rt.world;
 import std;
 import rt.sphere;
 import rt.lights;
+import rt.intersection;
+import rt.ray;
 
 export namespace rt
 {
@@ -15,4 +17,5 @@ export namespace rt
     };
 
     [[nodiscard]] World default_world();
+    [[nodiscard]] std::vector<Intersection> intersect_world(const World& w, const Ray& r);
 }

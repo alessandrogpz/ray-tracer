@@ -26,11 +26,14 @@ namespace rt {
 
 
     std::optional<Intersection> hit(const std::vector<Intersection>& intersectionSet) {
+
+        // Filter out negative 't' values (behind the camera)
         auto valid_hits = intersectionSet | std::views::filter([](const auto& i) { return i.t >= 0.0; });
 
         if (valid_hits.empty())
             return std::nullopt;
 
+        // Find the intersection with the minimum 't' value
         return *std::ranges::min_element(valid_hits, {}, &Intersection::t);
     }
 

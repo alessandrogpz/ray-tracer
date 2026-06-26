@@ -107,6 +107,7 @@ add_executable(3.SphereShadow visualizers/3.SphereShadow.cpp)
 add_executable(4.MultipleSphereShadows visualizers/4.MultipleSphereShadows.cpp)
 add_executable(5.SpherePhongReflection visualizers/5.SpherePhongReflection.cpp)
 add_executable(6.MultipleSpherePhongReflections visualizers/6.MultipleSpherePhongReflections.cpp)
+add_executable(7.Playground visualizers/7.Playground.cpp)
 
 target_link_libraries(1.ProjectTrajectory PRIVATE raytracer_core)
 target_link_libraries(2.ClockMarkers PRIVATE raytracer_core)
@@ -114,4 +115,5 @@ target_link_libraries(3.SphereShadow PRIVATE raytracer_core)
 target_link_libraries(4.MultipleSphereShadows PRIVATE raytracer_core)
 target_link_libraries(5.SpherePhongReflection PRIVATE raytracer_core)
 target_link_libraries(6.MultipleSpherePhongReflections PRIVATE raytracer_core)
+target_link_libraries(7.Playground PRIVATE raytracer_core)
 

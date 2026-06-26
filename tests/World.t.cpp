@@ -8,6 +8,8 @@ import rt.sphere;
 import rt.lights;
 import rt.colors;
 import rt.transformations;
+import rt.ray;
+import rt.intersection;
 
 using namespace rt;
 
@@ -22,7 +24,6 @@ TEST(WorldCreation, EmptyWorld)
     EXPECT_EQ(w1.light, PointLight());
 }
 
-// Default World Creation
 TEST(WorldCreation, DefaultWorld)
 {
     PointLight expected_light(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
@@ -47,4 +48,21 @@ TEST(WorldCreation, DefaultWorld)
 
     // Check s2 properties
     EXPECT_EQ(w.spheres[1].get_transform(), scale(0.5, 0.5, 0.5));
+}
+
+// ---------------------------------------------------
+// Intersecting World
+
+TEST(IntersectingWorld, IntersectWorldWithRay)
+{
+    const World w = default_world();
+    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+
+    const std::vector<Intersection>xs = intersect_world(w, r);
+
+    EXPECT_EQ(xs.size(), 4);
+    EXPECT_EQ(xs[0].t, 4.0);
+    EXPECT_EQ(xs[1].t, 4.5);
+    EXPECT_EQ(xs[2].t, 5.5);
+    EXPECT_EQ(xs[3].t, 6.0);
 }

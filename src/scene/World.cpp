@@ -28,4 +28,18 @@ namespace rt
 
         return w;
     }
+
+    std::vector<Intersection> intersect_world(const World& w, const Ray& r)
+    {
+        std::vector<Intersection> xs;
+
+        const std::size_t n_objects = w.spheres.size();
+        for (std::size_t i = 0; i < n_objects; i++)
+            intersect(w.spheres[i], r, xs, static_cast<std::uint32_t>(i));
+
+        // Sort all intersections in ascending order by their t-value
+        std::ranges::sort(xs, {}, &Intersection::t);
+
+        return xs;
+    }
 }
