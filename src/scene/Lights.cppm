@@ -6,11 +6,13 @@ import rt.colors;
 export namespace rt {
 
     struct PointLight {
-        Color intensity;
         Point position;
+        Color intensity;
 
         PointLight();
         PointLight(const Point& _position, const Color& _intensity);
+
+        [[nodiscard]] bool operator==(const PointLight& other) const;
     };
 
 } // namespace rt
