@@ -24,7 +24,6 @@ export namespace rt {
         Matrix<4> transform{identity()};
         Matrix<4> transform_inverse{identity()};
         Matrix<4> transform_inverse_transpose{identity()};
-        int id;
 
         explicit Sphere(Point _origin, double _radius, Material _material = Material());
         Sphere();

@@ -15,15 +15,15 @@ namespace rt {
 
     Sphere::Sphere(Point _origin, double _radius, Material _material)
         : origin(_origin), radius(_radius), material(_material)
-    {
-        static int next_id = 0;
-        id = ++next_id;
-    }
+    {}
 
     Sphere::Sphere() : Sphere(Point(), 1.0, Material()) {}
 
     bool Sphere::operator==(const Sphere& other) const {
-        return id == other.id;
+        return origin == other.origin &&
+               radius == other.radius &&
+               material == other.material &&
+               transform == other.transform;
     }
 
     void Sphere::set_transform(const Matrix<4>& t) {
