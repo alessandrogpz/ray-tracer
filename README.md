@@ -17,6 +17,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
 - **How-To Guides**: Practical guides for specific tasks.
     - [Run Tests](documentation/how-to/RunTests.md)
     - [Write Tests](documentation/how-to/WriteTests.md)
+    - [Profile Code](documentation/how-to/ProfileCode.md)
 - **References**: Technical descriptions of the underlying APIs, code style, and mathematical structures.
     - [Core Mathematics](documentation/references/CoreMath.md)
     - [C++ Implementation Details](documentation/references/C++ImplementationDetails.md)
