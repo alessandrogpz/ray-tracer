@@ -121,8 +121,10 @@ TEST(SphereRayIntersection, IntersectSetsTheObjectOnTheIntersection)
     std::vector<Intersection> xs = intersect(s, r);
 
     ASSERT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].obj, &s);
-    EXPECT_EQ(xs[1].obj, &s);
+    EXPECT_EQ(xs[0].shape_index, 0);
+    EXPECT_EQ(xs[0].shape_type, ShapeType::Sphere);
+    EXPECT_EQ(xs[1].shape_index, 0);
+    EXPECT_EQ(xs[1].shape_type, ShapeType::Sphere);
 }
 
 // ---------------------------------------------------

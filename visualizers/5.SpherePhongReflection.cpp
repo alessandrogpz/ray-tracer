@@ -83,10 +83,10 @@ int main()
             if (auto h = hit(xs))
             {
                 Point p = position(r, h->t);
-                Vector normal = normalAt(*(h->obj), p);
+                Vector normal = normalAt(s, p);
                 Vector eye = -r.direction;
 
-                Color pixel_color = lighting(h->obj->material, light, p, eye, normal);
+                Color pixel_color = lighting(s.material, light, p, eye, normal);
                 writePixel(c, x, y, pixel_color);
             }
         }

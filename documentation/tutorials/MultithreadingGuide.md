@@ -53,9 +53,20 @@ Example rendering loop with multithreading enabled:
         {
             // Calculate ray, clear local vector, and intersect
             xs.clear();
-            intersect(s1, r, xs);
-            intersect(s2, r, xs);
-            // ...
+            intersect(s1, r, xs, 0);
+            intersect(s2, r, xs, 1);
+            
+            // If a valid hit occurs, calculate lighting and Color the pixel
+            if (auto h = hit(xs))
+            {
+                const Sphere& hit_sphere = (h->shape_index == 0) ? s1 : s2;
+                Point p = position(r, h->t);
+                Vector normal = normalAt(hit_sphere, p);
+                Vector eye = -r.direction;
+
+                Color pixel_color = lighting(hit_sphere.material, light, p, eye, normal);
+                writePixel(c, x, y, pixel_color);
+            }
         }
     }
 ```

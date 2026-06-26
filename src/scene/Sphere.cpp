@@ -10,20 +10,38 @@ import rt.transformations;
 import rt.materials;
 import rt.intersection;
 import rt.ray;
-import rt.shape_base;
 
 namespace rt {
 
     Sphere::Sphere(Point _origin, double _radius, Material _material)
-        : origin(_origin), radius(_radius)
+        : origin(_origin), radius(_radius), material(_material)
     {
-        material = _material;
+        static int next_id = 0;
+        id = ++next_id;
     }
 
     Sphere::Sphere() : Sphere(Point(), 1.0, Material()) {}
 
     bool Sphere::operator==(const Sphere& other) const {
         return id == other.id;
+    }
+
+    void Sphere::set_transform(const Matrix<4>& t) {
+        transform = t;
+        transform_inverse = t.inverse();
+        transform_inverse_transpose = transform_inverse.transpose();
+    }
+
+    const Matrix<4>& Sphere::get_transform() const {
+        return transform;
+    }
+
+    const Matrix<4>& Sphere::get_transform_inverse() const {
+        return transform_inverse;
+    }
+
+    const Matrix<4>& Sphere::get_transform_inverse_transpose() const {
+        return transform_inverse_transpose;
     }
 
     Vector Sphere::local_normal_at(Point local_point) const {
@@ -48,24 +66,24 @@ namespace rt {
         return {2, t1, t2};
     }
 
-    std::vector<Intersection> intersect(const Shape& s, const Ray& r) {
+    std::vector<Intersection> intersect(const Sphere& s, const Ray& r, std::uint32_t index) {
         Ray local_ray = transformRay(r, s.get_transform_inverse());
         LocalIntersections ts = s.local_intersect(local_ray.origin, local_ray.direction);
         std::vector<Intersection> xs;
         xs.reserve(ts.count);
-        if (ts.count > 0) xs.emplace_back(ts.t0, &s);
-        if (ts.count > 1) xs.emplace_back(ts.t1, &s);
+        if (ts.count > 0) xs.emplace_back(ts.t0, index, ShapeType::Sphere);
+        if (ts.count > 1) xs.emplace_back(ts.t1, index, ShapeType::Sphere);
         return xs;
     }
 
-    void intersect(const Shape& s, const Ray& r, std::vector<Intersection>& xs) {
+    void intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index) {
         Ray local_ray = transformRay(r, s.get_transform_inverse());
         LocalIntersections ts = s.local_intersect(local_ray.origin, local_ray.direction);
-        if (ts.count > 0) xs.emplace_back(ts.t0, &s);
-        if (ts.count > 1) xs.emplace_back(ts.t1, &s);
+        if (ts.count > 0) xs.emplace_back(ts.t0, index, ShapeType::Sphere);
+        if (ts.count > 1) xs.emplace_back(ts.t1, index, ShapeType::Sphere);
     }
 
-    Vector normalAt(const Shape& s, Point p) {
+    Vector normalAt(const Sphere& s, Point p) {
         const Point local_point = s.get_transform_inverse() * p;
         const Vector local_normal = s.local_normal_at(local_point);
         const Tuple world_normal_tuple = s.get_transform_inverse_transpose() * static_cast<const Tuple&>(local_normal);

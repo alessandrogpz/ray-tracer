@@ -1,6 +1,10 @@
 # Explanation: Ray-Sphere Intersection Algorithm
 
-The `intersect(Sphere, Ray)` function determines the points where a Ray intersects a Sphere. The approach used is an **analytic solution**, relying on algebraic equations rather than numerical approximation.
+Under our Data-Oriented Design (DOD) shape architecture, the `intersect(const Sphere&, const Ray&, ...)` functions determine the points where a Ray intersects a Sphere. The approach used is an **analytic solution**, relying on algebraic equations rather than numerical approximation.
+
+There are two overloads optimized for different usage contexts:
+1. `std::vector<Intersection> intersect(const Sphere& s, const Ray& r, std::uint32_t index = 0)`: Allocates and returns a vector of intersections (useful for standalone queries and tests).
+2. `void intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0)`: Appends intersections directly to an existing vector, eliminating heap allocations in hot rendering loops.
 
 ## The Math Behind the Intersection
 
@@ -51,7 +55,7 @@ $$ at^2 + bt + c = 0 $$
 
 Where our coefficients map directly to our code using the `local_ray`:
 *   **$a$** = $D \cdot D$ (`dotProduct(local_ray.direction, local_ray.direction)`)
-*   **$b$** = $2(D \cdot \vec{V})$ (`2.0f * dotProduct(local_ray.direction, sphere_to_ray)`)
+*   **$b$** = $2(D \cdot \vec{V})$ (`2.0 * dotProduct(local_ray.direction, sphere_to_ray)`)
 *   **$c$** = $\vec{V} \cdot \vec{V} - r^2$ (`dotProduct(sphere_to_ray, sphere_to_ray) - (s.radius * s.radius)`)
 
 To solve for $t$, we use the quadratic formula:
@@ -64,4 +68,4 @@ The part under the square root, $b^2 - 4ac$, is the **discriminant**. It tells u
 2.  **Discriminant = 0**: The Ray just grazes the edge of the Sphere, intersecting at exactly one Point (1 Intersection).
 3.  **Discriminant > 0**: The Ray goes directly through the Sphere, entering one side and exiting the other (2 intersections).
 
-In our `intersect` function, we calculate these two $t$ values (`t1` and `t2`) and return them. These values represent the distances from the Ray's origin to the Intersection points.
+In our `intersect` functions, we calculate these two $t$ values (`t1` and `t2`) and record them inside `Intersection` structures along with the sphere's container `index` and type. These values represent the distances from the Ray's origin to the Intersection points.

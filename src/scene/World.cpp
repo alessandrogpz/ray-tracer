@@ -7,7 +7,6 @@ import std;
 import rt.lights;
 import rt.tuple;
 import rt.colors;
-import rt.shape_base;
 import rt.utils;
 import rt.transformations;
 

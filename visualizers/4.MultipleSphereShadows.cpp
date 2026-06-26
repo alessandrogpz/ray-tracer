@@ -75,18 +75,18 @@ int main()
 
             // Cast the Ray and check for intersections
             xs.clear();
-            intersect(s1, r, xs);
-            intersect(s2, r, xs);
-            intersect(s3, r, xs);
+            intersect(s1, r, xs, 0);
+            intersect(s2, r, xs, 1);
+            intersect(s3, r, xs, 2);
 
             // If a valid hit occurs, Color the pixel with the appropriate object Color
             if (auto h = hit(xs))
             {
-                if (h->obj == &s1)
+                if (h->shape_index == 0)
                     writePixel(c, x, y, red);
-                else if (h->obj == &s3)
+                else if (h->shape_index == 2)
                     writePixel(c, x, y, yellow);
-                else if (h->obj == &s2)
+                else if (h->shape_index == 1)
                     writePixel(c, x, y, blue);
             }
         }

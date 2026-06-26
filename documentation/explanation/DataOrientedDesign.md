@@ -43,42 +43,66 @@ struct PixelRGBA8 {
 
 ---
 
-## 3. Case Study: DOD Shape Polymorphism
+## 3. Case Study: 100% Pure DOD Shape Architecture
 
 ### The Problem (OOP Approach)
 Typically in ray tracers, shape polymorphism is achieved via standard object-oriented hierarchies:
 * **Storage**: `std::vector<std::unique_ptr<Shape>> shapes`
-* **Intersection Loop**: For every ray, the engine iterates over the pointers, calls `virtual intersect(...)`, and resolves shape-specific logic dynamically.
-* **Impact**: Since shape objects are allocated individually on the heap, traversing the vector triggers **pointer chasing** across memory. Furthermore, virtual function calls inside the intersection loop disrupt instruction pipelines and degrade cache locality.
+* **Intersection Loop**: For every ray, the engine iterates over pointers, calls `virtual intersect(...)`, and resolves shape-specific logic dynamically.
+* **Impact**: Since shape objects are allocated individually on the heap, traversing the vector triggers **pointer chasing** across memory. Furthermore, virtual function calls inside the intersection loop disrupt instruction pipelines, prevent compiler inlining, and degrade cache locality.
 
 ### The DOD Optimization
-To prepare the ray tracer for type-segregated memory arrays within a scene container (`World`), we implemented a hybrid polymorphism design:
+To maximize CPU cache hits and allow the compiler to fully inline mathematical calculations, we implemented a **100% Pure Data-Oriented Design (DOD)** shape architecture, completely eliminating inheritance, virtual tables (`vtables`), and raw pointers.
 
-1. **Decoupling from Ray Primitives**:
-   We redefined the `Shape` virtual interface to accept raw data types rather than a composite `Ray` object:
+1. **Flat, Standalone Structs**:
+   We removed the polymorphic `Shape` base class entirely. The `Sphere` struct contains all its data flat and contiguously in memory:
    ```cpp
-   [[nodiscard]] virtual LocalIntersections local_intersect(Point local_origin, Vector local_direction) const = 0;
+   struct Sphere {
+       Point origin;
+       double radius;
+       Material material;
+       Matrix<4> transform{identity()};
+       Matrix<4> transform_inverse{identity()};
+       Matrix<4> transform_inverse_transpose{identity()};
+       int id;
+   };
    ```
-   This broke circular dependencies between C++20 modules (`rt.ray` ➡️ `rt.sphere` ➡️ `rt.intersection` ➡️ `rt.ray`), allowing `rt.shape_base` to remain an independent module.
 
-2. **File & Type Segregation**:
-   We renamed `Shapes.cppm` / `Shapes.cpp` to `Sphere.cppm` / `Sphere.cpp` to isolate `Sphere` as its own concrete structure inheriting from `Shape`. Additional shapes (e.g., `Triangle`, `Plane`) will follow this pattern as separate types.
-   
-3. **Contiguous World Vectors**:
-   This architecture enables a flat-memory `World` design:
+2. **Index-Based `Intersection` Records**:
+   Instead of storing a raw pointer to a base class (`const Shape* obj`), which forces the CPU to chase pointers during shading, we store the shape's index inside the `World` container's contiguous vector and a type-safe `ShapeType` enum:
+   ```cpp
+   enum class ShapeType : std::uint8_t {
+       Sphere
+   };
+
+   struct Intersection {
+       double t;
+       std::uint32_t shape_index;
+       ShapeType shape_type;
+   };
+   ```
+   During shading, the ray tracer queries the contiguous vector in the `World` directly using the index (e.g. `w.spheres[intersection.shape_index]`), ensuring adjacent lookups are served straight from L1/L2 caches.
+
+3. **Compiler Inlining of Shape Logic**:
+   With no virtual functions, ray intersections are handled by fast, non-virtual functions:
+   ```cpp
+   void intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0);
+   ```
+   This allows the C++ compiler to inline the entire quadratic sphere-intersection logic directly inside the main loop, avoiding function call overhead.
+
+4. **Contiguous World Vectors**:
+   The `World` struct stores concrete shapes in type-segregated vectors:
    ```cpp
    struct World {
        std::vector<Sphere> spheres;
-       std::vector<Triangle> triangles;
+       PointLight light;
    };
    ```
-   When casting rays, the engine loops over each contiguous array sequentially. No pointer chasing or virtual function resolution occurs during the intersection checks.
-
-4. **APIs Compatibility**:
-   We kept `Intersection` records holding a base `const Shape* obj` pointer. Direct properties (like `obj->material`) are accessed immediately from the base class, and virtual dispatch (`normalAt`) is only invoked **once** per ray (during the shading phase for the closest hit), avoiding virtual call overhead on missed rays.
+   When casting rays, the engine loops over each contiguous array sequentially, allowing the CPU hardware pre-fetcher to work at 100% efficiency.
 
 5. **Eliminating Heap Allocations (LocalIntersections & Reused Vectors)**:
    Originally, `local_intersect` returned a `std::vector<double>` and `intersect` returned a `std::vector<Intersection>` per call. For a 2K rendering loop with 3 spheres, this resulted in **~22 million heap allocations and deallocations** per frame. To eliminate this bottleneck:
    * **Stack-Allocated Result Struct**: `local_intersect` returns a stack-allocated, fixed-size `LocalIntersections` struct containing a count and a fixed size double array. This fits in CPU registers and avoids any heap allocation.
-   * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Shape& s, const Ray& r, std::vector<Intersection>& xs)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity (6 elements), and calling `xs.clear()` on each pixel iteration, we reduced heap allocations inside the render loop to **zero**.
+   * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity (6 elements), and calling `xs.clear()` on each pixel iteration, we reduced heap allocations inside the render loop to **zero**.
+
 

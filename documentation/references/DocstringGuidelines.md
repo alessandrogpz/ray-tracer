@@ -18,14 +18,15 @@ Here is an example demonstrating the proper formatting, taken directly from our 
  * @brief Calculates the Intersection points of a Ray and a Sphere.
  *
  * Uses the quadratic formula to solve for time `t` where the Ray intersects the Sphere's surface.
- * Math reference: documentation/explanation/RaySphereIntersection.md
+ * Math reference: documentation/explanation/RaySphereIntersectionAlgorithm.md
  *
  * @param s The target Sphere geometry.
  * @param r The Ray being cast.
- * @return std::vector<Intersection> A collection of Intersection records containing the `t` values and a pointer to the hit object. Empty if no Intersection.
+ * @param index The index of the sphere within the container.
+ * @return std::vector<Intersection> A collection of Intersection records containing the `t` values, shape_index, and shape_type. Empty if no Intersection.
 */
 [[nodiscard]]
-std::vector<Intersection> intersect(const Sphere& s, const Ray& r)
+std::vector<Intersection> intersect(const Sphere& s, const Ray& r, std::uint32_t index = 0)
 {
     // Implementation...
 }

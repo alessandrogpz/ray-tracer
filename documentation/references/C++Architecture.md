@@ -1,10 +1,10 @@
 # Reference: C++ Module & Build Architecture
 
-This reference guide documents the code-level structure of the Ray Tracer engine, focusing on its C++20 Modules architecture and module dependency graph.
+This reference guide documents the code-level structure of the Ray Tracer engine, focusing on its C++23 Modules architecture and module dependency graph.
 
 ## 1. Module Layout and Responsibilities
 
-Our codebase is organized into modular C++20 units, split into module interfaces (`.cppm`) and module implementations (`.cpp`), categorized under subfolders `math/`, `core/`, and `scene/` under `src/`. Below is the list of exported modules, their file paths, and their responsibilities:
+Our codebase is organized into modular C++23 units, split into module interfaces (`.cppm`) and module implementations (`.cpp`), categorized under subfolders `math/`, `core/`, and `scene/` under `src/`. Below is the list of exported modules, their file paths, and their responsibilities:
 
 | Module Name | File Paths | Direct Imports | Responsibility |
 | :--- | :--- | :--- | :--- |
@@ -14,52 +14,57 @@ Our codebase is organized into modular C++20 units, split into module interfaces
 | **`rt.transformations`**| `src/math/Transformations.cppm`, `.cpp` | `rt.matrix`, `rt.tuple` | Linear transformations (translation, scale, rotation, shear, and Householder reflection matrices). |
 | **`rt.colors`** | `src/core/Colors.cppm`, `.cpp` | `rt.utils` | The `Color` structure and Color blend operations. |
 | **`rt.canvas`** | `src/core/Canvas.cppm`, `.cpp` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
-| **`rt.shape_base`** | `src/scene/ShapeBase.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials` | Abstract generic `Shape` base class with cached transform matrices. |
-| **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.shape_base`, `rt.ray` | Concrete `Sphere` shape definition inheriting from `Shape`. |
-| **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | `rt.shape_base` | Tracking records of Ray-object intersections (t-distance and shape pointer). |
+| **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Sphere` shape definition (flat layout, no inheritance). |
+| **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | None | Tracking records of Ray-object intersections (t-distance, index, and shape type). |
 | **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and hit utility algorithms. |
 | **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
 | **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.utils` | Surface reflection material definition (ambient, diffuse, specular, shininess). |
 | **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.lights` | Phong reflection model lighting calculations. |
+| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.lights` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
 
 ---
 
 ## 2. Module Dependency Graph
 
-C++20 modules require a strict, acyclic compilation order. The diagram below illustrates how components import each other. Lower modules must be compiled completely before the modules importing them can compile.
+C++23 modules require a strict, acyclic compilation order. The diagram below illustrates how components import each other. Lower modules must be compiled completely before the modules importing them can compile.
 
 ```mermaid
 graph TD
     Utils[rt.utils] --> Tuple[rt.tuple]
     Utils --> Matrix[rt.matrix]
+    Utils --> Colors[rt.colors]
+    Utils --> Materials[rt.materials]
+    
+    Colors --> Canvas[rt.canvas]
+    Colors --> Materials
+    Colors --> Lights[rt.lights]
+    Colors --> Shading[rt.shading]
     
     Tuple --> Matrix
     Tuple --> Transformations[rt.transformations]
+    Tuple --> Lights
     Tuple --> Ray[rt.ray]
-    Tuple --> ShapeBase[rt.shape_base]
     Tuple --> Sphere[rt.sphere]
+    Tuple --> Shading
     
     Matrix --> Transformations
-    Matrix --> ShapeBase
-    Matrix --> Sphere
     Matrix --> Ray
+    Matrix --> Sphere
     
-    Transformations --> ShapeBase
-    Transformations --> Sphere
     Transformations --> Ray
+    Transformations --> Sphere
     
-    Materials[rt.materials] --> ShapeBase
-    Materials --> Sphere
-    
-    Colors[rt.colors] --> Canvas[rt.canvas]
-    
-    ShapeBase --> Intersection[rt.intersection]
-    ShapeBase --> Sphere
-    
-    Intersection --> Ray
+    Intersection[rt.intersection] --> Ray
     Intersection --> Sphere
     
+    Materials --> Sphere
+    Materials --> Shading
+    
+    Lights --> Shading
+    Lights --> World[rt.world]
+    
     Ray --> Sphere
+    Sphere --> World
 ```
 
 ### Avoiding Circular Imports

@@ -99,20 +99,20 @@ int main()
             Vector direction = normalizeVector(position_on_wall - ray_origin);
             Ray r(ray_origin, direction);
 
-            // Cast the Ray and check for intersections
             xs.clear();
-            intersect(s1, r, xs);
-            intersect(s2, r, xs);
-            intersect(s3, r, xs);
+            intersect(s1, r, xs, 0);
+            intersect(s2, r, xs, 1);
+            intersect(s3, r, xs, 2);
 
             // If a valid hit occurs, calculate lighting and Color the pixel
             if (auto h = hit(xs))
             {
+                const Sphere& hit_sphere = (h->shape_index == 0) ? s1 : ((h->shape_index == 1) ? s2 : s3);
                 Point p = position(r, h->t);
-                Vector normal = normalAt(*(h->obj), p);
+                Vector normal = normalAt(hit_sphere, p);
                 Vector eye = -r.direction;
 
-                Color pixel_color = lighting(h->obj->material, light, p, eye, normal);
+                Color pixel_color = lighting(hit_sphere.material, light, p, eye, normal);
                 writePixel(c, x, y, pixel_color);
             }
         }
