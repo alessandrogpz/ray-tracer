@@ -50,6 +50,7 @@ target_sources(raytracer_core
         src/scene/Lights.cppm
         src/scene/Materials.cppm
         src/scene/Shading.cppm
+        src/scene/World.cppm
   PRIVATE
         src/math/Utils.cpp
         src/math/Tuple.cpp
@@ -63,6 +64,7 @@ target_sources(raytracer_core
         src/scene/Lights.cpp
         src/scene/Materials.cpp
         src/scene/Shading.cpp
+        src/scene/World.cpp
 )
 
 # Optional!
