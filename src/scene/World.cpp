@@ -14,19 +14,28 @@ import rt.materials;
 
 namespace rt
 {
+    void World::add_sphere(const Sphere& s) {
+        sphere_origins.push_back(s.origin);
+        sphere_radii.push_back(s.radius);
+        sphere_materials.push_back(s.material);
+        sphere_transforms.push_back(s.get_transform());
+        sphere_transforms_inverse.push_back(s.get_transform_inverse());
+        sphere_transforms_inverse_transpose.push_back(s.get_transform_inverse_transpose());
+    }
+
     World default_world() {
         World w;
-        w.light = PointLight(Point(-10, 10, -10), Color(1.0, 1.0, 1.0));
+        w.light = PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
 
         Sphere s1;
         s1.material.color = Color(0.8, 1.0, 0.6);
         s1.material.diffuse = 0.7;
         s1.material.specular = 0.2;
-        w.spheres.push_back(s1);
+        w.add_sphere(s1);
 
         Sphere s2;
         s2.set_transform(scale(0.5, 0.5, 0.5));
-        w.spheres.push_back(s2);
+        w.add_sphere(s2);
 
         return w;
     }
@@ -35,9 +44,19 @@ namespace rt
     {
         std::vector<Intersection> xs;
 
-        const std::size_t n_objects = w.spheres.size();
+        const std::size_t n_objects = w.sphere_origins.size();
         for (std::size_t i = 0; i < n_objects; i++)
-            intersect(w.spheres[i], r, xs, static_cast<std::uint32_t>(i));
+        {
+            Sphere s;
+            s.origin = w.sphere_origins[i];
+            s.radius = w.sphere_radii[i];
+            s.material = w.sphere_materials[i];
+            s.transform = w.sphere_transforms[i];
+            s.transform_inverse = w.sphere_transforms_inverse[i];
+            s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i];
+
+            intersect(s, r, xs, static_cast<std::uint32_t>(i));
+        }
 
         // Sort all intersections in ascending order by their t-value
         std::ranges::sort(xs, {}, &Intersection::t);
@@ -52,7 +71,16 @@ namespace rt
         comps.intersection = i;
         comps.point = position(r, i.t);
         comps.eye_v = -r.direction;
-        comps.normal_v = normalAt(w.spheres[i.shape_index], comps.point);
+
+        Sphere s;
+        s.origin = w.sphere_origins[i.shape_index];
+        s.radius = w.sphere_radii[i.shape_index];
+        s.material = w.sphere_materials[i.shape_index];
+        s.transform = w.sphere_transforms[i.shape_index];
+        s.transform_inverse = w.sphere_transforms_inverse[i.shape_index];
+        s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i.shape_index];
+
+        comps.normal_v = normalAt(s, comps.point);
 
         if (dotProduct(comps.normal_v, comps.eye_v) < 0)
         {
@@ -65,7 +93,7 @@ namespace rt
 
     Color shade_hit(const World& w, const Comp& c)
     {
-        const Material& m = w.spheres[c.intersection.shape_index].material;
+        const Material& m = w.sphere_materials[c.intersection.shape_index];
         return lighting(m, w.light, c.point, c.eye_v, c.normal_v);
     }
 

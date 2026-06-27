@@ -80,6 +80,12 @@ if(MSVC)
 else()
     target_compile_options(raytracer_core PRIVATE 
         -Wall -Wextra -Wpedantic -Werror
+            
+        # SIMD Hardware Vectorization Optimizations:
+        # -march=native enables host CPU vector extensions (AVX/AVX2/FMA).
+        # -ffast-math allows the compiler to auto-vectorize floating-point loops.
+        # Refer to documentation/explanation/DataOrientedDesign.md to adjust/revert these for other systems.
+        -march=native -ffast-math -ftree-vectorize
     )
 endif()
 

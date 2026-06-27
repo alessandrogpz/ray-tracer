@@ -4,6 +4,8 @@ import std;
 import rt.sphere;
 import rt.lights;
 import rt.intersection;
+import rt.materials;
+import rt.matrix;
 import rt.ray;
 import rt.tuple;
 import rt.colors;
@@ -12,10 +14,21 @@ export namespace rt
 {
     struct World
     {
-        std::vector<Sphere> spheres{};
+        std::vector<Point> sphere_origins{};
+        std::vector<double> sphere_radii{};
+        std::vector<Material> sphere_materials{};
+        std::vector<Matrix<4>> sphere_transforms{};
+        std::vector<Matrix<4>> sphere_transforms_inverse{};
+        std::vector<Matrix<4>> sphere_transforms_inverse_transpose{};
+
         PointLight light{};
 
         World() = default;
+
+        /**
+         * @brief Adds a Sphere to the World, splitting it into parallel SoA vectors.
+         */
+        void add_sphere(const Sphere& s);
     };
 
     struct Comp

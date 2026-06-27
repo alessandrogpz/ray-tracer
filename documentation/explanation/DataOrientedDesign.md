@@ -105,4 +105,44 @@ To maximize CPU cache hits and allow the compiler to fully inline mathematical c
    * **Stack-Allocated Result Struct**: `local_intersect` returns a stack-allocated, fixed-size `LocalIntersections` struct containing a count and a fixed size double array. This fits in CPU registers and avoids any heap allocation.
    * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity (6 elements), and calling `xs.clear()` on each pixel iteration, we reduced heap allocations inside the render loop to **zero**.
 
+---
 
+## 6. Case Study: Structure of Arrays (SoA) & SIMD Compiler Optimizations
+
+### The Problem (AoS Bottlenecks in Intersections)
+While storing spheres contiguously as `std::vector<Sphere>` (Array of Structures) solved pointer chasing, iterating over objects containing heterogeneous fields (origins, radii, transforms, materials) still loaded unnecessary data into cache lines during vectorization. For instance, when checking intersections, the CPU does not need to load the `Material` (56 bytes) or the unused transformation transpose matrices into the cache.
+
+### The SoA Optimization
+We transitioned the `World` scene storage model from AoS to **Structure of Arrays (SoA)** by splitting the spheres into parallel vectors:
+```cpp
+struct World {
+    std::vector<Point> sphere_origins;
+    std::vector<double> sphere_radii;
+    std::vector<Material> sphere_materials;
+    std::vector<Matrix<4>> sphere_transforms;
+    std::vector<Matrix<4>> sphere_transforms_inverse;
+    std::vector<Matrix<4>> sphere_transforms_inverse_transpose;
+};
+```
+* **Impact**: During intersection checks, only the exact vectors needed (`sphere_origins`, `sphere_radii`, and `sphere_transforms_inverse`) are loaded into cache lines. This increases spatial locality and allows the compiler's loop vectorizer to pack adjacent values directly into CPU SIMD registers.
+
+### Compiler Vectorization Flags
+To fully leverage hardware acceleration and SIMD lanes, we added the following target compilation flags inside [CMakeLists.txt](file:///home/aper/Documents/ray-tracer/CMakeLists.txt):
+* **`-march=native`**: Tells the compiler to compile specifically for the host CPU's instruction set, enabling advanced vector instructions (like AVX2, AVX-512, and FMA3) instead of a generic, baseline x86_64 target.
+* **`-ffast-math`**: Relaxes strict IEEE 754 floating-point constraints (e.g., ignoring NaN/inf checks, enabling associative math). This is often the primary trigger allowing the compiler to auto-vectorize complex mathematical loops.
+* **`-ftree-vectorize`**: Forces loop auto-vectorization.
+
+### How to Adjust or Revert for Other Systems
+If you need to compile or distribute the ray tracer on systems that do not share the exact same hardware, you can adapt these flags:
+1. **Generic Modern CPU Compatibility (AVX2)**:
+   If building for distribution on other modern 64-bit systems, replace `-march=native` with:
+   `-march=x86-64-v3`
+   *(This targets a generic baseline that guarantees AVX, AVX2, FMA, and BMI2 support without linking to your specific local CPU.)*
+2. **Fallback Compatibility (No Vector Extensions)**:
+   If compiling on older machines or if `-march=native` causes illegal instruction errors during execution, remove the optimization options entirely:
+   ```cmake
+   # In CMakeLists.txt, revert to standard warnings only:
+   target_compile_options(raytracer_core PRIVATE -Wall -Wextra -Wpedantic -Werror)
+   ```
+3. **Strict Precision Mode**:
+   If `-ffast-math` causes minor rounding variances that break precise floating-point comparison assertions in unit tests, remove only the `-ffast-math` flag, leaving `-march=native` active.

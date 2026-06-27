@@ -20,7 +20,7 @@ TEST(WorldCreation, EmptyWorld)
 {
     const World w1;
 
-    EXPECT_EQ(w1.spheres.empty(), true);
+    EXPECT_EQ(w1.sphere_origins.empty(), true);
     EXPECT_EQ(w1.light, PointLight());
 }
 
@@ -40,14 +40,14 @@ TEST(WorldCreation, DefaultWorld)
 
     EXPECT_EQ(w.light, expected_light);
 
-    ASSERT_EQ(w.spheres.size(), 2);
+    ASSERT_EQ(w.sphere_origins.size(), 2);
     // Check s1 properties
-    EXPECT_EQ(w.spheres[0].material.color, Color(0.8, 1.0, 0.6));
-    EXPECT_EQ(w.spheres[0].material.diffuse, 0.7);
-    EXPECT_EQ(w.spheres[0].material.specular, 0.2);
+    EXPECT_EQ(w.sphere_materials[0].color, Color(0.8, 1.0, 0.6));
+    EXPECT_EQ(w.sphere_materials[0].diffuse, 0.7);
+    EXPECT_EQ(w.sphere_materials[0].specular, 0.2);
 
     // Check s2 properties
-    EXPECT_EQ(w.spheres[1].get_transform(), scale(0.5, 0.5, 0.5));
+    EXPECT_EQ(w.sphere_transforms[1], scale(0.5, 0.5, 0.5));
 }
 
 // ---------------------------------------------------
@@ -75,7 +75,7 @@ TEST(PrecomputingInteraction, PrecomputeStateOfIntersection)
     const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
     const Sphere s;
     World w;
-    w.spheres.push_back(s);
+    w.add_sphere(s);
     const Intersection i(4.0, 0, ShapeType::Sphere);
     const Comp comps = prepare_computation(i, r, w);
 
@@ -94,7 +94,7 @@ TEST(PrecomputingInteraction, PrecomputeStateOfIntersectionInside)
     const Ray r(Point(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
     const Sphere s;
     World w;
-    w.spheres.push_back(s);
+    w.add_sphere(s);
     const Intersection i(1.0, 0, ShapeType::Sphere);
     const Comp comps = prepare_computation(i, r, w);
 
@@ -158,13 +158,13 @@ TEST(ColorAtRay, ColorWithIntersectionBehindRay)
     World w = default_world();
     
     // Set ambient to 1 for both spheres so they glow completely in their own color
-    w.spheres[0].material.ambient = 1.0;
-    w.spheres[1].material.ambient = 1.0;
+    w.sphere_materials[0].ambient = 1.0;
+    w.sphere_materials[1].ambient = 1.0;
 
     // Ray originates inside the outer sphere but points at the inner sphere from its edge
     const Ray r(Point(0.0, 0.0, 0.75), Vector(0.0, 0.0, -1.0));
     const Color c = color_at(w, r);
 
     // Should return the color of the inner sphere
-    EXPECT_EQ(c, w.spheres[1].material.color);
+    EXPECT_EQ(c, w.sphere_materials[1].color);
 }
