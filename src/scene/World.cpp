@@ -52,6 +52,12 @@ namespace rt
         comps.eye_v = -r.direction;
         comps.normal_v = normalAt(w.spheres[i.shape_index], comps.point);
 
+        if (dotProduct(comps.normal_v, comps.eye_v) < 0)
+        {
+            comps.inside = true;
+            comps.normal_v = -comps.normal_v;
+        }
+
         return comps;
     }
 

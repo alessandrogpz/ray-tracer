@@ -23,6 +23,7 @@ export namespace rt
         Vector eye_v{};
         Vector normal_v{};
         Intersection intersection{};
+        bool inside { false };
 
         Comp() = default;
     };
@@ -34,7 +35,8 @@ export namespace rt
      * @brief Precomputes relevant geometric vectors and state for a given intersection.
      *
      * Calculates the exact 3D point of intersection, the eye vector pointing back
-     * towards the ray's origin, and the surface normal vector at that point.
+     * towards the ray's origin, the surface normal vector at that point, and checks
+     * if the intersection occurred on the inside of the shape (inverting the normal if so).
      *
      * @param i The Intersection containing the t-value and shape identifiers.
      * @param r The Ray that caused the intersection.

@@ -86,6 +86,23 @@ TEST(PrecomputingInteraction, PrecomputeStateOfIntersection)
     EXPECT_EQ(comps.point, Point(0.0, 0.0, -1.0));
     EXPECT_EQ(comps.eye_v, Vector(0.0, 0.0, -1.0));
     EXPECT_EQ(comps.normal_v, Vector(0.0, 0.0, -1.0));
+    EXPECT_FALSE(comps.inside);
+}
 
+TEST(PrecomputingInteraction, PrecomputeStateOfIntersectionInside)
+{
+    const Ray r(Point(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
+    const Sphere s;
+    World w;
+    w.spheres.push_back(s);
+    const Intersection i(1.0, 0, ShapeType::Sphere);
+    const Comp comps = prepare_computation(i, r, w);
+
+    EXPECT_DOUBLE_EQ(comps.intersection.t, i.t);
+    EXPECT_EQ(comps.point, Point(0.0, 0.0, 1.0));
+    EXPECT_EQ(comps.eye_v, Vector(0.0, 0.0, -1.0));
+    EXPECT_TRUE(comps.inside);
+    // The normal vector is inverted since it was pointing outwards
+    EXPECT_EQ(comps.normal_v, Vector(0.0, 0.0, -1.0));
 }
 
