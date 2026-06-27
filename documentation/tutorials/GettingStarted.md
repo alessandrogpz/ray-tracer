@@ -68,8 +68,11 @@ cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug -G Ninja
 # 2. Build
 cmake --build build-debug
 
-# 3. Run the debug binary
-./build-debug/6.MultipleSpherePhongReflections
+# 3. Enter build-debug Folder
+cd build-debug/
+
+# 4. Run the debug binary
+./6.MultipleSpherePhongReflections
 ```
 
 #### Release Configuration (Full optimizations, fast rendering)
@@ -80,8 +83,11 @@ cmake -B build-release -DCMAKE_BUILD_TYPE=Release -G Ninja
 # 2. Build
 cmake --build build-release
 
-# 3. Run the release binary
-./build-release/6.MultipleSpherePhongReflections
+# 3. Enter build-release Folder
+cd build-release/
+
+# 4. Run the release binary
+./6.MultipleSpherePhongReflections
 ```
 
 ### Available Visualizers
