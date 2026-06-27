@@ -1,5 +1,6 @@
 # --- CMake / Build Artifacts ---
 build/
+build-*/
 bin/
 lib/
 CMakeFiles/
