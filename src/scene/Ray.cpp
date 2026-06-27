@@ -9,13 +9,13 @@ import rt.transformations;
 
 namespace rt {
 
-    Ray::Ray() : origin(createPoint(0.0, 0.0, 0.0)),
-                 direction(createVector(0.0, 0.0, 0.0)) {}
+    Ray::Ray() : origin(createPoint(0.0f, 0.0f, 0.0f)),
+                 direction(createVector(0.0f, 0.0f, 0.0f)) {}
 
     Ray::Ray(const Point& _origin, const Vector& _direction)
         : origin(_origin), direction(_direction) {}
 
-    Point position(const Ray& r, double time) {
+    Point position(const Ray& r, float time) {
         return r.origin + r.direction * time;
     }
 
@@ -28,7 +28,7 @@ namespace rt {
     std::optional<Intersection> hit(const std::vector<Intersection>& intersectionSet) {
 
         // Filter out negative 't' values (behind the camera)
-        auto valid_hits = intersectionSet | std::views::filter([](const auto& i) { return i.t >= 0.0; });
+        auto valid_hits = intersectionSet | std::views::filter([](const auto& i) { return i.t >= 0.0f; });
 
         if (valid_hits.empty())
             return std::nullopt;

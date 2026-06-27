@@ -13,11 +13,11 @@ import rt.ray;
 
 namespace rt {
 
-    Sphere::Sphere(Point _origin, double _radius, Material _material)
+    Sphere::Sphere(Point _origin, float _radius, Material _material)
         : origin(_origin), radius(_radius), material(_material)
     {}
 
-    Sphere::Sphere() : Sphere(Point(), 1.0, Material()) {}
+    Sphere::Sphere() : Sphere(Point(), 1.0f, Material()) {}
 
     bool Sphere::operator==(const Sphere& other) const {
         return origin == other.origin &&
@@ -51,17 +51,17 @@ namespace rt {
     LocalIntersections Sphere::local_intersect(Point local_origin, Vector local_direction) const {
         Vector sphere_to_ray = local_origin - origin;
 
-        double a = dotProduct(local_direction, local_direction);
-        double b = 2.0 * dotProduct(local_direction, sphere_to_ray);
-        double c = dotProduct(sphere_to_ray, sphere_to_ray) - (radius * radius);
+        float a = dotProduct(local_direction, local_direction);
+        float b = 2.0f * dotProduct(local_direction, sphere_to_ray);
+        float c = dotProduct(sphere_to_ray, sphere_to_ray) - (radius * radius);
 
-        double discriminant = (b * b) - (4.0 * a * c);
+        float discriminant = (b * b) - (4.0f * a * c);
 
-        if (discriminant < 0.0)
+        if (discriminant < 0.0f)
             return {};
 
-        double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
-        double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
+        float t1 = (-b - std::sqrt(discriminant)) / (2.0f * a);
+        float t2 = (-b + std::sqrt(discriminant)) / (2.0f * a);
 
         return {2, t1, t2};
     }

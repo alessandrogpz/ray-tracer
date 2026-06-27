@@ -32,14 +32,14 @@ int main()
     constexpr std::size_t CANVAS_HEIGHT = 1440;
     Canvas c(CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    double radius = static_cast<double>(CANVAS_HEIGHT) * 0.4;
-    Point marker = createPoint(0.0, radius, 0.0);
-    Matrix<4> rot = rotation_z(std::numbers::pi / 6.0);
+    float radius = static_cast<float>(CANVAS_HEIGHT) * 0.4f;
+    Point marker = createPoint(0.0f, radius, 0.0f);
+    Matrix<4> rot = rotation_z(std::numbers::pi / 6.0f);
 
     for (int i = 0; i < 12; i++)
     {
-        int x = static_cast<int>(marker.x + static_cast<double>(CANVAS_WIDTH) / 2.0);
-        int y = static_cast<int>(marker.y + static_cast<double>(CANVAS_HEIGHT) / 2.0);
+        int x = static_cast<int>(marker.x + static_cast<float>(CANVAS_WIDTH) / 2.0f);
+        int y = static_cast<int>(marker.y + static_cast<float>(CANVAS_HEIGHT) / 2.0f);
 
         writePixelBlock(c, 8, 8, x - 4, y - 4, yellow);
 
@@ -51,7 +51,7 @@ int main()
     savePPM("OutputClockMarkers", ppmContent);
 
     auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+    std::chrono::duration<float, std::milli> elapsed = end_time - start_time;
     std::cout << "Execution time: " << elapsed.count() << " ms\n";
 
     return 0;

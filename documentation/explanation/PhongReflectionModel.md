@@ -97,7 +97,7 @@ Color lighting(Material material, PointLight light, Point point, Vector eye_vect
     Color ambient = effective_color * material.ambient;
 
     // 4. Cosine of angle between light and normal
-    double light_dot_normal = dotProduct(light_vector, normal_vector);
+    float light_dot_normal = dotProduct(light_vector, normal_vector);
 
     Color diffuse(0.0, 0.0, 0.0);
     Color specular(0.0, 0.0, 0.0);
@@ -109,12 +109,12 @@ Color lighting(Material material, PointLight light, Point point, Vector eye_vect
 
         // 6. Reflection vector & Cosine of angle between reflection and eye
         Vector reflect_vector = reflect(-light_vector, normal_vector);
-        double reflect_dot_eye = dotProduct(reflect_vector, eye_vector);
+        float reflect_dot_eye = dotProduct(reflect_vector, eye_vector);
 
         if (reflect_dot_eye > 0.0)
         {
             // 7. Specular component
-            double factor = std::pow(reflect_dot_eye, material.shininess);
+            float factor = std::pow(reflect_dot_eye, material.shininess);
             specular = light.intensity * material.specular * factor;
         }
     }

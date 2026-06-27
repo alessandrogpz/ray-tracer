@@ -15,7 +15,7 @@ export namespace rt
     struct World
     {
         std::vector<Point> sphere_origins{};
-        std::vector<double> sphere_radii{};
+        std::vector<float> sphere_radii{};
         std::vector<Material> sphere_materials{};
         std::vector<Matrix<4>> sphere_transforms{};
         std::vector<Matrix<4>> sphere_transforms_inverse{};

@@ -65,9 +65,9 @@ TEST(CanvasToPPM, PPMHeader) {
 TEST(CanvasToPPM, PPMPixelData) {
     Canvas c(5, 3);
 
-    Color c1(1.5, 0.0, 0.0);
-    Color c2(0.0, 0.5, 0.0);
-    Color c3(-0.5, 0.0, 1.0);
+    Color c1(1.5f, 0.0f, 0.0f);
+    Color c2(0.0f, 0.5f, 0.0f);
+    Color c3(-0.5f, 0.0f, 1.0f);
 
     writePixel(c, 0, 0, c1);
     writePixel(c, 2, 1, c2);
@@ -93,7 +93,7 @@ TEST(CanvasToPPM, PPMPixelData) {
 }
 
 TEST(CanvasToPPM, PPMLongPixelDataLines) {
-    Color c1(1.0, 0.8, 0.6);
+    Color c1(1.0f, 0.8f, 0.6f);
     
     Canvas c(10, 2, c1);
 
@@ -128,7 +128,7 @@ TEST(CanvasToPPM, PPMNewlineTerminated) {
     // Checks that the very last byte of the string is a newline.
     EXPECT_EQ(ppm.back(), '\n');
     
-    // Ensure the character before it ISN'T a newline to prevent the "double newline" bug.
+    // Ensure the character before it ISN'T a newline to prevent the "float newline" bug.
     if (ppm.size() > 1) {
         EXPECT_NE(ppm[ppm.size() - 2], '\n');
     }

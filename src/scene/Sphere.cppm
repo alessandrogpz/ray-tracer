@@ -13,19 +13,19 @@ export namespace rt {
 
     struct LocalIntersections {
         std::size_t count = 0;
-        double t0 = 0.0;
-        double t1 = 0.0;
+        float t0 = 0.0f;
+        float t1 = 0.0f;
     };
 
     struct Sphere {
         Point origin;
-        double radius;
+        float radius;
         Material material;
         Matrix<4> transform{identity()};
         Matrix<4> transform_inverse{identity()};
         Matrix<4> transform_inverse_transpose{identity()};
 
-        explicit Sphere(Point _origin, double _radius, Material _material = Material());
+        explicit Sphere(Point _origin, float _radius, Material _material = Material());
         Sphere();
 
         [[nodiscard]] bool operator==(const Sphere& other) const;

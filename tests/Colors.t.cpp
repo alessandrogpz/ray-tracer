@@ -14,11 +14,11 @@ using namespace rt;
 
 TEST(ColorCreation, CreateColorTuple)
 {
-	Color c = createColor(-0.5, 0.4, 1.7);
+	Color c = createColor(-0.5f, 0.4f, 1.7f);
 
-	EXPECT_DOUBLE_EQ(c.r, -0.5);
-	EXPECT_DOUBLE_EQ(c.g, 0.4);
-	EXPECT_DOUBLE_EQ(c.b, 1.7);
+	EXPECT_FLOAT_EQ(c.r, -0.5f);
+	EXPECT_FLOAT_EQ(c.g, 0.4f);
+	EXPECT_FLOAT_EQ(c.b, 1.7f);
 }
 
 // ------------------------------------------------------
@@ -26,51 +26,51 @@ TEST(ColorCreation, CreateColorTuple)
 
 TEST(ColorOperation, AddTwoColors)
 {
-	Color c1 = createColor(0.9, 0.6, 0.75);
-	Color c2 = createColor(0.7, 0.1, 0.25);
+	Color c1 = createColor(0.9f, 0.6f, 0.75f);
+	Color c2 = createColor(0.7f, 0.1f, 0.25f);
 
 	// Operator Overload
 	Color c_result = c1 + c2;
 
-	EXPECT_DOUBLE_EQ(c_result.r, 1.6);
-	EXPECT_DOUBLE_EQ(c_result.g, 0.7);
-	EXPECT_DOUBLE_EQ(c_result.b, 1.0);
+	EXPECT_FLOAT_EQ(c_result.r, 1.6f);
+	EXPECT_FLOAT_EQ(c_result.g, 0.7f);
+	EXPECT_FLOAT_EQ(c_result.b, 1.0f);
 }
 
 TEST(ColorOperation, SubtractTwoColors)
 {
-	Color c1 = createColor(0.9, 0.6, 0.75);
-	Color c2 = createColor(0.7, 0.1, 0.25);
+	Color c1 = createColor(0.9f, 0.6f, 0.75f);
+	Color c2 = createColor(0.7f, 0.1f, 0.25f);
 
 	// Operator Overload
 	Color c_result = c1 - c2;
 
-	EXPECT_DOUBLE_EQ(c_result.r, 0.2);
-	EXPECT_DOUBLE_EQ(c_result.g, 0.5);
-	EXPECT_DOUBLE_EQ(c_result.b, 0.5);
+	EXPECT_FLOAT_EQ(c_result.r, 0.2f);
+	EXPECT_FLOAT_EQ(c_result.g, 0.5f);
+	EXPECT_FLOAT_EQ(c_result.b, 0.5f);
 }
 
 TEST(ColorOperation, MultiplicationByScalar)
 {
-	Color c1 = createColor(0.2, 0.3, 0.4);
+	Color c1 = createColor(0.2f, 0.3f, 0.4f);
 
 	// Operator Overload
 	Color c_result = c1 * 2;
 
-	EXPECT_DOUBLE_EQ(c_result.r, 0.4);
-	EXPECT_DOUBLE_EQ(c_result.g, 0.6);
-	EXPECT_DOUBLE_EQ(c_result.b, 0.8);
+	EXPECT_FLOAT_EQ(c_result.r, 0.4f);
+	EXPECT_FLOAT_EQ(c_result.g, 0.6f);
+	EXPECT_FLOAT_EQ(c_result.b, 0.8f);
 }
 
 TEST(ColorOperation, MultiplyTwoColors)
 {
-	Color c1 = createColor(1.0, 0.2, 0.4);
-	Color c2 = createColor(0.9, 1.0, 0.1);
+	Color c1 = createColor(1.0f, 0.2f, 0.4f);
+	Color c2 = createColor(0.9f, 1.0f, 0.1f);
 
 	// Operator Overload
 	Color c_result = c1 * c2;
 
-	EXPECT_DOUBLE_EQ(c_result.r, 0.9);
-	EXPECT_DOUBLE_EQ(c_result.g, 0.2);
-	EXPECT_DOUBLE_EQ(c_result.b, 0.04);
+	EXPECT_FLOAT_EQ(c_result.r, 0.9f);
+	EXPECT_FLOAT_EQ(c_result.g, 0.2f);
+	EXPECT_FLOAT_EQ(c_result.b, 0.04f);
 }

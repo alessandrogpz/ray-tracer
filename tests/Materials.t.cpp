@@ -14,9 +14,9 @@ TEST(MaterialCreation, GenerateMaterial)
     const Material m;
 
     EXPECT_EQ(m.color, Color());
-    EXPECT_EQ(m.ambient, 0.1);
-    EXPECT_EQ(m.diffuse, 0.9);
-    EXPECT_EQ(m.specular, 0.9);
-    EXPECT_EQ(m.shininess, 200.0);
+    EXPECT_EQ(m.ambient, 0.1f);
+    EXPECT_EQ(m.diffuse, 0.9f);
+    EXPECT_EQ(m.specular, 0.9f);
+    EXPECT_EQ(m.shininess, 200.0f);
 
 }

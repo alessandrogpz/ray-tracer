@@ -43,7 +43,7 @@ Example rendering loop with multithreading enabled:
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
         // Compute the world y coordinate
-        double world_y = half_height - pixel_size * y;
+        float world_y = half_height - pixel_size * y;
 
         // Declare xs INSIDE the parallelized loop so it is thread-local!
         std::vector<Intersection> xs;

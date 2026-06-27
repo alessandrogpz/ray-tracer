@@ -66,18 +66,18 @@ int main() {
     Canvas c(CANVAS_WIDTH, CANVAS_HEIGHT);
     Color green(0, 1, 0);
 
-    Vector direction = createVector(1.0, 1.5, 0.0);
+    Vector direction = createVector(1.0f, 1.5f, 0.0f);
     Vector unit_direction = normalizeVector(direction);
 
-    double speed = 11.25;
+    float speed = 11.25f;
     Vector velocity = unit_direction * speed;
 
-    projectile proj(createPoint(0.0, 1.0, 0.0), velocity);
-    environment env(createVector(0.0, -0.1, 0.0), createVector(-0.01, 0.0, 0.0));
+    projectile proj(createPoint(0.0f, 1.0f, 0.0f), velocity);
+    environment env(createVector(0.0f, -0.1f, 0.0f), createVector(-0.01f, 0.0f, 0.0f));
 
     while (proj.position.y > 0) {
-        int x = static_cast<int>(proj.position.x * (static_cast<double>(CANVAS_WIDTH) / 1000.0));
-        int y = static_cast<int>(static_cast<double>(CANVAS_HEIGHT) - proj.position.y * (static_cast<double>(CANVAS_HEIGHT) / 1000.0));
+        int x = static_cast<int>(proj.position.x * (static_cast<float>(CANVAS_WIDTH) / 1000.0f));
+        int y = static_cast<int>(static_cast<float>(CANVAS_HEIGHT) - proj.position.y * (static_cast<float>(CANVAS_HEIGHT) / 1000.0f));
 
         if (x >= 0 && x < static_cast<int>(CANVAS_WIDTH) && y >= 0 && y < static_cast<int>(CANVAS_HEIGHT)) {
             writePixelBlock(c, 8, 8, x, y, green);
@@ -91,7 +91,7 @@ int main() {
     savePPM("OutputProjectTrajectory", ppmContent);
 
     auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+    std::chrono::duration<float, std::milli> elapsed = end_time - start_time;
     std::cout << "Execution time: " << elapsed.count() << " ms\n";
 
     return 0;

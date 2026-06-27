@@ -4,8 +4,8 @@ import rt.utils;
 
 namespace rt {
 
-    Color::Color() : r(1.0), g(1.0), b(1.0), a(1.0) {}
-    Color::Color(double _r, double _g, double _b, double _a)
+    Color::Color() : r(1.0f), g(1.0f), b(1.0f), a(1.0f) {}
+    Color::Color(float _r, float _g, float _b, float _a)
         : r(_r), g(_g), b(_b), a(_a) {}
 
     Color Color::operator+(const Color& other) const {
@@ -16,7 +16,7 @@ namespace rt {
         return {r - other.r, g - other.g, b - other.b};
     }
 
-    Color Color::operator*(double scalar) const {
+    Color Color::operator*(float scalar) const {
         return {r * scalar, g * scalar, b * scalar};
     }
 
@@ -30,7 +30,7 @@ namespace rt {
                equal(b, other.b);
     }
 
-    Color createColor(double r, double g, double blue) {
+    Color createColor(float r, float g, float blue) {
         return {r, g, blue};
     }
 

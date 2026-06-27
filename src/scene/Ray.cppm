@@ -16,7 +16,7 @@ export namespace rt {
         Ray(const Point& _origin, const Vector& _direction);
     };
 
-    [[nodiscard]] Point position(const Ray& r, double time);
+    [[nodiscard]] Point position(const Ray& r, float time);
     [[nodiscard]] Ray transformRay(const Ray &r, const Matrix<4> &m);
     [[nodiscard]] std::optional<Intersection> hit(const std::vector<Intersection>& intersectionSet);
 

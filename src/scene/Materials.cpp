@@ -7,7 +7,7 @@ namespace rt {
 
     Material::Material() = default;
 
-    Material::Material(Color _color, double _ambient, double _diffuse, double _specular, double _shininess)
+    Material::Material(Color _color, float _ambient, float _diffuse, float _specular, float _shininess)
         : color(_color), ambient(_ambient), diffuse(_diffuse), specular(_specular), shininess(_shininess) {}
 
     bool Material::operator==(const Material& other) const {

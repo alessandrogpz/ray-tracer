@@ -27,7 +27,7 @@ Tests are located in the `tests/` directory. If you are adding a new feature or 
         Tuple p = createPoint(4.3, -4.2, 3.1);
 
         // 2. Act & Assert (Verify the expected behavior)
-        EXPECT_DOUBLE_EQ(p.w, 1.0);
+        EXPECT_FLOAT_EQ(p.w, 1.0f);
     }
     ```
 
@@ -38,7 +38,7 @@ Tests are located in the `tests/` directory. If you are adding a new feature or 
 
 When testing mathematical operations, exact floating-Point comparisons (`==`) are dangerous due to precision issues.
 
-- Use `EXPECT_DOUBLE_EQ(val1, val2)` for simple double checks.
+- Use `EXPECT_FLOAT_EQ(val1, val2)` for simple float checks.
 - Use `EXPECT_NEAR(val1, val2, 0.0001)` when checking complex math or Matrix transformations to account for rounding errors.
 
 ## How to Add a New Test File to CMake

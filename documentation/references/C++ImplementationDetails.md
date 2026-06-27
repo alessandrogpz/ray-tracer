@@ -8,10 +8,10 @@ When writing mathematical operations or engine logic, follow these strict rules 
 
 ### 1. Pass by Value for Small/Primitive Types (<= 32 Bytes)
 
-Modern 64-bit calling conventions pass small objects (up to 32 bytes, such as 4-element double vectors) directly into CPU registers (such as SSE/AVX/YMM registers). Passing these by value avoids pointer indirection and aliasing issues, allowing the compiler to optimize mathematical operations heavily.
+Modern 64-bit calling conventions pass small objects (up to 32 bytes, such as 4-element float vectors) directly into CPU registers (such as SSE/AVX/YMM registers). Passing these by value avoids pointer indirection and aliasing issues, allowing the compiler to optimize mathematical operations heavily.
 
 * **Rule:** Pass primitives and structures up to 32 bytes by value.
-* **Applies to:** `double`, `int`, `Tuple`, `Point`, `Vector`, `Color`.
+* **Applies to:** `float`, `int`, `Tuple`, `Point`, `Vector`, `Color`.
 * **Example:** `Vector normalizeVector(Vector a)`
 * **Example:** `Vector operator+(Vector v1, Vector v2)`
 
@@ -21,7 +21,7 @@ Objects larger than 32 bytes cannot fit entirely into the standard fast register
 
 * **Rule:** Pass objects larger than 32 bytes by `const` reference.
 * **Applies to:** `Ray` (64 bytes), `Matrix` (128 bytes for 4x4), scene geometry (e.g. `Sphere`), and `Canvas`.
-* **Example:** `Point position(const Ray& r, double time)`
+* **Example:** `Point position(const Ray& r, float time)`
 * **Example:** `Color pixelAt(const Canvas& c, int x, int y)`
 
 ### 3. Pass by Reference for Mutation

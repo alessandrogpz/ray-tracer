@@ -4,14 +4,14 @@ This section provides technical details regarding the foundational mathematical 
 
 ## Tuples
 
-A `Tuple` is the fundamental data structure used to represent coordinates and directions in 3D space. It is composed of four double-precision floating-Point numbers: `x`, `y`, `z`, and `w`.
+A `Tuple` is the fundamental data structure used to represent coordinates and directions in 3D space. It is composed of four float-precision floating-Point numbers: `x`, `y`, `z`, and `w`.
 
 - **`x, y, z`**: Represent the position or magnitude along the three axes.
 - **`w`**: The homogeneous coordinate. It is crucial for distinguishing between points and vectors and for allowing Matrix translations.
 
 ### Points vs. Vectors
 
-- **Point (`w = 1.0`)**: Represents a specific location in space. When `w=1`, the Point can be translated (moved) by Matrix multiplication.
+- **Point (`w = 1.0f`)**: Represents a specific location in space. When `w=1`, the Point can be translated (moved) by Matrix multiplication.
 - **Vector (`w = 0.0`)**: Represents a direction and magnitude, but no specific location. When `w=0`, translation matrices have no effect on the Vector, which is mathematically correct (a direction doesn't change when you move it).
 
 *Reference code: `src/math/Tuple.cppm`*
@@ -20,9 +20,9 @@ A `Tuple` is the fundamental data structure used to represent coordinates and di
 
 Colors in the Ray tracer are implemented similarly to Tuples, but they represent the Red, Green, Blue, and Alpha (RGBA) components of light.
 
-- **`r, g, b, a`**: Double-precision values representing Red, Green, Blue, and Alpha (transparency/opacity). Channels typically range from `0.0` (no intensity / fully transparent) to `1.0` (full intensity / fully opaque).
-- **Default value**: Default constructed color represents opaque white (`1.0, 1.0, 1.0, 1.0`). If alpha is omitted in custom instantiation, it defaults to `1.0` (opaque).
-- **Operations**: Operations on colors (`+`, `-`, scalar `*`, Hadamard/blend `*`) perform arithmetic on the RGB components and return a color with the default alpha of `1.0`. The equality operator `==` compares the RGB channels.
+- **`r, g, b, a`**: Double-precision values representing Red, Green, Blue, and Alpha (transparency/opacity). Channels typically range from `0.0` (no intensity / fully transparent) to `1.0f` (full intensity / fully opaque).
+- **Default value**: Default constructed color represents opaque white (`1.0f, 1.0f, 1.0f, 1.0f`). If alpha is omitted in custom instantiation, it defaults to `1.0f` (opaque).
+- **Operations**: Operations on colors (`+`, `-`, scalar `*`, Hadamard/blend `*`) perform arithmetic on the RGB components and return a color with the default alpha of `1.0f`. The equality operator `==` compares the RGB channels.
 
 *Reference code: `src/core/Colors.cppm`*
 
@@ -46,7 +46,7 @@ Transformations can be chained together via Matrix multiplication. The order of 
 
 ## Canvas
 
-A `Canvas` is a rectangular grid of pixels, where each pixel represents a `Color`. To optimize memory footprint and CPU cache usage, the grid stores pixels using a packed 8-bit `PixelRGBA8` format internally, while presenting a double-precision HDR `Color` interface to the rest of the application. For detailed rationale, see the **[Data-Oriented Design Explanation](../explanation/DataOrientedDesign.md)**.
+A `Canvas` is a rectangular grid of pixels, where each pixel represents a `Color`. To optimize memory footprint and CPU cache usage, the grid stores pixels using a packed 8-bit `PixelRGBA8` format internally, while presenting a float-precision HDR `Color` interface to the rest of the application. For detailed rationale, see the **[Data-Oriented Design Explanation](../explanation/DataOrientedDesign.md)**.
 
 *Reference code: `src/core/Canvas.cppm`*
 

@@ -25,16 +25,16 @@ namespace rt
 
     World default_world() {
         World w;
-        w.light = PointLight(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+        w.light = PointLight(Point(-10.0f, 10.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
 
         Sphere s1;
-        s1.material.color = Color(0.8, 1.0, 0.6);
-        s1.material.diffuse = 0.7;
-        s1.material.specular = 0.2;
+        s1.material.color = Color(0.8f, 1.0f, 0.6f);
+        s1.material.diffuse = 0.7f;
+        s1.material.specular = 0.2f;
         w.add_sphere(s1);
 
         Sphere s2;
-        s2.set_transform(scale(0.5, 0.5, 0.5));
+        s2.set_transform(scale(0.5f, 0.5f, 0.5f));
         w.add_sphere(s2);
 
         return w;
@@ -103,7 +103,7 @@ namespace rt
         const std::optional<Intersection> h = hit(xs);
 
         if (!h)
-            return {0.0, 0.0, 0.0};
+            return {0.0f, 0.0f, 0.0f};
 
         const Comp comp = prepare_computation(*h, r, w);
         const Color c = shade_hit(w, comp);

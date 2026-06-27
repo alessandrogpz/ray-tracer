@@ -5,9 +5,9 @@ module rt.utils;
 import std;
 
 namespace rt {
-    bool equal(double a, double b)
+    bool equal(float a, float b)
     {
-        constexpr double EPSILON = 0.00001;
+        constexpr float EPSILON = 0.0001f;
         return std::abs(a - b) < EPSILON;
     }
 } // namespace rt

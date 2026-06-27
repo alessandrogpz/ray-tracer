@@ -9,12 +9,12 @@ export namespace rt {
     };
 
     struct Intersection {
-        double t{0.0};
+        float t{0.0f};
         std::uint32_t shape_index{0};
         ShapeType shape_type{ShapeType::Sphere};
 
         Intersection() = default;
-        Intersection(double _t, std::uint32_t _shape_index, ShapeType _shape_type);
+        Intersection(float _t, std::uint32_t _shape_index, ShapeType _shape_type);
     };
 
 } // namespace rt

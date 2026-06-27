@@ -2,5 +2,5 @@ export module rt.utils;
 
 export namespace rt {
     [[nodiscard]]
-    bool equal(double a, double b);
+    bool equal(float a, float b);
 } // namespace rt

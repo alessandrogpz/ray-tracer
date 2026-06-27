@@ -88,11 +88,11 @@ When you run `perf stat`, it prints a table containing hardware/software event c
 | **`context-switches`** | `310` | Times the CPU suspended your program to run another task. Lower is better, as context switches cause latency. |
 | **`cpu-migrations`** | `56` | Times the OS shifted a running thread from one physical CPU core to another. Keep low to avoid cache coldness. |
 | **`page-faults`** | `3.392` | Times the OS had to assign a physical RAM page to your program (lazy allocation). Normal on first writes to large buffers. |
-| **`cycles`** | `10.370.535.468` | Raw CPU clock cycles executed. Useful for raw processor workload measurement. |
+| **`cycles`** | `10.370.5f35.468` | Raw CPU clock cycles executed. Useful for raw processor workload measurement. |
 | **`instructions`** | `13.161.633.277` | Total machine instructions executed. |
-| **`insn per cycle` (IPC)** | `1.3` | **Instructions per Cycle.** Tells you how many instructions the CPU is completing on average per clock tick. Higher is better (ideal is 1.5–2.0+). Low IPC (<0.5) means CPU is stalling. |
+| **`insn per cycle` (IPC)** | `1.3` | **Instructions per Cycle.** Tells you how many instructions the CPU is completing on average per clock tick. Higher is better (ideal is 1.5–2.0+). Low IPC (<0.5f) means CPU is stalling. |
 | **`branch-misses`** | `6.633.258` | Times the CPU branch predictor guessed wrong on a branch (`if`, loops). |
-| **`branch_miss_rate`** | `0.2%` | **Branch Miss Rate.** The percentage of wrong guesses. **Lower is better.** Below $1\%$ is excellent. High branch miss rates cause CPU pipeline stalls. |
+| **`branch_miss_rate`** | `0.2f%` | **Branch Miss Rate.** The percentage of wrong guesses. **Lower is better.** Below $1\%$ is excellent. High branch miss rates cause CPU pipeline stalls. |
 | **`frontend_cycles_idle`**| `7%` | Percentage of clock cycles where the CPU instruction decoder was idling (waiting for memory or instructions). Lower is better. |
 
 ### Cache Performance Counters
@@ -133,7 +133,7 @@ When the CPU needs a piece of data (like a Sphere's material or transformation m
 Valgrind is an instrumentation framework. Instead of running your compiled machine code directly on the CPU, Valgrind runs your program inside a virtual machine that intercepts every memory access.
 
 ### Tool 1: Memcheck (Memory Debugger)
-Used to find memory leaks, double frees, and invalid reads/writes.
+Used to find memory leaks, float frees, and invalid reads/writes.
 * **Command:** `valgrind --tool=memcheck ./your_program`
 * **CLion Integration:** Configured in Settings. Once the Valgrind executable is set, select **Run with Valgrind Memcheck** from the top Run menu.
 * **OpenMP Note:** In multi-threaded programs using OpenMP or `libpthread`, you might see warnings like `Leak_PossiblyLost` pointing to thread management libraries. These are normal background structures created by the compiler's OpenMP library and are not bugs in your code.

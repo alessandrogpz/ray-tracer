@@ -5,10 +5,10 @@ import rt.utils;
 export namespace rt {
 
     struct Color {
-        double r, g, b, a;
+        float r, g, b, a;
 
         Color();
-        Color(double _r, double _g, double _b, double _a = 1.0);
+        Color(float _r, float _g, float _b, float _a = 1.0f);
 
         // Addition: a + b
         [[nodiscard]] Color operator+(const Color& other) const;
@@ -17,7 +17,7 @@ export namespace rt {
         [[nodiscard]] Color operator-(const Color& other) const;
 
         // Scalar Multiplication a * scalar
-        [[nodiscard]] Color operator*(double scalar) const;
+        [[nodiscard]] Color operator*(float scalar) const;
 
         // Multiplying Colors
         [[nodiscard]] Color operator*(const Color &other) const;
@@ -25,6 +25,6 @@ export namespace rt {
         [[nodiscard]] bool operator==(const Color& other) const;
     };
 
-    [[nodiscard]] Color createColor(double r, double g, double blue);
+    [[nodiscard]] Color createColor(float r, float g, float blue);
 
 } // namespace rt

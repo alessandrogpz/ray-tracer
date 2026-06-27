@@ -21,18 +21,18 @@ TEST(SphereCreation, DefaultSphere)
     const auto s = Sphere();
 
     EXPECT_EQ(s.get_transform(), identity());
-    EXPECT_EQ(s.origin, Point(0.0, 0.0, 0.0));
-    EXPECT_DOUBLE_EQ(s.radius, 1.0);
+    EXPECT_EQ(s.origin, Point(0.0f, 0.0f, 0.0f));
+    EXPECT_FLOAT_EQ(s.radius, 1.0f);
 }
 
 TEST(SphereCreation, UserCreatedSphere)
 {
-    auto s = Sphere(Point(1.0, 2.0, 3.0), 2.5);
-    s.set_transform(translation(3.0, 4.0, 5.0));
+    auto s = Sphere(Point(1.0f, 2.0f, 3.0f), 2.5f);
+    s.set_transform(translation(3.0f, 4.0f, 5.0f));
 
-    EXPECT_EQ(s.origin, Point(1.0, 2.0, 3.0));
-    EXPECT_EQ(s.get_transform(), translation(3.0, 4.0, 5.0));
-    EXPECT_DOUBLE_EQ(s.radius, 2.5);
+    EXPECT_EQ(s.origin, Point(1.0f, 2.0f, 3.0f));
+    EXPECT_EQ(s.get_transform(), translation(3.0f, 4.0f, 5.0f));
+    EXPECT_FLOAT_EQ(s.radius, 2.5f);
 }
 
 // --------------------------------------------------
@@ -40,8 +40,8 @@ TEST(SphereCreation, UserCreatedSphere)
 
 TEST(SphereRayIntersection, IntersectingRayWithSphereAtTwoPoints)
 {
-    Point origin = createPoint(0.0, 0.0, -5.0);
-    Vector direction = createVector(0.0, 0.0, 1.0);
+    Point origin = createPoint(0.0f, 0.0f, -5.0f);
+    Vector direction = createVector(0.0f, 0.0f, 1.0f);
     auto r = Ray(origin, direction);
 
     auto s = Sphere();
@@ -49,34 +49,34 @@ TEST(SphereRayIntersection, IntersectingRayWithSphereAtTwoPoints)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 4.0);
-    EXPECT_EQ(xs[1].t, 6.0);
+    EXPECT_EQ(xs[0].t, 4.0f);
+    EXPECT_EQ(xs[1].t, 6.0f);
 }
 
 TEST(SphereRayIntersection, IntersectingRayWithSphereAtTangent)
 {
-    Point origin = createPoint(0.0, 0.0, -5.0);
-    Vector direction = createVector(0.0, 0.0, 1.0);
+    Point origin = createPoint(0.0f, 0.0f, -5.0f);
+    Vector direction = createVector(0.0f, 0.0f, 1.0f);
     auto r = Ray(origin, direction);
 
-    Point sphere_origin = createPoint(0.0, 1.0, 0.0);
-    auto s = Sphere(sphere_origin, 1.0);
+    Point sphere_origin = createPoint(0.0f, 1.0f, 0.0f);
+    auto s = Sphere(sphere_origin, 1.0f);
 
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 5.0);
-    EXPECT_EQ(xs[1].t, 5.0);
+    EXPECT_EQ(xs[0].t, 5.0f);
+    EXPECT_EQ(xs[1].t, 5.0f);
 }
 
 TEST(SphereRayIntersection, RayMissesIntersectingWithSphere)
 {
-    Point origin = createPoint(0.0, 0.0, -5.0);
-    Vector direction = createVector(0.0, 0.0, 1.0);
+    Point origin = createPoint(0.0f, 0.0f, -5.0f);
+    Vector direction = createVector(0.0f, 0.0f, 1.0f);
     auto r = Ray(origin, direction);
 
-    Point sphere_origin = createPoint(0.0, 2.0, 0.0);
-    auto s = Sphere(sphere_origin, 1.0);
+    Point sphere_origin = createPoint(0.0f, 2.0f, 0.0f);
+    auto s = Sphere(sphere_origin, 1.0f);
 
     std::vector<Intersection> xs = intersect(s, r);
 
@@ -85,8 +85,8 @@ TEST(SphereRayIntersection, RayMissesIntersectingWithSphere)
 
 TEST(SphereRayIntersection, RayOriginatesInsideTheSphere)
 {
-    Point origin = createPoint(0.0, 0.0, 0.0);
-    Vector direction = createVector(0.0, 0.0, 1.0);
+    Point origin = createPoint(0.0f, 0.0f, 0.0f);
+    Vector direction = createVector(0.0f, 0.0f, 1.0f);
     auto r = Ray(origin, direction);
 
     auto s = Sphere();
@@ -94,14 +94,14 @@ TEST(SphereRayIntersection, RayOriginatesInsideTheSphere)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, -1.0);
-    EXPECT_EQ(xs[1].t, 1.0);
+    EXPECT_EQ(xs[0].t, -1.0f);
+    EXPECT_EQ(xs[1].t, 1.0f);
 }
 
 TEST(SphereRayIntersection, RayOriginatesInFrontOfTheSphere)
 {
-    Point origin = createPoint(0.0, 0.0, 5.0);
-    Vector direction = createVector(0.0, 0.0, 1.0);
+    Point origin = createPoint(0.0f, 0.0f, 5.0f);
+    Vector direction = createVector(0.0f, 0.0f, 1.0f);
     auto r = Ray(origin, direction);
 
     auto s = Sphere();
@@ -109,13 +109,13 @@ TEST(SphereRayIntersection, RayOriginatesInFrontOfTheSphere)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, -6.0);
-    EXPECT_EQ(xs[1].t, -4.0);
+    EXPECT_EQ(xs[0].t, -6.0f);
+    EXPECT_EQ(xs[1].t, -4.0f);
 }
 
 TEST(SphereRayIntersection, IntersectSetsTheObjectOnTheIntersection)
 {
-    auto r = Ray(createPoint(0.0, 0.0, -5.0), createVector(0.0, 0.0, 1.0));
+    auto r = Ray(createPoint(0.0f, 0.0f, -5.0f), createVector(0.0f, 0.0f, 1.0f));
     const auto s = Sphere();
 
     std::vector<Intersection> xs = intersect(s, r);
@@ -133,7 +133,7 @@ TEST(SphereRayIntersection, IntersectSetsTheObjectOnTheIntersection)
 TEST(SphereTransformation, ChangingSphereTranfrom)
 {
     auto s = Sphere();
-    const auto t = translation(2.0, 3.0, 4.0);
+    const auto t = translation(2.0f, 3.0f, 4.0f);
 
     s.set_transform(t);
 
@@ -145,10 +145,10 @@ TEST(SphereTransformation, ChangingSphereTranfrom)
 
 TEST(SphereTransformation, IntersectingAScaledSphereWithARay)
 {
-    auto r = Ray(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    auto r = Ray(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
     auto s = Sphere();
 
-    const auto t = scale(2.0, 2.0, 2.0);
+    const auto t = scale(2.0f, 2.0f, 2.0f);
     s.set_transform(t);
 
     const auto xs = intersect(s, r);
@@ -160,10 +160,10 @@ TEST(SphereTransformation, IntersectingAScaledSphereWithARay)
 
 TEST(SphereTransformation, IntersectingATranslatedSphereWithARay)
 {
-    auto r = Ray(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    auto r = Ray(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
     auto s = Sphere();
 
-    const auto t = translation(5.0, 0.0, 0.0);
+    const auto t = translation(5.0f, 0.0f, 0.0f);
     s.set_transform(t);
 
     const auto xs = intersect(s, r);
@@ -222,18 +222,18 @@ TEST(SphereNormal, SphereNormalOnTranslatedSphere)
     auto s = Sphere();
     s.set_transform(translation(0, 1, 0));
 
-    const auto n = normalAt(s, Point(0, 1.70711, -0.70711));
-    EXPECT_EQ(Vector(0, 0.70711, -0.70711), n);
+    const auto n = normalAt(s, Point(0, 1.70711f, -0.70711f));
+    EXPECT_EQ(Vector(0, 0.70711f, -0.70711f), n);
 }
 
 TEST(SphereNormal, SphereNormalOnATransformedSphere)
 {
     auto s = Sphere();
-    const auto m = scale(1, 0.5, 1) * rotation_z(std::numbers::pi / 5.0);
+    const auto m = scale(1, 0.5f, 1) * rotation_z(std::numbers::pi / 5.0f);
     s.set_transform(m);
 
-    const auto n = normalAt(s, Point(0, std::sqrt(2.0) / 2.0, -std::sqrt(2.0) / 2.0));
-    EXPECT_EQ(Vector(0, 0.97014, -0.24254), n);
+    const auto n = normalAt(s, Point(0, std::sqrt(2.0f) / 2.0f, -std::sqrt(2.0f) / 2.0f));
+    EXPECT_EQ(Vector(0, 0.97014f, -0.24254f), n);
 }
 
 // ---------------------------------------------------
@@ -250,7 +250,7 @@ TEST(SphereMaterial, SphereAssignedMaterial)
 {
     auto s = Sphere();
     auto m = Material();
-    m.ambient = 1.0;
+    m.ambient = 1.0f;
     s.material = m;
 
     EXPECT_EQ(s.material, m);

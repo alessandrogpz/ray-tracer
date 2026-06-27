@@ -19,8 +19,8 @@ In high-performance software like a ray tracer, the main bottleneck is rarely CP
 ## 2. Case Study: 8-bit Canvas Grid Optimization
 
 ### The Problem (OOP Approach)
-Originally, each pixel in the canvas was represented as a `Color` object containing four `double` components (Red, Green, Blue, Alpha).
-* **Memory Footprint**: 4 channels × 8 bytes (`double`) = **32 bytes per pixel**.
+Originally, each pixel in the canvas was represented as a `Color` object containing four `float` components (Red, Green, Blue, Alpha).
+* **Memory Footprint**: 4 channels × 8 bytes (`float`) = **32 bytes per pixel**.
 * **Impact**: At 2K resolution ($2560 \times 1440$ pixels), a single canvas occupied **~118 MB** of RAM. This massive footprint meant fewer pixels could fit into the CPU cache at once, degrading cache locality during rendering write-loops and file exporting.
 
 ### The DOD Optimization
@@ -36,9 +36,9 @@ struct PixelRGBA8 {
 ```
 * **Memory Footprint**: 4 channels × 1 byte (`uint8_t`) = **4 bytes per pixel**.
 * **Impact**: The 2K canvas size dropped from **118 MB to 14.7 MB** (an **8x reduction**).
-* **API Compatibility**: We kept the public interface (`writePixel` and `pixelAt`) using the HDR `Color` type (double-precision). The conversions (float-to-byte on write, byte-to-float on read) happen transparently within the `Canvas` module:
-  - **Write**: `scaleColor` scales/clamps `double` color components to $[0, 255]$ and stores them in `PixelRGBA8`.
-  - **Read**: Converts `PixelRGBA8` channels back to `double` values (divided by `255.0`).
+* **API Compatibility**: We kept the public interface (`writePixel` and `pixelAt`) using the HDR `Color` type (float-precision). The conversions (float-to-byte on write, byte-to-float on read) happen transparently within the `Canvas` module:
+  - **Write**: `scaleColor` scales/clamps `float` color components to $[0, 255]$ and stores them in `PixelRGBA8`.
+  - **Read**: Converts `PixelRGBA8` channels back to `float` values (divided by `255.0`).
 * **PPM Export Speedup**: Exporting the canvas to PPM requires integer values ($0-255$). By storing the pixels as `uint8_t` natively, `canvasToPPM()` reads the integer values directly and avoids executing float-to-int conversion loops over millions of pixels, speeding up file output.
 
 ---
@@ -59,7 +59,7 @@ To maximize CPU cache hits and allow the compiler to fully inline mathematical c
    ```cpp
    struct Sphere {
        Point origin;
-       double radius;
+       float radius;
        Material material;
        Matrix<4> transform{identity()};
        Matrix<4> transform_inverse{identity()};
@@ -76,7 +76,7 @@ To maximize CPU cache hits and allow the compiler to fully inline mathematical c
    };
 
    struct Intersection {
-       double t;
+       float t;
        std::uint32_t shape_index;
        ShapeType shape_type;
    };
@@ -101,8 +101,8 @@ To maximize CPU cache hits and allow the compiler to fully inline mathematical c
    When casting rays, the engine loops over each contiguous array sequentially, allowing the CPU hardware pre-fetcher to work at 100% efficiency.
 
 5. **Eliminating Heap Allocations (LocalIntersections & Reused Vectors)**:
-   Originally, `local_intersect` returned a `std::vector<double>` and `intersect` returned a `std::vector<Intersection>` per call. For a 2K rendering loop with 3 spheres, this resulted in **~22 million heap allocations and deallocations** per frame. To eliminate this bottleneck:
-   * **Stack-Allocated Result Struct**: `local_intersect` returns a stack-allocated, fixed-size `LocalIntersections` struct containing a count and a fixed size double array. This fits in CPU registers and avoids any heap allocation.
+   Originally, `local_intersect` returned a `std::vector<float>` and `intersect` returned a `std::vector<Intersection>` per call. For a 2K rendering loop with 3 spheres, this resulted in **~22 million heap allocations and deallocations** per frame. To eliminate this bottleneck:
+   * **Stack-Allocated Result Struct**: `local_intersect` returns a stack-allocated, fixed-size `LocalIntersections` struct containing a count and a fixed size float array. This fits in CPU registers and avoids any heap allocation.
    * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity (6 elements), and calling `xs.clear()` on each pixel iteration, we reduced heap allocations inside the render loop to **zero**.
 
 ---
@@ -117,7 +117,7 @@ We transitioned the `World` scene storage model from AoS to **Structure of Array
 ```cpp
 struct World {
     std::vector<Point> sphere_origins;
-    std::vector<double> sphere_radii;
+    std::vector<float> sphere_radii;
     std::vector<Material> sphere_materials;
     std::vector<Matrix<4>> sphere_transforms;
     std::vector<Matrix<4>> sphere_transforms_inverse;

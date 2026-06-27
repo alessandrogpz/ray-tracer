@@ -26,15 +26,15 @@ TEST(WorldCreation, EmptyWorld)
 
 TEST(WorldCreation, DefaultWorld)
 {
-    PointLight expected_light(Point(-10.0, 10.0, -10.0), Color(1.0, 1.0, 1.0));
+    PointLight expected_light(Point(-10.0f, 10.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
 
     Sphere s1;
-    s1.material.color = Color(0.8, 1.0, 0.6);
-    s1.material.diffuse = 0.7;
-    s1.material.specular = 0.2;
+    s1.material.color = Color(0.8f, 1.0f, 0.6f);
+    s1.material.diffuse = 0.7f;
+    s1.material.specular = 0.2f;
 
     Sphere s2;
-    s2.set_transform(scale(0.5, 0.5, 0.5));
+    s2.set_transform(scale(0.5f, 0.5f, 0.5f));
 
     World w = default_world();
 
@@ -42,12 +42,12 @@ TEST(WorldCreation, DefaultWorld)
 
     ASSERT_EQ(w.sphere_origins.size(), 2);
     // Check s1 properties
-    EXPECT_EQ(w.sphere_materials[0].color, Color(0.8, 1.0, 0.6));
-    EXPECT_EQ(w.sphere_materials[0].diffuse, 0.7);
-    EXPECT_EQ(w.sphere_materials[0].specular, 0.2);
+    EXPECT_EQ(w.sphere_materials[0].color, Color(0.8f, 1.0f, 0.6f));
+    EXPECT_EQ(w.sphere_materials[0].diffuse, 0.7f);
+    EXPECT_EQ(w.sphere_materials[0].specular, 0.2f);
 
     // Check s2 properties
-    EXPECT_EQ(w.sphere_transforms[1], scale(0.5, 0.5, 0.5));
+    EXPECT_EQ(w.sphere_transforms[1], scale(0.5f, 0.5f, 0.5f));
 }
 
 // ---------------------------------------------------
@@ -56,15 +56,15 @@ TEST(WorldCreation, DefaultWorld)
 TEST(IntersectingWorld, IntersectWorldWithRay)
 {
     const World w = default_world();
-    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
 
     const std::vector<Intersection>xs = intersect_world(w, r);
 
     EXPECT_EQ(xs.size(), 4);
-    EXPECT_EQ(xs[0].t, 4.0);
-    EXPECT_EQ(xs[1].t, 4.5);
-    EXPECT_EQ(xs[2].t, 5.5);
-    EXPECT_EQ(xs[3].t, 6.0);
+    EXPECT_EQ(xs[0].t, 4.0f);
+    EXPECT_EQ(xs[1].t, 4.5f);
+    EXPECT_EQ(xs[2].t, 5.5f);
+    EXPECT_EQ(xs[3].t, 6.0f);
 }
 
 // ---------------------------------------------------
@@ -72,38 +72,38 @@ TEST(IntersectingWorld, IntersectWorldWithRay)
 
 TEST(PrecomputingInteraction, PrecomputeStateOfIntersection)
 {
-    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
     const Sphere s;
     World w;
     w.add_sphere(s);
-    const Intersection i(4.0, 0, ShapeType::Sphere);
+    const Intersection i(4.0f, 0, ShapeType::Sphere);
     const Comp comps = prepare_computation(i, r, w);
 
-    EXPECT_DOUBLE_EQ(comps.intersection.t, i.t);
+    EXPECT_FLOAT_EQ(comps.intersection.t, i.t);
     EXPECT_EQ(comps.intersection.shape_index, i.shape_index);
     EXPECT_EQ(comps.intersection.shape_type, i.shape_type);
 
-    EXPECT_EQ(comps.point, Point(0.0, 0.0, -1.0));
-    EXPECT_EQ(comps.eye_v, Vector(0.0, 0.0, -1.0));
-    EXPECT_EQ(comps.normal_v, Vector(0.0, 0.0, -1.0));
+    EXPECT_EQ(comps.point, Point(0.0f, 0.0f, -1.0f));
+    EXPECT_EQ(comps.eye_v, Vector(0.0f, 0.0f, -1.0f));
+    EXPECT_EQ(comps.normal_v, Vector(0.0f, 0.0f, -1.0f));
     EXPECT_FALSE(comps.inside);
 }
 
 TEST(PrecomputingInteraction, PrecomputeStateOfIntersectionInside)
 {
-    const Ray r(Point(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
+    const Ray r(Point(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 1.0f));
     const Sphere s;
     World w;
     w.add_sphere(s);
-    const Intersection i(1.0, 0, ShapeType::Sphere);
+    const Intersection i(1.0f, 0, ShapeType::Sphere);
     const Comp comps = prepare_computation(i, r, w);
 
-    EXPECT_DOUBLE_EQ(comps.intersection.t, i.t);
-    EXPECT_EQ(comps.point, Point(0.0, 0.0, 1.0));
-    EXPECT_EQ(comps.eye_v, Vector(0.0, 0.0, -1.0));
+    EXPECT_FLOAT_EQ(comps.intersection.t, i.t);
+    EXPECT_EQ(comps.point, Point(0.0f, 0.0f, 1.0f));
+    EXPECT_EQ(comps.eye_v, Vector(0.0f, 0.0f, -1.0f));
     EXPECT_TRUE(comps.inside);
     // The normal vector is inverted since it was pointing outwards
-    EXPECT_EQ(comps.normal_v, Vector(0.0, 0.0, -1.0));
+    EXPECT_EQ(comps.normal_v, Vector(0.0f, 0.0f, -1.0f));
 }
 
 // ---------------------------------------------------
@@ -112,24 +112,24 @@ TEST(PrecomputingInteraction, PrecomputeStateOfIntersectionInside)
 TEST(ShadingIntersection, ShadingIntersectionFormOutside)
 {
     const World w = default_world();
-    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
-    const Intersection i(4.0, 0, ShapeType::Sphere);
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
+    const Intersection i(4.0f, 0, ShapeType::Sphere);
     const Comp comps = prepare_computation(i, r, w);
     const Color c = shade_hit(w, comps);
 
-    EXPECT_EQ(c, Color(0.38066, 0.47583, 0.2855));
+    EXPECT_EQ(c, Color(0.38066f, 0.47583f, 0.2855f));
 }
 
 TEST(ShadingIntersection, ShadingIntersectionFormInside)
 {
     World w = default_world();
-    w.light = PointLight(Point(0.0, 0.25, 0.0), Color(1.0, 1.0, 1.0));
-    const Ray r(Point(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
-    const Intersection i(0.5, 1, ShapeType::Sphere);
+    w.light = PointLight(Point(0.0f, 0.25f, 0.0f), Color(1.0f, 1.0f, 1.0f));
+    const Ray r(Point(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 1.0f));
+    const Intersection i(0.5f, 1, ShapeType::Sphere);
     const Comp comps = prepare_computation(i, r, w);
     const Color c = shade_hit(w, comps);
 
-    EXPECT_EQ(c, Color(0.90498, 0.90498, 0.90498));
+    EXPECT_EQ(c, Color(0.90498f, 0.90498f, 0.90498f));
 }
 
 // ---------------------------------------------------
@@ -138,19 +138,19 @@ TEST(ShadingIntersection, ShadingIntersectionFormInside)
 TEST(ColorAtRay, ColorWhenRayMisses)
 {
     const World w = default_world();
-    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 1.0, 0.0));
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 1.0f, 0.0f));
     const Color c = color_at(w, r);
 
-    EXPECT_EQ(c, Color(0.0, 0.0, 0.0));
+    EXPECT_EQ(c, Color(0.0f, 0.0f, 0.0f));
 }
 
 TEST(ColorAtRay, ColorWhenRayHits)
 {
     const World w = default_world();
-    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
     const Color c = color_at(w, r);
 
-    EXPECT_EQ(c, Color(0.38066, 0.47583, 0.2855));
+    EXPECT_EQ(c, Color(0.38066f, 0.47583f, 0.2855f));
 }
 
 TEST(ColorAtRay, ColorWithIntersectionBehindRay)
@@ -158,11 +158,11 @@ TEST(ColorAtRay, ColorWithIntersectionBehindRay)
     World w = default_world();
     
     // Set ambient to 1 for both spheres so they glow completely in their own color
-    w.sphere_materials[0].ambient = 1.0;
-    w.sphere_materials[1].ambient = 1.0;
+    w.sphere_materials[0].ambient = 1.0f;
+    w.sphere_materials[1].ambient = 1.0f;
 
     // Ray originates inside the outer sphere but points at the inner sphere from its edge
-    const Ray r(Point(0.0, 0.0, 0.75), Vector(0.0, 0.0, -1.0));
+    const Ray r(Point(0.0f, 0.0f, 0.75f), Vector(0.0f, 0.0f, -1.0f));
     const Color c = color_at(w, r);
 
     // Should return the color of the inner sphere

@@ -25,7 +25,7 @@ export namespace rt {
 
     void writePixel(Canvas &c, std::size_t x, std::size_t y, Color col);
     [[nodiscard]] Color pixelAt(const Canvas &c, std::size_t x, std::size_t y);
-    [[nodiscard]] int scaleColor(double color_float);
+    [[nodiscard]] int scaleColor(float color_float);
     [[nodiscard]] std::string canvasToPPM(const Canvas &c);
     void savePPM(const std::string& filename, const std::string& ppmData);
 

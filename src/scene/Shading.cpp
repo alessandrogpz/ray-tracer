@@ -16,19 +16,19 @@ namespace rt {
         Vector light_vector = normalizeVector(light.position - point);
         Color ambient = effective_color * material.ambient;
 
-        double light_dot_normal = dotProduct(light_vector, normal_vector);
+        float light_dot_normal = dotProduct(light_vector, normal_vector);
 
-        Color diffuse(0.0, 0.0, 0.0);
-        Color specular(0.0, 0.0, 0.0);
+        Color diffuse(0.0f, 0.0f, 0.0f);
+        Color specular(0.0f, 0.0f, 0.0f);
 
-        if (light_dot_normal >= 0.0) {
+        if (light_dot_normal >= 0.0f) {
             diffuse = effective_color * material.diffuse * light_dot_normal;
 
             Vector reflect_vector = reflect(-light_vector, normal_vector);
-            double reflect_dot_eye = dotProduct(reflect_vector, eye_vector);
+            float reflect_dot_eye = dotProduct(reflect_vector, eye_vector);
 
-            if (reflect_dot_eye > 0.0) {
-                double factor = std::pow(reflect_dot_eye, material.shininess);
+            if (reflect_dot_eye > 0.0f) {
+                float factor = std::pow(reflect_dot_eye, material.shininess);
                 specular = light.intensity * material.specular * factor;
             }
         }

@@ -8,17 +8,17 @@ import rt.tuple;
 namespace rt {
 
     Matrix<4> identity() {
-        Matrix<4> I; // Default all components to 0.0
+        Matrix<4> I; // Default all components to 0.0f
 
-        I(0, 0) = 1.0;
-        I(1, 1) = 1.0;
-        I(2, 2) = 1.0;
-        I(3, 3) = 1.0;
+        I(0, 0) = 1.0f;
+        I(1, 1) = 1.0f;
+        I(2, 2) = 1.0f;
+        I(3, 3) = 1.0f;
 
         return I;
     }
 
-    Matrix<4> translation(double x, double y, double z) {
+    Matrix<4> translation(float x, float y, float z) {
         Matrix<4> transform = identity();
 
         transform(0, 3) = x;
@@ -28,7 +28,7 @@ namespace rt {
         return transform;
     }
 
-    Matrix<4> scale(double x, double y, double z) {
+    Matrix<4> scale(float x, float y, float z) {
         Matrix<4> scale_mat = identity();
 
         scale_mat(0, 0) = x;
@@ -38,7 +38,7 @@ namespace rt {
         return scale_mat;
     }
 
-    Matrix<4> rotation_x(double radians) {
+    Matrix<4> rotation_x(float radians) {
         Matrix<4> transform = identity();
 
         transform(1, 1) = std::cos(radians);
@@ -49,7 +49,7 @@ namespace rt {
         return transform;
     }
 
-    Matrix<4> rotation_y(double radians) {
+    Matrix<4> rotation_y(float radians) {
         Matrix<4> transform = identity();
 
         transform(0, 0) = std::cos(radians);
@@ -60,7 +60,7 @@ namespace rt {
         return transform;
     }
 
-    Matrix<4> rotation_z(double radians) {
+    Matrix<4> rotation_z(float radians) {
         Matrix<4> transform = identity();
 
         transform(0, 0) = std::cos(radians);
@@ -71,7 +71,7 @@ namespace rt {
         return transform;
     }
 
-    Matrix<4> shear(double xy, double xz, double yx, double yz, double zx, double zy) {
+    Matrix<4> shear(float xy, float xz, float yx, float yz, float zx, float zy) {
         Matrix<4> transform = identity();
 
         transform(0, 1) = xy;
@@ -87,10 +87,10 @@ namespace rt {
     Matrix<4> reflection(const Vector& normal) {
         Matrix<4> outer_product{};
 
-        double x = normal.x;
-        double y = normal.y;
-        double z = normal.z;
-        double w = normal.w;
+        float x = normal.x;
+        float y = normal.y;
+        float z = normal.z;
+        float w = normal.w;
 
         outer_product(0, 0) = x * x;
         outer_product(0, 1) = x * y;

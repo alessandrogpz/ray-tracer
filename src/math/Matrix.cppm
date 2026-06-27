@@ -9,25 +9,25 @@ export namespace rt {
 
     template <std::size_t N>
     struct Matrix {
-        double data[N][N]{};
+        float data[N][N]{};
 
         // Default constructor: Initializes all elements to 0
         Matrix() {
             for (std::size_t i = 0; i < N; ++i) {
                 for (std::size_t j = 0; j < N; ++j) {
-                    data[i][j] = 0.0;
+                    data[i][j] = 0.0f;
                 }
             }
         }
 
         // Getters & Setters -----------------------------------------------------------------
         // Setter: m(row, col)
-        double& operator()(std::size_t row, std::size_t col) {
+        float& operator()(std::size_t row, std::size_t col) {
             return data[row][col];
         }
 
         // Getter
-        double operator()(std::size_t row, std::size_t col) const {
+        float operator()(std::size_t row, std::size_t col) const {
             return data[row][col];
         }
 
@@ -53,7 +53,7 @@ export namespace rt {
 
         // Matrix * Scalar
         [[nodiscard]]
-        friend inline Matrix<N> operator*(const Matrix<N>& a, const double s)
+        friend inline Matrix<N> operator*(const Matrix<N>& a, const float s)
         {
             Matrix<N> result{};
             for (std::size_t r = 0; r < N; r++) {
@@ -96,7 +96,7 @@ export namespace rt {
             Matrix<N> result;
             for (std::size_t r = 0; r < N; r++) {
                 for (std::size_t c = 0; c < N; c++) {
-                    double sum = 0.0;
+                    float sum = 0.0f;
                     for (std::size_t k = 0; k < N; k++) {
                         sum += a(r, k) * b(k, c);
                     }
@@ -109,7 +109,7 @@ export namespace rt {
         // Matrix * Tuple (Base)
         [[nodiscard]]
         friend inline Tuple operator*(const Matrix<N>& m, const Tuple& t) requires (N == 4) {
-            double res[4] = {0, 0, 0, 0};
+            float res[4] = {0, 0, 0, 0};
             for (std::size_t r = 0; r < 4; r++) {
                 for (std::size_t c = 0; c < 4; c++) {
                     res[r] += m(r, c) * t[c];
@@ -143,11 +143,11 @@ export namespace rt {
         }
 
         [[nodiscard]]
-        double determinant() const {
+        float determinant() const {
             if constexpr (N == 2) {
                 return ((*this)(0,0) * (*this)(1,1)) - ((*this)(0,1) * (*this)(1,0));
             } else {
-                double det = 0.0;
+                float det = 0.0f;
                 for (std::size_t col = 0; col < N; ++col) {
                     det += (*this)(0, col) * cofactor(0, col);
                 }
@@ -174,13 +174,13 @@ export namespace rt {
         }
 
         [[nodiscard]]
-        double minor(std::size_t skip_row, std::size_t skip_col) const requires (N >= 3) {
+        float minor(std::size_t skip_row, std::size_t skip_col) const requires (N >= 3) {
             return submatrix(skip_row, skip_col).determinant();
         }
 
         [[nodiscard]]
-        double cofactor(std::size_t skip_row, std::size_t skip_col) const requires (N >= 3) {
-            double calc_minor = minor(skip_row, skip_col);
+        float cofactor(std::size_t skip_row, std::size_t skip_col) const requires (N >= 3) {
+            float calc_minor = minor(skip_row, skip_col);
             if ((skip_row + skip_col) % 2 != 0) {
                 return -calc_minor;
             }
@@ -189,7 +189,7 @@ export namespace rt {
 
         [[nodiscard]]
         bool isInvertible() const {
-            return !equal(determinant(), 0.0);
+            return !equal(determinant(), 0.0f);
         }
 
         // Throws std::runtime_error if the Matrix cannot be inverted (determinant is 0).
@@ -201,13 +201,13 @@ export namespace rt {
             }
 
             Matrix<N> result;
-            double current_det = determinant();
+            float current_det = determinant();
 
             for (std::size_t row = 0; row < N; row++)
             {
                 for (std::size_t col = 0; col < N; col++)
                 {
-                    double c = cofactor(col, row);
+                    float c = cofactor(col, row);
                     result(row, col) = c / current_det;
                 }
             }

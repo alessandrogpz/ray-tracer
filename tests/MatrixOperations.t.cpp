@@ -15,75 +15,75 @@ using namespace rt;
 TEST(MatrixCreation, createMatrix2x2)
 {
     Matrix<2> m2;
-    m2(0,0) = -3.0;    m2(0,1) = 5.0;
-    m2(1,0) = 1.0;     m2(1,1) = -2.0;
+    m2(0,0) = -3.0f;    m2(0,1) = 5.0f;
+    m2(1,0) = 1.0f;     m2(1,1) = -2.0f;
 
     // | -3 |  5 |
     // |  1 | -2 |
 
-    EXPECT_DOUBLE_EQ(m2(0,0), -3.0);
-    EXPECT_DOUBLE_EQ(m2(0,1), 5.0);
-    EXPECT_DOUBLE_EQ(m2(1,0), 1.0);
-    EXPECT_DOUBLE_EQ(m2(1,1), -2.0);
+    EXPECT_FLOAT_EQ(m2(0,0), -3.0f);
+    EXPECT_FLOAT_EQ(m2(0,1), 5.0f);
+    EXPECT_FLOAT_EQ(m2(1,0), 1.0f);
+    EXPECT_FLOAT_EQ(m2(1,1), -2.0f);
 }
 
 TEST(MatrixCreation, createMatrix3x3)
 {
     Matrix<3> m3;
-    m3(0,0) = -3.0;    m3(0,1) = 5.0;     m3(0,2) = 0.0;
-    m3(1,0) = 1.0;     m3(1,1) = -2.0;    m3(1,2) = -7.0;
-    m3(2,0) = 0.0;     m3(2,1) = 1.0;     m3(2,2) = 1.0;
+    m3(0,0) = -3.0f;    m3(0,1) = 5.0f;     m3(0,2) = 0.0f;
+    m3(1,0) = 1.0f;     m3(1,1) = -2.0f;    m3(1,2) = -7.0f;
+    m3(2,0) = 0.0f;     m3(2,1) = 1.0f;     m3(2,2) = 1.0f;
 
     // | -3 |  5 |  0 |
     // |  1 | -2 | -7 |
     // |  0 |  1 |  1 |
 
-    EXPECT_DOUBLE_EQ(m3(0,0), -3.0);
-    EXPECT_DOUBLE_EQ(m3(0,1), 5.0);
-    EXPECT_DOUBLE_EQ(m3(0,2), 0.0);
+    EXPECT_FLOAT_EQ(m3(0,0), -3.0f);
+    EXPECT_FLOAT_EQ(m3(0,1), 5.0f);
+    EXPECT_FLOAT_EQ(m3(0,2), 0.0f);
 
-    EXPECT_DOUBLE_EQ(m3(1,0), 1.0);
-    EXPECT_DOUBLE_EQ(m3(1,1), -2.0);
-    EXPECT_DOUBLE_EQ(m3(1,2), -7.0);
+    EXPECT_FLOAT_EQ(m3(1,0), 1.0f);
+    EXPECT_FLOAT_EQ(m3(1,1), -2.0f);
+    EXPECT_FLOAT_EQ(m3(1,2), -7.0f);
 
-    EXPECT_DOUBLE_EQ(m3(2,0), 0.0);
-    EXPECT_DOUBLE_EQ(m3(2,1), 1.0);
-    EXPECT_DOUBLE_EQ(m3(2,2), 1.0);
+    EXPECT_FLOAT_EQ(m3(2,0), 0.0f);
+    EXPECT_FLOAT_EQ(m3(2,1), 1.0f);
+    EXPECT_FLOAT_EQ(m3(2,2), 1.0f);
 }
 
 TEST(MatrixCreation, createMatrix4x4)
 {
 	Matrix<4> m4;
-    m4(0,0) = 1.0;     m4(0,1) = 2.0;     m4(0,2) = 3.0;     m4(0,3) = 4.0;
-    m4(1,0) = 5.5;     m4(1,1) = 6.5;     m4(1,2) = 7.5;     m4(1,3) = 8.5;
-    m4(2,0) = 9.0;     m4(2,1) = 10.0;    m4(2,2) = 11.0;    m4(2,3) = 12.0;
-    m4(3,0) = 13.5;    m4(3,1) = 14.5;    m4(3,2) = 15.5;    m4(3,3) = 16.5;
+    m4(0,0) = 1.0f;     m4(0,1) = 2.0f;     m4(0,2) = 3.0f;     m4(0,3) = 4.0f;
+    m4(1,0) = 5.5f;     m4(1,1) = 6.5f;     m4(1,2) = 7.5f;     m4(1,3) = 8.5f;
+    m4(2,0) = 9.0f;     m4(2,1) = 10.0f;    m4(2,2) = 11.0f;    m4(2,3) = 12.0f;
+    m4(3,0) = 13.5f;    m4(3,1) = 14.5f;    m4(3,2) = 15.5f;    m4(3,3) = 16.5f;
 
     // | 1    | 2    | 3    | 4    |
-    // | 5.5  | 6.5  | 7.5  | 8.5  |
+    // | 5.5f  | 6.5f  | 7.5f  | 8.5f  |
     // | 9    | 10   | 11   | 12   |
-    // | 13.5 | 14.5 | 15.5 | 16.5 |
+    // | 13.5f | 14.5f | 15.5f | 16.5f |
 
 
-    EXPECT_DOUBLE_EQ(m4(0,0), 1.0);
-    EXPECT_DOUBLE_EQ(m4(0,1), 2.0);
-    EXPECT_DOUBLE_EQ(m4(0,2), 3.0);
-    EXPECT_DOUBLE_EQ(m4(0,3), 4.0);
+    EXPECT_FLOAT_EQ(m4(0,0), 1.0f);
+    EXPECT_FLOAT_EQ(m4(0,1), 2.0f);
+    EXPECT_FLOAT_EQ(m4(0,2), 3.0f);
+    EXPECT_FLOAT_EQ(m4(0,3), 4.0f);
 
-    EXPECT_DOUBLE_EQ(m4(1,0), 5.5);
-    EXPECT_DOUBLE_EQ(m4(1,1), 6.5);
-    EXPECT_DOUBLE_EQ(m4(1,2), 7.5);
-    EXPECT_DOUBLE_EQ(m4(1,3), 8.5);
+    EXPECT_FLOAT_EQ(m4(1,0), 5.5f);
+    EXPECT_FLOAT_EQ(m4(1,1), 6.5f);
+    EXPECT_FLOAT_EQ(m4(1,2), 7.5f);
+    EXPECT_FLOAT_EQ(m4(1,3), 8.5f);
 
-	EXPECT_DOUBLE_EQ(m4(2,0), 9.0);
-    EXPECT_DOUBLE_EQ(m4(2,1), 10.0);
-    EXPECT_DOUBLE_EQ(m4(2,2), 11.0);
-    EXPECT_DOUBLE_EQ(m4(2,3), 12.0);
+	EXPECT_FLOAT_EQ(m4(2,0), 9.0f);
+    EXPECT_FLOAT_EQ(m4(2,1), 10.0f);
+    EXPECT_FLOAT_EQ(m4(2,2), 11.0f);
+    EXPECT_FLOAT_EQ(m4(2,3), 12.0f);
 
-	EXPECT_DOUBLE_EQ(m4(3,0), 13.5);
-    EXPECT_DOUBLE_EQ(m4(3,1), 14.5);
-    EXPECT_DOUBLE_EQ(m4(3,2), 15.5);
-    EXPECT_DOUBLE_EQ(m4(3,3), 16.5);
+	EXPECT_FLOAT_EQ(m4(3,0), 13.5f);
+    EXPECT_FLOAT_EQ(m4(3,1), 14.5f);
+    EXPECT_FLOAT_EQ(m4(3,2), 15.5f);
+    EXPECT_FLOAT_EQ(m4(3,3), 16.5f);
 }
 
 // ---------------------------------------------------
@@ -92,16 +92,16 @@ TEST(MatrixCreation, createMatrix4x4)
 TEST(MatrixComparison, identicalMatricesAreEqual)
 {  
     Matrix<4> A;
-    A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
-    A(1,0) = 5.5;     A(1,1) = 6.5;     A(1,2) = 7.5;     A(1,3) = 8.5;
-    A(2,0) = 9.0;     A(2,1) = 10.0;    A(2,2) = 11.0;    A(2,3) = 12.0;
-    A(3,0) = 13.5;    A(3,1) = 14.5;    A(3,2) = 15.5;    A(3,3) = 16.5;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 5.5f;     A(1,1) = 6.5f;     A(1,2) = 7.5f;     A(1,3) = 8.5f;
+    A(2,0) = 9.0f;     A(2,1) = 10.0f;    A(2,2) = 11.0f;    A(2,3) = 12.0f;
+    A(3,0) = 13.5f;    A(3,1) = 14.5f;    A(3,2) = 15.5f;    A(3,3) = 16.5f;
 
     Matrix<4> B;
-    B(0,0) = 1.0;     B(0,1) = 2.0;     B(0,2) = 3.0;     B(0,3) = 4.0;
-    B(1,0) = 5.5;     B(1,1) = 6.5;     B(1,2) = 7.5;     B(1,3) = 8.5;
-    B(2,0) = 9.0;     B(2,1) = 10.0;    B(2,2) = 11.0;    B(2,3) = 12.0;
-    B(3,0) = 13.5;    B(3,1) = 14.5;    B(3,2) = 15.5;    B(3,3) = 16.5;
+    B(0,0) = 1.0f;     B(0,1) = 2.0f;     B(0,2) = 3.0f;     B(0,3) = 4.0f;
+    B(1,0) = 5.5f;     B(1,1) = 6.5f;     B(1,2) = 7.5f;     B(1,3) = 8.5f;
+    B(2,0) = 9.0f;     B(2,1) = 10.0f;    B(2,2) = 11.0f;    B(2,3) = 12.0f;
+    B(3,0) = 13.5f;    B(3,1) = 14.5f;    B(3,2) = 15.5f;    B(3,3) = 16.5f;
 
     EXPECT_TRUE(A == B);
 }
@@ -109,13 +109,13 @@ TEST(MatrixComparison, identicalMatricesAreEqual)
 TEST(MatrixComparison, verySimilarMatricesAreEqual)
 {
     Matrix<2> A;
-    A(0,0) = 1.000000;
-    A(1,1) = 1.000000;
+    A(0,0) = 1.000000f;
+    A(1,1) = 1.000000f;
 
     Matrix<2> B;
-    // Difference is 0.000001, which is smaller than 0.00001 EPSILON
-    B(0,0) = 1.000001; 
-    B(1,1) = 0.999999;
+    // Difference is 0.000001f, which is smaller than 0.00001f EPSILON
+    B(0,0) = 1.000001f; 
+    B(1,1) = 0.999999f;
 
     EXPECT_TRUE(A == B);
 }
@@ -123,16 +123,16 @@ TEST(MatrixComparison, verySimilarMatricesAreEqual)
 TEST(MatrixComparison, differentMatricesAreNotEqual)
 {
     Matrix<4> A;
-    A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
-    A(1,0) = 5.5;     A(1,1) = 6.5;     A(1,2) = 7.5;     A(1,3) = 8.5;
-    A(2,0) = 9.0;     A(2,1) = 10.0;    A(2,2) = 11.0;    A(2,3) = 12.0;
-    A(3,0) = 13.5;    A(3,1) = 14.5;    A(3,2) = 15.5;    A(3,3) = 16.5;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 5.5f;     A(1,1) = 6.5f;     A(1,2) = 7.5f;     A(1,3) = 8.5f;
+    A(2,0) = 9.0f;     A(2,1) = 10.0f;    A(2,2) = 11.0f;    A(2,3) = 12.0f;
+    A(3,0) = 13.5f;    A(3,1) = 14.5f;    A(3,2) = 15.5f;    A(3,3) = 16.5f;
 
     Matrix<4> B;
-    B(0,0) = 2.0;     B(0,1) = 3.0;     B(0,2) = 4.0;     B(0,3) = 5.0;
-    B(1,0) = 5.5;     B(1,1) = 6.5;     B(1,2) = 7.5;     B(1,3) = 8.5;
-    B(2,0) = 9.0;     B(2,1) = 10.0;    B(2,2) = 11.0;    B(2,3) = 12.0;
-    B(3,0) = 13.5;    B(3,1) = 14.5;    B(3,2) = 15.5;    B(3,3) = 16.5;
+    B(0,0) = 2.0f;     B(0,1) = 3.0f;     B(0,2) = 4.0f;     B(0,3) = 5.0f;
+    B(1,0) = 5.5f;     B(1,1) = 6.5f;     B(1,2) = 7.5f;     B(1,3) = 8.5f;
+    B(2,0) = 9.0f;     B(2,1) = 10.0f;    B(2,2) = 11.0f;    B(2,3) = 12.0f;
+    B(3,0) = 13.5f;    B(3,1) = 14.5f;    B(3,2) = 15.5f;    B(3,3) = 16.5f;
 
     EXPECT_FALSE(A == B);
     EXPECT_TRUE(A != B);
@@ -141,11 +141,11 @@ TEST(MatrixComparison, differentMatricesAreNotEqual)
 TEST(MatrixComparison, slightlyDifferentOutsideEpsilonAreNotEqual)
 {
     Matrix<2> A;
-    A(0,0) = 1.0;
+    A(0,0) = 1.0f;
 
     Matrix<2> B;
-    // Difference is 0.0001, which is larger than 0.00001 EPSILON
-    B(0,0) = 1.0001; 
+    // Difference is 0.0001f, which is larger than 0.00001f EPSILON
+    B(0,0) = 1.0001f; 
 
     EXPECT_FALSE(A == B);
 }
@@ -156,53 +156,53 @@ TEST(MatrixComparison, slightlyDifferentOutsideEpsilonAreNotEqual)
 TEST(MatrixOperation, MultiplyTwo4x4Matrices)
 {
     Matrix<4> A;
-    A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
-    A(1,0) = 5.0;     A(1,1) = 6.0;     A(1,2) = 7.0;     A(1,3) = 8.0;
-    A(2,0) = 9.0;     A(2,1) = 8.0;     A(2,2) = 7.0;     A(2,3) = 6.0;
-    A(3,0) = 5.0;     A(3,1) = 4.0;     A(3,2) = 3.0;     A(3,3) = 2.0;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 5.0f;     A(1,1) = 6.0f;     A(1,2) = 7.0f;     A(1,3) = 8.0f;
+    A(2,0) = 9.0f;     A(2,1) = 8.0f;     A(2,2) = 7.0f;     A(2,3) = 6.0f;
+    A(3,0) = 5.0f;     A(3,1) = 4.0f;     A(3,2) = 3.0f;     A(3,3) = 2.0f;
 
     Matrix<4> B;
-    B(0,0) = -2.0;     B(0,1) = 1.0;     B(0,2) = 2.0;     B(0,3) = 3.0;
-    B(1,0) = 3.0;      B(1,1) = 2.0;     B(1,2) = 1.0;     B(1,3) = -1.0;
-    B(2,0) = 4.0;      B(2,1) = 3.0;     B(2,2) = 6.0;     B(2,3) = 5.0;
-    B(3,0) = 1.0;      B(3,1) = 2.0;     B(3,2) = 7.0;     B(3,3) = 8.0;
+    B(0,0) = -2.0f;     B(0,1) = 1.0f;     B(0,2) = 2.0f;     B(0,3) = 3.0f;
+    B(1,0) = 3.0f;      B(1,1) = 2.0f;     B(1,2) = 1.0f;     B(1,3) = -1.0f;
+    B(2,0) = 4.0f;      B(2,1) = 3.0f;     B(2,2) = 6.0f;     B(2,3) = 5.0f;
+    B(3,0) = 1.0f;      B(3,1) = 2.0f;     B(3,2) = 7.0f;     B(3,3) = 8.0f;
 
     Matrix<4> C = A * B;
 
-    EXPECT_DOUBLE_EQ(C(0,0), 20.0);
-    EXPECT_DOUBLE_EQ(C(0,1), 22.0);
-    EXPECT_DOUBLE_EQ(C(0,2), 50.0);
-    EXPECT_DOUBLE_EQ(C(0,3), 48.0);
+    EXPECT_FLOAT_EQ(C(0,0), 20.0f);
+    EXPECT_FLOAT_EQ(C(0,1), 22.0f);
+    EXPECT_FLOAT_EQ(C(0,2), 50.0f);
+    EXPECT_FLOAT_EQ(C(0,3), 48.0f);
 
-    EXPECT_DOUBLE_EQ(C(1,0), 44.0);
-    EXPECT_DOUBLE_EQ(C(1,1), 54.0);
-    EXPECT_DOUBLE_EQ(C(1,2), 114.0);
-    EXPECT_DOUBLE_EQ(C(1,3), 108.0);
+    EXPECT_FLOAT_EQ(C(1,0), 44.0f);
+    EXPECT_FLOAT_EQ(C(1,1), 54.0f);
+    EXPECT_FLOAT_EQ(C(1,2), 114.0f);
+    EXPECT_FLOAT_EQ(C(1,3), 108.0f);
 
-	EXPECT_DOUBLE_EQ(C(2,0), 40.0);
-    EXPECT_DOUBLE_EQ(C(2,1), 58.0);
-    EXPECT_DOUBLE_EQ(C(2,2), 110.0);
-    EXPECT_DOUBLE_EQ(C(2,3), 102.0);
+	EXPECT_FLOAT_EQ(C(2,0), 40.0f);
+    EXPECT_FLOAT_EQ(C(2,1), 58.0f);
+    EXPECT_FLOAT_EQ(C(2,2), 110.0f);
+    EXPECT_FLOAT_EQ(C(2,3), 102.0f);
 
-	EXPECT_DOUBLE_EQ(C(3,0), 16.0);
-    EXPECT_DOUBLE_EQ(C(3,1), 26.0);
-    EXPECT_DOUBLE_EQ(C(3,2), 46.0);
-    EXPECT_DOUBLE_EQ(C(3,3), 42.0);
+	EXPECT_FLOAT_EQ(C(3,0), 16.0f);
+    EXPECT_FLOAT_EQ(C(3,1), 26.0f);
+    EXPECT_FLOAT_EQ(C(3,2), 46.0f);
+    EXPECT_FLOAT_EQ(C(3,3), 42.0f);
 }
 
 TEST(MatrixOperation, Multiply4x4MatrixBy4x4IdentityMatrix)
 {
     Matrix<4> A;
-    A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
-    A(1,0) = 1.0;     A(1,1) = 2.0;     A(1,2) = 4.0;     A(1,3) = 8.0;
-    A(2,0) = 2.0;     A(2,1) = 4.0;     A(2,2) = 8.0;     A(2,3) = 16.0;
-    A(3,0) = 4.0;     A(3,1) = 8.0;     A(3,2) = 16.0;    A(3,3) = 32.0;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 1.0f;     A(1,1) = 2.0f;     A(1,2) = 4.0f;     A(1,3) = 8.0f;
+    A(2,0) = 2.0f;     A(2,1) = 4.0f;     A(2,2) = 8.0f;     A(2,3) = 16.0f;
+    A(3,0) = 4.0f;     A(3,1) = 8.0f;     A(3,2) = 16.0f;    A(3,3) = 32.0f;
 
     Matrix<4> B;
-    B(0,0) = 1.0;      B(0,1) = 0.0;     B(0,2) = 0.0;     B(0,3) = 0.0;
-    B(1,0) = 0.0;      B(1,1) = 1.0;     B(1,2) = 0.0;     B(1,3) = 0.0;
-    B(2,0) = 0.0;      B(2,1) = 0.0;     B(2,2) = 1.0;     B(2,3) = 0.0;
-    B(3,0) = 0.0;      B(3,1) = 0.0;     B(3,2) = 0.0;     B(3,3) = 1.0;
+    B(0,0) = 1.0f;      B(0,1) = 0.0f;     B(0,2) = 0.0f;     B(0,3) = 0.0f;
+    B(1,0) = 0.0f;      B(1,1) = 1.0f;     B(1,2) = 0.0f;     B(1,3) = 0.0f;
+    B(2,0) = 0.0f;      B(2,1) = 0.0f;     B(2,2) = 1.0f;     B(2,3) = 0.0f;
+    B(3,0) = 0.0f;      B(3,1) = 0.0f;     B(3,2) = 0.0f;     B(3,3) = 1.0f;
 
     // Identity
     // | 1    | 0    | 0    | 0    |
@@ -212,49 +212,49 @@ TEST(MatrixOperation, Multiply4x4MatrixBy4x4IdentityMatrix)
 
     Matrix<4> C = A * B;
 
-    EXPECT_DOUBLE_EQ(C(0,0), 1.0);
-    EXPECT_DOUBLE_EQ(C(0,1), 2.0);
-    EXPECT_DOUBLE_EQ(C(0,2), 3.0);
-    EXPECT_DOUBLE_EQ(C(0,3), 4.0);
+    EXPECT_FLOAT_EQ(C(0,0), 1.0f);
+    EXPECT_FLOAT_EQ(C(0,1), 2.0f);
+    EXPECT_FLOAT_EQ(C(0,2), 3.0f);
+    EXPECT_FLOAT_EQ(C(0,3), 4.0f);
 
-    EXPECT_DOUBLE_EQ(C(1,0), 1.0);
-    EXPECT_DOUBLE_EQ(C(1,1), 2.0);
-    EXPECT_DOUBLE_EQ(C(1,2), 4.0);
-    EXPECT_DOUBLE_EQ(C(1,3), 8.0);
+    EXPECT_FLOAT_EQ(C(1,0), 1.0f);
+    EXPECT_FLOAT_EQ(C(1,1), 2.0f);
+    EXPECT_FLOAT_EQ(C(1,2), 4.0f);
+    EXPECT_FLOAT_EQ(C(1,3), 8.0f);
 
-	EXPECT_DOUBLE_EQ(C(2,0), 2.0);
-    EXPECT_DOUBLE_EQ(C(2,1), 4.0);
-    EXPECT_DOUBLE_EQ(C(2,2), 8.0);
-    EXPECT_DOUBLE_EQ(C(2,3), 16.0);
+	EXPECT_FLOAT_EQ(C(2,0), 2.0f);
+    EXPECT_FLOAT_EQ(C(2,1), 4.0f);
+    EXPECT_FLOAT_EQ(C(2,2), 8.0f);
+    EXPECT_FLOAT_EQ(C(2,3), 16.0f);
 
-	EXPECT_DOUBLE_EQ(C(3,0), 4.0);
-    EXPECT_DOUBLE_EQ(C(3,1), 8.0);
-    EXPECT_DOUBLE_EQ(C(3,2), 16.0);
-    EXPECT_DOUBLE_EQ(C(3,3), 32.0);
+	EXPECT_FLOAT_EQ(C(3,0), 4.0f);
+    EXPECT_FLOAT_EQ(C(3,1), 8.0f);
+    EXPECT_FLOAT_EQ(C(3,2), 16.0f);
+    EXPECT_FLOAT_EQ(C(3,3), 32.0f);
 }
 
 TEST(MatrixOperation, Multiply4x4MatrixByTuple)
 {
     Matrix<4> A;
-    A(0,0) = 1.0;     A(0,1) = 2.0;     A(0,2) = 3.0;     A(0,3) = 4.0;
-    A(1,0) = 2.0;     A(1,1) = 4.0;     A(1,2) = 4.0;     A(1,3) = 2.0;
-    A(2,0) = 8.0;     A(2,1) = 6.0;     A(2,2) = 4.0;     A(2,3) = 1.0;
-    A(3,0) = 0.0;     A(3,1) = 0.0;     A(3,2) = 0.0;     A(3,3) = 1.0;
+    A(0,0) = 1.0f;     A(0,1) = 2.0f;     A(0,2) = 3.0f;     A(0,3) = 4.0f;
+    A(1,0) = 2.0f;     A(1,1) = 4.0f;     A(1,2) = 4.0f;     A(1,3) = 2.0f;
+    A(2,0) = 8.0f;     A(2,1) = 6.0f;     A(2,2) = 4.0f;     A(2,3) = 1.0f;
+    A(3,0) = 0.0f;     A(3,1) = 0.0f;     A(3,2) = 0.0f;     A(3,3) = 1.0f;
 
-    Tuple b(1.0, 2.0, 3.0, 1.0);
+    Tuple b(1.0f, 2.0f, 3.0f, 1.0f);
 
     Tuple c(A * b);
 
-    EXPECT_TRUE(c == Tuple(18.0, 24.0, 33.0, 1.0));
+    EXPECT_TRUE(c == Tuple(18.0f, 24.0f, 33.0f, 1.0f));
 }
 
 TEST(MatrixOperation, Transpose4x4Matrix)
 {
     Matrix<4> A;
-    A(0,0) = 0.0;     A(0,1) = 9.0;     A(0,2) = 3.0;     A(0,3) = 0.0;
-    A(1,0) = 9.0;     A(1,1) = 8.0;     A(1,2) = 0.0;     A(1,3) = 8.0;
-    A(2,0) = 1.0;     A(2,1) = 8.0;     A(2,2) = 5.0;     A(2,3) = 3.0;
-    A(3,0) = 0.0;     A(3,1) = 0.0;     A(3,2) = 5.0;     A(3,3) = 8.0;
+    A(0,0) = 0.0f;     A(0,1) = 9.0f;     A(0,2) = 3.0f;     A(0,3) = 0.0f;
+    A(1,0) = 9.0f;     A(1,1) = 8.0f;     A(1,2) = 0.0f;     A(1,3) = 8.0f;
+    A(2,0) = 1.0f;     A(2,1) = 8.0f;     A(2,2) = 5.0f;     A(2,3) = 3.0f;
+    A(3,0) = 0.0f;     A(3,1) = 0.0f;     A(3,2) = 5.0f;     A(3,3) = 8.0f;
 
     // Transpose
     // | 0 | 9 | 3 | 0 |      | 0 | 9 | 1 | 0 |
@@ -264,35 +264,35 @@ TEST(MatrixOperation, Transpose4x4Matrix)
 
     Matrix<4> B = A.transpose();
 
-    EXPECT_DOUBLE_EQ(B(0,0), 0.0);
-    EXPECT_DOUBLE_EQ(B(0,1), 9.0);
-    EXPECT_DOUBLE_EQ(B(0,2), 1.0);
-    EXPECT_DOUBLE_EQ(B(0,3), 0.0);
+    EXPECT_FLOAT_EQ(B(0,0), 0.0f);
+    EXPECT_FLOAT_EQ(B(0,1), 9.0f);
+    EXPECT_FLOAT_EQ(B(0,2), 1.0f);
+    EXPECT_FLOAT_EQ(B(0,3), 0.0f);
 
-    EXPECT_DOUBLE_EQ(B(1,0), 9.0);
-    EXPECT_DOUBLE_EQ(B(1,1), 8.0);
-    EXPECT_DOUBLE_EQ(B(1,2), 8.0);
-    EXPECT_DOUBLE_EQ(B(1,3), 0.0);
+    EXPECT_FLOAT_EQ(B(1,0), 9.0f);
+    EXPECT_FLOAT_EQ(B(1,1), 8.0f);
+    EXPECT_FLOAT_EQ(B(1,2), 8.0f);
+    EXPECT_FLOAT_EQ(B(1,3), 0.0f);
 
-    EXPECT_DOUBLE_EQ(B(2,0), 3.0);
-    EXPECT_DOUBLE_EQ(B(2,1), 0.0);
-    EXPECT_DOUBLE_EQ(B(2,2), 5.0);
-    EXPECT_DOUBLE_EQ(B(2,3), 5.0);
+    EXPECT_FLOAT_EQ(B(2,0), 3.0f);
+    EXPECT_FLOAT_EQ(B(2,1), 0.0f);
+    EXPECT_FLOAT_EQ(B(2,2), 5.0f);
+    EXPECT_FLOAT_EQ(B(2,3), 5.0f);
 
-    EXPECT_DOUBLE_EQ(B(3,0), 0.0);
-    EXPECT_DOUBLE_EQ(B(3,1), 8.0);
-    EXPECT_DOUBLE_EQ(B(3,2), 3.0);
-    EXPECT_DOUBLE_EQ(B(3,3), 8.0);
+    EXPECT_FLOAT_EQ(B(3,0), 0.0f);
+    EXPECT_FLOAT_EQ(B(3,1), 8.0f);
+    EXPECT_FLOAT_EQ(B(3,2), 3.0f);
+    EXPECT_FLOAT_EQ(B(3,3), 8.0f);
 }
 
 TEST(MatrixOperation, Transpose4x4IdentityMatrix)
 {
     // Define the 4x4 Identity Matrix
     Matrix<4> I;
-    I(0,0) = 1.0; I(0,1) = 0.0; I(0,2) = 0.0; I(0,3) = 0.0;
-    I(1,0) = 0.0; I(1,1) = 1.0; I(1,2) = 0.0; I(1,3) = 0.0;
-    I(2,0) = 0.0; I(2,1) = 0.0; I(2,2) = 1.0; I(2,3) = 0.0;
-    I(3,0) = 0.0; I(3,1) = 0.0; I(3,2) = 0.0; I(3,3) = 1.0;
+    I(0,0) = 1.0f; I(0,1) = 0.0f; I(0,2) = 0.0f; I(0,3) = 0.0f;
+    I(1,0) = 0.0f; I(1,1) = 1.0f; I(1,2) = 0.0f; I(1,3) = 0.0f;
+    I(2,0) = 0.0f; I(2,1) = 0.0f; I(2,2) = 1.0f; I(2,3) = 0.0f;
+    I(3,0) = 0.0f; I(3,1) = 0.0f; I(3,2) = 0.0f; I(3,3) = 1.0f;
 
     Matrix<4> result = I.transpose();
 
@@ -302,18 +302,18 @@ TEST(MatrixOperation, Transpose4x4IdentityMatrix)
 TEST(MatrixOperation, Determinant2x2Matrix)
 {
     Matrix<2> A;
-    A(0,0) = 1.0;  A(0,1) = 5.0;
-    A(1,0) = -3.0; A(1,1) = 2.0;
+    A(0,0) = 1.0f;  A(0,1) = 5.0f;
+    A(1,0) = -3.0f; A(1,1) = 2.0f;
 
-    EXPECT_DOUBLE_EQ(A.determinant(), 17.0);
+    EXPECT_FLOAT_EQ(A.determinant(), 17.0f);
 }
 
 TEST(MatrixOperation, Submatrix3x3Is2x2)
 {
     Matrix<3> A;
-    A(0,0) = 1.0;   A(0,1) = 5.0;   A(0,2) = 0.0;
-    A(1,0) = -3.0;  A(1,1) = 2.0;   A(1,2) = 7.0;
-    A(2,0) = 0.0;   A(2,1) = 6.0;   A(2,2) = -3.0;
+    A(0,0) = 1.0f;   A(0,1) = 5.0f;   A(0,2) = 0.0f;
+    A(1,0) = -3.0f;  A(1,1) = 2.0f;   A(1,2) = 7.0f;
+    A(2,0) = 0.0f;   A(2,1) = 6.0f;   A(2,2) = -3.0f;
 
     // Submatrix(A, 0, 2) - Remove row 0, col 2
     // |  1 |  5 |  0 |      | -3 |  2 |
@@ -322,20 +322,20 @@ TEST(MatrixOperation, Submatrix3x3Is2x2)
 
     Matrix<2> B = A.submatrix(0, 2);
 
-    EXPECT_DOUBLE_EQ(B(0,0), -3.0);
-    EXPECT_DOUBLE_EQ(B(0,1), 2.0);
+    EXPECT_FLOAT_EQ(B(0,0), -3.0f);
+    EXPECT_FLOAT_EQ(B(0,1), 2.0f);
 
-    EXPECT_DOUBLE_EQ(B(1,0), 0.0);
-    EXPECT_DOUBLE_EQ(B(1,1), 6.0);
+    EXPECT_FLOAT_EQ(B(1,0), 0.0f);
+    EXPECT_FLOAT_EQ(B(1,1), 6.0f);
 }
 
 TEST(MatrixOperation, Submatrix4x4Is3x3)
 {
     Matrix<4> A;
-    A(0,0) = -6.0;  A(0,1) = 1.0;  A(0,2) = 1.0;  A(0,3) = 6.0;
-    A(1,0) = -8.0;  A(1,1) = 5.0;  A(1,2) = 8.0;  A(1,3) = 6.0;
-    A(2,0) = -1.0;  A(2,1) = 0.0;  A(2,2) = 8.0;  A(2,3) = 2.0;
-    A(3,0) = -7.0;  A(3,1) = 1.0;  A(3,2) = -1.0; A(3,3) = 1.0;
+    A(0,0) = -6.0f;  A(0,1) = 1.0f;  A(0,2) = 1.0f;  A(0,3) = 6.0f;
+    A(1,0) = -8.0f;  A(1,1) = 5.0f;  A(1,2) = 8.0f;  A(1,3) = 6.0f;
+    A(2,0) = -1.0f;  A(2,1) = 0.0f;  A(2,2) = 8.0f;  A(2,3) = 2.0f;
+    A(3,0) = -7.0f;  A(3,1) = 1.0f;  A(3,2) = -1.0f; A(3,3) = 1.0f;
 
     // Submatrix(A, 2, 1) - Remove row 2, col 1
     // | -6 |  1 |  1 |  6 |      | -6 |  1 |  6 |
@@ -345,216 +345,216 @@ TEST(MatrixOperation, Submatrix4x4Is3x3)
 
     Matrix<3> B = A.submatrix(2, 1);
 
-    EXPECT_DOUBLE_EQ(B(0,0), -6.0);
-    EXPECT_DOUBLE_EQ(B(0,1), 1.0);
-    EXPECT_DOUBLE_EQ(B(0,2), 6.0);
+    EXPECT_FLOAT_EQ(B(0,0), -6.0f);
+    EXPECT_FLOAT_EQ(B(0,1), 1.0f);
+    EXPECT_FLOAT_EQ(B(0,2), 6.0f);
 
-    EXPECT_DOUBLE_EQ(B(1,0), -8.0);
-    EXPECT_DOUBLE_EQ(B(1,1), 8.0);
-    EXPECT_DOUBLE_EQ(B(1,2), 6.0);
+    EXPECT_FLOAT_EQ(B(1,0), -8.0f);
+    EXPECT_FLOAT_EQ(B(1,1), 8.0f);
+    EXPECT_FLOAT_EQ(B(1,2), 6.0f);
 
-    EXPECT_DOUBLE_EQ(B(2,0), -7.0);
-    EXPECT_DOUBLE_EQ(B(2,1), -1.0);
-    EXPECT_DOUBLE_EQ(B(2,2), 1.0);
+    EXPECT_FLOAT_EQ(B(2,0), -7.0f);
+    EXPECT_FLOAT_EQ(B(2,1), -1.0f);
+    EXPECT_FLOAT_EQ(B(2,2), 1.0f);
 }
 
 TEST(MatrixOperation, minor3x3matrix)
 {
     Matrix<3> A;
-    A(0,0) = 3.0;  A(0,1) = 5.0;   A(0,2) = 0.0; 
-    A(1,0) = 2.0;  A(1,1) = -1.0;  A(1,2) = -7.0;  
-    A(2,0) = 6.0;  A(2,1) = -1.0;  A(2,2) = 5.0; 
+    A(0,0) = 3.0f;  A(0,1) = 5.0f;   A(0,2) = 0.0f; 
+    A(1,0) = 2.0f;  A(1,1) = -1.0f;  A(1,2) = -7.0f;  
+    A(2,0) = 6.0f;  A(2,1) = -1.0f;  A(2,2) = 5.0f; 
 
     // |  3 |  5 |  0 |
     // |  2 | -1 | -7 |
     // |  6 | -1 |  5 |
 
-    EXPECT_DOUBLE_EQ(A.minor(1, 0), 25.0);
+    EXPECT_FLOAT_EQ(A.minor(1, 0), 25.0f);
 }
 
 TEST(MatrixOperation, CalculatingCofactor3x3Matrix)
 {
     Matrix<3> A;
-    A(0,0) = 3.0;  A(0,1) = 5.0;   A(0,2) = 0.0;
-    A(1,0) = 2.0;  A(1,1) = -1.0;  A(1,2) = -7.0;
-    A(2,0) = 6.0;  A(2,1) = -1.0;  A(2,2) = 5.0;
+    A(0,0) = 3.0f;  A(0,1) = 5.0f;   A(0,2) = 0.0f;
+    A(1,0) = 2.0f;  A(1,1) = -1.0f;  A(1,2) = -7.0f;
+    A(2,0) = 6.0f;  A(2,1) = -1.0f;  A(2,2) = 5.0f;
 
-    EXPECT_DOUBLE_EQ(A.minor(0, 0), -12.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 0), -12.0);
+    EXPECT_FLOAT_EQ(A.minor(0, 0), -12.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 0), -12.0f);
     
-    EXPECT_DOUBLE_EQ(A.minor(1, 0), 25.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(1, 0), -25.0);
+    EXPECT_FLOAT_EQ(A.minor(1, 0), 25.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(1, 0), -25.0f);
 }
 
 TEST(MatrixOperation, Determinant3x3Matrix)
 {
     Matrix<3> A;
-    A(0,0) = 1.0;  A(0,1) = 2.0;  A(0,2) = 6.0;
-    A(1,0) = -5.0; A(1,1) = 8.0;  A(1,2) = -4.0;
-    A(2,0) = 2.0;  A(2,1) = 6.0;  A(2,2) = 4.0;
+    A(0,0) = 1.0f;  A(0,1) = 2.0f;  A(0,2) = 6.0f;
+    A(1,0) = -5.0f; A(1,1) = 8.0f;  A(1,2) = -4.0f;
+    A(2,0) = 2.0f;  A(2,1) = 6.0f;  A(2,2) = 4.0f;
 
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 0), 56.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 1), 12.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 2), -46.0);
-    EXPECT_DOUBLE_EQ(A.determinant(), -196.0);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 0), 56.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 1), 12.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 2), -46.0f);
+    EXPECT_FLOAT_EQ(A.determinant(), -196.0f);
 }
 
 TEST(MatrixOperation, Determinant4x4Matrix)
 {
     Matrix<4> A;
-    A(0,0) = -2.0; A(0,1) = -8.0; A(0,2) = 3.0;  A(0,3) = 5.0;
-    A(1,0) = -3.0; A(1,1) = 1.0;  A(1,2) = 7.0;  A(1,3) = 3.0;
-    A(2,0) = 1.0;  A(2,1) = 2.0;  A(2,2) = -9.0; A(2,3) = 6.0;
-    A(3,0) = -6.0; A(3,1) = 7.0;  A(3,2) = 7.0;  A(3,3) = -9.0;
+    A(0,0) = -2.0f; A(0,1) = -8.0f; A(0,2) = 3.0f;  A(0,3) = 5.0f;
+    A(1,0) = -3.0f; A(1,1) = 1.0f;  A(1,2) = 7.0f;  A(1,3) = 3.0f;
+    A(2,0) = 1.0f;  A(2,1) = 2.0f;  A(2,2) = -9.0f; A(2,3) = 6.0f;
+    A(3,0) = -6.0f; A(3,1) = 7.0f;  A(3,2) = 7.0f;  A(3,3) = -9.0f;
 
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 0), 690.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 1), 447.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 2), 210.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(0, 3), 51.0);
-    EXPECT_DOUBLE_EQ(A.determinant(), -4071.0);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 0), 690.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 1), 447.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 2), 210.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(0, 3), 51.0f);
+    EXPECT_FLOAT_EQ(A.determinant(), -4071.0f);
 }
 
 TEST(MatrixOperation, IsInvertible)
 {
     Matrix<4> A;
-    A(0,0) = 6.0;  A(0,1) = 4.0;  A(0,2) = 4.0;  A(0,3) = 4.0;
-    A(1,0) = 5.0;  A(1,1) = 5.0;  A(1,2) = 7.0;  A(1,3) = 6.0;
-    A(2,0) = 4.0;  A(2,1) = -9.0; A(2,2) = 3.0;  A(2,3) = -7.0;
-    A(3,0) = 9.0;  A(3,1) = 1.0;  A(3,2) = 7.0;  A(3,3) = -6.0;
+    A(0,0) = 6.0f;  A(0,1) = 4.0f;  A(0,2) = 4.0f;  A(0,3) = 4.0f;
+    A(1,0) = 5.0f;  A(1,1) = 5.0f;  A(1,2) = 7.0f;  A(1,3) = 6.0f;
+    A(2,0) = 4.0f;  A(2,1) = -9.0f; A(2,2) = 3.0f;  A(2,3) = -7.0f;
+    A(3,0) = 9.0f;  A(3,1) = 1.0f;  A(3,2) = 7.0f;  A(3,3) = -6.0f;
 
-    EXPECT_DOUBLE_EQ(A.determinant(), -2120.0);
+    EXPECT_FLOAT_EQ(A.determinant(), -2120.0f);
     EXPECT_TRUE(A.isInvertible());
 }
 
 TEST(MatrixOperation, IsNotInvertible)
 {
     Matrix<4> A;
-    A(0,0) = -4.0; A(0,1) = 2.0;  A(0,2) = -2.0; A(0,3) = -3.0;
-    A(1,0) = 9.0;  A(1,1) = 6.0;  A(1,2) = 2.0;  A(1,3) = 6.0;
-    A(2,0) = 0.0;  A(2,1) = -5.0; A(2,2) = 1.0;  A(2,3) = -5.0;
-    A(3,0) = 0.0;  A(3,1) = 0.0;  A(3,2) = 0.0;  A(3,3) = 0.0;
+    A(0,0) = -4.0f; A(0,1) = 2.0f;  A(0,2) = -2.0f; A(0,3) = -3.0f;
+    A(1,0) = 9.0f;  A(1,1) = 6.0f;  A(1,2) = 2.0f;  A(1,3) = 6.0f;
+    A(2,0) = 0.0f;  A(2,1) = -5.0f; A(2,2) = 1.0f;  A(2,3) = -5.0f;
+    A(3,0) = 0.0f;  A(3,1) = 0.0f;  A(3,2) = 0.0f;  A(3,3) = 0.0f;
 
-    // Use EXPECT_NEAR or EXPECT_DOUBLE_EQ depending on how your double comparison is setup
-    EXPECT_DOUBLE_EQ(A.determinant(), 0.0);
+    // Use EXPECT_NEAR or EXPECT_FLOAT_EQ depending on how your float comparison is setup
+    EXPECT_FLOAT_EQ(A.determinant(), 0.0f);
     EXPECT_FALSE(A.isInvertible());
 }
 
 TEST(MatrixOperation, CalculateInverse4x4)
 {
     Matrix<4> A;
-    A(0,0) = -5.0; A(0,1) = 2.0;  A(0,2) = 6.0;  A(0,3) = -8.0;
-    A(1,0) = 1.0;  A(1,1) = -5.0; A(1,2) = 1.0;  A(1,3) = 8.0;
-    A(2,0) = 7.0;  A(2,1) = 7.0;  A(2,2) = -6.0; A(2,3) = -7.0;
-    A(3,0) = 1.0;  A(3,1) = -3.0; A(3,2) = 7.0;  A(3,3) = 4.0;
+    A(0,0) = -5.0f; A(0,1) = 2.0f;  A(0,2) = 6.0f;  A(0,3) = -8.0f;
+    A(1,0) = 1.0f;  A(1,1) = -5.0f; A(1,2) = 1.0f;  A(1,3) = 8.0f;
+    A(2,0) = 7.0f;  A(2,1) = 7.0f;  A(2,2) = -6.0f; A(2,3) = -7.0f;
+    A(3,0) = 1.0f;  A(3,1) = -3.0f; A(3,2) = 7.0f;  A(3,3) = 4.0f;
 
     Matrix<4> B = A.inverse();
 
     // Intermediate checks to verify the math steps
-    EXPECT_DOUBLE_EQ(A.determinant(), 532.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(2, 3), -160.0);
-    EXPECT_DOUBLE_EQ(B(3, 2), -160.0 / 532.0);
-    EXPECT_DOUBLE_EQ(A.cofactor(3, 2), 105.0);
-    EXPECT_DOUBLE_EQ(B(2, 3), 105.0 / 532.0);
+    EXPECT_FLOAT_EQ(A.determinant(), 532.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(2, 3), -160.0f);
+    EXPECT_FLOAT_EQ(B(3, 2), -160.0f / 532.0f);
+    EXPECT_FLOAT_EQ(A.cofactor(3, 2), 105.0f);
+    EXPECT_FLOAT_EQ(B(2, 3), 105.0f / 532.0f);
 
     // Final Matrix verification
-    // Note: We use EXPECT_NEAR here with a tolerance of 0.00001 because 
+    // Note: We use EXPECT_NEAR here with a tolerance of 0.00001f because 
     // the book's test case rounds the expected fractions to 5 decimal places.
-    EXPECT_NEAR(B(0,0), 0.21805, 0.00001);
-    EXPECT_NEAR(B(0,1), 0.45113, 0.00001);
-    EXPECT_NEAR(B(0,2), 0.24060, 0.00001);
-    EXPECT_NEAR(B(0,3), -0.04511, 0.00001);
+    EXPECT_NEAR(B(0,0), 0.21805f, 0.00001f);
+    EXPECT_NEAR(B(0,1), 0.45113f, 0.00001f);
+    EXPECT_NEAR(B(0,2), 0.24060f, 0.00001f);
+    EXPECT_NEAR(B(0,3), -0.04511f, 0.00001f);
 
-    EXPECT_NEAR(B(1,0), -0.80827, 0.00001);
-    EXPECT_NEAR(B(1,1), -1.45677, 0.00001);
-    EXPECT_NEAR(B(1,2), -0.44361, 0.00001);
-    EXPECT_NEAR(B(1,3), 0.52068, 0.00001);
+    EXPECT_NEAR(B(1,0), -0.80827f, 0.00001f);
+    EXPECT_NEAR(B(1,1), -1.45677f, 0.00001f);
+    EXPECT_NEAR(B(1,2), -0.44361f, 0.00001f);
+    EXPECT_NEAR(B(1,3), 0.52068f, 0.00001f);
 
-    EXPECT_NEAR(B(2,0), -0.07895, 0.00001);
-    EXPECT_NEAR(B(2,1), -0.22368, 0.00001);
-    EXPECT_NEAR(B(2,2), -0.05263, 0.00001);
-    EXPECT_NEAR(B(2,3), 0.19737, 0.00001);
+    EXPECT_NEAR(B(2,0), -0.07895f, 0.00001f);
+    EXPECT_NEAR(B(2,1), -0.22368f, 0.00001f);
+    EXPECT_NEAR(B(2,2), -0.05263f, 0.00001f);
+    EXPECT_NEAR(B(2,3), 0.19737f, 0.00001f);
 
-    EXPECT_NEAR(B(3,0), -0.52256, 0.00001);
-    EXPECT_NEAR(B(3,1), -0.81391, 0.00001);
-    EXPECT_NEAR(B(3,2), -0.30075, 0.00001);
-    EXPECT_NEAR(B(3,3), 0.30639, 0.00001);
+    EXPECT_NEAR(B(3,0), -0.52256f, 0.00001f);
+    EXPECT_NEAR(B(3,1), -0.81391f, 0.00001f);
+    EXPECT_NEAR(B(3,2), -0.30075f, 0.00001f);
+    EXPECT_NEAR(B(3,3), 0.30639f, 0.00001f);
 }
 
 TEST(MatrixOperation, CalculateInverseAnother4x4)
 {
     Matrix<4> A;
-    A(0,0) = 8.0;  A(0,1) = -5.0; A(0,2) = 9.0;  A(0,3) = 2.0;
-    A(1,0) = 7.0;  A(1,1) = 5.0;  A(1,2) = 6.0;  A(1,3) = 1.0;
-    A(2,0) = -6.0; A(2,1) = 0.0;  A(2,2) = 9.0;  A(2,3) = 6.0;
-    A(3,0) = -3.0; A(3,1) = 0.0;  A(3,2) = -9.0; A(3,3) = -4.0;
+    A(0,0) = 8.0f;  A(0,1) = -5.0f; A(0,2) = 9.0f;  A(0,3) = 2.0f;
+    A(1,0) = 7.0f;  A(1,1) = 5.0f;  A(1,2) = 6.0f;  A(1,3) = 1.0f;
+    A(2,0) = -6.0f; A(2,1) = 0.0f;  A(2,2) = 9.0f;  A(2,3) = 6.0f;
+    A(3,0) = -3.0f; A(3,1) = 0.0f;  A(3,2) = -9.0f; A(3,3) = -4.0f;
 
     Matrix<4> B = A.inverse();
 
-    EXPECT_NEAR(B(0,0), -0.15385, 0.00001);
-    EXPECT_NEAR(B(0,1), -0.15385, 0.00001);
-    EXPECT_NEAR(B(0,2), -0.28205, 0.00001);
-    EXPECT_NEAR(B(0,3), -0.53846, 0.00001);
+    EXPECT_NEAR(B(0,0), -0.15385f, 0.00001f);
+    EXPECT_NEAR(B(0,1), -0.15385f, 0.00001f);
+    EXPECT_NEAR(B(0,2), -0.28205f, 0.00001f);
+    EXPECT_NEAR(B(0,3), -0.53846f, 0.00001f);
 
-    EXPECT_NEAR(B(1,0), -0.07692, 0.00001);
-    EXPECT_NEAR(B(1,1), 0.12308, 0.00001);
-    EXPECT_NEAR(B(1,2), 0.02564, 0.00001);
-    EXPECT_NEAR(B(1,3), 0.03077, 0.00001);
+    EXPECT_NEAR(B(1,0), -0.07692f, 0.00001f);
+    EXPECT_NEAR(B(1,1), 0.12308f, 0.00001f);
+    EXPECT_NEAR(B(1,2), 0.02564f, 0.00001f);
+    EXPECT_NEAR(B(1,3), 0.03077f, 0.00001f);
 
-    EXPECT_NEAR(B(2,0), 0.35897, 0.00001);
-    EXPECT_NEAR(B(2,1), 0.35897, 0.00001);
-    EXPECT_NEAR(B(2,2), 0.43590, 0.00001);
-    EXPECT_NEAR(B(2,3), 0.92308, 0.00001);
+    EXPECT_NEAR(B(2,0), 0.35897f, 0.00001f);
+    EXPECT_NEAR(B(2,1), 0.35897f, 0.00001f);
+    EXPECT_NEAR(B(2,2), 0.43590f, 0.00001f);
+    EXPECT_NEAR(B(2,3), 0.92308f, 0.00001f);
 
-    EXPECT_NEAR(B(3,0), -0.69231, 0.00001);
-    EXPECT_NEAR(B(3,1), -0.69231, 0.00001);
-    EXPECT_NEAR(B(3,2), -0.76923, 0.00001);
-    EXPECT_NEAR(B(3,3), -1.92308, 0.00001);
+    EXPECT_NEAR(B(3,0), -0.69231f, 0.00001f);
+    EXPECT_NEAR(B(3,1), -0.69231f, 0.00001f);
+    EXPECT_NEAR(B(3,2), -0.76923f, 0.00001f);
+    EXPECT_NEAR(B(3,3), -1.92308f, 0.00001f);
 }
 
 TEST(MatrixOperation, CalculateInverseThird4x4)
 {
     Matrix<4> A;
-    A(0,0) = 9.0;  A(0,1) = 3.0;  A(0,2) = 0.0;  A(0,3) = 9.0;
-    A(1,0) = -5.0; A(1,1) = -2.0; A(1,2) = -6.0; A(1,3) = -3.0;
-    A(2,0) = -4.0; A(2,1) = 9.0;  A(2,2) = 6.0;  A(2,3) = 4.0;
-    A(3,0) = -7.0; A(3,1) = 6.0;  A(3,2) = 6.0;  A(3,3) = 2.0;
+    A(0,0) = 9.0f;  A(0,1) = 3.0f;  A(0,2) = 0.0f;  A(0,3) = 9.0f;
+    A(1,0) = -5.0f; A(1,1) = -2.0f; A(1,2) = -6.0f; A(1,3) = -3.0f;
+    A(2,0) = -4.0f; A(2,1) = 9.0f;  A(2,2) = 6.0f;  A(2,3) = 4.0f;
+    A(3,0) = -7.0f; A(3,1) = 6.0f;  A(3,2) = 6.0f;  A(3,3) = 2.0f;
 
     Matrix<4> B = A.inverse();
 
-    EXPECT_NEAR(B(0,0), -0.04074, 0.00001);
-    EXPECT_NEAR(B(0,1), -0.07778, 0.00001);
-    EXPECT_NEAR(B(0,2), 0.14444, 0.00001);
-    EXPECT_NEAR(B(0,3), -0.22222, 0.00001);
+    EXPECT_NEAR(B(0,0), -0.04074f, 0.00001f);
+    EXPECT_NEAR(B(0,1), -0.07778f, 0.00001f);
+    EXPECT_NEAR(B(0,2), 0.14444f, 0.00001f);
+    EXPECT_NEAR(B(0,3), -0.22222f, 0.00001f);
 
-    EXPECT_NEAR(B(1,0), -0.07778, 0.00001);
-    EXPECT_NEAR(B(1,1), 0.03333, 0.00001);
-    EXPECT_NEAR(B(1,2), 0.36667, 0.00001);
-    EXPECT_NEAR(B(1,3), -0.33333, 0.00001);
+    EXPECT_NEAR(B(1,0), -0.07778f, 0.00001f);
+    EXPECT_NEAR(B(1,1), 0.03333f, 0.00001f);
+    EXPECT_NEAR(B(1,2), 0.36667f, 0.00001f);
+    EXPECT_NEAR(B(1,3), -0.33333f, 0.00001f);
 
-    EXPECT_NEAR(B(2,0), -0.02901, 0.00001);
-    EXPECT_NEAR(B(2,1), -0.14630, 0.00001);
-    EXPECT_NEAR(B(2,2), -0.10926, 0.00001);
-    EXPECT_NEAR(B(2,3), 0.12963, 0.00001);
+    EXPECT_NEAR(B(2,0), -0.02901f, 0.00001f);
+    EXPECT_NEAR(B(2,1), -0.14630f, 0.00001f);
+    EXPECT_NEAR(B(2,2), -0.10926f, 0.00001f);
+    EXPECT_NEAR(B(2,3), 0.12963f, 0.00001f);
 
-    EXPECT_NEAR(B(3,0), 0.17778, 0.00001);
-    EXPECT_NEAR(B(3,1), 0.06667, 0.00001);
-    EXPECT_NEAR(B(3,2), -0.26667, 0.00001);
-    EXPECT_NEAR(B(3,3), 0.33333, 0.00001);
+    EXPECT_NEAR(B(3,0), 0.17778f, 0.00001f);
+    EXPECT_NEAR(B(3,1), 0.06667f, 0.00001f);
+    EXPECT_NEAR(B(3,2), -0.26667f, 0.00001f);
+    EXPECT_NEAR(B(3,3), 0.33333f, 0.00001f);
 }
 
 TEST(MatrixOperation, MultiplyProductByInverse)
 {
     Matrix<4> A;
-    A(0,0) = 3.0;  A(0,1) = -9.0; A(0,2) = 7.0;  A(0,3) = 3.0;
-    A(1,0) = 3.0;  A(1,1) = -8.0; A(1,2) = 2.0;  A(1,3) = -9.0;
-    A(2,0) = -4.0; A(2,1) = 4.0;  A(2,2) = 4.0;  A(2,3) = 1.0;
-    A(3,0) = -6.0; A(3,1) = 5.0;  A(3,2) = -1.0; A(3,3) = 1.0;
+    A(0,0) = 3.0f;  A(0,1) = -9.0f; A(0,2) = 7.0f;  A(0,3) = 3.0f;
+    A(1,0) = 3.0f;  A(1,1) = -8.0f; A(1,2) = 2.0f;  A(1,3) = -9.0f;
+    A(2,0) = -4.0f; A(2,1) = 4.0f;  A(2,2) = 4.0f;  A(2,3) = 1.0f;
+    A(3,0) = -6.0f; A(3,1) = 5.0f;  A(3,2) = -1.0f; A(3,3) = 1.0f;
 
     Matrix<4> B;
-    B(0,0) = 8.0;  B(0,1) = 2.0;  B(0,2) = 2.0;  B(0,3) = 2.0;
-    B(1,0) = 3.0;  B(1,1) = -1.0; B(1,2) = 7.0;  B(1,3) = 0.0;
-    B(2,0) = 7.0;  B(2,1) = 0.0;  B(2,2) = 5.0;  B(2,3) = 4.0;
-    B(3,0) = 6.0;  B(3,1) = -2.0; B(3,2) = 0.0;  B(3,3) = 5.0;
+    B(0,0) = 8.0f;  B(0,1) = 2.0f;  B(0,2) = 2.0f;  B(0,3) = 2.0f;
+    B(1,0) = 3.0f;  B(1,1) = -1.0f; B(1,2) = 7.0f;  B(1,3) = 0.0f;
+    B(2,0) = 7.0f;  B(2,1) = 0.0f;  B(2,2) = 5.0f;  B(2,3) = 4.0f;
+    B(3,0) = 6.0f;  B(3,1) = -2.0f; B(3,2) = 0.0f;  B(3,3) = 5.0f;
 
     Matrix<4> C = A * B;
 
@@ -564,49 +564,49 @@ TEST(MatrixOperation, MultiplyProductByInverse)
 TEST(MatrixOperation, AddTwoMatrices)
 {
     Matrix<2> A;
-    A(0,0) = 1.0; A(0,1) = 2.0;
-    A(1,0) = 3.0; A(1,1) = 4.0;
+    A(0,0) = 1.0f; A(0,1) = 2.0f;
+    A(1,0) = 3.0f; A(1,1) = 4.0f;
 
     Matrix<2> B;
-    B(0,0) = 5.0; B(0,1) = 6.0;
-    B(1,0) = 7.0; B(1,1) = 8.0;
+    B(0,0) = 5.0f; B(0,1) = 6.0f;
+    B(1,0) = 7.0f; B(1,1) = 8.0f;
 
     Matrix<2> C = A + B;
 
-    EXPECT_DOUBLE_EQ(C(0,0), 6.0);
-    EXPECT_DOUBLE_EQ(C(0,1), 8.0);
-    EXPECT_DOUBLE_EQ(C(1,0), 10.0);
-    EXPECT_DOUBLE_EQ(C(1,1), 12.0);
+    EXPECT_FLOAT_EQ(C(0,0), 6.0f);
+    EXPECT_FLOAT_EQ(C(0,1), 8.0f);
+    EXPECT_FLOAT_EQ(C(1,0), 10.0f);
+    EXPECT_FLOAT_EQ(C(1,1), 12.0f);
 }
 
 TEST(MatrixOperation, SubtractTwoMatrices)
 {
     Matrix<2> A;
-    A(0,0) = 5.0; A(0,1) = 6.0;
-    A(1,0) = 7.0; A(1,1) = 8.0;
+    A(0,0) = 5.0f; A(0,1) = 6.0f;
+    A(1,0) = 7.0f; A(1,1) = 8.0f;
 
     Matrix<2> B;
-    B(0,0) = 1.0; B(0,1) = 2.0;
-    B(1,0) = 3.0; B(1,1) = 4.0;
+    B(0,0) = 1.0f; B(0,1) = 2.0f;
+    B(1,0) = 3.0f; B(1,1) = 4.0f;
 
     Matrix<2> C = A - B;
 
-    EXPECT_DOUBLE_EQ(C(0,0), 4.0);
-    EXPECT_DOUBLE_EQ(C(0,1), 4.0);
-    EXPECT_DOUBLE_EQ(C(1,0), 4.0);
-    EXPECT_DOUBLE_EQ(C(1,1), 4.0);
+    EXPECT_FLOAT_EQ(C(0,0), 4.0f);
+    EXPECT_FLOAT_EQ(C(0,1), 4.0f);
+    EXPECT_FLOAT_EQ(C(1,0), 4.0f);
+    EXPECT_FLOAT_EQ(C(1,1), 4.0f);
 }
 
 TEST(MatrixOperation, MultiplyMatrixByScalar)
 {
     Matrix<2> A;
-    A(0,0) = 1.0; A(0,1) = -2.0;
-    A(1,0) = 3.0; A(1,1) = 4.0;
+    A(0,0) = 1.0f; A(0,1) = -2.0f;
+    A(1,0) = 3.0f; A(1,1) = 4.0f;
 
-    Matrix<2> B = A * 2.5;
+    Matrix<2> B = A * 2.5f;
 
-    EXPECT_DOUBLE_EQ(B(0,0), 2.5);
-    EXPECT_DOUBLE_EQ(B(0,1), -5.0);
-    EXPECT_DOUBLE_EQ(B(1,0), 7.5);
-    EXPECT_DOUBLE_EQ(B(1,1), 10.0);
+    EXPECT_FLOAT_EQ(B(0,0), 2.5f);
+    EXPECT_FLOAT_EQ(B(0,1), -5.0f);
+    EXPECT_FLOAT_EQ(B(1,0), 7.5f);
+    EXPECT_FLOAT_EQ(B(1,1), 10.0f);
 }

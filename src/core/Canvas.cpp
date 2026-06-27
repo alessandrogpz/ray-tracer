@@ -37,18 +37,18 @@ namespace rt {
         if (x < c.width && y < c.height) {
             const PixelRGBA8 &p = c.pixels[(y * c.width) + x];
             return Color(
-                static_cast<double>(p.r) / 255.0,
-                static_cast<double>(p.g) / 255.0,
-                static_cast<double>(p.b) / 255.0,
-                static_cast<double>(p.a) / 255.0
+                static_cast<float>(p.r) / 255.0f,
+                static_cast<float>(p.g) / 255.0f,
+                static_cast<float>(p.b) / 255.0f,
+                static_cast<float>(p.a) / 255.0f
             );
         }
-        return Color(1.0, 1.0, 1.0, 1.0); // Opaque white boundary fallback
+        return Color(1.0f, 1.0f, 1.0f, 1.0f); // Opaque white boundary fallback
     }
 
-    int scaleColor(double color_float) {
-        double scaled = color_float * 255.0;
-        double ceiled = std::ceil(scaled);
+    int scaleColor(float color_float) {
+        float scaled = color_float * 255.0f;
+        float ceiled = std::ceil(scaled);
         return std::clamp(static_cast<int>(ceiled), 0, 255);
     }
 

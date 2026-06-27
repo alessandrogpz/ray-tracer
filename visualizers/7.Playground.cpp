@@ -16,8 +16,8 @@ int main() {
 
     // 1. Create a Ray
     // Starts at (0, 0, -5) and shoots straight forward along the Z-axis (0, 0, 1)
-    Point ray_origin(0.0, 0.0, -5.0);
-    Vector ray_direction(0.0, 0.0, 1.0);
+    Point ray_origin(0.0f, 0.0f, -5.0f);
+    Vector ray_direction(0.0f, 0.0f, 1.0f);
     Ray r(ray_origin, ray_direction);
 
     std::cout << "Ray Origin: (" << r.origin.x << ", " << r.origin.y << ", " << r.origin.z << ")\n";
@@ -28,8 +28,8 @@ int main() {
     Sphere s2; // Second sphere
 
     // Let's translate the second sphere slightly to the side and scale it down
-    s2.set_transform(translation(0.5, 0.0, 0.0) * scale(0.5, 0.5, 0.5));
-    s2.material.color = Color(0.1, 0.6, 1.0); // Blue material
+    s2.set_transform(translation(0.5f, 0.0f, 0.0f) * scale(0.5f, 0.5f, 0.5f));
+    s2.material.color = Color(0.1f, 0.6f, 1.0f); // Blue material
 
     // 3. Perform intersections (using the high-performance in-place vector)
     std::vector<Intersection> xs;
