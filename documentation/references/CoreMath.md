@@ -20,7 +20,7 @@ A `Tuple` is the fundamental data structure used to represent coordinates and di
 
 Colors in the Ray tracer are implemented similarly to Tuples, but they represent the Red, Green, Blue, and Alpha (RGBA) components of light.
 
-- **`r, g, b, a`**: Double-precision values representing Red, Green, Blue, and Alpha (transparency/opacity). Channels typically range from `0.0` (no intensity / fully transparent) to `1.0f` (full intensity / fully opaque).
+- **`r, g, b, a`**: Single-precision values representing Red, Green, Blue, and Alpha (transparency/opacity). Channels typically range from `0.0f` (no intensity / fully transparent) to `1.0f` (full intensity / fully opaque).
 - **Default value**: Default constructed color represents opaque white (`1.0f, 1.0f, 1.0f, 1.0f`). If alpha is omitted in custom instantiation, it defaults to `1.0f` (opaque).
 - **Operations**: Operations on colors (`+`, `-`, scalar `*`, Hadamard/blend `*`) perform arithmetic on the RGB components and return a color with the default alpha of `1.0f`. The equality operator `==` compares the RGB channels.
 
@@ -65,3 +65,13 @@ Below is a reference of common target resolutions when configuring a `Canvas(wid
 
 > [!NOTE]
 > All reference visualizers under `visualizers/` are configured to render at the **2K (Consumer QHD)** resolution of $2560 \times 1440$ pixels, applying uniform pixel size mapping to maintain a correct 16:9 aspect ratio without shape distortion.
+
+## Camera & Projection
+
+A `Camera` represents the observer's viewpoint, mapping the 3D world to a 2D `Canvas`.
+
+- **Field of View (FOV)**: The angular span of the camera's view.
+- **Viewport Properties**: Automatically computed values (`half_width`, `half_height`, and `pixel_size`) that map pixel coordinates to the image plane at $Z = -1$.
+- **Ray Generation**: Generates a ray from the camera origin through a specific pixel, transformed into world space using the inverse of the camera's transform matrix. See the **[Camera Explanation](../explanation/Camera.md)** for viewport and ray casting math.
+
+*Reference code: `src/scene/Camera.cppm`*

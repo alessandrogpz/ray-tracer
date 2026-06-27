@@ -50,6 +50,7 @@ target_sources(raytracer_core
         src/scene/Materials.cppm
         src/scene/Shading.cppm
         src/scene/World.cppm
+        src/scene/Camera.cppm
   PRIVATE
         src/math/Utils.cpp
         src/math/Tuple.cpp
@@ -63,6 +64,7 @@ target_sources(raytracer_core
         src/scene/Materials.cpp
         src/scene/Shading.cpp
         src/scene/World.cpp
+        src/scene/Camera.cpp
 )
 
 # Optional!
@@ -103,23 +105,26 @@ add_executable(run_tests
         tests/Materials.t.cpp
         tests/Shading.t.cpp
         tests/World.t.cpp
+        tests/Camera.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
 # 4. (Optional) Create Example Visualizers Executables
 add_executable(1.ProjectTrajectory visualizers/1.ProjectTrajectory.cpp)
 add_executable(2.ClockMarkers visualizers/2.ClockMarkers.cpp)
-add_executable(3.SphereShadow visualizers/3.SphereShadow.cpp)
-add_executable(4.MultipleSphereShadows visualizers/4.MultipleSphereShadows.cpp)
-add_executable(5.SpherePhongReflection visualizers/5.SpherePhongReflection.cpp)
-add_executable(6.MultipleSpherePhongReflections visualizers/6.MultipleSpherePhongReflections.cpp)
-add_executable(7.Playground visualizers/7.Playground.cpp)
+add_executable(3.ConsoleIntersectionCheck visualizers/3.ConsoleIntersectionCheck.cpp)
+add_executable(4.SphereShadow visualizers/4.SphereShadow.cpp)
+add_executable(5.MultipleSphereShadows visualizers/5.MultipleSphereShadows.cpp)
+add_executable(6.SpherePhongReflection visualizers/6.SpherePhongReflection.cpp)
+add_executable(7.MultipleSpherePhongReflections visualizers/7.MultipleSpherePhongReflections.cpp)
+add_executable(8.FirstScene visualizers/8.FirstScene.cpp)
 
 target_link_libraries(1.ProjectTrajectory PRIVATE raytracer_core)
 target_link_libraries(2.ClockMarkers PRIVATE raytracer_core)
-target_link_libraries(3.SphereShadow PRIVATE raytracer_core)
-target_link_libraries(4.MultipleSphereShadows PRIVATE raytracer_core)
-target_link_libraries(5.SpherePhongReflection PRIVATE raytracer_core)
-target_link_libraries(6.MultipleSpherePhongReflections PRIVATE raytracer_core)
-target_link_libraries(7.Playground PRIVATE raytracer_core)
+target_link_libraries(3.ConsoleIntersectionCheck PRIVATE raytracer_core)
+target_link_libraries(4.SphereShadow PRIVATE raytracer_core)
+target_link_libraries(5.MultipleSphereShadows PRIVATE raytracer_core)
+target_link_libraries(6.SpherePhongReflection PRIVATE raytracer_core)
+target_link_libraries(7.MultipleSpherePhongReflections PRIVATE raytracer_core)
+target_link_libraries(8.FirstScene PRIVATE raytracer_core)
 

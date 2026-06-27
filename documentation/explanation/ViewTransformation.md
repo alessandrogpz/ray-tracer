@@ -28,7 +28,7 @@ To orient a camera arbitrarily in space, we require three parameters:
 
 ## Constructing the Orthonormal Basis
 
-Using these three inputs, we compute three mutually perpendicular (orthogonal) unit vectors ($\vec{left}$, $\vec{true\_up}$, and $\vec{forward}$) to define the camera's local coordinate system.
+Using these three inputs, we compute three mutually perpendicular (orthogonal) unit vectors ($\vec{left}$, $\vec{up}_{\text{true}}$, and $\vec{forward}$) to define the camera's local coordinate system.
 
 ```mermaid
 graph TD
@@ -55,9 +55,9 @@ $$ \vec{forward} = \text{normalize}(\vec{to} - \vec{from}) $$
 Next, we find the horizontal axis of the camera's view (pointing left) by taking the cross product of the forward direction and the normalized up vector:
 $$ \vec{left} = \vec{forward} \times \text{normalize}(\vec{up}) $$
 
-### 3. The True Up Vector ($\vec{true\_up}$)
+### 3. The True Up Vector ($\vec{up}_{\text{true}}$)
 Finally, we compute the precise vertical axis of the camera's view. By taking the cross product of the left and forward vectors, we ensure that our final coordinate frame is perfectly perpendicular:
-$$ \vec{true\_up} = \vec{left} \times \vec{forward} $$
+$$ \vec{up}_{\text{true}} = \vec{left} \times \vec{forward} $$
 
 ---
 
@@ -68,12 +68,12 @@ The final view transform matrix $V$ is computed by multiplying two distinct matr
 $$ V = O \times T $$
 
 ### 1. The Orientation Matrix ($O$)
-The orientation matrix rotates the world so that the camera's basis vectors ($\vec{left}$, $\vec{true\_up}$, $-\vec{forward}$) align with the world's $X$, $Y$, and $Z$ axes respectively.
+The orientation matrix rotates the world so that the camera's basis vectors ($\vec{left}$, $\vec{up}_{\text{true}}$, $-\vec{forward}$) align with the world's $X$, $Y$, and $Z$ axes respectively.
 
 $$ O = \begin{pmatrix}
-left.x & left.y & left.z & 0 \\
-true\_up.x & true\_up.y & true\_up.z & 0 \\
--forward.x & -forward.y & -forward.z & 0 \\
+left_x & left_y & left_z & 0 \\
+up_{\text{true}, x} & up_{\text{true}, y} & up_{\text{true}, z} & 0 \\
+-forward_x & -forward_y & -forward_z & 0 \\
 0 & 0 & 0 & 1
 \end{pmatrix} $$
 
