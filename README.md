@@ -28,6 +28,20 @@ Documentation of this project is structured using the [Diátaxis framework](http
     - [Ray-Sphere Intersection](documentation/explanation/RaySphereIntersectionAlgorithm.md)
     - [Phong Reflection Model](documentation/explanation/PhongReflectionModel.md)
     - [Data-Oriented Design (DOD)](documentation/explanation/DataOrientedDesign.md)
+    - [View Transformation](documentation/explanation/ViewTransformation.md)
+    - [Camera & Perspective Projection](documentation/explanation/Camera.md)
+
+## Visualizer Demos
+
+The project includes a suite of example programs in `visualizers/` ordered by increasing complexity:
+1. **`1.ProjectTrajectory`**: Plots a simple projectile path onto a 2D canvas.
+2. **`2.ClockMarkers`**: Draws twelve clock hours using 2D rotation transformations.
+3. **`3.ConsoleIntersectionCheck`**: Simple CLI test showing ray-sphere hit distances.
+4. **`4.SphereShadow`**: Renders a silhouette of a sphere onto a canvas.
+5. **`5.MultipleSphereShadows`**: Renders silhouettes of multiple overlapping spheres.
+6. **`6.SpherePhongReflection`**: Applies the Phong reflection model to shade a sphere.
+7. **`7.MultipleSpherePhongReflections`**: Renders multiple spheres shaded under Phong lighting.
+8. **`8.FirstScene`**: Renders a full 3D scene (spheres and walls) using a perspective Camera.
 
 ## Contributing
 
