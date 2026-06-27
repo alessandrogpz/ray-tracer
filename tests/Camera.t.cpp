@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <numbers>
 
 import rt.camera;
 import rt.tuple;
@@ -11,7 +12,7 @@ import rt.transformations;
 
 using namespace rt;
 
-const float PI = 3.14159265f;
+constexpr float PI = std::numbers::pi_v<float>;
 
 // 1. Constructing a camera
 TEST(CameraTests, ConstructingACamera)

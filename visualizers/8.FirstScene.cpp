@@ -5,6 +5,7 @@
 #include <string>
 #include <chrono>
 #include <iostream>
+#include <numbers>
 
 import rt.tuple;
 import rt.canvas;
@@ -20,7 +21,7 @@ import rt.transformations;
 
 using namespace rt;
 
-const float PI = 3.14159265f;
+constexpr float PI = std::numbers::pi_v<float>;
 
 int main()
 {
