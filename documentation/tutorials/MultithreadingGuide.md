@@ -2,7 +2,37 @@
 
 Multithreading in this project is optional but highly recommended as it can significantly improve rendering performance. The multithreading is implemented using OpenMP.
 
-## Enabling and Disabling Multithreading
+## 1. Installing OpenMP
+
+Before enabling OpenMP in your build, make sure you have the OpenMP library installed on your system:
+
+### macOS
+Apple's default compiler (Apple Clang) does not support OpenMP out of the box. Install the official LLVM toolchain and the OpenMP runtime library via Homebrew:
+```bash
+brew install llvm libomp
+```
+*(Make sure to export the LLVM path as described in the [Environment Setup Guide](EnvironmentSetup.md)).*
+
+### Linux
+*   **Ubuntu / Debian:**
+    ```bash
+    sudo apt update && sudo apt install libomp-dev
+    ```
+*   **Fedora:**
+    ```bash
+    sudo dnf install libomp
+    ```
+*   **Arch Linux:**
+    ```bash
+    sudo pacman -S openmp
+    ```
+
+### Windows
+No separate installation is required. OpenMP is natively supported by the MSVC compiler included with **Visual Studio 2022**.
+
+---
+
+## 2. Enabling and Disabling Multithreading
 
 Multithreading is optional and can be toggled on or off at configuration time using the `ENABLE_OPENMP` CMake option.
 
@@ -87,7 +117,7 @@ After making these changes, re-run your CMake configuration and build the projec
 
 ---
 
-## Advanced OpenMP Clauses in the Camera Render Loop
+## 3. Advanced OpenMP Clauses in the Camera Render Loop
 
 In the `rt::render` function (located in [Camera.cpp](file:///file:///home/aper/Documents/ray-tracer/src/scene/Camera.cpp)), we use a more sophisticated OpenMP pragma directive:
 

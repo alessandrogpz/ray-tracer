@@ -44,11 +44,7 @@ cmake -G Ninja ..
 *CMake reads the `CMakeLists.txt` from the parent directory (`..`) and configures the Ninja build files.*
 
 > [!NOTE]
-> **OpenMP Multithreading:** By default, OpenMP parallelization is enabled automatically. If you wish to disable multithreading, or if you do not have OpenMP installed, append `-DENABLE_OPENMP=OFF` to your CMake command:
-> ```bash
-> cmake -DENABLE_OPENMP=OFF -G Ninja ..
-> ```
-> For more details on toggling and tuning multithreading, see the [Multithreading Guide](../tutorials/MultithreadingGuide.md).
+> **OpenMP Multithreading:** By default, OpenMP parallelization is enabled automatically. If you wish to configure and compile a build with multithreading disabled (e.g., if you do not have OpenMP installed), see the **Option B (Without multithreading)** configurations under Step 4 below, or refer to the [Multithreading Guide](../tutorials/MultithreadingGuide.md).
 
 ## Step 4: Build the Project & Visualizers
 
@@ -61,7 +57,7 @@ cmake --build . -j
 
 This command will compile all executables present in the `CMakeLists.txt`.
 
-*(Alternatively, if you know the target name, e.g., `3.SphereShadow`, you can build it specifically: `cmake --build . --target 3.SphereShadow`)*
+*(Alternatively, if you know the target name, e.g., `4.SphereShadow`, you can build it specifically: `cmake --build . --target 4.SphereShadow`)*
 
 ### Building & Running Debug vs. Release Configurations
 
@@ -70,7 +66,11 @@ If you want to maintain separate builds for development/debugging and performanc
 #### Debug Configuration (No optimization, easy debugging)
 ```bash
 # 1. Configure using Ninja generator
+# Option A: With multithreading (Default)
 cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug -G Ninja
+
+# Option B: Without multithreading
+cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug -DENABLE_OPENMP=OFF -G Ninja
 
 # 2. Build
 cmake --build build-debug
@@ -79,13 +79,17 @@ cmake --build build-debug
 cd build-debug/
 
 # 4. Run the debug binary
-./7.MultipleSpherePhongReflections
+./<executable_name>
 ```
 
 #### Release Configuration (Full optimizations, fast rendering)
 ```bash
 # 1. Configure using Ninja generator
+# Option A: With multithreading (Default)
 cmake -B build-release -DCMAKE_BUILD_TYPE=Release -G Ninja
+
+# Option B: Without multithreading
+cmake -B build-release -DCMAKE_BUILD_TYPE=Release -DENABLE_OPENMP=OFF -G Ninja
 
 # 2. Build
 cmake --build build-release
@@ -94,7 +98,7 @@ cmake --build build-release
 cd build-release/
 
 # 4. Run the release binary
-./7.MultipleSpherePhongReflections
+./<executable_name>
 ```
 
 ### Available Visualizers

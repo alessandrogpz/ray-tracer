@@ -5,7 +5,7 @@
 *   **Build System**: CMake (3.28 or newer, matching the experimental UUID gates)
 *   **Generator**: Ninja
 *   **Test Suite**: GoogleTest (gtest)
-*   **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to enable it.
+*   **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to install and enable it.
 
 > **Note on GoogleTest:** You do not need to manually install GoogleTest (gtest) on your system. The project's `CMakeLists.txt` is configured to fetch and build GoogleTest automatically when you configure and build the project using CMake.
 
