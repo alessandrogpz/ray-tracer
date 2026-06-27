@@ -106,3 +106,28 @@ TEST(PrecomputingInteraction, PrecomputeStateOfIntersectionInside)
     EXPECT_EQ(comps.normal_v, Vector(0.0, 0.0, -1.0));
 }
 
+// ---------------------------------------------------
+// Shading an Intersection
+
+TEST(ShadingIntersection, ShadingIntersectionFormOutside)
+{
+    const World w = default_world();
+    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    const Intersection i(4.0, 0, ShapeType::Sphere);
+    const Comp comps = prepare_computation(i, r, w);
+    const Color c = shade_hit(w, comps);
+
+    EXPECT_EQ(c, Color(0.38066, 0.47583, 0.2855));
+}
+
+TEST(ShadingIntersection, ShadingIntersectionFormInside)
+{
+    World w = default_world();
+    w.light = PointLight(Point(0.0, 0.25, 0.0), Color(1.0, 1.0, 1.0));
+    const Ray r(Point(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
+    const Intersection i(0.5, 1, ShapeType::Sphere);
+    const Comp comps = prepare_computation(i, r, w);
+    const Color c = shade_hit(w, comps);
+
+    EXPECT_EQ(c, Color(0.90498, 0.90498, 0.90498));
+}

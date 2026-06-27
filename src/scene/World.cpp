@@ -9,6 +9,8 @@ import rt.tuple;
 import rt.colors;
 import rt.utils;
 import rt.transformations;
+import rt.shading;
+import rt.materials;
 
 namespace rt
 {
@@ -59,6 +61,12 @@ namespace rt
         }
 
         return comps;
+    }
+
+    Color shade_hit(const World& w, const Comp& c)
+    {
+        const Material& m = w.spheres[c.intersection.shape_index].material;
+        return lighting(m, w.light, c.point, c.eye_v, c.normal_v);
     }
 
 

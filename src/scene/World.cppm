@@ -6,6 +6,7 @@ import rt.lights;
 import rt.intersection;
 import rt.ray;
 import rt.tuple;
+import rt.colors;
 
 export namespace rt
 {
@@ -44,4 +45,16 @@ export namespace rt
      * @return Comp A struct containing the precomputed values.
      */
     [[nodiscard]] Comp prepare_computation(const Intersection& i, const Ray& r, const World& w);
+
+    /**
+     * @brief Computes the shaded Color at a given ray-object intersection.
+     *
+     * Resolves the material of the intersected shape from the world, and
+     * calculates the cumulative Phong lighting using the world's light source.
+     *
+     * @param w The World containing the scene light and object arrays.
+     * @param c The Comp struct holding precomputed geometric and intersection vectors.
+     * @return Color The final calculated Color for the hit.
+     */
+    [[nodiscard]] Color shade_hit(const World& w, const Comp& c);
 }
