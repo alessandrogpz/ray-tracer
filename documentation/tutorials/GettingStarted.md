@@ -33,7 +33,7 @@ cd build
 
 ## Step 3: Configure the Project with CMake
 
-Now, we instruct CMake to analyze your system, find the necessary dependencies (like GoogleTest), and generate the build files (e.g., Makefiles).
+Now, we instruct CMake to analyze your system, find the necessary dependencies (like GoogleTest), and generate the build files (e.g., Ninja files).
 
 Run the following command from inside the `build` directory:
 
@@ -42,6 +42,13 @@ cmake -G Ninja ..
 ```
 
 *CMake reads the `CMakeLists.txt` from the parent directory (`..`) and configures the Ninja build files.*
+
+> [!NOTE]
+> **OpenMP Multithreading:** By default, OpenMP parallelization is enabled automatically. If you wish to disable multithreading, or if you do not have OpenMP installed, append `-DENABLE_OPENMP=OFF` to your CMake command:
+> ```bash
+> cmake -DENABLE_OPENMP=OFF -G Ninja ..
+> ```
+> For more details on toggling and tuning multithreading, see the [Multithreading Guide](../tutorials/MultithreadingGuide.md).
 
 ## Step 4: Build the Project & Visualizers
 
@@ -72,7 +79,7 @@ cmake --build build-debug
 cd build-debug/
 
 # 4. Run the debug binary
-./6.MultipleSpherePhongReflections
+./7.MultipleSpherePhongReflections
 ```
 
 #### Release Configuration (Full optimizations, fast rendering)
@@ -87,7 +94,7 @@ cmake --build build-release
 cd build-release/
 
 # 4. Run the release binary
-./6.MultipleSpherePhongReflections
+./7.MultipleSpherePhongReflections
 ```
 
 ### Available Visualizers
@@ -95,10 +102,12 @@ The project currently includes the following visualizers in the `visualizers/` d
 
 1. **`1.ProjectTrajectory.cpp`**: Simulates the physics of a projectile affected by gravity and wind, rendering its path as a green curve on a Canvas, saving the result as `OutputProjectTrajectory.ppm`.
 2. **`2.ClockMarkers.cpp`**: Plots twelve points arranged in a circle, demonstrating Matrix rotations and translations, saving the result as `OutputClockMarkers.ppm`.
-3. **`3.SphereShadow.cpp`**: Renders the silhouette of a single sphere by casting rays and coloring hit pixels, saving the result as `OutputSphereShadow.ppm`.
-4. **`4.MultipleSphereShadows.cpp`**: Renders flat shadows of three intersecting spheres, saving the result as `OutputMultipleSphereShadows.ppm`.
-5. **`5.SpherePhongReflection.cpp`**: Renders a single sphere with complete Phong lighting (ambient, diffuse, and specular highlights), saving the result as `OutputSpherePhongReflection.ppm`.
-6. **`6.MultipleSpherePhongReflections.cpp`**: Renders three intersecting spheres with complete Phong lighting, saving the result as `OutputMultipleSpherePhongReflections.ppm`.
+3. **`3.ConsoleIntersectionCheck.cpp`**: Terminal-based diagnostic utility showing ray-sphere hit distances, testing intersections and hit sorting.
+4. **`4.SphereShadow.cpp`**: Renders the silhouette of a single sphere by casting rays and coloring hit pixels, saving the result as `OutputSphereShadow.ppm`.
+5. **`5.MultipleSphereShadows.cpp`**: Renders flat shadows of three intersecting spheres, saving the result as `OutputMultipleSphereShadows.ppm`.
+6. **`6.SpherePhongReflection.cpp`**: Renders a single sphere with complete Phong lighting (ambient, diffuse, and specular highlights), saving the result as `OutputSpherePhongReflection.ppm`.
+7. **`7.MultipleSpherePhongReflections.cpp`**: Renders three intersecting spheres with complete Phong lighting, saving the result as `OutputMultipleSpherePhongReflections.ppm`.
+8. **`8.FirstScene.cpp`**: Renders a full 3D perspective scene with walls, floor, and three spheres of different materials using the virtual Camera, saving the result as `OutputFirstScene.ppm`.
 
 ## Step 5: Run the Test Suite and Visualizers
 
@@ -124,7 +133,7 @@ You should see an output from GoogleTest displaying the progress of the tests. I
 In addition to the tests, you can run the generated visualizer executables from the same build directory. For example:
 
 ```bash
-./3.SphereShadow
+./4.SphereShadow
 ```
 Executing a visualizer outputs a `.ppm` [Portable Pixmap](https://en.wikipedia.org/wiki/Netpbm) image file (e.g., `OutputSphereShadow.ppm`).
 
