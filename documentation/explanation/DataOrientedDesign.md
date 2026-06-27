@@ -146,3 +146,7 @@ If you need to compile or distribute the ray tracer on systems that do not share
    ```
 3. **Strict Precision Mode**:
    If `-ffast-math` causes minor rounding variances that break precise floating-point comparison assertions in unit tests, remove only the `-ffast-math` flag, leaving `-march=native` active.
+
+> [!IMPORTANT]
+> Since this project uses C++23 standard library modules (`import std;`), you must configure CMake to use the **Ninja** build generator (`-G Ninja`). The default `Unix Makefiles` generator on Linux does not support C++23 modules and will output a configuration error.
+

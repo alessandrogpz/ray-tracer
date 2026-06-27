@@ -56,6 +56,34 @@ This command will compile all executables present in the `CMakeLists.txt`.
 
 *(Alternatively, if you know the target name, e.g., `3.SphereShadow`, you can build it specifically: `cmake --build . --target 3.SphereShadow`)*
 
+### Building & Running Debug vs. Release Configurations
+
+If you want to maintain separate builds for development/debugging and performance benchmarking on the command line, use separate folders. You must specify the **Ninja** generator (`-G Ninja`), which is required for C++23 Modules support.
+
+#### Debug Configuration (No optimization, easy debugging)
+```bash
+# 1. Configure using Ninja generator
+cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug -G Ninja
+
+# 2. Build
+cmake --build build-debug
+
+# 3. Run the debug binary
+./build-debug/6.MultipleSpherePhongReflections
+```
+
+#### Release Configuration (Full optimizations, fast rendering)
+```bash
+# 1. Configure using Ninja generator
+cmake -B build-release -DCMAKE_BUILD_TYPE=Release -G Ninja
+
+# 2. Build
+cmake --build build-release
+
+# 3. Run the release binary
+./build-release/6.MultipleSpherePhongReflections
+```
+
 ### Available Visualizers
 The project currently includes the following visualizers in the `visualizers/` directory, listed in order of complexity:
 
