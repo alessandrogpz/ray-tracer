@@ -42,4 +42,18 @@ namespace rt
 
         return xs;
     }
+
+    Comp prepare_computation(const Intersection& i, const Ray& r, const World& w)
+    {
+        Comp comps;
+
+        comps.intersection = i;
+        comps.point = position(r, i.t);
+        comps.eye_v = -r.direction;
+        comps.normal_v = normalAt(w.spheres[i.shape_index], comps.point);
+
+        return comps;
+    }
+
+
 }

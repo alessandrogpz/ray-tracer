@@ -66,3 +66,26 @@ TEST(IntersectingWorld, IntersectWorldWithRay)
     EXPECT_EQ(xs[2].t, 5.5);
     EXPECT_EQ(xs[3].t, 6.0);
 }
+
+// ---------------------------------------------------
+// Precomputing the State of an Intersection
+
+TEST(PrecomputingInteraction, PrecomputeStateOfIntersection)
+{
+    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    const Sphere s;
+    World w;
+    w.spheres.push_back(s);
+    const Intersection i(4.0, 0, ShapeType::Sphere);
+    const Comp comps = prepare_computation(i, r, w);
+
+    EXPECT_DOUBLE_EQ(comps.intersection.t, i.t);
+    EXPECT_EQ(comps.intersection.shape_index, i.shape_index);
+    EXPECT_EQ(comps.intersection.shape_type, i.shape_type);
+
+    EXPECT_EQ(comps.point, Point(0.0, 0.0, -1.0));
+    EXPECT_EQ(comps.eye_v, Vector(0.0, 0.0, -1.0));
+    EXPECT_EQ(comps.normal_v, Vector(0.0, 0.0, -1.0));
+
+}
+
