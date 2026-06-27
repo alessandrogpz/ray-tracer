@@ -69,5 +69,20 @@ namespace rt
         return lighting(m, w.light, c.point, c.eye_v, c.normal_v);
     }
 
+    Color color_at(const World& w, const Ray&r)
+    {
+        const std::vector<Intersection> xs = intersect_world(w, r);
+        const std::optional<Intersection> h = hit(xs);
+
+        if (!h)
+            return {0.0, 0.0, 0.0};
+
+        const Comp comp = prepare_computation(*h, r, w);
+        const Color c = shade_hit(w, comp);
+
+        return c;
+
+    }
+
 
 }

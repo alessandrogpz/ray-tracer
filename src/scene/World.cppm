@@ -57,4 +57,17 @@ export namespace rt
      * @return Color The final calculated Color for the hit.
      */
     [[nodiscard]] Color shade_hit(const World& w, const Comp& c);
+
+    /**
+     * @brief Computes the Color in the World as seen by a given Ray.
+     *
+     * Finds the closest visible intersection of the Ray with objects in the World,
+     * precomputes the intersection details, and calculates the shaded Color.
+     * Returns black if no intersection occurs.
+     *
+     * @param w The World containing scene elements.
+     * @param r The Ray representing the light path.
+     * @return Color The final calculated Color seen by the Ray.
+     */
+    [[nodiscard]] Color color_at(const World& w, const Ray& r);
 }

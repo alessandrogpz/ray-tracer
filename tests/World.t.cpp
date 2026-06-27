@@ -131,3 +131,40 @@ TEST(ShadingIntersection, ShadingIntersectionFormInside)
 
     EXPECT_EQ(c, Color(0.90498, 0.90498, 0.90498));
 }
+
+// ---------------------------------------------------
+// Color At a Ray
+
+TEST(ColorAtRay, ColorWhenRayMisses)
+{
+    const World w = default_world();
+    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 1.0, 0.0));
+    const Color c = color_at(w, r);
+
+    EXPECT_EQ(c, Color(0.0, 0.0, 0.0));
+}
+
+TEST(ColorAtRay, ColorWhenRayHits)
+{
+    const World w = default_world();
+    const Ray r(Point(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
+    const Color c = color_at(w, r);
+
+    EXPECT_EQ(c, Color(0.38066, 0.47583, 0.2855));
+}
+
+TEST(ColorAtRay, ColorWithIntersectionBehindRay)
+{
+    World w = default_world();
+    
+    // Set ambient to 1 for both spheres so they glow completely in their own color
+    w.spheres[0].material.ambient = 1.0;
+    w.spheres[1].material.ambient = 1.0;
+
+    // Ray originates inside the outer sphere but points at the inner sphere from its edge
+    const Ray r(Point(0.0, 0.0, 0.75), Vector(0.0, 0.0, -1.0));
+    const Color c = color_at(w, r);
+
+    // Should return the color of the inner sphere
+    EXPECT_EQ(c, w.spheres[1].material.color);
+}
