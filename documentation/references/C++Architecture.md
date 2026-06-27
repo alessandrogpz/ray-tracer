@@ -2,6 +2,8 @@
 
 This reference guide documents the code-level structure of the Ray Tracer engine, focusing on its C++23 Modules architecture and module dependency graph.
 
+---
+
 ## 1. Module Layout and Responsibilities
 
 Our codebase is organized into modular C++23 units, split into module interfaces (`.cppm`) and module implementations (`.cpp`), categorized under subfolders `math/`, `core/`, and `scene/` under `src/`. Below is the list of exported modules, their file paths, and their responsibilities:
@@ -20,7 +22,8 @@ Our codebase is organized into modular C++23 units, split into module interfaces
 | **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
 | **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.utils` | Surface reflection material definition (ambient, diffuse, specular, shininess). |
 | **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.lights` | Phong reflection model lighting calculations. |
-| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.lights` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
+| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.lights`, `rt.intersection`, `rt.materials`, `rt.matrix`, `rt.ray`, `rt.tuple`, `rt.colors` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
+| **`rt.camera`** | `src/scene/Camera.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.ray`, `rt.canvas`, `rt.world`, `rt.transformations` | Virtual pinhole camera with viewport scaling, ray generation, and OpenMP-accelerated multithreaded rendering. |
 
 ---
 
@@ -29,42 +32,96 @@ Our codebase is organized into modular C++23 units, split into module interfaces
 C++23 modules require a strict, acyclic compilation order. The diagram below illustrates how components import each other. Lower modules must be compiled completely before the modules importing them can compile.
 
 ```mermaid
-graph TD
-    Utils[rt.utils] --> Tuple[rt.tuple]
-    Utils --> Matrix[rt.matrix]
-    Utils --> Colors[rt.colors]
-    Utils --> Materials[rt.materials]
-    
-    Colors --> Canvas[rt.canvas]
-    Colors --> Materials
-    Colors --> Lights[rt.lights]
-    Colors --> Shading[rt.shading]
-    
+graph TB
+    %% Layers / Subgraphs
+    subgraph Math [Math Module Layer]
+        Utils[rt.utils]
+        Tuple[rt.tuple]
+        Matrix[rt.matrix]
+        Transformations[rt.transformations]
+    end
+
+    subgraph Core [Core Module Layer]
+        Colors[rt.colors]
+        Canvas[rt.canvas]
+    end
+
+    subgraph Scene [Scene Module Layer]
+        Intersection[rt.intersection]
+        Ray[rt.ray]
+        Lights[rt.lights]
+        Materials[rt.materials]
+        Sphere[rt.sphere]
+        Shading[rt.shading]
+        World[rt.world]
+        Camera[rt.camera]
+    end
+
+    %% Math Layer Dependencies
+    Utils --> Tuple
+    Utils --> Matrix
     Tuple --> Matrix
-    Tuple --> Transformations[rt.transformations]
-    Tuple --> Lights
-    Tuple --> Ray[rt.ray]
-    Tuple --> Sphere[rt.sphere]
-    Tuple --> Shading
-    
+    Tuple --> Transformations
     Matrix --> Transformations
+
+    %% Core Layer Dependencies
+    Utils --> Colors
+    Colors --> Canvas
+
+    %% Scene Layer Dependencies
+    Tuple --> Lights
+    Colors --> Lights
+
+    Colors --> Materials
+    Utils --> Materials
+
+    Tuple --> Ray
     Matrix --> Ray
-    Matrix --> Sphere
-    
     Transformations --> Ray
+    Intersection --> Ray
+
+    Tuple --> Sphere
+    Matrix --> Sphere
     Transformations --> Sphere
-    
-    Intersection[rt.intersection] --> Ray
-    Intersection --> Sphere
-    
-    Materials --> Sphere
-    Materials --> Shading
-    
-    Lights --> Shading
-    Lights --> World[rt.world]
-    
     Ray --> Sphere
+    Materials --> Sphere
+    Intersection --> Sphere
+
+    Tuple --> Shading
+    Colors --> Shading
+    Materials --> Shading
+    Lights --> Shading
+
     Sphere --> World
+    Lights --> World
+    Intersection --> World
+    Materials --> World
+    Matrix --> World
+    Ray --> World
+    Tuple --> World
+    Colors --> World
+    Shading --> World
+
+    Tuple --> Camera
+    Matrix --> Camera
+    Transformations --> Camera
+    Ray --> Camera
+    Canvas --> Camera
+    World --> Camera
+
+    %% Styling
+    classDef math fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#1967D2;
+    classDef core fill:#E6F4EA,stroke:#34A853,stroke-width:1px,color:#137333;
+    classDef scene fill:#FCE8E6,stroke:#EA4335,stroke-width:1px,color:#C5221F;
+
+    class Utils,Tuple,Matrix,Transformations math;
+    class Colors,Canvas core;
+    class Intersection,Ray,Lights,Materials,Sphere,Shading,World,Camera scene;
+
+    %% Link Styling (matching target module colors)
+    linkStyle 0,1,2,3,4 stroke:#4285F4,stroke-width:1.5px;
+    linkStyle 5,6 stroke:#34A853,stroke-width:1.5px;
+    linkStyle 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39 stroke:#EA4335,stroke-width:1.5px;
 ```
 
 ### Avoiding Circular Imports
@@ -84,4 +141,4 @@ The project builds via **CMake (3.28+)** and the **Ninja** generator. The build 
 2. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
 3. **Visualizer Executables**:
-   - Standalone graphic demo binaries (e.g., `1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereShadow`, `4.MultipleSphereShadows`, `5.SpherePhongReflection`, `6.MultipleSpherePhongReflections`) that link against `raytracer_core`.
+   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.ConsoleIntersectionCheck`, `4.SphereShadow`, `5.MultipleSphereShadows`, `6.SpherePhongReflection`, `7.MultipleSpherePhongReflections`, `8.FirstScene`) that link against `raytracer_core`.
