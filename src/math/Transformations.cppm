@@ -12,6 +12,6 @@ export namespace rt {
     [[nodiscard]] Matrix<4> rotation_y(double radians);
     [[nodiscard]] Matrix<4> rotation_z(double radians);
     [[nodiscard]] Matrix<4> shear(double xy, double xz, double yx, double yz, double zx, double zy);
-    [[nodiscard]] Matrix<4> reflection(Vector normal);
+    [[nodiscard]] Matrix<4> reflection(const Vector& normal);
 
 } // namespace rt

@@ -40,27 +40,27 @@ export namespace rt {
     };
 
     // Specific Geometry Overloads (Non-member functions)
-    [[nodiscard]] Point operator+(Point p, Vector v);
-    [[nodiscard]] Point operator+(Vector v, Point p);
-    [[nodiscard]] Vector operator+(Vector v1, Vector v2);
-    [[nodiscard]] Vector operator-(Point a, Point b);
-    [[nodiscard]] Point operator-(Point p, Vector v);
-    [[nodiscard]] Vector operator-(Vector v1, Vector v2);
-    [[nodiscard]] Vector operator-(Vector v);
-    [[nodiscard]] Vector operator*(Vector v, double scalar);
-    [[nodiscard]] Vector operator*(double scalar, Vector v);
-    [[nodiscard]] Vector operator/(Vector v, double scalar);
+    [[nodiscard]] Point operator+(const Point& p, const Vector& v);
+    [[nodiscard]] Point operator+(const Vector& v, const Point& p);
+    [[nodiscard]] Vector operator+(const Vector& v1, const Vector& v2);
+    [[nodiscard]] Vector operator-(const Point& a, const Point& b);
+    [[nodiscard]] Point operator-(const Point& p, const Vector& v);
+    [[nodiscard]] Vector operator-(const Vector& v1, const Vector& v2);
+    [[nodiscard]] Vector operator-(const Vector& v);
+    [[nodiscard]] Vector operator*(const Vector& v, double scalar);
+    [[nodiscard]] Vector operator*(double scalar, const Vector& v);
+    [[nodiscard]] Vector operator/(const Vector& v, double scalar);
 
     // Factory Utilities
     [[nodiscard]] Point createPoint(double x, double y, double z);
     [[nodiscard]] Vector createVector(double x, double y, double z);
 
     // Operation Utilities
-    [[nodiscard]] Vector negateVector(Vector a);
-    [[nodiscard]] double getVectorMagnitude(Vector a);
-    [[nodiscard]] Vector normalizeVector(Vector a);
-    [[nodiscard]] double dotProduct(Vector a, Vector b);
-    [[nodiscard]] Vector crossProduct(Vector a, Vector b);
-    [[nodiscard]] Vector reflect(Vector in, Vector normal);
+    [[nodiscard]] Vector negateVector(const Vector& a);
+    [[nodiscard]] double getVectorMagnitude(const Vector& a);
+    [[nodiscard]] Vector normalizeVector(const Vector& a);
+    [[nodiscard]] double dotProduct(const Vector& a, const Vector& b);
+    [[nodiscard]] Vector crossProduct(const Vector& a, const Vector& b);
+    [[nodiscard]] Vector reflect(const Vector& in, const Vector& normal);
 
 } // namespace rt

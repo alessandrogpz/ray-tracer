@@ -83,7 +83,7 @@ namespace rt {
         if (ts.count > 1) xs.emplace_back(ts.t1, index, ShapeType::Sphere);
     }
 
-    Vector normalAt(const Sphere& s, Point p) {
+    Vector normalAt(const Sphere& s, const Point& p) {
         const Point local_point = s.get_transform_inverse() * p;
         const Vector local_normal = s.local_normal_at(local_point);
         const Tuple world_normal_tuple = s.get_transform_inverse_transpose() * static_cast<const Tuple&>(local_normal);

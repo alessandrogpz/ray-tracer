@@ -12,7 +12,7 @@ namespace rt {
     Ray::Ray() : origin(createPoint(0.0, 0.0, 0.0)),
                  direction(createVector(0.0, 0.0, 0.0)) {}
 
-    Ray::Ray(Point _origin, Vector _direction)
+    Ray::Ray(const Point& _origin, const Vector& _direction)
         : origin(_origin), direction(_direction) {}
 
     Point position(const Ray& r, double time) {

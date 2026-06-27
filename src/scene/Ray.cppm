@@ -13,7 +13,7 @@ export namespace rt {
         Vector direction;
 
         Ray();
-        Ray(Point _origin, Vector _direction);
+        Ray(const Point& _origin, const Vector& _direction);
     };
 
     [[nodiscard]] Point position(const Ray& r, double time);

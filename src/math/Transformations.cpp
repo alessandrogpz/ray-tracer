@@ -84,7 +84,7 @@ namespace rt {
         return transform;
     }
 
-    Matrix<4> reflection(Vector normal) {
+    Matrix<4> reflection(const Vector& normal) {
         Matrix<4> outer_product{};
 
         double x = normal.x;

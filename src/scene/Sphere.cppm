@@ -41,6 +41,6 @@ export namespace rt {
 
     [[nodiscard]] std::vector<Intersection> intersect(const Sphere& s, const Ray& r, std::uint32_t index = 0);
     void intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0);
-    [[nodiscard]] Vector normalAt(const Sphere& s, Point p);
+    [[nodiscard]] Vector normalAt(const Sphere& s, const Point& p);
 
 } // namespace rt

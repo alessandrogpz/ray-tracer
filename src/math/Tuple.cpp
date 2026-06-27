@@ -71,43 +71,43 @@ namespace rt {
     }
 
     // --- Geometry Overloads ---
-    Point operator+(Point p, Vector v) {
+    Point operator+(const Point& p, const Vector& v) {
         return {p.x + v.x, p.y + v.y, p.z + v.z};
     }
 
-    Point operator+(Vector v, Point p) {
+    Point operator+(const Vector& v, const Point& p) {
         return p + v;
     }
 
-    Vector operator+(Vector v1, Vector v2) {
+    Vector operator+(const Vector& v1, const Vector& v2) {
         return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
     }
 
-    Vector operator-(Point a, Point b) {
+    Vector operator-(const Point& a, const Point& b) {
         return {a.x - b.x, a.y - b.y, a.z - b.z};
     }
 
-    Point operator-(Point p, Vector v) {
+    Point operator-(const Point& p, const Vector& v) {
         return {p.x - v.x, p.y - v.y, p.z - v.z};
     }
 
-    Vector operator-(Vector v1, Vector v2) {
+    Vector operator-(const Vector& v1, const Vector& v2) {
         return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
     }
 
-    Vector operator-(Vector v) {
+    Vector operator-(const Vector& v) {
         return {-v.x, -v.y, -v.z};
     }
 
-    Vector operator*(Vector v, double scalar) {
+    Vector operator*(const Vector& v, double scalar) {
         return {v.x * scalar, v.y * scalar, v.z * scalar};
     }
 
-    Vector operator*(double scalar, Vector v) {
+    Vector operator*(double scalar, const Vector& v) {
         return v * scalar;
     }
 
-    Vector operator/(Vector v, double scalar) {
+    Vector operator/(const Vector& v, double scalar) {
         assert(scalar != 0.0 && "Attempted to divide a Vector by zero");
         double inv = 1.0 / scalar;
         return {v.x * inv, v.y * inv, v.z * inv};
@@ -123,24 +123,25 @@ namespace rt {
     }
 
     // --- Operation Utilities ---
-    Vector negateVector(Vector a) {
+    Vector negateVector(const Vector& a) {
         return -a;
     }
 
-    double getVectorMagnitude(Vector a) {
+    double getVectorMagnitude(const Vector& a) {
         return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
     }
 
-    Vector normalizeVector(Vector a) {
+    Vector normalizeVector(const Vector& a) {
         double inv_mag = 1.0 / getVectorMagnitude(a);
         return createVector(a.x * inv_mag, a.y * inv_mag, a.z * inv_mag);
     }
 
-    double dotProduct(Vector a, Vector b) {
+    double dotProduct(const Vector& a, const Vector& b) {
         return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
     }
 
-    Vector crossProduct(Vector a, Vector b) {
+    // Pass crossProduct parameters by const reference
+    Vector crossProduct(const Vector& a, const Vector& b) {
         return createVector(
             a.y * b.z - a.z * b.y,
             a.z * b.x - a.x * b.z,
@@ -148,7 +149,7 @@ namespace rt {
         );
     }
 
-    Vector reflect(Vector in, Vector normal) {
+    Vector reflect(const Vector& in, const Vector& normal) {
         return in - normal * 2.0 * dotProduct(in, normal);
     }
 

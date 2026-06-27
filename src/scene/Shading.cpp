@@ -11,7 +11,7 @@ import rt.lights;
 
 namespace rt {
 
-    Color lighting(Material material, PointLight light, Point point, Vector eye_vector, Vector normal_vector) {
+    Color lighting(const Material& material, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector) {
         Color effective_color = material.color * light.intensity;
         Vector light_vector = normalizeVector(light.position - point);
         Color ambient = effective_color * material.ambient;

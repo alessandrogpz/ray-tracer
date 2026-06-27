@@ -22,6 +22,6 @@ export namespace rt {
      * @param normal_vector The surface normal Vector at the shaded point.
      * @return Color The final calculated Color contribution of the Phong reflection model at the given point.
     */
-    [[nodiscard]] Color lighting(Material material, PointLight light, Point point, Vector eye_vector, Vector normal_vector);
+    [[nodiscard]] Color lighting(const Material& material, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector);
 
 } // namespace rt
