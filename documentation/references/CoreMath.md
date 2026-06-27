@@ -39,6 +39,7 @@ The core transformations are:
 - **Scaling**: Changes the size of an object. Affects both points and vectors.
 - **Rotation**: Rotates a Point or Vector around the X, Y, or Z axis.
 - **Shearing**: Slants the object by shifting points along one axis based on their coordinate on another axis.
+- **View Transform**: Positions and orients the virtual camera in 3D space by shifting and rotating the entire world in the opposite direction. See the **[View Transformation Explanation](../explanation/ViewTransformation.md)** for mathematical details.
 
 Transformations can be chained together via Matrix multiplication. The order of multiplication is crucial: `Transformation_3 * Transformation_2 * Transformation_1 * Point` applies Transformation 1 first, then 2, then 3.
 

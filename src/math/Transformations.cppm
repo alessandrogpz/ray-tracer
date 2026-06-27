@@ -13,5 +13,6 @@ export namespace rt {
     [[nodiscard]] Matrix<4> rotation_z(float radians);
     [[nodiscard]] Matrix<4> shear(float xy, float xz, float yx, float yz, float zx, float zy);
     [[nodiscard]] Matrix<4> reflection(const Vector& normal);
+    [[nodiscard]] Matrix<4> view_transform(const Point& from, const Point& to, const Vector& up);
 
 } // namespace rt

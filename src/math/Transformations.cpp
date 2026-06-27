@@ -115,4 +115,35 @@ namespace rt {
         return identity() - outer_product * 2;
     }
 
+    Matrix<4> view_transform(const Point& from, const Point& to, const Vector& up)
+    {
+        const Vector forward_v = normalizeVector(to - from);
+        const Vector left_v = crossProduct(forward_v, normalizeVector(up));
+        const Vector true_up = crossProduct(left_v, forward_v);
+
+        Matrix<4> orientation;
+
+        orientation(0, 0) = left_v.x;
+        orientation(0, 1) = left_v.y;
+        orientation(0, 2) = left_v.z;
+        orientation(0, 3) = 0;
+
+        orientation(1, 0) = true_up.x;
+        orientation(1, 1) = true_up.y;
+        orientation(1, 2) = true_up.z;
+        orientation(1, 3) = 0;
+
+        orientation(2, 0) = -forward_v.x;
+        orientation(2, 1) = -forward_v.y;
+        orientation(2, 2) = -forward_v.z;
+        orientation(2, 3) = 0;
+
+        orientation(3, 0) = 0;
+        orientation(3, 1) = 0;
+        orientation(3, 2) = 0;
+        orientation(3, 3) = 1;
+
+        return orientation * translation(-from.x, -from.y, -from.z);
+
+    }
 } // namespace rt

@@ -192,3 +192,71 @@ TEST(MatrixTransformations, ReflectionMatrixCalculatesCorrectVector)
     Matrix<4> R2 = reflection(n2);
     EXPECT_EQ(R2 * v2, Vector(1.0f, 0.0f, 0.0f));
 }
+
+// ---------------------------------------------------
+// Matrix Transformation
+
+TEST(ViewMatrixTransformation, DefaultOrientation)
+{
+    const Point from(0.0f, 0.0f, 0.0f);
+    const Point to(0.0f, 0.0f, -1.0f);
+    const Vector up(0.0f, 1.0f, 0.0f);
+
+    const Matrix<4> t = view_transform(from, to, up);
+
+    EXPECT_EQ(identity(), t);
+}
+
+TEST(ViewMatrixTransformation, LookingPositiveZ)
+{
+    const Point from(0.0f, 0.0f, 0.0f);
+    const Point to(0.0f, 0.0f, 1.0f);
+    const Vector up(0.0f, 1.0f, 0.0f);
+
+    const Matrix<4> t = view_transform(from, to, up);
+
+    EXPECT_EQ(scale(-1.0f, 1.0f, -1.0f), t);
+}
+
+TEST(ViewMatrixTransformation, MovesTheWorld)
+{
+    const Point from(0.0f, 0.0f, 8.0f);
+    const Point to(0.0f, 0.0f, 0.0f);
+    const Vector up(0.0f, 1.0f, 0.0f);
+
+    const Matrix<4> t = view_transform(from, to, up);
+
+    EXPECT_EQ(translation(0.0f, 0.0f, -8.0f), t);
+}
+
+TEST(ViewMatrixTransformation, ArbitraryViewTranformation)
+{
+    const Point from(1.0f, 3.0f, 2.0f);
+    const Point to(4.0f, -2.0f, 8.0f);
+    const Vector up(1.0f, 1.0f, 0.0f);
+
+    const Matrix<4> t = view_transform(from, to, up);
+
+    Matrix<4> expected;
+    expected(0, 0) = -0.50709f;
+    expected(0, 1) = 0.50709f;
+    expected(0, 2) = 0.67612f;
+    expected(0, 3) = -2.36643f;
+
+    expected(1, 0) = 0.76772f;
+    expected(1, 1) = 0.60609f;
+    expected(1, 2) = 0.12122f;
+    expected(1, 3) = -2.82843f;
+
+    expected(2, 0) = -0.35857f;
+    expected(2, 1) = 0.59761f;
+    expected(2, 2) = -0.71714f;
+    expected(2, 3) = 0.00000f;
+
+    expected(3, 0) = 0.00000f;
+    expected(3, 1) = 0.00000f;
+    expected(3, 2) = 0.00000f;
+    expected(3, 3) = 1.00000f;
+
+    EXPECT_EQ(expected, t);
+}
