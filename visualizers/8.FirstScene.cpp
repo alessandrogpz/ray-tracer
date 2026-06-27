@@ -79,14 +79,14 @@ int main()
     left.material.specular = 0.3f;
     w.add_sphere(left);
 
-    // Camera setup (hsize=1000, vsize=500, fov=pi/3)
-    Camera cam(1000, 500, PI / 3.0f);
+    // Camera setup (hsize=2560, vsize=1440, fov=pi/3)
+    Camera cam(2560, 1440, PI / 3.0f);
     cam.set_transform(view_transform(Point(0.0f, 1.5f, -5.0f),
                                      Point(0.0f, 1.0f, 0.0f),
                                      Vector(0.0f, 1.0f, 0.0f)));
 
     // Render the scene
-    std::cout << "Rendering scene at 1000x500 resolution..." << std::endl;
+    std::cout << "Rendering scene at 2560x1440 resolution..." << std::endl;
     Canvas image = render(cam, w);
 
     // Save output to PPM
