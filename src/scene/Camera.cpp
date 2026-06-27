@@ -55,7 +55,9 @@ namespace rt {
         Canvas image(c.hsize, c.vsize);
 
         // Multithreaded loop rendering pixels concurrently across CPU cores
+        #ifdef _OPENMP
         #pragma omp parallel for collapse(2) schedule(dynamic, 16)
+        #endif
         for (std::size_t y = 0; y < c.vsize; ++y)
         {
             for (std::size_t x = 0; x < c.hsize; ++x)

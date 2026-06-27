@@ -14,10 +14,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Optional!
-# Locates the OpenMP package on the host system to enable CPU multithreading.
-# Required for parallelizing our rendering loops (e.g., #pragma omp parallel for).
-find_package(OpenMP REQUIRED)
+option(ENABLE_OPENMP "Enable OpenMP CPU parallelization" ON)
+if(ENABLE_OPENMP)
+    # Locates the OpenMP package on the host system to enable CPU multithreading.
+    # Required for parallelizing our rendering loops (e.g., #pragma omp parallel for).
+    find_package(OpenMP REQUIRED)
+endif()
 
 # 1. Fetch and build GoogleTest automatically
 include(FetchContent)
@@ -67,12 +69,13 @@ target_sources(raytracer_core
         src/scene/Camera.cpp
 )
 
-# Optional!
-# Links OpenMP to the core engine.
-# Using PUBLIC ensures that any executable linking against raytracer_core
-# (like our visualizers and tests) automatically inherits the correct
-# compiler and linker flags for OpenMP across all operating systems.
-target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
+if(ENABLE_OPENMP)
+    # Links OpenMP to the core engine.
+    # Using PUBLIC ensures that any executable linking against raytracer_core
+    # (like our visualizers and tests) automatically inherits the correct
+    # compiler and linker flags for OpenMP across all operating systems.
+    target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
+endif()
 
 # Apply compilation warnings to the core library
 if(MSVC)

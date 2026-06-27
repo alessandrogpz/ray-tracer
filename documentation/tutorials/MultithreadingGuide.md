@@ -2,33 +2,46 @@
 
 Multithreading in this project is optional but highly recommended as it can significantly improve rendering performance. The multithreading is implemented using OpenMP.
 
-## Enabling Multithreading
+## Enabling and Disabling Multithreading
 
-To enable OpenMP multithreading, you need to make a few minor adjustments to the project configuration and the source code.
+Multithreading is optional and can be toggled on or off at configuration time using the `ENABLE_OPENMP` CMake option.
 
-### 1. Update `CMakeLists.txt`
+### 1. Toggle via CMake CLI
 
-Open the `CMakeLists.txt` file in the root of the project. You need to uncomment the `find_package` instruction and the `target_link_libraries` instruction related to OpenMP.
+To compile the project with or without OpenMP support:
 
-Change to this:
+*   **Turn Multithreading ON (Default):**
+    ```bash
+    cmake -B build-debug -DENABLE_OPENMP=ON -G Ninja
+    cmake --build build-debug
+    ```
+*   **Turn Multithreading OFF:**
+    ```bash
+    cmake -B build-debug -DENABLE_OPENMP=OFF -G Ninja
+    cmake --build build-debug
+    ```
+
+When compiled with `ENABLE_OPENMP=OFF`, the compiler does not include OpenMP flags and libraries, meaning all `#pragma omp` directives are safely ignored and the code executes sequentially on a single thread.
+
+### 2. Under the Hood: `CMakeLists.txt`
+
+The OpenMP configuration inside [CMakeLists.txt](file:///home/aper/Documents/ray-tracer/CMakeLists.txt) conditionalizes the find package and linkage targets:
+
 ```cmake
-# Optional!
-# Locates the OpenMP package on the host system to enable CPU multithreading.
-# Required for parallelizing our rendering loops (e.g., #pragma omp parallel for).
-find_package(OpenMP REQUIRED)
+option(ENABLE_OPENMP "Enable OpenMP CPU parallelization" ON)
+if(ENABLE_OPENMP)
+    find_package(OpenMP REQUIRED)
+endif()
 
-# ... (other cmake code) ...
+# ... (target source definitions) ...
 
-# Optional!
-# Links OpenMP to the core engine.
-# Using PUBLIC ensures that any executable linking against raytracer_core
-# (like our visualizers and tests) automatically inherits the correct
-# compiler and linker flags for OpenMP across all operating systems.
-target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
+if(ENABLE_OPENMP)
+    target_link_libraries(raytracer_core PUBLIC OpenMP::OpenMP_CXX)
+endif()
 ```
 
-### 2. Update the Rendering Loop
-In your main entry Point file (where the main rendering loop occurs, such as `visualizers/6.MultipleSpherePhongReflections.cpp`), you need to uncomment or add the OpenMP pragma directive just above the outer `for` loop that iterates over the rows (`y`).
+### 3. Update the Rendering Loop
+In your main entry Point file (where the main rendering loop occurs, such as `visualizers/7.MultipleSpherePhongReflections.cpp`), you need to uncomment or add the OpenMP pragma directive just above the outer `for` loop that iterates over the rows (`y`).
 
 > [!IMPORTANT]
 > **Avoid Thread Data Races (Segmentation Faults):** 
@@ -71,3 +84,34 @@ Example rendering loop with multithreading enabled:
     }
 ```
 After making these changes, re-run your CMake configuration and build the project.
+
+---
+
+## Advanced OpenMP Clauses in the Camera Render Loop
+
+In the `rt::render` function (located in [Camera.cpp](file:///file:///home/aper/Documents/ray-tracer/src/scene/Camera.cpp)), we use a more sophisticated OpenMP pragma directive:
+
+```cpp
+#pragma omp parallel for collapse(2) schedule(dynamic, 16)
+for (std::size_t y = 0; y < c.vsize; ++y)
+{
+    for (std::size_t x = 0; x < c.hsize; ++x)
+    {
+        // Rendering logic...
+    }
+}
+```
+
+Here is a breakdown of what these clauses accomplish and why they are selected for the ray tracer:
+
+### 1. `collapse(2)`
+*   **What it does:** Combines (collapses) the nested loops (the outer loop `y` and inner loop `x`) into a single, flat loop of size `vsize * hsize` (e.g., $3,686,400$ iterations at 1440p).
+*   **Why we use it:** By default, OpenMP only parallelizes the outermost loop (`y`). On high-core-count processors, parallelizing only the vertical rows might not provide enough distinct work chunks to keep all cores busy. Collapsing the loops provides millions of parallel tasks, eliminating thread starvation and allowing the workload to scale cleanly across massive thread pools.
+
+### 2. `schedule(dynamic, 16)`
+*   **What it does:** Distributes the flat loop iterations dynamically at runtime. Threads fetch a chunk of `16` loop iterations, process them, and request another chunk from the scheduler when idle.
+*   **Why we use it:**
+    *   **Imbalance Prevention:** In a ray tracer, computing pixel colors is not uniform. A ray that misses all geometry resolves instantly to the background color. A ray that hits a sphere must compute surface normals, reflections, lighting calculations, and cast shadow rays.
+    *   If we used `static` scheduling (equal pre-allocated division), threads assigned to the "empty background" sections would finish early and sit idle while threads rendering the complex spheres would struggle. `dynamic` scheduling ensures that threads are continuously fed work as they become available.
+    *   **Chunk Size (`16`):** Handing out single iterations (`chunk_size=1`) introduces scheduler overhead. Specifying `16` iterations per request amortizes scheduling overhead while maintaining fine-grained load balancing.
+

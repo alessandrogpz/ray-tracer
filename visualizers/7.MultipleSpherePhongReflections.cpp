@@ -77,7 +77,9 @@ int main()
     // A white point light source, positioned behind, above, and to the left of the eye
     PointLight light(Point(-10.0f, 10.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
 
+    #ifdef _OPENMP
     #pragma omp parallel for
+    #endif
     // Iterate over every row (y) and column (x) of the Canvas
     for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
     {
