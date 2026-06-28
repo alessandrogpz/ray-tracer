@@ -12,6 +12,7 @@ import rt.canvas;
 import rt.colors;
 import rt.matrix;
 import rt.sphere;
+import rt.plane;
 import rt.ray;
 import rt.lights;
 import rt.materials;
@@ -31,30 +32,27 @@ int main()
     World w;
     w.light = PointLight(Point(-10.0f, 10.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
 
-    // Floor (extremely flattened sphere scaled by (10, 0.01, 10))
-    Sphere floor_sphere = Sphere();
-    floor_sphere.set_transform(scale(10.0f, 0.01f, 10.0f));
-    floor_sphere.material.color = Color(1.0f, 0.9f, 0.9f);
-    floor_sphere.material.specular = 0.0f;
-    w.add_sphere(floor_sphere);
+    // Floor (infinite plane at y = 0)
+    Plane floor_plane = Plane();
+    floor_plane.material.color = Color(1.0f, 0.9f, 0.9f);
+    floor_plane.material.specular = 0.0f;
+    w.add_plane(floor_plane);
 
-    // Left wall (same material, rotated and translated)
-    Sphere left_wall = Sphere();
+    // Left wall (infinite plane translated and rotated)
+    Plane left_wall = Plane();
     left_wall.set_transform(translation(0.0f, 0.0f, 5.0f) *
                            rotation_y(-PI / 4.0f) *
-                           rotation_x(PI / 2.0f) *
-                           scale(10.0f, 0.01f, 10.0f));
-    left_wall.material = floor_sphere.material;
-    w.add_sphere(left_wall);
+                           rotation_x(PI / 2.0f));
+    left_wall.material = floor_plane.material;
+    w.add_plane(left_wall);
 
-    // Right wall
-    Sphere right_wall = Sphere();
+    // Right wall (infinite plane translated and rotated)
+    Plane right_wall = Plane();
     right_wall.set_transform(translation(0.0f, 0.0f, 5.0f) *
                             rotation_y(PI / 4.0f) *
-                            rotation_x(PI / 2.0f) *
-                            scale(10.0f, 0.01f, 10.0f));
-    right_wall.material = floor_sphere.material;
-    w.add_sphere(right_wall);
+                            rotation_x(PI / 2.0f));
+    right_wall.material = floor_plane.material;
+    w.add_plane(right_wall);
 
     // Middle sphere (large green sphere)
     Sphere middle = Sphere();

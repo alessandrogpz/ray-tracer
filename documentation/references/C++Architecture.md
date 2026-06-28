@@ -151,4 +151,4 @@ The project builds via **CMake (3.28+)** and the **Ninja** generator. The build 
 2. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
 3. **Visualizer Executables**:
-   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.ConsoleIntersectionCheck`, `4.SphereShadow`, `5.MultipleSphereShadows`, `6.SpherePhongReflection`, `7.MultipleSpherePhongReflections`, `8.FirstScene`, `9.ShadowScene`, `10.PlaneScene`) that link against `raytracer_core`.
+   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.ConsoleIntersectionCheck`, `4.SphereShadow`, `5.MultipleSphereShadows`, `6.SpherePhongReflection`, `7.MultipleSpherePhongReflections`, `8.FirstScene`, `9.PlaneScene`) that link against `raytracer_core`.

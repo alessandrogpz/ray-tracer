@@ -44,8 +44,7 @@ The project includes a suite of example programs in `visualizers/` ordered by in
 6. **`6.SpherePhongReflection`**: Applies the Phong reflection model to shade a sphere.
 7. **`7.MultipleSpherePhongReflections`**: Renders multiple spheres shaded under Phong lighting.
 8. **`8.FirstScene`**: Renders a full 3D scene (spheres and walls) using a perspective Camera.
-9. **`9.ShadowScene`**: Renders a creative sculpture of floating spheres casting complex, dramatic shadows onto each other and the floor.
-10. **`10.PlaneScene`**: Renders a 3D scene using infinite ground and backdrop planes to showcase flat shadow casting with zero shadow acne.
+9. **`9.PlaneScene`**: Renders a 3D scene using infinite ground and backdrop planes to showcase flat shadow casting with zero shadow acne.
 
 ## Contributing
 
