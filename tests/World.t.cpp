@@ -62,10 +62,10 @@ TEST(IntersectingWorld, IntersectWorldWithRay)
     const std::vector<Intersection>xs = intersect_world(w, r);
 
     EXPECT_EQ(xs.size(), 4);
-    EXPECT_EQ(xs[0].t, 4.0f);
-    EXPECT_EQ(xs[1].t, 4.5f);
-    EXPECT_EQ(xs[2].t, 5.5f);
-    EXPECT_EQ(xs[3].t, 6.0f);
+    EXPECT_TRUE(equal(xs[0].t, 4.0f));
+    EXPECT_TRUE(equal(xs[1].t, 4.5f));
+    EXPECT_TRUE(equal(xs[2].t, 5.5f));
+    EXPECT_TRUE(equal(xs[3].t, 6.0f));
 }
 
 // ---------------------------------------------------

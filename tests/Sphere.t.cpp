@@ -49,8 +49,8 @@ TEST(SphereRayIntersection, IntersectingRayWithSphereAtTwoPoints)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 4.0f);
-    EXPECT_EQ(xs[1].t, 6.0f);
+    EXPECT_TRUE(equal(xs[0].t, 4.0f));
+    EXPECT_TRUE(equal(xs[1].t, 6.0f));
 }
 
 TEST(SphereRayIntersection, IntersectingRayWithSphereAtTangent)
@@ -65,8 +65,8 @@ TEST(SphereRayIntersection, IntersectingRayWithSphereAtTangent)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 5.0f);
-    EXPECT_EQ(xs[1].t, 5.0f);
+    EXPECT_TRUE(equal(xs[0].t, 5.0f));
+    EXPECT_TRUE(equal(xs[1].t, 5.0f));
 }
 
 TEST(SphereRayIntersection, RayMissesIntersectingWithSphere)
@@ -94,8 +94,8 @@ TEST(SphereRayIntersection, RayOriginatesInsideTheSphere)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, -1.0f);
-    EXPECT_EQ(xs[1].t, 1.0f);
+    EXPECT_TRUE(equal(xs[0].t, -1.0f));
+    EXPECT_TRUE(equal(xs[1].t, 1.0f));
 }
 
 TEST(SphereRayIntersection, RayOriginatesInFrontOfTheSphere)
@@ -109,8 +109,8 @@ TEST(SphereRayIntersection, RayOriginatesInFrontOfTheSphere)
     std::vector<Intersection> xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, -6.0f);
-    EXPECT_EQ(xs[1].t, -4.0f);
+    EXPECT_TRUE(equal(xs[0].t, -6.0f));
+    EXPECT_TRUE(equal(xs[1].t, -4.0f));
 }
 
 TEST(SphereRayIntersection, IntersectSetsTheObjectOnTheIntersection)
@@ -154,8 +154,8 @@ TEST(SphereTransformation, IntersectingAScaledSphereWithARay)
     const auto xs = intersect(s, r);
 
     EXPECT_EQ(xs.size(), 2);
-    EXPECT_EQ(xs[0].t, 3);
-    EXPECT_EQ(xs[1].t, 7);
+    EXPECT_TRUE(equal(xs[0].t, 3.0f));
+    EXPECT_TRUE(equal(xs[1].t, 7.0f));
 }
 
 TEST(SphereTransformation, IntersectingATranslatedSphereWithARay)
