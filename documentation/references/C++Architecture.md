@@ -17,12 +17,13 @@ Our codebase is organized into modular C++23 units, split into module interfaces
 | **`rt.colors`** | `src/core/Colors.cppm`, `.cpp` | `rt.utils` | The `Color` structure and Color blend operations. |
 | **`rt.canvas`** | `src/core/Canvas.cppm`, `.cpp` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
 | **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Sphere` shape definition (flat layout, no inheritance). |
+| **`rt.plane`**  | `src/scene/Plane.cppm`, `.cpp`  | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Plane` shape definition (flat layout, no inheritance). |
 | **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | None | Tracking records of Ray-object intersections (t-distance, index, and shape type). |
 | **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and hit utility algorithms. |
 | **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
 | **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.utils` | Surface reflection material definition (ambient, diffuse, specular, shininess). |
 | **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.lights` | Phong reflection model lighting calculations. |
-| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.lights`, `rt.intersection`, `rt.materials`, `rt.matrix`, `rt.ray`, `rt.tuple`, `rt.colors` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
+| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.plane`, `rt.lights`, `rt.intersection`, `rt.materials`, `rt.matrix`, `rt.ray`, `rt.tuple`, `rt.colors` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
 | **`rt.camera`** | `src/scene/Camera.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.ray`, `rt.canvas`, `rt.world`, `rt.transformations` | Virtual pinhole camera with viewport scaling, ray generation, and OpenMP-accelerated multithreaded rendering. |
 
 ---
@@ -52,6 +53,7 @@ graph TB
         Lights[rt.lights]
         Materials[rt.materials]
         Sphere[rt.sphere]
+        Plane[rt.plane]
         Shading[rt.shading]
         World[rt.world]
         Camera[rt.camera]
@@ -87,12 +89,20 @@ graph TB
     Materials --> Sphere
     Intersection --> Sphere
 
+    Tuple --> Plane
+    Matrix --> Plane
+    Transformations --> Plane
+    Ray --> Plane
+    Materials --> Plane
+    Intersection --> Plane
+
     Tuple --> Shading
     Colors --> Shading
     Materials --> Shading
     Lights --> Shading
 
     Sphere --> World
+    Plane --> World
     Lights --> World
     Intersection --> World
     Materials --> World
@@ -116,7 +126,7 @@ graph TB
 
     class Utils,Tuple,Matrix,Transformations math;
     class Colors,Canvas core;
-    class Intersection,Ray,Lights,Materials,Sphere,Shading,World,Camera scene;
+    class Intersection,Ray,Lights,Materials,Sphere,Plane,Shading,World,Camera scene;
 
     %% Link Styling (matching target module colors)
     linkStyle 0,1,2,3,4 stroke:#4285F4,stroke-width:1.5px;
@@ -141,4 +151,4 @@ The project builds via **CMake (3.28+)** and the **Ninja** generator. The build 
 2. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
 3. **Visualizer Executables**:
-   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.ConsoleIntersectionCheck`, `4.SphereShadow`, `5.MultipleSphereShadows`, `6.SpherePhongReflection`, `7.MultipleSpherePhongReflections`, `8.FirstScene`, `9.ShadowScene`) that link against `raytracer_core`.
+   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.ConsoleIntersectionCheck`, `4.SphereShadow`, `5.MultipleSphereShadows`, `6.SpherePhongReflection`, `7.MultipleSpherePhongReflections`, `8.FirstScene`, `9.ShadowScene`, `10.PlaneScene`) that link against `raytracer_core`.

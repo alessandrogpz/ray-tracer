@@ -53,6 +53,7 @@ target_sources(raytracer_core
         src/scene/Shading.cppm
         src/scene/World.cppm
         src/scene/Camera.cppm
+        src/scene/Plane.cppm
   PRIVATE
         src/math/Utils.cpp
         src/math/Tuple.cpp
@@ -67,6 +68,7 @@ target_sources(raytracer_core
         src/scene/Shading.cpp
         src/scene/World.cpp
         src/scene/Camera.cpp
+        src/scene/Plane.cpp
 )
 
 if(ENABLE_OPENMP)
@@ -109,6 +111,7 @@ add_executable(run_tests
         tests/Shading.t.cpp
         tests/World.t.cpp
         tests/Camera.t.cpp
+        tests/Plane.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
@@ -122,6 +125,7 @@ add_executable(6.SpherePhongReflection visualizers/6.SpherePhongReflection.cpp)
 add_executable(7.MultipleSpherePhongReflections visualizers/7.MultipleSpherePhongReflections.cpp)
 add_executable(8.FirstScene visualizers/8.FirstScene.cpp)
 add_executable(9.ShadowScene visualizers/9.ShadowScene.cpp)
+add_executable(10.PlaneScene visualizers/10.PlaneScene.cpp)
 
 target_link_libraries(1.ProjectTrajectory PRIVATE raytracer_core)
 target_link_libraries(2.ClockMarkers PRIVATE raytracer_core)
@@ -132,4 +136,5 @@ target_link_libraries(6.SpherePhongReflection PRIVATE raytracer_core)
 target_link_libraries(7.MultipleSpherePhongReflections PRIVATE raytracer_core)
 target_link_libraries(8.FirstScene PRIVATE raytracer_core)
 target_link_libraries(9.ShadowScene PRIVATE raytracer_core)
+target_link_libraries(10.PlaneScene PRIVATE raytracer_core)
 

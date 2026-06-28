@@ -5,7 +5,8 @@ import std;
 export namespace rt {
 
     enum class ShapeType : std::uint8_t {
-        Sphere
+        Sphere,
+        Plane
     };
 
     struct Intersection {

@@ -9,17 +9,25 @@ import rt.matrix;
 import rt.ray;
 import rt.tuple;
 import rt.colors;
+import rt.plane;
 
 export namespace rt
 {
     struct World
     {
+        // Spheres SoA
         std::vector<Point> sphere_origins{};
         std::vector<float> sphere_radii{};
         std::vector<Material> sphere_materials{};
         std::vector<Matrix<4>> sphere_transforms{};
         std::vector<Matrix<4>> sphere_transforms_inverse{};
         std::vector<Matrix<4>> sphere_transforms_inverse_transpose{};
+
+        // Planes SoA
+        std::vector<Material> plane_materials{};
+        std::vector<Matrix<4>> plane_transforms{};
+        std::vector<Matrix<4>> plane_transforms_inverse{};
+        std::vector<Matrix<4>> plane_transforms_inverse_transpose{};
 
         PointLight light{};
 
@@ -29,6 +37,11 @@ export namespace rt
          * @brief Adds a Sphere to the World, splitting it into parallel SoA vectors.
          */
         void add_sphere(const Sphere& s);
+
+        /**
+         * @brief Adds a Plane to the World, splitting it into parallel SoA vectors.
+         */
+        void add_plane(const Plane& p);
     };
 
     struct Comp

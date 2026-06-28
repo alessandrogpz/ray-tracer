@@ -1,5 +1,3 @@
-module;
-
 module rt.world;
 
 import std;
@@ -11,7 +9,7 @@ import rt.utils;
 import rt.transformations;
 import rt.shading;
 import rt.materials;
-import rt.utils;
+import rt.plane;
 
 namespace rt
 {
@@ -22,6 +20,13 @@ namespace rt
         sphere_transforms.push_back(s.get_transform());
         sphere_transforms_inverse.push_back(s.get_transform_inverse());
         sphere_transforms_inverse_transpose.push_back(s.get_transform_inverse_transpose());
+    }
+
+    void World::add_plane(const Plane& p) {
+        plane_materials.push_back(p.material);
+        plane_transforms.push_back(p.get_transform());
+        plane_transforms_inverse.push_back(p.get_transform_inverse());
+        plane_transforms_inverse_transpose.push_back(p.get_transform_inverse_transpose());
     }
 
     World default_world() {
@@ -45,8 +50,9 @@ namespace rt
     {
         std::vector<Intersection> xs;
 
-        const std::size_t n_objects = w.sphere_origins.size();
-        for (std::size_t i = 0; i < n_objects; i++)
+        // 1. Intersect Spheres SoA
+        const std::size_t n_spheres = w.sphere_origins.size();
+        for (std::size_t i = 0; i < n_spheres; i++)
         {
             Sphere s;
             s.origin = w.sphere_origins[i];
@@ -57,6 +63,19 @@ namespace rt
             s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i];
 
             intersect(s, r, xs, static_cast<std::uint32_t>(i));
+        }
+
+        // 2. Intersect Planes SoA
+        const std::size_t n_planes = w.plane_materials.size();
+        for (std::size_t i = 0; i < n_planes; i++)
+        {
+            Plane p;
+            p.material = w.plane_materials[i];
+            p.transform = w.plane_transforms[i];
+            p.transform_inverse = w.plane_transforms_inverse[i];
+            p.transform_inverse_transpose = w.plane_transforms_inverse_transpose[i];
+
+            intersect(p, r, xs, static_cast<std::uint32_t>(i));
         }
 
         // Sort all intersections in ascending order by their t-value
@@ -73,15 +92,29 @@ namespace rt
         comps.point = position(r, i.t);
         comps.eye_v = -r.direction;
 
-        Sphere s;
-        s.origin = w.sphere_origins[i.shape_index];
-        s.radius = w.sphere_radii[i.shape_index];
-        s.material = w.sphere_materials[i.shape_index];
-        s.transform = w.sphere_transforms[i.shape_index];
-        s.transform_inverse = w.sphere_transforms_inverse[i.shape_index];
-        s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i.shape_index];
+        // Query shape-specific normal vector depending on the shape type
+        if (i.shape_type == ShapeType::Sphere)
+        {
+            Sphere s;
+            s.origin = w.sphere_origins[i.shape_index];
+            s.radius = w.sphere_radii[i.shape_index];
+            s.material = w.sphere_materials[i.shape_index];
+            s.transform = w.sphere_transforms[i.shape_index];
+            s.transform_inverse = w.sphere_transforms_inverse[i.shape_index];
+            s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i.shape_index];
 
-        comps.normal_v = normalAt(s, comps.point);
+            comps.normal_v = normalAt(s, comps.point);
+        }
+        else if (i.shape_type == ShapeType::Plane)
+        {
+            Plane p;
+            p.material = w.plane_materials[i.shape_index];
+            p.transform = w.plane_transforms[i.shape_index];
+            p.transform_inverse = w.plane_transforms_inverse[i.shape_index];
+            p.transform_inverse_transpose = w.plane_transforms_inverse_transpose[i.shape_index];
+
+            comps.normal_v = normalAt(p, comps.point);
+        }
 
         if (dotProduct(comps.normal_v, comps.eye_v) < 0)
         {
@@ -96,12 +129,16 @@ namespace rt
 
     Color shade_hit(const World& w, const Comp& c)
     {
-        const Material& m = w.sphere_materials[c.intersection.shape_index];
+        // Query correct shape material depending on type
+        const Material& m = (c.intersection.shape_type == ShapeType::Sphere)
+            ? w.sphere_materials[c.intersection.shape_index]
+            : w.plane_materials[c.intersection.shape_index];
+
         const bool shadowed = is_shadowed(w, c.over_point);
         return lighting(m, w.light, c.point, c.eye_v, c.normal_v, shadowed);
     }
 
-    Color color_at(const World& w, const Ray&r)
+    Color color_at(const World& w, const Ray& r)
     {
         const std::vector<Intersection> xs = intersect_world(w, r);
         const std::optional<Intersection> h = hit(xs);
@@ -131,4 +168,4 @@ namespace rt
         return false;
     }
     
-}
+} // namespace rt
