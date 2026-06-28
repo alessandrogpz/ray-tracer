@@ -124,6 +124,10 @@ struct World {
     std::vector<Matrix<4>> sphere_transforms_inverse_transpose;
 };
 ```
+
+> [!NOTE]
+> **Planes SoA Integration**: Just like Spheres, Planes are represented using the same DOD principles and are stored in parallel vectors (`plane_materials`, `plane_transforms_inverse`, `plane_transforms_inverse_transpose`) within the `World` struct, avoiding polymorphic vtable lookups and maintaining layout cache-locality.
+
 * **Impact**: During intersection checks, only the exact vectors needed (`sphere_origins`, `sphere_radii`, and `sphere_transforms_inverse`) are loaded into cache lines. This increases spatial locality and allows the compiler's loop vectorizer to pack adjacent values directly into CPU SIMD registers.
 
 ### Compiler Vectorization Flags
