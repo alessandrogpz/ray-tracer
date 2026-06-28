@@ -11,6 +11,7 @@ import rt.utils;
 import rt.transformations;
 import rt.shading;
 import rt.materials;
+import rt.utils;
 
 namespace rt
 {
@@ -88,13 +89,16 @@ namespace rt
             comps.normal_v = -comps.normal_v;
         }
 
+        comps.over_point = comps.point + comps.normal_v * EPSILON;
+
         return comps;
     }
 
     Color shade_hit(const World& w, const Comp& c)
     {
         const Material& m = w.sphere_materials[c.intersection.shape_index];
-        return lighting(m, w.light, c.point, c.eye_v, c.normal_v);
+        const bool shadowed = is_shadowed(w, c.over_point);
+        return lighting(m, w.light, c.point, c.eye_v, c.normal_v, shadowed);
     }
 
     Color color_at(const World& w, const Ray&r)
@@ -109,8 +113,22 @@ namespace rt
         const Color c = shade_hit(w, comp);
 
         return c;
-
     }
 
+    bool is_shadowed(const World& w, const Point& p)
+    {
+        const Vector v = w.light.position - p;
 
+        const float distance = getVectorMagnitude(v);
+        const Vector direction = normalizeVector(v);
+
+        const Ray r(p, direction);
+        const std::vector<Intersection> intersections = intersect_world(w, r);
+
+        std::optional<Intersection> h = hit(intersections);
+        if (h && h->t > EPSILON && h->t < distance)
+            return true;
+        return false;
+    }
+    
 }

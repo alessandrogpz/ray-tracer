@@ -10,6 +10,7 @@ import rt.colors;
 import rt.transformations;
 import rt.ray;
 import rt.intersection;
+import rt.utils;
 
 using namespace rt;
 
@@ -106,6 +107,20 @@ TEST(PrecomputingInteraction, PrecomputeStateOfIntersectionInside)
     EXPECT_EQ(comps.normal_v, Vector(0.0f, 0.0f, -1.0f));
 }
 
+TEST(PrecomputingInteraction, TheHitShouldOffsetThePoint)
+{
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
+    Sphere s;
+    s.set_transform(translation(0.0f, 0.0f, 1.0f));
+    World w;
+    w.add_sphere(s);
+    const Intersection i(5.0f, 0, ShapeType::Sphere);
+    const Comp comps = prepare_computation(i, r, w);
+
+    EXPECT_LT(comps.over_point.z, -EPSILON / 2.0f);
+    EXPECT_GT(comps.point.z, comps.over_point.z);
+}
+
 // ---------------------------------------------------
 // Shading an Intersection
 
@@ -130,6 +145,26 @@ TEST(ShadingIntersection, ShadingIntersectionFormInside)
     const Color c = shade_hit(w, comps);
 
     EXPECT_EQ(c, Color(0.90498f, 0.90498f, 0.90498f));
+}
+
+TEST(ShadingIntersection, ShadingIntersectionInShadow)
+{
+    World w;
+    w.light = PointLight(Point(0.0f, 0.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
+
+    Sphere s1;
+    w.add_sphere(s1);
+
+    Sphere s2;
+    s2.set_transform(translation(0.0f, 0.0f, 10.0f));
+    w.add_sphere(s2);
+
+    const Ray r(Point(0.0f, 0.0f, 5.0f), Vector(0.0f, 0.0f, 1.0f));
+    const Intersection i(4.0f, 1, ShapeType::Sphere);
+    const Comp comps = prepare_computation(i, r, w);
+    const Color c = shade_hit(w, comps);
+
+    EXPECT_EQ(c, Color(0.1f, 0.1f, 0.1f));
 }
 
 // ---------------------------------------------------
@@ -167,4 +202,43 @@ TEST(ColorAtRay, ColorWithIntersectionBehindRay)
 
     // Should return the color of the inner sphere
     EXPECT_EQ(c, w.sphere_materials[1].color);
+}
+
+// ---------------------------------------------------
+// Shadows
+
+TEST(Shadows, NoShadowWhenPointIsDirectlyVisible)
+{
+    const World w = default_world();
+    const Point p(0.0f, 10.0f, 0.0f);
+    const bool has_shadow = is_shadowed(w, p);
+
+    EXPECT_FALSE(has_shadow);
+}
+
+TEST(Shadows, ShadowWhenObjectBetweenPointAndLight)
+{
+    const World w = default_world();
+    const Point p(10.0f, -10.0f, 10.0f);
+    const bool has_shadow = is_shadowed(w, p);
+
+    EXPECT_TRUE(has_shadow);
+}
+
+TEST(Shadows, NoShadowWhenObjectBehindLight)
+{
+    const World w = default_world();
+    const Point p(-20.0f, 20.0f, -20.0f);
+    const bool has_shadow = is_shadowed(w, p);
+
+    EXPECT_FALSE(has_shadow);
+}
+
+TEST(Shadows, NoShadowWhenObjectBehindPoint)
+{
+    const World w = default_world();
+    const Point p(-2.0f, 2.0f, -2.0f);
+    const bool has_shadow = is_shadowed(w, p);
+
+    EXPECT_FALSE(has_shadow);
 }

@@ -30,6 +30,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
     - [Data-Oriented Design (DOD)](documentation/explanation/DataOrientedDesign.md)
     - [View Transformation](documentation/explanation/ViewTransformation.md)
     - [Camera & Perspective Projection](documentation/explanation/Camera.md)
+    - [Shadows & Self-Shadowing (Acne)](documentation/explanation/Shadows.md)
 
 ## Visualizer Demos
 
@@ -42,6 +43,7 @@ The project includes a suite of example programs in `visualizers/` ordered by in
 6. **`6.SpherePhongReflection`**: Applies the Phong reflection model to shade a sphere.
 7. **`7.MultipleSpherePhongReflections`**: Renders multiple spheres shaded under Phong lighting.
 8. **`8.FirstScene`**: Renders a full 3D scene (spheres and walls) using a perspective Camera.
+9. **`9.ShadowScene`**: Renders a creative sculpture of floating spheres casting complex, dramatic shadows onto each other and the floor.
 
 ## Contributing
 

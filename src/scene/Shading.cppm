@@ -20,8 +20,14 @@ export namespace rt {
      * @param point The 3D Point on the surface being shaded.
      * @param eye_vector The eye Vector pointing from the surface point back to the camera.
      * @param normal_vector The surface normal Vector at the shaded point.
+     * @param inShadow A boolean flag indicating whether the point is in shadow. If true, only the ambient lighting component is computed and returned.
      * @return Color The final calculated Color contribution of the Phong reflection model at the given point.
     */
-    [[nodiscard]] Color lighting(const Material& material, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector);
+    [[nodiscard]] Color lighting(   const Material& material,
+                                    const PointLight& light,
+                                    const Point& point,
+                                    const Vector& eye_vector,
+                                    const Vector& normal_vector,
+                                    bool inShadow = false);
 
 } // namespace rt

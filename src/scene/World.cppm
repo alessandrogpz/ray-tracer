@@ -34,6 +34,7 @@ export namespace rt
     struct Comp
     {
         Point point{};
+        Point over_point{};
         Vector eye_v{};
         Vector normal_v{};
         Intersection intersection{};
@@ -49,8 +50,9 @@ export namespace rt
      * @brief Precomputes relevant geometric vectors and state for a given intersection.
      *
      * Calculates the exact 3D point of intersection, the eye vector pointing back
-     * towards the ray's origin, the surface normal vector at that point, and checks
-     * if the intersection occurred on the inside of the shape (inverting the normal if so).
+     * towards the ray's origin, the surface normal vector at that point, checks
+     * if the intersection occurred on the inside of the shape (inverting the normal if so),
+     * and calculates the offset `over_point` to prevent shadow acne.
      *
      * @param i The Intersection containing the t-value and shape identifiers.
      * @param r The Ray that caused the intersection.
@@ -62,8 +64,9 @@ export namespace rt
     /**
      * @brief Computes the shaded Color at a given ray-object intersection.
      *
-     * Resolves the material of the intersected shape from the world, and
-     * calculates the cumulative Phong lighting using the world's light source.
+     * Resolves the material of the intersected shape from the world, checks
+     * whether the intersection point is in shadow, and calculates the cumulative
+     * Phong lighting using the world's light source.
      *
      * @param w The World containing the scene light and object arrays.
      * @param c The Comp struct holding precomputed geometric and intersection vectors.
@@ -83,4 +86,17 @@ export namespace rt
      * @return Color The final calculated Color seen by the Ray.
      */
     [[nodiscard]] Color color_at(const World& w, const Ray& r);
+    /**
+     * @brief Determines whether a given 3D point on a surface is in shadow.
+     *
+     * Traces a shadow ray from the point toward the light source. If any opaque
+     * object is found obstructing the light (closer than the light source itself),
+     * the point is considered shadowed.
+     *
+     * @param w The World containing scene elements and the light source.
+     * @param p The 3D Point on the surface to be tested (should be comps.over_point to avoid acne).
+     * @return true If the point is in shadow.
+     * @return false If the point is directly illuminated.
+     */
+    [[nodiscard]] bool is_shadowed(const World& w, const Point& p);
 }

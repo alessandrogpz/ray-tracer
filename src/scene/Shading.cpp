@@ -11,10 +11,14 @@ import rt.lights;
 
 namespace rt {
 
-    Color lighting(const Material& material, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector) {
+    Color lighting(const Material& material, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector, const bool inShadow) {
         Color effective_color = material.color * light.intensity;
-        Vector light_vector = normalizeVector(light.position - point);
         Color ambient = effective_color * material.ambient;
+
+        if (inShadow)
+            return ambient;
+
+        Vector light_vector = normalizeVector(light.position - point);
 
         float light_dot_normal = dotProduct(light_vector, normal_vector);
 
