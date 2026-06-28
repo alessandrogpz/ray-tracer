@@ -221,44 +221,53 @@ std::vector<Intersection> intersect_world(const World& w, const Ray& r)
 ```
 
 ### 2. Normal Calculations
-In `prepare_computation`, add a conditional branch to query your shape-specific normal vector when a hit occurs:
+In `prepare_computation`, add a case for your shape inside the `switch (i.shape_type)` block to query the normal vector:
 ```cpp
 Comp prepare_computation(const Intersection& i, const Ray& r, const World& w)
 {
     Comp comps;
     ...
-    if (i.shape_type == ShapeType::Sphere) {
-        // ... Sphere reconstruction and normalAt ...
-    }
-    else if (i.shape_type == ShapeType::Plane) {
-        // ... Plane reconstruction and normalAt ...
-    }
-    else if (i.shape_type == ShapeType::<Shape>) {
-        <Shape> s;
-        s.material = w.<shape>_materials[i.shape_index];
-        s.transform = w.<shape>_transforms[i.shape_index];
-        s.transform_inverse = w.<shape>_transforms_inverse[i.shape_index];
-        s.transform_inverse_transpose = w.<shape>_transforms_inverse_transpose[i.shape_index];
+    switch (i.shape_type)
+    {
+        case ShapeType::Sphere: {
+            // ... Sphere normalAt ...
+            break;
+        }
+        case ShapeType::Plane: {
+            // ... Plane normalAt ...
+            break;
+        }
+        case ShapeType::<Shape>: {
+            <Shape> s;
+            s.material = w.<shape>_materials[i.shape_index];
+            s.transform = w.<shape>_transforms[i.shape_index];
+            s.transform_inverse = w.<shape>_transforms_inverse[i.shape_index];
+            s.transform_inverse_transpose = w.<shape>_transforms_inverse_transpose[i.shape_index];
 
-        comps.normal_v = normalAt(s, comps.point);
+            comps.normal_v = normalAt(s, comps.point);
+            break;
+        }
     }
     ...
 }
 ```
 
 ### 3. Shading Material Lookups
-In `shade_hit`, add your shape to the material lookup resolution:
+In the `get_material` helper function, add a case to query your shape's SoA material vector:
 ```cpp
-Color shade_hit(const World& w, const Comp& c)
+const Material& get_material(const World& w, ShapeType type, std::size_t index)
 {
-    const Material& m = (c.intersection.shape_type == ShapeType::Sphere)
-        ? w.sphere_materials[c.intersection.shape_index]
-        : (c.intersection.shape_type == ShapeType::Plane)
-            ? w.plane_materials[c.intersection.shape_index]
-            : w.<shape>_materials[c.intersection.shape_index]; // Fetches your shape material
-
-    const bool shadowed = is_shadowed(w, c.over_point);
-    return lighting(m, w.light, c.point, c.eye_v, c.normal_v, shadowed);
+    switch (type)
+    {
+        case ShapeType::Sphere:
+            return w.sphere_materials[index];
+        case ShapeType::Plane:
+            return w.plane_materials[index];
+        case ShapeType::<Shape>:
+            return w.<shape>_materials[index]; // Fetches your shape material
+        default:
+            throw std::runtime_error("Unknown shape type in get_material");
+    }
 }
 ```
 

@@ -93,27 +93,32 @@ namespace rt
         comps.eye_v = -r.direction;
 
         // Query shape-specific normal vector depending on the shape type
-        if (i.shape_type == ShapeType::Sphere)
+        switch (i.shape_type)
         {
-            Sphere s;
-            s.origin = w.sphere_origins[i.shape_index];
-            s.radius = w.sphere_radii[i.shape_index];
-            s.material = w.sphere_materials[i.shape_index];
-            s.transform = w.sphere_transforms[i.shape_index];
-            s.transform_inverse = w.sphere_transforms_inverse[i.shape_index];
-            s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i.shape_index];
+            case ShapeType::Sphere:
+            {
+                Sphere s;
+                s.origin = w.sphere_origins[i.shape_index];
+                s.radius = w.sphere_radii[i.shape_index];
+                s.material = w.sphere_materials[i.shape_index];
+                s.transform = w.sphere_transforms[i.shape_index];
+                s.transform_inverse = w.sphere_transforms_inverse[i.shape_index];
+                s.transform_inverse_transpose = w.sphere_transforms_inverse_transpose[i.shape_index];
 
-            comps.normal_v = normalAt(s, comps.point);
-        }
-        else if (i.shape_type == ShapeType::Plane)
-        {
-            Plane p;
-            p.material = w.plane_materials[i.shape_index];
-            p.transform = w.plane_transforms[i.shape_index];
-            p.transform_inverse = w.plane_transforms_inverse[i.shape_index];
-            p.transform_inverse_transpose = w.plane_transforms_inverse_transpose[i.shape_index];
+                comps.normal_v = normalAt(s, comps.point);
+                break;
+            }
+            case ShapeType::Plane:
+            {
+                Plane p;
+                p.material = w.plane_materials[i.shape_index];
+                p.transform = w.plane_transforms[i.shape_index];
+                p.transform_inverse = w.plane_transforms_inverse[i.shape_index];
+                p.transform_inverse_transpose = w.plane_transforms_inverse_transpose[i.shape_index];
 
-            comps.normal_v = normalAt(p, comps.point);
+                comps.normal_v = normalAt(p, comps.point);
+                break;
+            }
         }
 
         if (dotProduct(comps.normal_v, comps.eye_v) < 0)
@@ -127,13 +132,22 @@ namespace rt
         return comps;
     }
 
+    const Material& get_material(const World& w, ShapeType type, std::size_t index)
+    {
+        switch (type)
+        {
+            case ShapeType::Sphere:
+                return w.sphere_materials[index];
+            case ShapeType::Plane:
+                return w.plane_materials[index];
+            default:
+                throw std::runtime_error("Unknown shape type in get_material");
+        }
+    }
+
     Color shade_hit(const World& w, const Comp& c)
     {
-        // Query correct shape material depending on type
-        const Material& m = (c.intersection.shape_type == ShapeType::Sphere)
-            ? w.sphere_materials[c.intersection.shape_index]
-            : w.plane_materials[c.intersection.shape_index];
-
+        const Material& m = get_material(w, c.intersection.shape_type, c.intersection.shape_index);
         const bool shadowed = is_shadowed(w, c.over_point);
         return lighting(m, w.light, c.point, c.eye_v, c.normal_v, shadowed);
     }
