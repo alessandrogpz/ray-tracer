@@ -44,6 +44,7 @@ The project includes a suite of example programs in `visualizers/` ordered by in
 4. **`4.SpherePhongReflection`**: A single sphere shaded with the full Phong reflection model, resting on an infinite floor plane.
 5. **`5.MultipleSpherePhongReflections`**: Three spheres of different sizes and materials shaded under Phong lighting, resting on an infinite floor plane.
 6. **`6.FirstScene`**: A full perspective-camera scene featuring three spheres casting shadows onto an infinite floor plane and two angled wall planes, rendered at QHD (2560×1440).
+7. **`7.MatrixTransformations`**: Six spheres each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined, scale-down) in a single scene with floor and wall planes.
 
 ## Contributing
 

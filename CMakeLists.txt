@@ -122,6 +122,7 @@ add_executable(3.SphereRayCast                   visualizers/3.SphereRayCast.cpp
 add_executable(4.SpherePhongReflection           visualizers/4.SpherePhongReflection.cpp)
 add_executable(5.MultipleSpherePhongReflections  visualizers/5.MultipleSpherePhongReflections.cpp)
 add_executable(6.FirstScene                      visualizers/6.FirstScene.cpp)
+add_executable(7.MatrixTransformations           visualizers/7.MatrixTransformations.cpp)
 
 target_link_libraries(1.ProjectTrajectory              PRIVATE raytracer_core)
 target_link_libraries(2.ClockMarkers                   PRIVATE raytracer_core)
@@ -129,3 +130,4 @@ target_link_libraries(3.SphereRayCast                  PRIVATE raytracer_core)
 target_link_libraries(4.SpherePhongReflection          PRIVATE raytracer_core)
 target_link_libraries(5.MultipleSpherePhongReflections PRIVATE raytracer_core)
 target_link_libraries(6.FirstScene                     PRIVATE raytracer_core)
+target_link_libraries(7.MatrixTransformations          PRIVATE raytracer_core)
