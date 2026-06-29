@@ -4,7 +4,9 @@ This project follows a standardized docstring format for documenting functions, 
 
 ## General Guidelines
 
-*   **Location**: Docstrings should be placed immediately above the function declaration or struct definition.
+*   **Location**: Docstrings belong in the **module interface unit (`.cppm`)**, immediately above the function or struct **declaration**. This is the file that consumers `import`, so it is the canonical place for public-facing documentation.
+    *   Do **not** duplicate docstrings in the `.cpp` implementation unit. A brief `// see .cppm for full docs` comment is acceptable there if extra clarity is needed.
+    *   For a refresher on why declarations live in `.cppm` and definitions in `.cpp`, see [C++ Implementation Details](C++ImplementationDetails.md#module-interface--implementation-split-cppm--cpp).
 *   **Format**: Use the `/** ... */` block comment syntax.
 *   **Tags**: Utilize Doxygen-style tags (e.g., `@brief`, `@param`, `@return`, `@note`) to structure the information.
 *   **Cross-referencing**: When a function's logic is complex or relies on extensive mathematical theory (like the analytic solution for Ray-Sphere Intersection), use the docstring to briefly explain what the function does, and provide a direct file path reference to the corresponding document in the `documentation/explanation/` or `documentation/references/` folders.
