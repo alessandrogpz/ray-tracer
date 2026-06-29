@@ -6,6 +6,13 @@ This is a C++ implementation of a 3D Ray tracer, built from scratch following te
 
 This project simulates light rays to render 3D scenes. It's built for performance and educational purposes, adhering strictly to modern C++ standards.
 
+![Ray Tracer showcase — matrix transformations scene](renders/7.MatrixTransformations.png)
+
+> Six spheres, each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined transforms, and scale-down), rendered at QHD (2560×1440) with Phong shading and hard shadows.  
+> All rendered examples are collected in the [`renders/`](renders/) folder.
+
+
+
 ## Documentation
 
 Documentation of this project is structured using the [Diátaxis framework](https://diataxis.fr/).
