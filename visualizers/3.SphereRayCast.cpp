@@ -73,7 +73,7 @@ int main()
     }
 
     std::string ppmContent = canvasToPPM(c);
-    savePPM("OutputSphereShadow", ppmContent);
+    savePPM("OutputSphereRayCast", ppmContent);
 
     auto end_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float, std::milli> elapsed = end_time - start_time;

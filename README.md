@@ -36,16 +36,14 @@ Documentation of this project is structured using the [Diátaxis framework](http
 
 ## Visualizer Demos
 
-The project includes a suite of example programs in `visualizers/` ordered by increasing complexity:
-1. **`1.ProjectTrajectory`**: Plots a simple projectile path onto a 2D canvas.
-2. **`2.ClockMarkers`**: Draws twelve clock hours using 2D rotation transformations.
-3. **`3.ConsoleIntersectionCheck`**: Simple CLI test showing ray-sphere hit distances.
-4. **`4.SphereShadow`**: Renders a silhouette of a sphere onto a canvas.
-5. **`5.MultipleSphereShadows`**: Renders silhouettes of multiple overlapping spheres.
-6. **`6.SpherePhongReflection`**: Applies the Phong reflection model to shade a sphere.
-7. **`7.MultipleSpherePhongReflections`**: Renders multiple spheres shaded under Phong lighting.
-8. **`8.FirstScene`**: Renders a full 3D scene (spheres and walls) using a perspective Camera.
-9. **`9.PlaneScene`**: Renders a 3D scene using infinite ground and backdrop planes to showcase flat shadow casting with zero shadow acne.
+The project includes a suite of example programs in `visualizers/` ordered by increasing complexity. Rendered output images are collected in `renders/`.
+
+1. **`1.ProjectTrajectory`**: Plots a 2D projectile path under gravity and wind forces onto a canvas.
+2. **`2.ClockMarkers`**: Draws twelve clock-hour markers using 2D rotation transformation matrices.
+3. **`3.SphereRayCast`**: Renders a raw ray-cast silhouette of a sphere — showcasing the fundamental intersection algorithm with no shading.
+4. **`4.SpherePhongReflection`**: A single sphere shaded with the full Phong reflection model, resting on an infinite floor plane.
+5. **`5.MultipleSpherePhongReflections`**: Three spheres of different sizes and materials shaded under Phong lighting, resting on an infinite floor plane.
+6. **`6.FirstScene`**: A full perspective-camera scene featuring three spheres casting shadows onto an infinite floor plane and two angled wall planes, rendered at QHD (2560×1440).
 
 ## Contributing
 
