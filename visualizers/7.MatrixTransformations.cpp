@@ -128,10 +128,10 @@ int main()
     s_combined.material.shininess = 300.0f;
     w.add_sphere(s_combined);
 
-    // 6. Scale down only — tiny cherry sphere, far right
+    // 6. Scale down only — tiny orange sphere, far right
     Sphere s_scale_down;
     s_scale_down.set_transform(translation(5.0f, 0.3f, -0.5f) * scale(0.3f, 0.3f, 0.3f));
-    s_scale_down.material.color    = Color(0.95f, 0.15f, 0.45f); // Cherry pink
+    s_scale_down.material.color    = Color(1.0f, 0.50f, 0.05f); // Orange
     s_scale_down.material.diffuse  = 0.8f;
     s_scale_down.material.specular = 0.7f;
     s_scale_down.material.shininess = 150.0f;

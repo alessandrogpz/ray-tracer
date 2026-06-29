@@ -78,6 +78,6 @@ Six spheres are arranged in a line, each transformed by a **different combinatio
 | Centre | 🟡 Amber | **Non-uniform scale** — squashed on Y into an oblate disc |
 | Centre-right | 🟣 Violet | **Rotation around Z** applied to an elongated ellipsoid |
 | Top | 🔵 Electric blue | **Combined** translate + rotate + scale, perched above the teal sphere |
-| Far-right | 🩷 Cherry | **Scale-down ×0.3** — tiny sphere to show relative size |
+| Far-right | 🟠 Orange | **Scale-down ×0.3** — tiny sphere to show relative size |
 
 **Concepts:** translation matrix, uniform & non-uniform scaling, rotation matrices, matrix composition (chained transforms), SoA World layout.
