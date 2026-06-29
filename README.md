@@ -43,7 +43,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
 
 ## Visualizer Demos
 
-The project includes a suite of example programs in `visualizers/` ordered by increasing complexity. Rendered output images are collected in `renders/`.
+The project includes a suite of example programs in [`visualizers/`](visualizers/) ordered by increasing complexity. Rendered output images are collected in [`renders/`](renders/).
 
 1. **`1.ProjectTrajectory`**: Plots a 2D projectile path under gravity and wind forces onto a canvas.
 2. **`2.ClockMarkers`**: Draws twelve clock-hour markers using 2D rotation transformation matrices.
