@@ -1,18 +1,15 @@
 cmake_minimum_required(VERSION 3.28)
 
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "4.3.0")
-    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
-else()
-    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
-endif()
-
 project(RayTracer)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# 0. Build the C++23 standard library module (`import std;`) as the `std_module` target
+# (replaces CMake's experimental CMAKE_CXX_MODULE_STD; see cmake/StdModule.cmake)
+include(cmake/StdModule.cmake)
 
 option(ENABLE_OPENMP "Enable OpenMP CPU parallelization" ON)
 if(ENABLE_OPENMP)
@@ -70,6 +67,9 @@ target_sources(raytracer_core
         src/scene/Camera.cpp
         src/scene/Plane.cpp
 )
+
+# Every module, test and visualizer that links raytracer_core can `import std;`
+target_link_libraries(raytracer_core PUBLIC std_module)
 
 if(ENABLE_OPENMP)
     # Links OpenMP to the core engine.
