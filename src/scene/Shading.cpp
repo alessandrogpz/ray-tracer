@@ -1,5 +1,3 @@
-module;
-#include <cmath>
 module rt.shading;
 
 import std;

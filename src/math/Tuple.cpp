@@ -1,8 +1,3 @@
-module;
-
-#include <cassert>
-#include <cmath>
-
 module rt.tuple;
 
 import std;
@@ -10,6 +5,28 @@ import std;
 import rt.utils;
 
 namespace rt {
+
+    namespace {
+        // assert() is a macro, so `import std;` cannot provide it. This is its module-friendly
+        // replacement: in Debug builds a failed check reports where it happened and aborts; with
+        // NDEBUG (Release builds) the check compiles away entirely, exactly like assert().
+#ifdef NDEBUG
+        constexpr bool DEBUG_CHECKS = false;
+#else
+        constexpr bool DEBUG_CHECKS = true;
+#endif
+
+        void debugCheck(bool condition, std::string_view message,
+                        std::source_location where = std::source_location::current()) {
+            if constexpr (DEBUG_CHECKS) {
+                if (!condition) {
+                    std::println(std::cerr, "{}:{}: {}: check failed: {}",
+                                 where.file_name(), where.line(), where.function_name(), message);
+                    std::abort();
+                }
+            }
+        }
+    } // namespace
 
     // --- Tuple Struct Implementations ---
     Tuple::Tuple() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
@@ -21,7 +38,7 @@ namespace rt {
     }
 
     Tuple Tuple::operator/(float scalar) const {
-        assert(scalar != 0.0f && "Attempted to divide a Tuple by zero");
+        debugCheck(scalar != 0.0f, "Attempted to divide a Tuple by zero");
         float scalar_inv = 1.0f / scalar;
         return {x * scalar_inv, y * scalar_inv, z * scalar_inv, w * scalar_inv};
     }
@@ -61,13 +78,13 @@ namespace rt {
     Point::Point() : Tuple(0.0f, 0.0f, 0.0f, 1.0f) {}
     Point::Point(float x, float y, float z) : Tuple(x, y, z, 1.0f) {}
     Point::Point(const Tuple& t) : Tuple(t) {
-        assert(equal(t.w, 1.0f));
+        debugCheck(equal(t.w, 1.0f), "A Point must have w = 1");
     }
 
     Vector::Vector() : Tuple(0.0f, 0.0f, 0.0f, 0.0f) {}
     Vector::Vector(float x, float y, float z) : Tuple(x, y, z, 0.0f) {}
     Vector::Vector(const Tuple& t) : Tuple(t) {
-        assert(equal(t.w, 0.0f));
+        debugCheck(equal(t.w, 0.0f), "A Vector must have w = 0");
     }
 
     // --- Geometry Overloads ---
@@ -108,7 +125,7 @@ namespace rt {
     }
 
     Vector operator/(const Vector& v, float scalar) {
-        assert(scalar != 0.0f && "Attempted to divide a Vector by zero");
+        debugCheck(scalar != 0.0f, "Attempted to divide a Vector by zero");
         float inv = 1.0f / scalar;
         return {v.x * inv, v.y * inv, v.z * inv};
     }

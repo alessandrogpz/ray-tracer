@@ -1,5 +1,3 @@
-module;
-#include <cmath>
 module rt.utils;
 
 import std;
