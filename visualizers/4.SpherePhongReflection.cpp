@@ -3,10 +3,7 @@
 // Showcases: Phong lighting model on a single sphere resting on an infinite floor plane.
 //
 
-#include <string>
-#include <chrono>
-#include <iostream>
-#include <numbers>
+import std;
 
 import rt.tuple;
 import rt.canvas;

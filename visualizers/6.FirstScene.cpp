@@ -1,11 +1,4 @@
-//
-// Created by aper on 27.06.26.
-//
-
-#include <string>
-#include <chrono>
-#include <iostream>
-#include <numbers>
+import std;
 
 import rt.tuple;
 import rt.canvas;

@@ -1,6 +1,4 @@
-#include <string>
-#include <chrono>
-#include <iostream>
+import std;
 
 import rt.utils;
 import rt.tuple;
