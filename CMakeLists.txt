@@ -40,6 +40,7 @@ target_sources(raytracer_core
         src/math/Tuple.cppm
         src/math/Matrix.cppm
         src/math/Transformations.cppm
+        src/math/Noise.cppm
         src/core/Colors.cppm
         src/core/Canvas.cppm
         src/scene/Sphere.cppm
@@ -51,10 +52,12 @@ target_sources(raytracer_core
         src/scene/World.cppm
         src/scene/Camera.cppm
         src/scene/Plane.cppm
+        src/scene/Patterns.cppm
   PRIVATE
         src/math/Utils.cpp
         src/math/Tuple.cpp
         src/math/Transformations.cpp
+        src/math/Noise.cpp
         src/core/Colors.cpp
         src/core/Canvas.cpp
         src/scene/Sphere.cpp
@@ -66,6 +69,7 @@ target_sources(raytracer_core
         src/scene/World.cpp
         src/scene/Camera.cpp
         src/scene/Plane.cpp
+        src/scene/Patterns.cpp
 )
 
 # Every module, test and visualizer that links raytracer_core can `import std;`
@@ -112,6 +116,8 @@ add_executable(run_tests
         tests/World.t.cpp
         tests/Camera.t.cpp
         tests/Plane.t.cpp
+        tests/Patterns.t.cpp
+        tests/Noise.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 

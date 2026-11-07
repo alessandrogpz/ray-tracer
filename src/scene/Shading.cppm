@@ -3,6 +3,7 @@ export module rt.shading;
 import rt.materials;
 import rt.colors;
 import rt.tuple;
+import rt.matrix;
 import rt.lights;
 
 export namespace rt {
@@ -13,9 +14,13 @@ export namespace rt {
      * Combines three lighting components: ambient (constant background light), diffuse
      * (matte reflection), and specular (glossy highlight) based on the angle of the light
      * source, the surface normal, and the camera eye position.
+     * If the material has a Pattern, the pattern's color at `point` replaces the
+     * material's flat color before any light is applied.
      * Conceptual overview: documentation/explanation/Architecture.md
+     * Pattern reference: documentation/explanation/Patterns.md
      *
      * @param material The Material properties of the illuminated surface.
+     * @param object_inverse The inverse transform of the shaded shape (world to object space), used to place its pattern.
      * @param light The PointLight source illuminating the scene.
      * @param point The 3D Point on the surface being shaded.
      * @param eye_vector The eye Vector pointing from the surface point back to the camera.
@@ -24,6 +29,7 @@ export namespace rt {
      * @return Color The final calculated Color contribution of the Phong reflection model at the given point.
     */
     [[nodiscard]] Color lighting(   const Material& material,
+                                    const Matrix<4>& object_inverse,
                                     const PointLight& light,
                                     const Point& point,
                                     const Vector& eye_vector,

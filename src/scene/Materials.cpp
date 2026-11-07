@@ -12,10 +12,11 @@ namespace rt {
 
     bool Material::operator==(const Material& other) const {
         return color == other.color &&
-               equal(ambient, other.ambient) &&
-               equal(diffuse, other.diffuse) &&
-               equal(specular, other.specular) &&
-               equal(shininess, other.shininess);
+            equal(ambient, other.ambient) &&
+            equal(diffuse, other.diffuse) &&
+            equal(specular, other.specular) &&
+            equal(shininess, other.shininess) &&
+            pattern == other.pattern;
     }
 
 } // namespace rt

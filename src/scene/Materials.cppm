@@ -1,6 +1,8 @@
 export module rt.materials;
 
+import std;
 import rt.colors;
+import rt.patterns;
 
 export namespace rt {
 
@@ -10,6 +12,7 @@ export namespace rt {
         float diffuse{0.9f};
         float specular{0.9f};
         float shininess{200.0f};
+        std::optional<Pattern> pattern{};
 
         Material();
         Material(Color _color, float _ambient, float _diffuse, float _specular, float _shininess);

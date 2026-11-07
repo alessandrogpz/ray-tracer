@@ -145,11 +145,30 @@ namespace rt
         }
     }
 
+    const Matrix<4>& get_transform_inverse(const World& w, ShapeType type, std::size_t index)
+    {
+        switch (type)
+        {
+            case ShapeType::Sphere:
+                return w.sphere_transforms_inverse[index];
+            case ShapeType::Plane:
+                return w.plane_transforms_inverse[index];
+            default:
+                throw std::runtime_error("Unknown shape type in get_transform_inverse");
+        }
+    }
+
     Color shade_hit(const World& w, const Comp& c)
     {
-        const Material& m = get_material(w, c.intersection.shape_type, c.intersection.shape_index);
+        const ShapeType type = c.intersection.shape_type;
+        const std::size_t index = c.intersection.shape_index;
+
+        const Material& m = get_material(w, type, index);
         const bool shadowed = is_shadowed(w, c.over_point);
-        return lighting(m, w.light, c.point, c.eye_v, c.normal_v, shadowed);
+
+        // Shade at over_point (nudged off the surface) so patterns like checkers on a
+        // y = 0 floor are sampled consistently instead of flickering from rounding
+        return lighting(m, get_transform_inverse(w, type, index), w.light, c.over_point, c.eye_v, c.normal_v, shadowed);
     }
 
     Color color_at(const World& w, const Ray& r)

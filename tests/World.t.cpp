@@ -11,6 +11,7 @@ import rt.transformations;
 import rt.ray;
 import rt.intersection;
 import rt.utils;
+import rt.patterns;
 
 using namespace rt;
 
@@ -241,4 +242,27 @@ TEST(Shadows, NoShadowWhenObjectBehindPoint)
     const bool has_shadow = is_shadowed(w, p);
 
     EXPECT_FALSE(has_shadow);
+}
+
+// ---------------------------------------------------
+// Patterns in the World
+
+TEST(WorldPatterns, ShadeHitPlacesPatternsWithTheShapeTransform)
+{
+    World w;
+    w.light = PointLight(Point(0.0f, 0.0f, -10.0f), Color(1.0f, 1.0f, 1.0f));
+
+    // A sphere scaled 2x: world x = 1.5 is object x = 0.75, inside the first (white) stripe.
+    // Without the object transform, x = 1.5 would fall in the second (black) stripe.
+    Sphere s;
+    s.set_transform(scale(2.0f, 2.0f, 2.0f));
+    s.material.pattern = stripe_pattern(Color(1.0f, 1.0f, 1.0f), Color(0.0f, 0.0f, 0.0f));
+    s.material.ambient = 1.0f;
+    s.material.diffuse = 0.0f;
+    s.material.specular = 0.0f;
+    w.add_sphere(s);
+
+    const Ray r(Point(1.5f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
+
+    EXPECT_EQ(color_at(w, r), Color(1.0f, 1.0f, 1.0f));
 }

@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 
+import std;
+
 import rt.materials;
 import rt.colors;
 
@@ -18,5 +20,5 @@ TEST(MaterialCreation, GenerateMaterial)
     EXPECT_EQ(m.diffuse, 0.9f);
     EXPECT_EQ(m.specular, 0.9f);
     EXPECT_EQ(m.shininess, 200.0f);
-
+    EXPECT_FALSE(m.pattern.has_value());
 }

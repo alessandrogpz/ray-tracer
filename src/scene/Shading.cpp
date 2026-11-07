@@ -5,12 +5,18 @@ import std;
 import rt.materials;
 import rt.colors;
 import rt.tuple;
+import rt.matrix;
 import rt.lights;
+import rt.patterns;
 
 namespace rt {
 
-    Color lighting(const Material& material, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector, const bool inShadow) {
-        Color effective_color = material.color * light.intensity;
+    Color lighting(const Material& material, const Matrix<4>& object_inverse, const PointLight& light, const Point& point, const Vector& eye_vector, const Vector& normal_vector, const bool inShadow) {
+        const Color surface_color = material.pattern
+            ? pattern_at_shape(*material.pattern, object_inverse, point)
+            : material.color;
+
+        Color effective_color = surface_color * light.intensity;
         Color ambient = effective_color * material.ambient;
 
         if (inShadow)
