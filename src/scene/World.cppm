@@ -55,8 +55,8 @@ export namespace rt
     struct Comp
     {
         Point point{};
-        Point over_point{};                 ///< Slightly above the surface; origin for shadow and reflection rays
-        Point under_point{};                ///< Slightly below the surface; origin for refraction rays
+        Point over_point{};                 ///< Slightly above the surface (by EPSILON, more far from the origin); origin for shadow and reflection rays
+        Point under_point{};                ///< Slightly below the surface (same offset); origin for refraction rays
         Vector eye_v{};
         Vector normal_v{};
         Vector reflect_v{};                 ///< The incoming ray reflected around the surface normal

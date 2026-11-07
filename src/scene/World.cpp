@@ -135,8 +135,13 @@ namespace rt
         }
 
         comps.reflect_v = reflect(r.direction, comps.normal_v);
-        comps.over_point = comps.point + comps.normal_v * EPSILON;
-        comps.under_point = comps.point - comps.normal_v * EPSILON;
+        // Nudge the point off the surface: EPSILON near the origin (exactly as in the book), growing
+        // with distance beyond 100 units so the nudge never becomes smaller than float spacing there.
+        // Reference: documentation/references/CoreMath.md (Comparing Floating-Point Numbers)
+        const float magnitude = std::max({std::abs(comps.point.x), std::abs(comps.point.y), std::abs(comps.point.z)});
+        const float offset = std::max(EPSILON, SURFACE_OFFSET_SCALE * magnitude);
+        comps.over_point = comps.point + comps.normal_v * offset;
+        comps.under_point = comps.point - comps.normal_v * offset;
 
         // Find the refractive indices on either side of the hit by tracking which
         // objects the ray has entered but not yet exited ("containers").

@@ -7,6 +7,10 @@ export namespace rt {
     /// Relative tolerance for comparing large floats: about 84 ULPs of single precision (machine epsilon ≈ 1.19e-7).
     constexpr float RELATIVE_EPSILON = 0.00001f;
 
+    /// How the over_point/under_point offset grows far from the origin: it stays EPSILON up to 100 units,
+    /// then scales with the coordinates so it always spans several float ULPs (no acne at any distance).
+    constexpr float SURFACE_OFFSET_SCALE = 0.000001f;
+
     /**
      * @brief Compares two floats for approximate equality with a combined absolute and relative tolerance.
      *
