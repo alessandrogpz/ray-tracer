@@ -149,6 +149,6 @@ Simulates a detailed L1/L2/L3 cache system to show exactly which line of code is
 ## 6. Key Takeaways for Ray Tracers
 
 1. **Compilation Mode:** Always profile in **`Release`** mode. Profiling `Debug` mode will show you std::vector boundary checks, lack of inlining, and call stack overhead, hiding the actual mathematical bottlenecks.
-2. **The C++ Module Math Gotcha:** If you see high self-time inside the standard library but low CPU performance, standard math functions (`std::sqrt`) imported through `import std;` might not be getting inlined as builtins. Restoring `#include <cmath>` in the global module fragment fixes this.
+2. **The C++ Module Math Gotcha:** Older compilers did not always inline standard math functions (`std::sqrt`) imported through `import std;` as builtins, which showed up as high self-time inside the standard library. With current compilers this no longer happens: in Release builds GCC 16 and Clang 23 generate identical machine code with `import std;` alone, so the project no longer includes `<cmath>`. If a profile on an older toolchain shows `sqrtf`/`powf` as real calls in hot loops, compare the disassembly (`objdump -dr`) with and without `#include <cmath>` before restoring it.
 3. **Data-Oriented Design (DOD):** High L3 cache misses (`LLC-load-misses` or `l2_cache_misses_from_dc_misses`) indicate pointer chasing (following pointers like `unique_ptr<Shape>`). Flattening shapes into contiguous vectors (`std::vector<Sphere>`) eliminates this.
 

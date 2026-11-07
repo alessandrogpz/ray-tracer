@@ -16,7 +16,7 @@ This project uses **C++23 named modules** and strictly separates every module in
 Keeping declarations and definitions in separate files mirrors the classical header/source split that C++ developers are familiar with, while fully leveraging the module system:
 
 - **Consumers only see the interface.** Any file that writes `import rt.utils;` compiles against `Utils.cppm` alone — it never touches the `.cpp`.
-- **Implementation details stay private.** Helper types, `#include`s for C standard headers (e.g. `#include <cmath>`), and internal logic live only in the `.cpp` and are invisible to importers.
+- **Implementation details stay private.** Helper types and internal logic live only in the `.cpp` and are invisible to importers.
 - **Faster incremental builds.** Changing a function body in the `.cpp` does not invalidate the compiled module interface (BMI), so dependent translation units do not need to recompile.
 
 ### Anatomy of a split module
@@ -35,11 +35,9 @@ export namespace rt {
 
 **`src/math/Utils.cpp`** — implementation unit:
 ```cpp
-module;                          // global module fragment — legacy #includes go here
-#include <cmath>
 module rt.utils;                 // attaches this TU to the module (no 'export')
 
-import std;
+import std;                      // the whole standard library, including <cmath> functions
 
 namespace rt {
     bool equal(const float a, const float b)  // definition
@@ -53,10 +51,22 @@ namespace rt {
 
 1. Create `<Name>.cppm` with `export module rt.<name>;` and only **declarations** (+ `export` on every public symbol).
 2. Create `<Name>.cpp` with `module rt.<name>;` (no `export`) and all **definitions**.
-3. Any C-library `#include` directives belong in the `module;` global fragment at the top of the `.cpp`, never in the `.cppm`.
+3. Use `import std;` for the standard library instead of `#include`. It provides every standard function and type (including `<cmath>`'s `std::sqrt`, `std::pow`, ...), so no global module fragment (`module;` + `#include`) is needed. See [No `#include`s](#no-includes-import-std-only) below.
 4. Register both files in `CMakeLists.txt` under `target_sources(raytracer_core ...)` — the `.cppm` with `FILE_SET CXX_MODULES`, the `.cpp` as a regular source.
 
 > **See also:** [C++ Module & Build Architecture](C++Architecture.md) for the CMake configuration that wires this up.
+
+### No `#include`s: `import std` Only
+
+The project uses `import std;` everywhere: modules, implementation units, visualizers, and tests. The only `#include` left is `<gtest/gtest.h>` in the test files, because GoogleTest is not a module and its `TEST`/`EXPECT_*` are macros.
+
+Modules cannot export macros, so standard macros such as `assert` are not available through `import std;`. Use a function instead. `Tuple.cpp`'s private `debugCheck(condition, message)` is the replacement for `assert`:
+
+- It reports the failing file, line, and function via `std::source_location` and calls `std::abort()`.
+- It is compiled out when `NDEBUG` is defined (Release builds), just like `assert`. Testing `NDEBUG` is a preprocessor check of a command-line define, not an include.
+
+> [!NOTE]
+> Dropping `#include <cmath>` costs no performance: with Release flags, GCC 16 and Clang 23 generate identical machine code for `std::sqrt`/`std::pow` whether they come from `<cmath>` or from `import std;`.
 
 ---
 

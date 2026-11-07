@@ -10,9 +10,11 @@ Tests are located in the `tests/` directory. If you are adding a new feature or 
    Open the appropriate `.cpp` file in the `tests/` directory (e.g., `tests/Tuple.t.cpp`).
 
 2. **Include Dependencies**
-   Ensure you include the GoogleTest header and the header for the code you are testing.
+   Include the GoogleTest header (the only `#include` in the project, since GoogleTest is not a module), then import the standard library and the module you are testing.
    ```cpp
    #include <gtest/gtest.h>
+
+   import std;
    import rt.tuple; // Replace with your module
    ```
 
