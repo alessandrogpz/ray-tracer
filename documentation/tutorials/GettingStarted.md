@@ -5,7 +5,7 @@ By the end of this tutorial, you will have successfully cloned the repository, c
 ## Prerequisites
 
 Before we begin, ensure your system has the following tools installed:
-- A modern C++ compiler supporting C++23 standard library modules (e.g., GCC 14+, Clang 18.1+, or MSVC).
+- A modern C++ compiler whose standard library ships the C++23 `std` module (GCC 15+, Clang 18.1.2+ with libc++, or MSVC from Visual Studio 2022 17.6+).
 - **CMake** (version 3.28 or higher, required for C++ Modules).
 - **Ninja** build system (required by CMake for C++ Modules).
 - **GoogleTest** (gtest) for building and running the test suite.

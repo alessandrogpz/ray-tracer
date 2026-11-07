@@ -145,10 +145,25 @@ To prevent C++ compiler deadlock (cyclic dependency loops), we separate function
 
 The project builds via **CMake (3.28+)** and the **Ninja** generator. The build tree is divided into:
 
-1. **`raytracer_core` (Static Library)**:
+1. **`std_module` (Static Library)**:
+   - The C++23 standard library module that `import std;` refers to, built from the toolchain's own module source. Defined in [`cmake/StdModule.cmake`](../../cmake/StdModule.cmake).
+   - Linked `PUBLIC` into `raytracer_core`, so every module, test, and visualizer can `import std;`.
+2. **`raytracer_core` (Static Library)**:
    - A compiled static library containing all C++ module interfaces (`src/**/*.cppm`) and their corresponding implementations (`src/**/*.cpp`). 
    - All tests and visualizer executables link against this core library.
-2. **`run_tests` (Google Test Executable)**:
+3. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
-3. **Visualizer Executables**:
-   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.ConsoleIntersectionCheck`, `4.SphereShadow`, `5.MultipleSphereShadows`, `6.SpherePhongReflection`, `7.MultipleSpherePhongReflections`, `8.FirstScene`, `9.PlaneScene`) that link against `raytracer_core`.
+4. **Visualizer Executables**:
+   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereRayCast`, `4.SpherePhongReflection`, `5.MultipleSpherePhongReflections`, `6.FirstScene`, `7.MatrixTransformations`) that link against `raytracer_core`.
+
+### How `std_module` Is Built
+
+CMake's built-in `import std` support (`CMAKE_CXX_MODULE_STD`) is still experimental and must be unlocked with a UUID that changes with every CMake release. Instead, `cmake/StdModule.cmake` uses only stable module support:
+
+1. **Find the manifest.** Every toolchain that supports `import std` ships a JSON "modules manifest" describing where its `std` module source is.
+   - **GCC / Clang:** a test compile checks for `_LIBCPP_VERSION` to tell libc++ from libstdc++, then `<compiler> -print-file-name=libc++.modules.json` (or `libstdc++.modules.json`) returns its path.
+   - **MSVC:** `modules.json` is searched in `$VCToolsInstallDir/modules` and next to the `cl.exe` toolset (the same places CMake itself looks). Both the standard format and Microsoft's own `module-sources` format are understood.
+2. **Read it.** The manifest gives the source file (`bits/std.cc`, `std.cppm`, or `std.ixx`) and, for libc++, extra include directories.
+3. **Compile it** as the `std_module` target with a `CXX_MODULES` file set and `cxx_std_23`.
+
+On Clang, `-Wno-reserved-module-identifier` is added `PUBLIC`ly: the library's own `export module std;` triggers a "reserved name" warning, and Clang recompiles the std module with each importer's flags (including `raytracer_core`'s `-Werror`).
