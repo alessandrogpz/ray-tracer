@@ -255,3 +255,12 @@ TEST(SphereMaterial, SphereAssignedMaterial)
 
     EXPECT_EQ(s.material, m);
 }
+
+TEST(SphereMaterial, AHelperForProducingASphereWithAGlassyMaterial)
+{
+    const Sphere s = glass_sphere();
+
+    EXPECT_EQ(s.get_transform(), identity());
+    EXPECT_FLOAT_EQ(s.material.transparency, 1.0f);
+    EXPECT_FLOAT_EQ(s.material.refractive_index, 1.5f);
+}

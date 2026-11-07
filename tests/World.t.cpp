@@ -12,6 +12,7 @@ import rt.ray;
 import rt.intersection;
 import rt.utils;
 import rt.patterns;
+import rt.plane;
 
 using namespace rt;
 
@@ -265,4 +266,366 @@ TEST(WorldPatterns, ShadeHitPlacesPatternsWithTheShapeTransform)
     const Ray r(Point(1.5f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
 
     EXPECT_EQ(color_at(w, r), Color(1.0f, 1.0f, 1.0f));
+}
+
+// ---------------------------------------------------
+// Reflection
+
+constexpr float SQRT2 = std::numbers::sqrt2_v<float>;
+
+TEST(Reflection, PrecomputingTheReflectionVector)
+{
+    World w;
+    w.add_plane(Plane());
+    const Ray r(Point(0.0f, 1.0f, -1.0f), Vector(0.0f, -SQRT2 / 2.0f, SQRT2 / 2.0f));
+    const Intersection i(SQRT2, 0, ShapeType::Plane);
+
+    const Comp comps = prepare_computation(i, r, w);
+
+    EXPECT_EQ(comps.reflect_v, Vector(0.0f, SQRT2 / 2.0f, SQRT2 / 2.0f));
+}
+
+TEST(Reflection, TheReflectedColorForANonreflectiveMaterial)
+{
+    World w = default_world();
+    const Ray r(Point(0.0f, 0.0f, 0.0f), Vector(0.0f, 0.0f, 1.0f));
+    w.sphere_materials[1].ambient = 1.0f;
+    const Intersection i(1.0f, 1, ShapeType::Sphere);
+
+    const Comp comps = prepare_computation(i, r, w);
+    const Color color = reflected_color(w, comps);
+
+    EXPECT_EQ(color, Color(0.0f, 0.0f, 0.0f));
+}
+
+TEST(Reflection, TheReflectedColorForAReflectiveMaterial)
+{
+    World w = default_world();
+    Plane shape;
+    shape.material.reflective = 0.5f;
+    shape.set_transform(translation(0.0f, -1.0f, 0.0f));
+    w.add_plane(shape);
+    const Ray r(Point(0.0f, 0.0f, -3.0f), Vector(0.0f, -SQRT2 / 2.0f, SQRT2 / 2.0f));
+    const Intersection i(SQRT2, 0, ShapeType::Plane);
+
+    const Comp comps = prepare_computation(i, r, w);
+    const Color color = reflected_color(w, comps);
+
+    EXPECT_EQ(color, Color(0.19032f, 0.2379f, 0.14274f));
+}
+
+TEST(Reflection, ShadeHitWithAReflectiveMaterial)
+{
+    World w = default_world();
+    Plane shape;
+    shape.material.reflective = 0.5f;
+    shape.set_transform(translation(0.0f, -1.0f, 0.0f));
+    w.add_plane(shape);
+    const Ray r(Point(0.0f, 0.0f, -3.0f), Vector(0.0f, -SQRT2 / 2.0f, SQRT2 / 2.0f));
+    const Intersection i(SQRT2, 0, ShapeType::Plane);
+
+    const Comp comps = prepare_computation(i, r, w);
+    const Color color = shade_hit(w, comps);
+
+    EXPECT_EQ(color, Color(0.87677f, 0.92436f, 0.82918f));
+}
+
+TEST(Reflection, ColorAtWithMutuallyReflectiveSurfaces)
+{
+    World w;
+    w.light = PointLight(Point(0.0f, 0.0f, 0.0f), Color(1.0f, 1.0f, 1.0f));
+
+    Plane lower;
+    lower.material.reflective = 1.0f;
+    lower.set_transform(translation(0.0f, -1.0f, 0.0f));
+    w.add_plane(lower);
+
+    Plane upper;
+    upper.material.reflective = 1.0f;
+    upper.set_transform(translation(0.0f, 1.0f, 0.0f));
+    w.add_plane(upper);
+
+    const Ray r(Point(0.0f, 0.0f, 0.0f), Vector(0.0f, 1.0f, 0.0f));
+
+    // Terminates (instead of overflowing the stack) because recursion is bounded
+    const Color c = color_at(w, r);
+    EXPECT_GT(c.r, 0.0f);
+}
+
+TEST(Reflection, TheReflectedColorAtTheMaximumRecursiveDepth)
+{
+    World w = default_world();
+    Plane shape;
+    shape.material.reflective = 0.5f;
+    shape.set_transform(translation(0.0f, -1.0f, 0.0f));
+    w.add_plane(shape);
+    const Ray r(Point(0.0f, 0.0f, -3.0f), Vector(0.0f, -SQRT2 / 2.0f, SQRT2 / 2.0f));
+    const Intersection i(SQRT2, 0, ShapeType::Plane);
+
+    const Comp comps = prepare_computation(i, r, w);
+    const Color color = reflected_color(w, comps, 0);
+
+    EXPECT_EQ(color, Color(0.0f, 0.0f, 0.0f));
+}
+
+// ---------------------------------------------------
+// Transparency and Refraction
+
+TEST(Refraction, FindingN1AndN2AtVariousIntersections)
+{
+    World w;
+
+    Sphere a = glass_sphere();
+    a.set_transform(scale(2.0f, 2.0f, 2.0f));
+    a.material.refractive_index = 1.5f;
+    w.add_sphere(a);
+
+    Sphere b = glass_sphere();
+    b.set_transform(translation(0.0f, 0.0f, -0.25f));
+    b.material.refractive_index = 2.0f;
+    w.add_sphere(b);
+
+    Sphere c = glass_sphere();
+    c.set_transform(translation(0.0f, 0.0f, 0.25f));
+    c.material.refractive_index = 2.5f;
+    w.add_sphere(c);
+
+    const Ray r(Point(0.0f, 0.0f, -4.0f), Vector(0.0f, 0.0f, 1.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(2.0f, 0, ShapeType::Sphere),
+        Intersection(2.75f, 1, ShapeType::Sphere),
+        Intersection(3.25f, 2, ShapeType::Sphere),
+        Intersection(4.75f, 1, ShapeType::Sphere),
+        Intersection(5.25f, 2, ShapeType::Sphere),
+        Intersection(6.0f, 0, ShapeType::Sphere),
+    };
+
+    struct Example { std::size_t index; float n1; float n2; };
+    const std::array<Example, 6> examples = {{
+        {0, 1.0f, 1.5f},
+        {1, 1.5f, 2.0f},
+        {2, 2.0f, 2.5f},
+        {3, 2.5f, 2.5f},
+        {4, 2.5f, 1.5f},
+        {5, 1.5f, 1.0f},
+    }};
+
+    for (const Example& e : examples)
+    {
+        const Comp comps = prepare_computation(xs[e.index], r, w, xs);
+        EXPECT_FLOAT_EQ(comps.n1, e.n1) << "at intersection " << e.index;
+        EXPECT_FLOAT_EQ(comps.n2, e.n2) << "at intersection " << e.index;
+    }
+}
+
+TEST(Refraction, TheUnderPointIsOffsetBelowTheSurface)
+{
+    World w;
+    Sphere shape = glass_sphere();
+    shape.set_transform(translation(0.0f, 0.0f, 1.0f));
+    w.add_sphere(shape);
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
+    const Intersection i(5.0f, 0, ShapeType::Sphere);
+    const std::vector<Intersection> xs = {i};
+
+    const Comp comps = prepare_computation(i, r, w, xs);
+
+    EXPECT_GT(comps.under_point.z, EPSILON / 2.0f);
+    EXPECT_LT(comps.point.z, comps.under_point.z);
+}
+
+TEST(Refraction, TheRefractedColorWithAnOpaqueSurface)
+{
+    const World w = default_world();
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(4.0f, 0, ShapeType::Sphere),
+        Intersection(6.0f, 0, ShapeType::Sphere),
+    };
+
+    const Comp comps = prepare_computation(xs[0], r, w, xs);
+    const Color c = refracted_color(w, comps, 5);
+
+    EXPECT_EQ(c, Color(0.0f, 0.0f, 0.0f));
+}
+
+TEST(Refraction, TheRefractedColorAtTheMaximumRecursiveDepth)
+{
+    World w = default_world();
+    w.sphere_materials[0].transparency = 1.0f;
+    w.sphere_materials[0].refractive_index = 1.5f;
+    const Ray r(Point(0.0f, 0.0f, -5.0f), Vector(0.0f, 0.0f, 1.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(4.0f, 0, ShapeType::Sphere),
+        Intersection(6.0f, 0, ShapeType::Sphere),
+    };
+
+    const Comp comps = prepare_computation(xs[0], r, w, xs);
+    const Color c = refracted_color(w, comps, 0);
+
+    EXPECT_EQ(c, Color(0.0f, 0.0f, 0.0f));
+}
+
+TEST(Refraction, TheRefractedColorUnderTotalInternalReflection)
+{
+    World w = default_world();
+    w.sphere_materials[0].transparency = 1.0f;
+    w.sphere_materials[0].refractive_index = 1.5f;
+    const Ray r(Point(0.0f, 0.0f, SQRT2 / 2.0f), Vector(0.0f, 1.0f, 0.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(-SQRT2 / 2.0f, 0, ShapeType::Sphere),
+        Intersection(SQRT2 / 2.0f, 0, ShapeType::Sphere),
+    };
+
+    // Inside the sphere, so the hit is the second intersection
+    const Comp comps = prepare_computation(xs[1], r, w, xs);
+    const Color c = refracted_color(w, comps, 5);
+
+    EXPECT_EQ(c, Color(0.0f, 0.0f, 0.0f));
+}
+
+TEST(Refraction, TheRefractedColorWithARefractedRay)
+{
+    World w = default_world();
+    w.sphere_materials[0].ambient = 1.0f;
+    w.sphere_materials[0].pattern = test_pattern();
+    w.sphere_materials[1].transparency = 1.0f;
+    w.sphere_materials[1].refractive_index = 1.5f;
+    const Ray r(Point(0.0f, 0.0f, 0.1f), Vector(0.0f, 1.0f, 0.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(-0.9899f, 0, ShapeType::Sphere),
+        Intersection(-0.4899f, 1, ShapeType::Sphere),
+        Intersection(0.4899f, 1, ShapeType::Sphere),
+        Intersection(0.9899f, 0, ShapeType::Sphere),
+    };
+
+    const Comp comps = prepare_computation(xs[2], r, w, xs);
+    const Color c = refracted_color(w, comps, 5);
+
+    EXPECT_EQ(c, Color(0.0f, 0.99888f, 0.04725f));
+}
+
+TEST(Refraction, ShadeHitWithATransparentMaterial)
+{
+    World w = default_world();
+
+    Plane floor_plane;
+    floor_plane.set_transform(translation(0.0f, -1.0f, 0.0f));
+    floor_plane.material.transparency = 0.5f;
+    floor_plane.material.refractive_index = 1.5f;
+    w.add_plane(floor_plane);
+
+    Sphere ball;
+    ball.material.color = Color(1.0f, 0.0f, 0.0f);
+    ball.material.ambient = 0.5f;
+    ball.set_transform(translation(0.0f, -3.5f, -0.5f));
+    w.add_sphere(ball);
+
+    const Ray r(Point(0.0f, 0.0f, -3.0f), Vector(0.0f, -SQRT2 / 2.0f, SQRT2 / 2.0f));
+    const std::vector<Intersection> xs = {Intersection(SQRT2, 0, ShapeType::Plane)};
+
+    const Comp comps = prepare_computation(xs[0], r, w, xs);
+    const Color color = shade_hit(w, comps, 5);
+
+    EXPECT_EQ(color, Color(0.93642f, 0.68642f, 0.68642f));
+}
+
+// ---------------------------------------------------
+// Fresnel Effect
+
+TEST(Fresnel, TheSchlickApproximationUnderTotalInternalReflection)
+{
+    World w;
+    w.add_sphere(glass_sphere());
+    const Ray r(Point(0.0f, 0.0f, SQRT2 / 2.0f), Vector(0.0f, 1.0f, 0.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(-SQRT2 / 2.0f, 0, ShapeType::Sphere),
+        Intersection(SQRT2 / 2.0f, 0, ShapeType::Sphere),
+    };
+
+    const Comp comps = prepare_computation(xs[1], r, w, xs);
+    const float reflectance = schlick(comps);
+
+    EXPECT_FLOAT_EQ(reflectance, 1.0f);
+}
+
+TEST(Fresnel, TheSchlickApproximationWithAPerpendicularViewingAngle)
+{
+    World w;
+    w.add_sphere(glass_sphere());
+    const Ray r(Point(0.0f, 0.0f, 0.0f), Vector(0.0f, 1.0f, 0.0f));
+    const std::vector<Intersection> xs = {
+        Intersection(-1.0f, 0, ShapeType::Sphere),
+        Intersection(1.0f, 0, ShapeType::Sphere),
+    };
+
+    const Comp comps = prepare_computation(xs[1], r, w, xs);
+    const float reflectance = schlick(comps);
+
+    EXPECT_TRUE(equal(reflectance, 0.04f));
+}
+
+TEST(Fresnel, TheSchlickApproximationWithSmallAngleAndN2GreaterThanN1)
+{
+    World w;
+    w.add_sphere(glass_sphere());
+    const Ray r(Point(0.0f, 0.99f, -2.0f), Vector(0.0f, 0.0f, 1.0f));
+    const std::vector<Intersection> xs = {Intersection(1.8589f, 0, ShapeType::Sphere)};
+
+    const Comp comps = prepare_computation(xs[0], r, w, xs);
+    const float reflectance = schlick(comps);
+
+    EXPECT_NEAR(reflectance, 0.48873f, 0.0005f);
+}
+
+TEST(Fresnel, ShadeHitWithAReflectiveTransparentMaterial)
+{
+    World w = default_world();
+    const Ray r(Point(0.0f, 0.0f, -3.0f), Vector(0.0f, -SQRT2 / 2.0f, SQRT2 / 2.0f));
+
+    Plane floor_plane;
+    floor_plane.set_transform(translation(0.0f, -1.0f, 0.0f));
+    floor_plane.material.reflective = 0.5f;
+    floor_plane.material.transparency = 0.5f;
+    floor_plane.material.refractive_index = 1.5f;
+    w.add_plane(floor_plane);
+
+    Sphere ball;
+    ball.material.color = Color(1.0f, 0.0f, 0.0f);
+    ball.material.ambient = 0.5f;
+    ball.set_transform(translation(0.0f, -3.5f, -0.5f));
+    w.add_sphere(ball);
+
+    const std::vector<Intersection> xs = {Intersection(SQRT2, 0, ShapeType::Plane)};
+
+    const Comp comps = prepare_computation(xs[0], r, w, xs);
+    const Color color = shade_hit(w, comps, 5);
+
+    EXPECT_EQ(color, Color(0.93391f, 0.69643f, 0.69243f));
+}
+
+// ---------------------------------------------------
+// Opting Out of Shadows (the chapter's closing challenge)
+
+TEST(Shadows, AnObjectThatDoesNotCastShadowsLetsLightThrough)
+{
+    World w = default_world();
+    w.sphere_materials[0].casts_shadow = false;
+    w.sphere_materials[1].casts_shadow = false;
+
+    // Behind both default spheres from the light's point of view
+    const Point p(10.0f, -10.0f, 10.0f);
+
+    EXPECT_FALSE(is_shadowed(w, p));
+}
+
+TEST(Shadows, AShadowCasterBehindANonCastingObjectStillBlocksTheLight)
+{
+    World w = default_world();
+    // Only the outer sphere opts out; the inner one still blocks the light
+    w.sphere_materials[0].casts_shadow = false;
+
+    const Point p(10.0f, -10.0f, 10.0f);
+
+    EXPECT_TRUE(is_shadowed(w, p));
 }

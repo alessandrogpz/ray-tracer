@@ -89,4 +89,11 @@ namespace rt {
         return normalizeVector(world_normal);
     }
 
+    Sphere glass_sphere() {
+        Sphere s;
+        s.material.transparency = 1.0f;
+        s.material.refractive_index = 1.5f;
+        return s;
+    }
+
 } // namespace rt

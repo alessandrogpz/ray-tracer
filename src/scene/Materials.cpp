@@ -16,6 +16,10 @@ namespace rt {
             equal(diffuse, other.diffuse) &&
             equal(specular, other.specular) &&
             equal(shininess, other.shininess) &&
+            equal(reflective, other.reflective) &&
+            equal(transparency, other.transparency) &&
+            equal(refractive_index, other.refractive_index) &&
+            casts_shadow == other.casts_shadow &&
             pattern == other.pattern;
     }
 

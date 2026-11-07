@@ -43,4 +43,13 @@ export namespace rt {
     void intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0);
     [[nodiscard]] Vector normalAt(const Sphere& s, const Point& p);
 
+    /**
+     * @brief Creates a unit Sphere with a fully transparent, glass-like Material.
+     *
+     * Transparency is set to 1.0 and the refractive index to 1.5 (glass).
+     *
+     * @return Sphere A glass sphere centered at the origin with an identity transform.
+     */
+    [[nodiscard]] Sphere glass_sphere();
+
 } // namespace rt
