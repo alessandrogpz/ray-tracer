@@ -2,7 +2,7 @@
 // 09.ReflectionRefraction.cpp
 // Showcases: Chapter 11 materials — a glossy reflective floor, a mirror sphere,
 // a glass sphere with an air bubble (Fresnel-blended reflection and refraction),
-// and tinted glass, all reflecting and refracting a patterned room.
+// and tinted glass, all reflecting and refracting a softly patterned room.
 //
 
 import std;
@@ -33,28 +33,47 @@ int main()
 
     // ── Room ──────────────────────────────────────────────────────────────────
 
-    // Floor — checkers with a subtle glossy reflection
+    // The room's patterns are deliberately quiet: just enough structure for the glass's
+    // distortion to read, so the reflections and refractions stay the focus.
+
+    // Floor — soft grey checkers with a subtle glossy reflection
     Plane floor_plane;
-    floor_plane.material.pattern    = checkers_pattern(Color(0.85f, 0.85f, 0.88f), Color(0.10f, 0.12f, 0.18f));
+    floor_plane.material.pattern    = checkers_pattern(Color(0.86f, 0.86f, 0.88f), Color(0.62f, 0.64f, 0.68f));
     floor_plane.material.reflective = 0.3f;
     floor_plane.material.specular   = 0.3f;
     w.add_plane(floor_plane);
 
-    // Back wall — vertical stripes, which make the glass's distortion easy to see
+    // Back wall — wide, low-contrast vertical stripes that the glass visibly bends
     Plane back_wall;
     back_wall.set_transform(translation(0.0f, 0.0f, 8.0f) * rotation_x(PI / 2.0f));
-    Pattern wall_stripes = stripe_pattern(Color(0.95f, 0.80f, 0.55f), Color(0.80f, 0.35f, 0.30f));
-    wall_stripes.set_transform(scale(0.5f, 0.5f, 0.5f));
+    Pattern wall_stripes = stripe_pattern(Color(0.94f, 0.91f, 0.85f), Color(0.84f, 0.79f, 0.72f));
     back_wall.material.pattern  = wall_stripes;
     back_wall.material.specular = 0.0f;
     w.add_plane(back_wall);
 
-    // Left wall — rings
+    // Left wall — a plain soft blue
     Plane left_wall;
     left_wall.set_transform(translation(-8.0f, 0.0f, 0.0f) * rotation_z(PI / 2.0f));
-    left_wall.material.pattern  = ring_pattern(Color(0.40f, 0.60f, 0.85f), Color(0.85f, 0.90f, 0.95f));
+    left_wall.material.color    = Color(0.70f, 0.78f, 0.88f);
     left_wall.material.specular = 0.0f;
     w.add_plane(left_wall);
+
+    // Wall behind the camera and a sky overhead — only visible in reflections, so the
+    // mirror shows a room instead of empty black space
+    Plane rear_wall;
+    rear_wall.set_transform(translation(0.0f, 0.0f, -14.0f) * rotation_x(PI / 2.0f));
+    rear_wall.material.color    = Color(0.88f, 0.84f, 0.78f);
+    rear_wall.material.specular = 0.0f;
+    w.add_plane(rear_wall);
+
+    Plane sky;
+    sky.set_transform(translation(0.0f, 30.0f, 0.0f));
+    sky.material.color        = Color(0.60f, 0.75f, 0.92f);
+    sky.material.ambient      = 0.8f;
+    sky.material.diffuse      = 0.2f;
+    sky.material.specular     = 0.0f;
+    sky.material.casts_shadow = false;
+    w.add_plane(sky);
 
     // ── Spheres ───────────────────────────────────────────────────────────────
 
