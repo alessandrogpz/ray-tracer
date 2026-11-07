@@ -122,6 +122,7 @@ add_executable(run_tests
         tests/Plane.t.cpp
         tests/Patterns.t.cpp
         tests/Noise.t.cpp
+        tests/FloatStability.t.cpp
 )
 target_link_libraries(run_tests PRIVATE raytracer_core GTest::gtest GTest::gtest_main)
 
