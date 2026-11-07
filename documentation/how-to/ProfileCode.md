@@ -41,13 +41,13 @@ Displays high-level CPU hardware performance counters for a single program run.
 
 ```bash
 # 1. Standard hardware counter summary
-perf stat ./cmake-build-release/6.MultipleSpherePhongReflections
+perf stat ./cmake-build-release/05.MultipleSpherePhongReflections
 
 # 2. Detailed cache-miss analysis (L1 vs Last Level Cache)
-perf stat -e cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses ./cmake-build-release/6.MultipleSpherePhongReflections
+perf stat -e cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses ./cmake-build-release/05.MultipleSpherePhongReflections
 
 # 3. For AMD Zen/Ryzen architectures (if LLC counters return <not supported>):
-perf stat -e l1-dcache-loads,l1-dcache-load-misses,l2_cache_accesses_from_dc_misses,l2_cache_misses_from_dc_misses ./cmake-build-release/6.MultipleSpherePhongReflections
+perf stat -e l1-dcache-loads,l1-dcache-load-misses,l2_cache_accesses_from_dc_misses,l2_cache_misses_from_dc_misses ./cmake-build-release/05.MultipleSpherePhongReflections
 ```
 
 ### `perf record` & `perf report` (Deep CPU Profiling)
@@ -55,7 +55,7 @@ Records sample stacks to a file to show exactly where CPU execution spent its ti
 
 ```bash
 # 1. Record call stacks (-g tells it to collect call graphs)
-perf record -g ./cmake-build-release/6.MultipleSpherePhongReflections
+perf record -g ./cmake-build-release/05.MultipleSpherePhongReflections
 
 # 2. Open interactive terminal user interface (TUI) report
 perf report

@@ -167,7 +167,7 @@ The project builds via **CMake (3.28+)** and the **Ninja** generator. The build 
 3. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
 4. **Visualizer Executables**:
-   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereRayCast`, `4.SpherePhongReflection`, `5.MultipleSpherePhongReflections`, `6.FirstScene`, `7.MatrixTransformations`, `8.StripePattern`, `9.ReflectionRefraction`) that link against `raytracer_core`.
+   - Standalone graphic demo binaries (`01.ProjectTrajectory` … `09.ReflectionRefraction`, plus `99.Showcase`, which always comes last and combines every feature) that link against `raytracer_core`. They are numbered with two digits so they sort in order.
 
 ### How `std_module` Is Built
 

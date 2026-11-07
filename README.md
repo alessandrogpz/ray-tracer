@@ -6,9 +6,9 @@ This is a C++ implementation of a 3D Ray tracer, built from scratch following te
 
 This project simulates light rays to render 3D scenes. It's built for performance and educational purposes, adhering strictly to modern C++ standards.
 
-![Ray Tracer showcase — matrix transformations scene](renders/7.MatrixTransformations.png)
+![Ray Tracer showcase — glass, mirror, and patterned spheres](renders/99.Showcase.png)
 
-> Six spheres, each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined transforms, and scale-down), rendered at QHD (2560×1440) with Phong shading and hard shadows.  
+> A glass sphere refracting the room with Fresnel-blended reflections, a mirror sphere, Perlin-perturbed marble, a gradient, a ring-grained disc squashed by a non-uniform scale, and a glossy checkered floor, rendered at QHD (2560×1440) with Phong shading and hard shadows. It comes from [`99.Showcase`](visualizers/99.Showcase.cpp), which always combines everything the ray tracer can currently do.  
 > All rendered examples are collected in the [`renders/`](renders/) folder.
 
 
@@ -45,17 +45,21 @@ Documentation of this project is structured using the [Diátaxis framework](http
 
 ## Visualizer Demos
 
-The project includes a suite of example programs in [`visualizers/`](visualizers/) ordered by increasing complexity. Rendered output images are collected in [`renders/`](renders/).
+The project includes a suite of example programs in [`visualizers/`](visualizers/) ordered by increasing complexity (numbered with two digits so they sort correctly). Rendered output images are collected in [`renders/`](renders/).
 
-1. **`1.ProjectTrajectory`**: Plots a 2D projectile path under gravity and wind forces onto a canvas.
-2. **`2.ClockMarkers`**: Draws twelve clock-hour markers using 2D rotation transformation matrices.
-3. **`3.SphereRayCast`**: Renders a raw ray-cast silhouette of a sphere — showcasing the fundamental intersection algorithm with no shading.
-4. **`4.SpherePhongReflection`**: A single sphere shaded with the full Phong reflection model, resting on an infinite floor plane.
-5. **`5.MultipleSpherePhongReflections`**: Three spheres of different sizes and materials shaded under Phong lighting, resting on an infinite floor plane.
-6. **`6.FirstScene`**: A full perspective-camera scene featuring three spheres casting shadows onto an infinite floor plane and two angled wall planes.
-7. **`7.MatrixTransformations`**: Six spheres each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined, scale-down) in a single scene with floor and wall planes.
-8. **`8.StripePattern`**: Stripes in every form: plain stripes that follow their sphere, stripes with their own pattern transform, nested patterns (checkers of perpendicular stripes, stripes made of stripes), and stripes perturbed by Perlin noise.
-9. **`9.ReflectionRefraction`**: A glossy floor, a mirror sphere, a glass sphere with an air bubble (Fresnel-blended), and tinted glass, reflecting and refracting a patterned room.
+1. **`01.ProjectTrajectory`**: Plots a 2D projectile path under gravity and wind forces onto a canvas.
+2. **`02.ClockMarkers`**: Draws twelve clock-hour markers using 2D rotation transformation matrices.
+3. **`03.SphereRayCast`**: Renders a raw ray-cast silhouette of a sphere — showcasing the fundamental intersection algorithm with no shading.
+4. **`04.SpherePhongReflection`**: A single sphere shaded with the full Phong reflection model, resting on an infinite floor plane.
+5. **`05.MultipleSpherePhongReflections`**: Three spheres of different sizes and materials shaded under Phong lighting, resting on an infinite floor plane.
+6. **`06.FirstScene`**: A full perspective-camera scene featuring three spheres casting shadows onto an infinite floor plane and two angled wall planes.
+7. **`07.MatrixTransformations`**: Six spheres each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined, scale-down) in a single scene with floor and wall planes.
+8. **`08.StripePattern`**: Stripes in every form: plain stripes that follow their sphere, stripes with their own pattern transform, nested patterns (checkers of perpendicular stripes, stripes made of stripes), and stripes perturbed by Perlin noise.
+9. **`09.ReflectionRefraction`**: A glossy floor, a mirror sphere, a glass sphere with an air bubble (Fresnel-blended), and tinted glass, reflecting and refracting a softly patterned room.
+
+The last visualizer is always the showcase, so new demos are numbered before it:
+
+- **`99.Showcase`**: One scene combining every feature implemented so far; it renders the image at the top of this README.
 
 ## Contributing
 

@@ -71,7 +71,7 @@ endif()
 ```
 
 ### 3. Update the Rendering Loop
-In your main entry Point file (where the main rendering loop occurs, such as `visualizers/7.MultipleSpherePhongReflections.cpp`), you need to uncomment or add the OpenMP pragma directive just above the outer `for` loop that iterates over the rows (`y`).
+In the file where the main rendering loop occurs (`render()` in `src/scene/Camera.cpp`), you need to uncomment or add the OpenMP pragma directive just above the outer `for` loop that iterates over the rows (`y`).
 
 > [!IMPORTANT]
 > **Avoid Thread Data Races (Segmentation Faults):** 
