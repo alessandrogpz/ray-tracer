@@ -57,11 +57,25 @@ If the ray's direction vector has no vertical component ($D_y = 0$), the ray is 
 *   **Coplanar Ray ($O_y = 0$):** If the ray also lies exactly on the $y = 0$ plane, it is coplanar. In ray tracing, a coplanar ray does not block other rays (it has zero cross-sectional area), so we treat it as no intersection.
 *   **Parallel Non-intersecting Ray ($O_y \neq 0$):** The ray is floating above or below the plane and will never cross it.
 
-In both cases, we filter out these scenarios by checking if the absolute value of $D_y$ is less than `EPSILON` ($0.0001f$):
+In both cases, we filter out these scenarios by checking whether $D_y$ is tiny **compared with the length of the direction**:
 
-$$\text{if } |D_y| < \text{EPSILON} \implies \text{No Intersections}$$
+$$\text{if } |D_y| < \text{EPSILON} \cdot \lVert D \rVert \implies \text{No Intersections}$$
 
-### 2. Single Intersection ($|D_y| \ge \text{EPSILON}$)
+Since $|D_y| / \lVert D \rVert$ is the sine of the angle between the ray and the plane, this means "the ray is within about `EPSILON` = 0.0001 radians (0.006°) of the plane".
+
+#### Why Not Just $|D_y| < \text{EPSILON}$?
+
+The local direction $D$ comes from multiplying the world direction by the plane's **inverse** transform, so it is not normalized: a plane scaled by $s$ shrinks $D$ to $1/s$ of its length. With an absolute test, the cutoff angle would grow with the plane's scale:
+
+| Plane scale | Rays treated as parallel, absolute test | Relative test (used) |
+| :--- | :--- | :--- |
+| 1 | up to 0.006° | up to 0.006° |
+| 10 | up to 0.06° | up to 0.006° |
+| 1000 | up to **5.7°** (a visible gap at the horizon) | up to 0.006° |
+
+The relative test is the same at every scale (`MatrixStability.GrazingRaysHitPlanesAtAnyScale` checks planes scaled from 0.001 to 1000). For an unscaled plane $\lVert D \rVert = 1$, so it behaves exactly like the book's test. This follows the project's general rule for tolerances: judge "near zero" relative to the size of the quantities involved (see [Comparing Floating-Point Numbers](../references/CoreMath.md#comparing-floating-point-numbers)).
+
+### 2. Single Intersection ($|D_y| \ge \text{EPSILON} \cdot \lVert D \rVert$)
 If the ray is not parallel, it is guaranteed to cross the infinite plane exactly once at the distance:
 
 $$t = -\frac{O_y}{D_y}$$

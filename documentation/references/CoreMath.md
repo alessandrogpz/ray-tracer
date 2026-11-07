@@ -105,6 +105,7 @@ $$\text{offset} = \max\big(\texttt{EPSILON},\; \underbrace{10^{-6}}_{\texttt{SUR
 - reflection preserves a vector's length, and refraction between equal refractive indices does not bend light;
 - Schlick's reflectance stays within $[0, 1]$, and rendered colors are never NaN or infinite;
 - tiny and huge scales stay invertible, while numerically singular matrices are rejected;
+- grazing rays hit planes scaled anywhere from 0.001 to 1000 (the plane's parallel-ray test is relative to the ray direction's length);
 - no hit shadows itself, from the origin out to 100,000 units.
 
 *Reference code: `src/math/Utils.cppm`, `src/math/Matrix.cppm`*
