@@ -153,6 +153,32 @@ TEST(MatrixStability, ANumericallySingularMatrixIsRejected)
     EXPECT_FALSE(m.isInvertible());
 }
 
+TEST(MatrixStability, GrazingRaysHitPlanesAtAnyScale)
+{
+    // A plane's object-space ray direction is not normalized: scaling the plane by s scales it
+    // by 1/s. An absolute |D_y| < EPSILON test would therefore treat a 3° ray as parallel to a
+    // plane scaled by 1000. The test is relative to the direction's length, so it must not be.
+    for (const float s : {0.001f, 1.0f, 1000.0f})
+    {
+        Plane p;
+        p.set_transform(scale(s, s, s));
+
+        for (const float degrees : {30.0f, 3.0f, 0.5f})
+        {
+            const float angle = degrees * PI / 180.0f;
+            const Ray r(Point(0.0f, 1.0f, 0.0f), Vector(std::cos(angle), -std::sin(angle), 0.0f));
+            const std::vector<Intersection> xs = intersect(p, r);
+
+            // Starting 1 unit above the plane, the ray reaches it after 1 / sin(angle)
+            ASSERT_EQ(xs.size(), 1) << "scale " << s << ", " << degrees << " degrees";
+            EXPECT_TRUE(equal(xs[0].t, 1.0f / std::sin(angle))) << "scale " << s << ", " << degrees << " degrees";
+        }
+
+        // A truly parallel ray still misses
+        EXPECT_TRUE(intersect(p, Ray(Point(0.0f, 1.0f, 0.0f), Vector(1.0f, 0.0f, 0.0f))).empty()) << "scale " << s;
+    }
+}
+
 TEST(MatrixStability, ASmallSphereCanBeTransformedAndHit)
 {
     Sphere marble;
