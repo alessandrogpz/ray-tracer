@@ -19,7 +19,14 @@ export namespace rt {
 
         Plane() = default;
 
-        // Member function to calculate local intersection with the y=0 plane
+        /**
+         * @brief Intersects an object-space ray with the plane y = 0.
+         *
+         * Returns t = -O_y / D_y, or std::nullopt when the ray is parallel to (or lies in) the
+         * plane: within EPSILON radians of it, judged relative to the direction's length so the
+         * test does not depend on the plane's scale.
+         * Math reference: documentation/explanation/RayPlaneIntersectionAlgorithm.md
+         */
         [[nodiscard]] std::optional<float> local_intersect(Point local_origin, Vector local_direction) const;
 
         // Member function to calculate local normal (always returns Vector(0, 1, 0))

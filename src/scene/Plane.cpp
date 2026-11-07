@@ -23,8 +23,12 @@ namespace rt {
     }
 
     std::optional<float> Plane::local_intersect(Point local_origin, Vector local_direction) const {
-        // If the ray is parallel to the plane (has no y-velocity/direction)
-        if (std::abs(local_direction.y) < EPSILON) {
+        // If the ray is parallel to the plane (has no y-velocity/direction). The object-space
+        // direction is not normalized (its length changes with the plane's scale), so D_y is
+        // compared relative to the direction's length: |D_y| / |D| is the sine of the angle
+        // between the ray and the plane, the same test at every scale.
+        // Reference: documentation/explanation/RayPlaneIntersectionAlgorithm.md
+        if (std::abs(local_direction.y) < EPSILON * getVectorMagnitude(local_direction)) {
             return std::nullopt;
         }
 
