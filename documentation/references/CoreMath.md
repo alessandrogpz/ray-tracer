@@ -43,7 +43,71 @@ The core transformations are:
 
 Transformations can be chained together via Matrix multiplication. The order of multiplication is crucial: `Transformation_3 * Transformation_2 * Transformation_1 * Point` applies Transformation 1 first, then 2, then 3.
 
+### Invertibility
+
+A matrix can only be inverted if its determinant is not zero. In floating point, "zero" needs a tolerance, but a fixed one does not work: the determinant scales with the matrix (`scale(s, s, s)` has determinant $s^3$), so a valid transform for a small object such as `scale(0.04, 0.04, 0.04)` (determinant $6.4 \times 10^{-5}$) would look singular next to `EPSILON`.
+
+`Matrix::isInvertible()` instead compares the determinant with the largest value it could have. By **Hadamard's inequality**, $|\det M|$ is at most the product of the row lengths, and also at most the product of the column lengths:
+
+$$\text{invertible} \iff |\det M| > 10^{-6} \cdot \min\Big(\prod_i \lVert \text{row}_i \rVert,\; \prod_j \lVert \text{col}_j \rVert\Big)$$
+
+The ratio does not change when the matrix is scaled, so tiny and huge transforms are treated alike, while matrices whose rows are (numerically) dependent are still rejected. The smaller of the two bounds is used because a translation lengthens one column (or, once transposed, one row) without affecting the determinant.
+
 *Reference code: `src/math/Matrix.cppm`, `src/math/Transformations.cppm`*
+
+## Comparing Floating-Point Numbers
+
+All math in the engine uses single-precision `float`, which carries about 7 significant digits. Rounding means two computations of "the same" value rarely produce identical bits, so values are compared with `equal(a, b)` instead of `==`.
+
+### Machine Epsilon and ULPs
+
+**Machine epsilon** (`std::numeric_limits<float>::epsilon()`, $\approx 1.19 \times 10^{-7}$) is the gap between `1.0f` and the next larger float. The gap, called one **ULP** (unit in the last place), grows with the magnitude of the number:
+
+| Value | Gap to the next float (1 ULP) |
+| :--- | :--- |
+| 1 | $1.2 \times 10^{-7}$ |
+| 1,000 | $6.1 \times 10^{-5}$ |
+| 100,000 | $7.8 \times 10^{-3}$ |
+
+### Absolute vs. Relative Tolerance
+
+- An **absolute** tolerance, $|a - b| < \varepsilon_{\text{abs}}$, suits values near zero, but large values can never meet it: at 100,000 even neighbouring floats are 0.008 apart.
+- A **relative** tolerance, $|a - b| \le \varepsilon_{\text{rel}} \cdot \max(|a|, |b|)$, scales with the values, but shrinks to nothing near zero: a computed `1e-9` would never equal `0`.
+
+`equal()` combines both, so each covers the other's weakness:
+
+$$\text{equal}(a, b) \iff a = b \;\;\lor\;\; |a - b| < \underbrace{10^{-4}}_{\texttt{EPSILON}} \;\;\lor\;\; |a - b| \le \underbrace{10^{-5}}_{\texttt{RELATIVE\_EPSILON}} \cdot \max(|a|, |b|)$$
+
+- `RELATIVE_EPSILON` ($10^{-5}$, about 84 ULPs) leaves room for the rounding that accumulates over a chain of matrix operations.
+- The two tolerances meet at magnitude 10. Below it the absolute tolerance governs, exactly as before; above it the comparison scales with the values.
+- The $a = b$ case lets an infinity equal the same infinity (where $a - b$ would be NaN). An infinity never equals a finite value, and NaN never equals anything.
+
+> [!NOTE]
+> The core library is compiled with `-ffast-math`, which normally lets the compiler assume infinities and NaN never occur and remove checks like `std::isinf`. `-fno-finite-math-only` restores those semantics (see [Data-Oriented Design](../explanation/DataOrientedDesign.md)).
+
+### Surface Offsets Far from the Origin
+
+`over_point` and `under_point` lift a hit slightly off its surface to avoid shadow acne (see [Shadows](../explanation/Shadows.md)). A fixed offset of `EPSILON` only works while it is larger than the float spacing at the hit: at 10,000 units from the origin floats are about 0.001 apart, ten times `EPSILON`, and roughly one hit in ten would shadow itself.
+
+The offset therefore grows with the hit point's largest coordinate:
+
+$$\text{offset} = \max\big(\texttt{EPSILON},\; \underbrace{10^{-6}}_{\texttt{SURFACE\_OFFSET\_SCALE}} \cdot \max(|p_x|, |p_y|, |p_z|)\big)$$
+
+- Within 100 units of the origin, where all of the book's tests and scenes live, the offset is exactly `EPSILON`, so the book's expected values are unchanged.
+- Beyond that it scales with the coordinates and always spans several ULPs: no acne at 10,000 or even 100,000 units (`MagnitudeStability.OverPointClearsTheSurfaceAtAnyDistance`).
+
+### Stability Tests
+
+[`tests/FloatStability.t.cpp`](../../tests/FloatStability.t.cpp) checks properties that must hold for every input, over hundreds of deterministic random cases (a seeded `std::mt19937`):
+
+- a matrix times its inverse is the identity (worst error measured: $3 \times 10^{-5}$);
+- hit points lie on the sphere's surface, and normals have unit length;
+- reflection preserves a vector's length, and refraction between equal refractive indices does not bend light;
+- Schlick's reflectance stays within $[0, 1]$, and rendered colors are never NaN or infinite;
+- tiny and huge scales stay invertible, while numerically singular matrices are rejected;
+- no hit shadows itself, from the origin out to 100,000 units.
+
+*Reference code: `src/math/Utils.cppm`, `src/math/Matrix.cppm`*
 
 ## Canvas
 

@@ -27,6 +27,7 @@ export module rt.utils;          // declares the module and marks it as exportab
 
 export namespace rt {
     constexpr float EPSILON = 0.0001f;
+    constexpr float RELATIVE_EPSILON = 0.00001f;
 
     [[nodiscard]]
     bool equal(float a, float b); // declaration only — no body
@@ -42,7 +43,10 @@ import std;                      // the whole standard library, including <cmath
 namespace rt {
     bool equal(const float a, const float b)  // definition
     {
-        return std::abs(a - b) < EPSILON;
+        // Absolute tolerance near zero, relative tolerance for large values
+        // (full version and rationale: CoreMath.md, "Comparing Floating-Point Numbers")
+        const float difference = std::abs(a - b);
+        return difference < EPSILON || difference <= RELATIVE_EPSILON * std::max(std::abs(a), std::abs(b));
     }
 }
 ```

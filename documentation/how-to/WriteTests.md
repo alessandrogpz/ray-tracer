@@ -42,6 +42,8 @@ When testing mathematical operations, exact floating-Point comparisons (`==`) ar
 
 - Use `EXPECT_FLOAT_EQ(val1, val2)` for simple float checks.
 - Use `EXPECT_NEAR(val1, val2, 0.0001)` when checking complex math or Matrix transformations to account for rounding errors.
+- For values of different magnitudes, prefer the project's own `equal(a, b)` (`EXPECT_TRUE(equal(a, b))`): it combines an absolute tolerance near zero with a relative one for large values. See [Comparing Floating-Point Numbers](../references/CoreMath.md#comparing-floating-point-numbers).
+- To check that math stays correct for *any* input, not just the book's examples, add an invariant to [`tests/FloatStability.t.cpp`](../../tests/FloatStability.t.cpp): it runs hundreds of deterministic random cases (seeded `std::mt19937`).
 
 ## How to Add a New Test File to CMake
 

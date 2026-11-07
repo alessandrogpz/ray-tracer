@@ -69,6 +69,9 @@ To prevent self-shadowing, we shift the starting position of the shadow ray slig
 
 $$P_{\text{over}} = P + \vec{N} \times \text{EPSILON}$$
 
+> [!NOTE]
+> Within 100 units of the origin the offset is exactly `EPSILON`, as in the book. Farther away, float spacing grows larger than `EPSILON`, so the offset grows with the hit point's coordinates ($10^{-6}$ times the largest one) and shading stays acne-free at any distance. See [Surface Offsets Far from the Origin](../references/CoreMath.md#surface-offsets-far-from-the-origin).
+
 We then use $P_{\text{over}}$ as the origin of our shadow ray:
 $$R_s(t) = P_{\text{over}} + t\vec{D}$$
 

@@ -135,6 +135,7 @@ To fully leverage hardware acceleration and SIMD lanes, we added the following t
 * **`-march=native`**: Tells the compiler to compile specifically for the host CPU's instruction set, enabling advanced vector instructions (like AVX2, AVX-512, and FMA3) instead of a generic, baseline x86_64 target.
 * **`-ffast-math`**: Relaxes strict IEEE 754 floating-point constraints (e.g., ignoring NaN/inf checks, enabling associative math). This is often the primary trigger allowing the compiler to auto-vectorize complex mathematical loops.
 * **`-ftree-vectorize`**: Forces loop auto-vectorization.
+* **`-fno-finite-math-only`**: `-ffast-math` also lets the compiler assume that infinities and NaN never occur, and delete checks such as `std::isinf`. This flag restores IEEE semantics for them (needed by `equal()` and, later, by infinite shapes) while keeping the rest of `-ffast-math`. Measured render times are unchanged.
 
 ### How to Adjust or Revert for Other Systems
 If you need to compile or distribute the ray tracer on systems that do not share the exact same hardware, you can adapt these flags:
