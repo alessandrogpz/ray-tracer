@@ -14,6 +14,7 @@ Our codebase is organized into modular C++23 units, split into module interfaces
 | **`rt.tuple`** | `src/math/Tuple.cppm`, `.cpp` | `rt.utils` | Primitives (`Tuple`, `Point`, `Vector`) and Vector operations (addition, cross/dot product, normalization, reflection). |
 | **`rt.matrix`** | `src/math/Matrix.cppm` | `rt.utils`, `rt.tuple` | Template-based `Matrix<N>` definition, Matrix determinant, cofactor, submatrix, inversion, and Matrix multiplication. *(Templates remain in interface)* |
 | **`rt.transformations`**| `src/math/Transformations.cppm`, `.cpp` | `rt.matrix`, `rt.tuple` | Linear transformations (translation, scale, rotation, shear, and Householder reflection matrices). |
+| **`rt.noise`** | `src/math/Noise.cppm`, `.cpp` | None | 3D Perlin noise (Ken Perlin's improved noise), used to perturb patterns. |
 | **`rt.colors`** | `src/core/Colors.cppm`, `.cpp` | `rt.utils` | The `Color` structure and Color blend operations. |
 | **`rt.canvas`** | `src/core/Canvas.cppm`, `.cpp` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
 | **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Sphere` shape definition (flat layout, no inheritance). |
@@ -21,8 +22,9 @@ Our codebase is organized into modular C++23 units, split into module interfaces
 | **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | None | Tracking records of Ray-object intersections (t-distance, index, and shape type). |
 | **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and hit utility algorithms. |
 | **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
-| **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.utils` | Surface reflection material definition (ambient, diffuse, specular, shininess). |
-| **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.lights` | Phong reflection model lighting calculations. |
+| **`rt.patterns`** | `src/scene/Patterns.cppm`, `.cpp` | `rt.colors`, `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.noise` | Procedural patterns (solid, stripe, gradient, ring, checkers, test), nested and perturbed patterns, and their world → object → pattern space evaluation. |
+| **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.patterns`, `rt.utils` | Surface material definition (ambient, diffuse, specular, shininess, optional pattern). |
+| **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.matrix`, `rt.lights`, `rt.patterns` | Phong reflection model lighting calculations, using the material's pattern when present. |
 | **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.plane`, `rt.lights`, `rt.intersection`, `rt.materials`, `rt.matrix`, `rt.ray`, `rt.tuple`, `rt.colors` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
 | **`rt.camera`** | `src/scene/Camera.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.ray`, `rt.canvas`, `rt.world`, `rt.transformations` | Virtual pinhole camera with viewport scaling, ray generation, and OpenMP-accelerated multithreaded rendering. |
 
@@ -40,6 +42,7 @@ graph TB
         Tuple[rt.tuple]
         Matrix[rt.matrix]
         Transformations[rt.transformations]
+        Noise[rt.noise]
     end
 
     subgraph Core [Core Module Layer]
@@ -51,6 +54,7 @@ graph TB
         Intersection[rt.intersection]
         Ray[rt.ray]
         Lights[rt.lights]
+        Patterns[rt.patterns]
         Materials[rt.materials]
         Sphere[rt.sphere]
         Plane[rt.plane]
@@ -119,19 +123,28 @@ graph TB
     Canvas --> Camera
     World --> Camera
 
+    Tuple --> Patterns
+    Colors --> Patterns
+    Matrix --> Patterns
+    Transformations --> Patterns
+    Patterns --> Materials
+    Matrix --> Shading
+    Patterns --> Shading
+    Noise --> Patterns
+
     %% Styling
     classDef math fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#1967D2;
     classDef core fill:#E6F4EA,stroke:#34A853,stroke-width:1px,color:#137333;
     classDef scene fill:#FCE8E6,stroke:#EA4335,stroke-width:1px,color:#C5221F;
 
-    class Utils,Tuple,Matrix,Transformations math;
+    class Utils,Tuple,Matrix,Transformations,Noise math;
     class Colors,Canvas core;
-    class Intersection,Ray,Lights,Materials,Sphere,Plane,Shading,World,Camera scene;
+    class Intersection,Ray,Patterns,Lights,Materials,Sphere,Plane,Shading,World,Camera scene;
 
     %% Link Styling (matching target module colors)
     linkStyle 0,1,2,3,4 stroke:#4285F4,stroke-width:1.5px;
     linkStyle 5,6 stroke:#34A853,stroke-width:1.5px;
-    linkStyle 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39 stroke:#EA4335,stroke-width:1.5px;
+    linkStyle 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54 stroke:#EA4335,stroke-width:1.5px;
 ```
 
 ### Avoiding Circular Imports
@@ -154,7 +167,7 @@ The project builds via **CMake (3.28+)** and the **Ninja** generator. The build 
 3. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
 4. **Visualizer Executables**:
-   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereRayCast`, `4.SpherePhongReflection`, `5.MultipleSpherePhongReflections`, `6.FirstScene`, `7.MatrixTransformations`) that link against `raytracer_core`.
+   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereRayCast`, `4.SpherePhongReflection`, `5.MultipleSpherePhongReflections`, `6.FirstScene`, `7.MatrixTransformations`, `8.StripePattern`) that link against `raytracer_core`.
 
 ### How `std_module` Is Built
 

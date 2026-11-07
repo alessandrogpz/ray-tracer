@@ -1,6 +1,6 @@
 # Explanation: Phong Reflection Model Algorithm
 
-The `lighting(Material, PointLight, Point, Vector, Vector)` function computes the color of a surface point using the **Phong reflection model**. Developed by Bui Tuong Phong in 1973, this is an empirical model of local illumination that simulates how light interacts with a surface.
+The `lighting(Material, Matrix<4>, PointLight, Point, Vector, Vector, bool)` function computes the color of a surface point using the **Phong reflection model**. Developed by Bui Tuong Phong in 1973, this is an empirical model of local illumination that simulates how light interacts with a surface.
 
 ---
 
@@ -85,10 +85,16 @@ Where:
 In our C++ implementation (`src/scene/Shading.cppm` and `src/scene/Shading.cpp`), these mathematical concepts map directly to the code:
 
 ```cpp
-Color lighting(Material material, PointLight light, Point point, Vector eye_vector, Vector normal_vector)
+Color lighting(Material material, Matrix<4> object_inverse, PointLight light, Point point, Vector eye_vector, Vector normal_vector, bool in_shadow)
 {
+    // 0. The surface color: the material's pattern at this point, if it has one
+    //    (see Patterns.md), otherwise its flat color
+    Color surface_color = material.pattern
+        ? pattern_at_shape(*material.pattern, object_inverse, point)
+        : material.color;
+
     // 1. Combine surface color with light intensity
-    Color effective_color = material.color * light.intensity;
+    Color effective_color = surface_color * light.intensity;
 
     // 2. Light vector (direction to light source)
     Vector light_vector = normalizeVector(light.position - point);

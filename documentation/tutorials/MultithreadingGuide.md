@@ -107,7 +107,7 @@ Example rendering loop with multithreading enabled:
                 Vector normal = normalAt(hit_sphere, p);
                 Vector eye = -r.direction;
 
-                Color pixel_color = lighting(hit_sphere.material, light, p, eye, normal);
+                Color pixel_color = lighting(hit_sphere.material, hit_sphere.get_transform_inverse(), light, p, eye, normal);
                 writePixel(c, x, y, pixel_color);
             }
         }

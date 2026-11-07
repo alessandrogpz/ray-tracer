@@ -40,6 +40,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
     - [View Transformation](documentation/explanation/ViewTransformation.md)
     - [Camera & Perspective Projection](documentation/explanation/Camera.md)
     - [Shadows & Self-Shadowing (Acne)](documentation/explanation/Shadows.md)
+    - [Procedural Patterns](documentation/explanation/Patterns.md)
 
 ## Visualizer Demos
 
@@ -52,6 +53,7 @@ The project includes a suite of example programs in [`visualizers/`](visualizers
 5. **`5.MultipleSpherePhongReflections`**: Three spheres of different sizes and materials shaded under Phong lighting, resting on an infinite floor plane.
 6. **`6.FirstScene`**: A full perspective-camera scene featuring three spheres casting shadows onto an infinite floor plane and two angled wall planes.
 7. **`7.MatrixTransformations`**: Six spheres each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined, scale-down) in a single scene with floor and wall planes.
+8. **`8.StripePattern`**: Stripes in every form: plain stripes that follow their sphere, stripes with their own pattern transform, nested patterns (checkers of perpendicular stripes, stripes made of stripes), and stripes perturbed by Perlin noise.
 
 ## Contributing
 
