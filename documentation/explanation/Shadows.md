@@ -104,3 +104,13 @@ If `shadowed` is **false**:
 *   The point receives ambient, diffuse, and specular illumination.
 
 $$\text{Color} = \text{Color}_{\text{ambient}} + \text{Color}_{\text{diffuse}} + \text{Color}_{\text{specular}}$$
+
+---
+
+## 5. Opting Out of Shadows
+
+By default every object blocks light. That is a problem for some transparent surfaces: a pond's water plane would leave everything beneath it in darkness. Each material therefore has a `casts_shadow` flag (default `true`). `is_shadowed()` walks the shadow ray's intersections in order and only counts objects whose material casts shadows:
+
+$$\text{shadowed} = \exists\, i : \text{EPSILON} < t_i < d_{\text{light}} \;\wedge\; \text{material}(i).\text{casts\_shadow}$$
+
+Setting `casts_shadow = false` on the water lets light reach the rocks below it, while a shadow-casting object further along the ray still blocks the light as usual.

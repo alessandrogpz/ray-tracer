@@ -24,8 +24,12 @@ flowchart LR
     Shadow -->|Yes| SColor[Shadow Color]
     Shadow -->|No| LColor[Lit Color]
 
-    SColor --> Final[Pixel Color]
-    LColor --> Final
+    SColor --> Secondary{Reflective or<br/>transparent?}
+    LColor --> Secondary
+    Secondary -->|Yes| Bounce[Trace reflected &<br/>refracted rays]
+    Bounce -->|Recursive, max 5 bounces| Scene
+    Secondary -->|No| Final[Pixel Color]
+    Bounce --> Final
     Bg --> Final
     Final -->|Write| Canvas
 ```
@@ -39,11 +43,14 @@ The engine iterates through all objects in the `Scene` (like spheres or planes).
 ### 3. Shading and Lighting
 Once a hit is confirmed, we need to determine the Color of that pixel. This involves:
 - **Surface Normal:** Calculating the perpendicular Vector at the Point of Intersection.
-- **Material:** Checking the object's Color, shininess, and reflectiveness.
+- **Material:** Checking the object's Color (or procedural pattern), shininess, reflectivity, and transparency.
 - **Lighting Model:** We use the Phong reflection model, which combines ambient, diffuse, and specular lighting based on the position of the light source(s).
-- **Shadows:** We cast a *secondary* Ray from the Intersection Point towards the light source. If this Ray hits an object before reaching the light, the original Point is in shadow.
+- **Shadows:** We cast a *secondary* Ray from the Intersection Point towards the light source. If this Ray hits an object before reaching the light, the original Point is in shadow (objects can opt out of casting shadows).
 
-### 4. Writing to Canvas
+### 4. Reflection and Refraction
+Mirrors and glass spawn more secondary rays. A reflective surface traces a ray bounced around the normal; a transparent one traces a ray bent by Snell's law. Their colors are traced through the same pipeline recursively, up to 5 bounces, and added to the surface color, blended by the Fresnel effect for glass. See [Reflection, Refraction & the Fresnel Effect](ReflectionAndRefraction.md).
+
+### 5. Writing to Canvas
 The final computed Color is written to the corresponding pixel on the `Canvas`. Once all pixels are calculated, the Canvas is exported as an image file.
 
 ---

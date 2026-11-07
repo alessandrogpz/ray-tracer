@@ -41,6 +41,7 @@ Documentation of this project is structured using the [Diátaxis framework](http
     - [Camera & Perspective Projection](documentation/explanation/Camera.md)
     - [Shadows & Self-Shadowing (Acne)](documentation/explanation/Shadows.md)
     - [Procedural Patterns](documentation/explanation/Patterns.md)
+    - [Reflection, Refraction & the Fresnel Effect](documentation/explanation/ReflectionAndRefraction.md)
 
 ## Visualizer Demos
 
@@ -54,6 +55,7 @@ The project includes a suite of example programs in [`visualizers/`](visualizers
 6. **`6.FirstScene`**: A full perspective-camera scene featuring three spheres casting shadows onto an infinite floor plane and two angled wall planes.
 7. **`7.MatrixTransformations`**: Six spheres each transformed with a different 4×4 matrix operation (translation, uniform scale, non-uniform scale, rotation, combined, scale-down) in a single scene with floor and wall planes.
 8. **`8.StripePattern`**: Stripes in every form: plain stripes that follow their sphere, stripes with their own pattern transform, nested patterns (checkers of perpendicular stripes, stripes made of stripes), and stripes perturbed by Perlin noise.
+9. **`9.ReflectionRefraction`**: A glossy floor, a mirror sphere, a glass sphere with an air bubble (Fresnel-blended), and tinted glass, reflecting and refracting a patterned room.
 
 ## Contributing
 

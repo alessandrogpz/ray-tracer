@@ -17,15 +17,15 @@ Our codebase is organized into modular C++23 units, split into module interfaces
 | **`rt.noise`** | `src/math/Noise.cppm`, `.cpp` | None | 3D Perlin noise (Ken Perlin's improved noise), used to perturb patterns. |
 | **`rt.colors`** | `src/core/Colors.cppm`, `.cpp` | `rt.utils` | The `Color` structure and Color blend operations. |
 | **`rt.canvas`** | `src/core/Canvas.cppm`, `.cpp` | `rt.colors` | The rendering grid (`Canvas`) and export logic (PPM serialization). |
-| **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Sphere` shape definition (flat layout, no inheritance). |
+| **`rt.sphere`** | `src/scene/Sphere.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Sphere` shape definition (flat layout, no inheritance) and the `glass_sphere()` helper. |
 | **`rt.plane`**  | `src/scene/Plane.cppm`, `.cpp`  | `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.materials`, `rt.intersection`, `rt.ray` | Concrete `Plane` shape definition (flat layout, no inheritance). |
 | **`rt.intersection`** | `src/scene/Intersection.cppm`, `.cpp` | None | Tracking records of Ray-object intersections (t-distance, index, and shape type). |
 | **`rt.ray`** | `src/scene/Ray.cppm`, `.cpp` | `rt.tuple`, `rt.intersection`, `rt.matrix`, `rt.transformations` | Cast Ray definition (`Ray`), Ray position calculations, and hit utility algorithms. |
 | **`rt.lights`** | `src/scene/Lights.cppm`, `.cpp` | `rt.tuple`, `rt.colors` | Point light source definition. |
 | **`rt.patterns`** | `src/scene/Patterns.cppm`, `.cpp` | `rt.colors`, `rt.tuple`, `rt.matrix`, `rt.transformations`, `rt.noise` | Procedural patterns (solid, stripe, gradient, ring, checkers, test), nested and perturbed patterns, and their world → object → pattern space evaluation. |
-| **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.patterns`, `rt.utils` | Surface material definition (ambient, diffuse, specular, shininess, optional pattern). |
+| **`rt.materials`** | `src/scene/Materials.cppm`, `.cpp` | `rt.colors`, `rt.patterns`, `rt.utils` | Surface material definition (ambient, diffuse, specular, shininess, reflectivity, transparency, refractive index, shadow casting, optional pattern). |
 | **`rt.shading`** | `src/scene/Shading.cppm`, `.cpp` | `rt.materials`, `rt.colors`, `rt.tuple`, `rt.matrix`, `rt.lights`, `rt.patterns` | Phong reflection model lighting calculations, using the material's pattern when present. |
-| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.plane`, `rt.lights`, `rt.intersection`, `rt.materials`, `rt.matrix`, `rt.ray`, `rt.tuple`, `rt.colors` | A container `World` holding shape lists and light sources, and factory utility `default_world()`. |
+| **`rt.world`** | `src/scene/World.cppm`, `.cpp` | `rt.sphere`, `rt.plane`, `rt.lights`, `rt.intersection`, `rt.materials`, `rt.matrix`, `rt.ray`, `rt.tuple`, `rt.colors` | A container `World` holding shape lists and light sources, `default_world()`, and the shading pipeline: intersections, shadows, reflection, refraction, and the Fresnel (Schlick) blend. |
 | **`rt.camera`** | `src/scene/Camera.cppm`, `.cpp` | `rt.tuple`, `rt.matrix`, `rt.ray`, `rt.canvas`, `rt.world`, `rt.transformations` | Virtual pinhole camera with viewport scaling, ray generation, and OpenMP-accelerated multithreaded rendering. |
 
 ---
@@ -167,7 +167,7 @@ The project builds via **CMake (3.28+)** and the **Ninja** generator. The build 
 3. **`run_tests` (Google Test Executable)**:
    - Compiles test suites (`tests/*.t.cpp`) and links against `raytracer_core` and `googletest`.
 4. **Visualizer Executables**:
-   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereRayCast`, `4.SpherePhongReflection`, `5.MultipleSpherePhongReflections`, `6.FirstScene`, `7.MatrixTransformations`, `8.StripePattern`) that link against `raytracer_core`.
+   - Standalone graphic demo binaries (`1.ProjectTrajectory`, `2.ClockMarkers`, `3.SphereRayCast`, `4.SpherePhongReflection`, `5.MultipleSpherePhongReflections`, `6.FirstScene`, `7.MatrixTransformations`, `8.StripePattern`, `9.ReflectionRefraction`) that link against `raytracer_core`.
 
 ### How `std_module` Is Built
 
