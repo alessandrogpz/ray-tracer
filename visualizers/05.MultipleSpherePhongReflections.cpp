@@ -1,5 +1,5 @@
 //
-// 5.MultipleSpherePhongReflections.cpp
+// 05.MultipleSpherePhongReflections.cpp
 // Showcases: Phong lighting on multiple spheres with different materials resting on an infinite floor plane.
 //
 
@@ -71,7 +71,7 @@ int main()
         Vector(0.0f, 1.0f,  0.0f)
     ));
 
-    std::cout << "Rendering 5.MultipleSpherePhongReflections at 2560x1440..." << std::endl;
+    std::cout << "Rendering 05.MultipleSpherePhongReflections at 2560x1440..." << std::endl;
     Canvas image = render(cam, w);
 
     std::string ppmContent = canvasToPPM(image);

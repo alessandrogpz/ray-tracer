@@ -1,5 +1,5 @@
 //
-// 9.ReflectionRefraction.cpp
+// 09.ReflectionRefraction.cpp
 // Showcases: Chapter 11 materials — a glossy reflective floor, a mirror sphere,
 // a glass sphere with an air bubble (Fresnel-blended reflection and refraction),
 // and tinted glass, all reflecting and refracting a patterned room.
@@ -124,7 +124,7 @@ int main()
         Vector(0.0f, 1.0f,  0.0f)
     ));
 
-    std::cout << "Rendering 9.ReflectionRefraction at 2560x1440..." << std::endl;
+    std::cout << "Rendering 09.ReflectionRefraction at 2560x1440..." << std::endl;
     Canvas image = render(cam, w);
 
     std::string ppmContent = canvasToPPM(image);

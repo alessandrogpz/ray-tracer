@@ -1,5 +1,5 @@
 //
-// 7.MatrixTransformations.cpp
+// 07.MatrixTransformations.cpp
 // Showcases: Multiple spheres each transformed independently with translation,
 // scaling, rotation, and combined transforms — demonstrating the full power of
 // 4x4 matrix transformations in a single QHD scene.
@@ -143,7 +143,7 @@ int main()
         Vector(0.0f, 1.0f,  0.0f)
     ));
 
-    std::cout << "Rendering 7.MatrixTransformations at 2560x1440..." << std::endl;
+    std::cout << "Rendering 07.MatrixTransformations at 2560x1440..." << std::endl;
     Canvas image = render(cam, w);
 
     std::string ppmContent = canvasToPPM(image);

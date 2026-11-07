@@ -1,5 +1,5 @@
 //
-// 8.StripePattern.cpp
+// 08.StripePattern.cpp
 // Showcases: Stripes in every form from Chapter 10, including its "Putting It Together"
 // extensions: plain stripes that follow their sphere's transform, stripes with their own
 // pattern transform, nested patterns (checkers whose squares hold perpendicular stripes,
@@ -112,7 +112,7 @@ int main()
         Vector(0.0f, 1.0f,  0.0f)
     ));
 
-    std::cout << "Rendering 8.StripePattern at 2560x1440..." << std::endl;
+    std::cout << "Rendering 08.StripePattern at 2560x1440..." << std::endl;
     Canvas image = render(cam, w);
 
     std::string ppmContent = canvasToPPM(image);

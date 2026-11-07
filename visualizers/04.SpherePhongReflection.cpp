@@ -1,5 +1,5 @@
 //
-// 4.SpherePhongReflection.cpp
+// 04.SpherePhongReflection.cpp
 // Showcases: Phong lighting model on a single sphere resting on an infinite floor plane.
 //
 
@@ -53,7 +53,7 @@ int main()
         Vector(0.0f, 1.0f,  0.0f)
     ));
 
-    std::cout << "Rendering 4.SpherePhongReflection at 2560x1440..." << std::endl;
+    std::cout << "Rendering 04.SpherePhongReflection at 2560x1440..." << std::endl;
     Canvas image = render(cam, w);
 
     std::string ppmContent = canvasToPPM(image);
