@@ -4,7 +4,7 @@ This section provides technical details regarding the foundational mathematical 
 
 ## Tuples
 
-A `Tuple` is the fundamental data structure used to represent coordinates and directions in 3D space. It is composed of four float-precision floating-Point numbers: `x`, `y`, `z`, and `w`.
+A `Tuple` is the fundamental data structure used to represent coordinates and directions in 3D space. It is composed of four single-precision floating-point numbers (`float`): `x`, `y`, `z`, and `w`.
 
 - **`x, y, z`**: Represent the position or magnitude along the three axes.
 - **`w`**: The homogeneous coordinate. It is crucial for distinguishing between points and vectors and for allowing Matrix translations.
@@ -12,7 +12,7 @@ A `Tuple` is the fundamental data structure used to represent coordinates and di
 ### Points vs. Vectors
 
 - **Point (`w = 1.0f`)**: Represents a specific location in space. When `w=1`, the Point can be translated (moved) by Matrix multiplication.
-- **Vector (`w = 0.0`)**: Represents a direction and magnitude, but no specific location. When `w=0`, translation matrices have no effect on the Vector, which is mathematically correct (a direction doesn't change when you move it).
+- **Vector (`w = 0.0f`)**: Represents a direction and magnitude, but no specific location. When `w=0`, translation matrices have no effect on the Vector, which is mathematically correct (a direction doesn't change when you move it).
 
 *Reference code: `src/math/Tuple.cppm`*
 

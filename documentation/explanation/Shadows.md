@@ -51,9 +51,9 @@ For any shaded point $P$ and a point light source located at $L$:
 4.  **Shadow Ray ($R_s$):** The ray cast from the point toward the light:
     $$R_s(t) = P + t\vec{D}$$
 
-5.  **Occlusion Condition:** We test the shadow ray against all shapes in the world to find intersections. If the closest intersection $h$ satisfies:
+5.  **Occlusion Condition:** We test the shadow ray against all shapes in the world. If any intersection $h$ with a shadow-casting object (see [section 5](#5-opting-out-of-shadows)) satisfies:
     $$\text{EPSILON} < h.t < d$$
-    then the point is obstructed and lies in shadow. If no hit occurs within this range, the point is fully illuminated.
+    then the point is obstructed and lies in shadow. If no such hit occurs within this range, the point is fully illuminated.
 
 ---
 

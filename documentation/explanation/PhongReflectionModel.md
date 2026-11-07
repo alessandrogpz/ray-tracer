@@ -99,8 +99,11 @@ Color lighting(Material material, Matrix<4> object_inverse, PointLight light, Po
     // 2. Light vector (direction to light source)
     Vector light_vector = normalizeVector(light.position - point);
 
-    // 3. Ambient component
+    // 3. Ambient component (the only light a point in shadow receives)
     Color ambient = effective_color * material.ambient;
+
+    if (in_shadow)
+        return ambient;
 
     // 4. Cosine of angle between light and normal
     float light_dot_normal = dotProduct(light_vector, normal_vector);

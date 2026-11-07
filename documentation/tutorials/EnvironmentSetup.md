@@ -7,8 +7,8 @@
     *   **MSVC** from Visual Studio 2022 17.6+ (on Windows, use MSVC rather than Clang)
 *   **Build System**: CMake 3.28 or newer (the first version with stable C++ modules support)
 *   **Generator**: Ninja
-*   **Test Suite**: GoogleTest (gtest)
-*   **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to install and enable it.
+*   **Test Suite**: GoogleTest (gtest), downloaded and built automatically by CMake (see the note below)
+*   **(Optional) Multithreading**: OpenMP, built into GCC and MSVC; Clang needs LLVM's `libomp`. See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to install and enable it.
 
 > **How `import std;` works here:** CMake's own `import std` support is still experimental, so the project builds the standard library module itself. [`cmake/StdModule.cmake`](../../cmake/StdModule.cmake) asks your compiler where its `std` module source lives (via the modules manifest the toolchain ships), compiles it as the `std_module` target, and links it into everything. Nothing needs configuring, but this is why the compiler versions above matter: older toolchains don't ship a `std` module at all.
 
@@ -78,16 +78,16 @@ Apple's default compiler (Apple Clang) often lags behind in its support for C++2
 
 Default package managers in Ubuntu/Debian often contain outdated versions of CMake that do not support C++23 modules. You must use the official Kitware repository to get CMake 3.28+.
 
-1. Install the GCC 15 compiler, Ninja, and the OpenMP development library (GCC 15 is the first release whose libstdc++ ships the `std` module):
+1. Install the GCC 15 compiler and Ninja (GCC 15 is the first release whose libstdc++ ships the `std` module; it includes OpenMP):
    ```bash
-   sudo apt update && sudo apt install g++-15 ninja-build libomp-dev
+   sudo apt update && sudo apt install g++-15 ninja-build
    ```
    If your Ubuntu release does not package `g++-15` yet, add the toolchain PPA first with `sudo add-apt-repository ppa:ubuntu-toolchain-r/test`. Then point CMake at it, e.g. `cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=g++-15`.
 2. Add the Kitware repository signature and list to get the latest CMake:
    ```bash
-   wget -O - [https://apt.kitware.com/keys/kitware-archive-latest.asc](https://apt.kitware.com/keys/kitware-archive-latest.asc) 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-   
-   sudo apt-add-repository "deb [https://apt.kitware.com/ubuntu/](https://apt.kitware.com/ubuntu/) $(lsb_release -cs) main"
+   wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+
+   sudo apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main"
    ```
 3. Install CMake:
    ```bash
@@ -98,16 +98,16 @@ Default package managers in Ubuntu/Debian often contain outdated versions of CMa
 
 Fedora generally keeps its packages up to date, making the installation straightforward.
 
-1. Install the complete toolchain and OpenMP:
+1. Install the complete toolchain (Fedora 42 and newer ship GCC 15; OpenMP comes with GCC):
    ```bash
-   sudo dnf install gcc-c++ cmake ninja-build libomp
+   sudo dnf install gcc-c++ cmake ninja-build
    ```
 
 #### Arch Linux
 
 Arch Linux repositories are rolling-release and already contain the necessary up-to-date versions of all required tools.
 
-1. Install the complete toolchain and OpenMP:
+1. Install the complete toolchain (OpenMP comes with GCC; add `openmp` only if you build with Clang):
    ```bash
-   sudo pacman -S gcc cmake ninja openmp
+   sudo pacman -S gcc cmake ninja
    ```

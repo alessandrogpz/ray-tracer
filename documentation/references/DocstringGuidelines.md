@@ -13,7 +13,7 @@ This project follows a standardized docstring format for documenting functions, 
 
 ## Example: Function Documentation
 
-Here is an example demonstrating the proper formatting, taken directly from our `intersect` function:
+Here is an example demonstrating the proper formatting, for the sphere's `intersect` declaration in `Sphere.cppm`:
 
 ```cpp
 /**
@@ -28,8 +28,7 @@ Here is an example demonstrating the proper formatting, taken directly from our 
  * @return std::vector<Intersection> A collection of Intersection records containing the `t` values, shape_index, and shape_type. Empty if no Intersection.
 */
 [[nodiscard]]
-std::vector<Intersection> intersect(const Sphere& s, const Ray& r, std::uint32_t index = 0)
-{
-    // Implementation...
-}
+std::vector<Intersection> intersect(const Sphere& s, const Ray& r, std::uint32_t index = 0);
 ```
+
+The definition in `Sphere.cpp` carries no docstring of its own.

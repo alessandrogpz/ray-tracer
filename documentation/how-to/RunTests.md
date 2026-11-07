@@ -8,7 +8,7 @@ This guide provides practical instructions on how to execute the existing test s
 
 If you have already built the project, you can run the tests by executing the binary produced by CMake.
 
-1. Navigate to your `build` directory:
+1. Navigate to your build directory (`build`, `build-debug` or `build-release`, depending on how you configured):
    ```bash
    cd build
    ```
@@ -21,10 +21,18 @@ If you have already built the project, you can run the tests by executing the bi
 
 Sometimes you only want to run a specific subset of tests to save time. You can use the `--gtest_filter` flag to achieve this:
 
+Filters match `Suite.Test`, the two names given to `TEST(Suite, Test)`:
+
 ```bash
-# Run all tests related to Tuples
-./run_tests --gtest_filter=Tuple.t.*
+# Run every test in one suite
+./run_tests --gtest_filter='TupleCreation.*'
 
 # Run a specific test case
-./run_tests --gtest_filter=Tuple.t.IsAPoint
+./run_tests --gtest_filter='TupleCreation.CreatePointSetsWToOne'
+
+# Run several suites at once (e.g. everything about refraction and Fresnel)
+./run_tests --gtest_filter='Refraction.*:Fresnel.*'
+
+# List every suite and test without running them
+./run_tests --gtest_list_tests
 ```

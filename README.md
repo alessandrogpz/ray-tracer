@@ -69,4 +69,4 @@ Contributions are welcome! Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) fo
 - **Language**: C++23
 - **Build System**: CMake (3.28+) and Ninja
 - **Testing**: GoogleTest (gTest)
-- (Optional) **Multithreading**: OpenMP (libomp)
+- (Optional) **Multithreading**: OpenMP (built into GCC and MSVC; `libomp` for Clang)

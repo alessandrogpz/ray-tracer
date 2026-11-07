@@ -1,6 +1,6 @@
 # How-To: Add a New Shape Primitive
 
-This guide outlines the step-by-step process of adding a new shape primitive (e.g., Cubes, Cylinders, Triangles, Cones) to the ray tracer. Because our project is designed under **Data-Oriented Design (DOD)** principles using a **Structure of Arrays (SoA)** memory layout (rather than inheritance/OOP), adding a shape requires registering its data in parallel vectors in the `World` container and updating the intersection and shading pipelines.
+This guide outlines the step-by-step process of adding a new shape primitive (e.g., Cubes, Cylinders, Triangles, Cones) to the ray tracer. [`Plane`](../../src/scene/Plane.cppm) is the simplest existing shape to copy from. Because our project is designed under **Data-Oriented Design (DOD)** principles using a **Structure of Arrays (SoA)** memory layout (rather than inheritance/OOP), adding a shape requires registering its data in parallel vectors in the `World` container and updating the intersection and shading pipelines.
 
 Let `<Shape>` represent the capitalized name of your new primitive (e.g., `Cube`) and `<shape>` represent its lowercase name (e.g., `cube`).
 
@@ -10,14 +10,13 @@ Let `<Shape>` represent the capitalized name of your new primitive (e.g., `Cube`
 
 Add your new shape to the `ShapeType` enum, which identifies the shape type of an `Intersection` record.
 
-1. Open **[Intersection.cppm](file:///home/aper/Documents/ray-tracer/src/scene/Intersection.cppm)**.
+1. Open **[Intersection.cppm](../../src/scene/Intersection.cppm)**.
 2. In the `ShapeType` enum, add your shape:
    ```cpp
-   export enum class ShapeType
-   {
+   enum class ShapeType : std::uint8_t {
        Sphere,
        Plane,
-       <Shape> // Add your shape here
+       <Shape>     // Add your shape here
    };
    ```
 
@@ -55,33 +54,29 @@ export namespace rt
 
         <Shape>() = default;
 
-        // Transform helpers (copy-paste standard interface)
-        Matrix<4> get_transform() const { return transform; }
-        Matrix<4> get_transform_inverse() const { return transform_inverse; }
-        Matrix<4> get_transform_inverse_transpose() const { return transform_inverse_transpose; }
-        
-        void set_transform(const Matrix<4>& m) {
-            transform = m;
-            transform_inverse = m.inverse();
-            transform_inverse_transpose = transform_inverse.transpose();
-        }
+        // Transform helpers (same interface as Sphere and Plane; defined in the .cpp)
+        void set_transform(const Matrix<4>& t);
+        [[nodiscard]] const Matrix<4>& get_transform() const;
+        [[nodiscard]] const Matrix<4>& get_transform_inverse() const;
+        [[nodiscard]] const Matrix<4>& get_transform_inverse_transpose() const;
 
         /**
          * @brief Evaluates ray intersection in object (local) space.
-         * Returns t-values or std::nullopt.
+         * Returns the t-value, or std::nullopt on a miss. A shape that can be hit twice
+         * (like Sphere) returns a LocalIntersections struct instead (see Sphere.cppm).
          */
-        std::optional<float> local_intersect(Point local_origin, Vector local_direction) const;
+        [[nodiscard]] std::optional<float> local_intersect(Point local_origin, Vector local_direction) const;
 
         /**
          * @brief Evaluates normal vector in object (local) space.
          */
-        Vector local_normal_at(Point local_point) const;
+        [[nodiscard]] Vector local_normal_at(Point local_point) const;
     };
 
     // Free shape functions for intersections and normals (re-usable helpers)
-    std::vector<Intersection> intersect(const <Shape>& s, const Ray& r, std::uint32_t index = 0);
+    [[nodiscard]] std::vector<Intersection> intersect(const <Shape>& s, const Ray& r, std::uint32_t index = 0);
     void intersect(const <Shape>& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0);
-    Vector normalAt(const <Shape>& s, const Point& world_point);
+    [[nodiscard]] Vector normalAt(const <Shape>& s, const Point& world_point);
 }
 ```
 
@@ -91,10 +86,13 @@ Implement the transformation math, normal transformations, and shape-specific lo
 ```cpp
 module rt.<shape>;
 
+import std;
 import rt.utils;
 
 namespace rt
 {
+    // set_transform and the three getters: copy them from Plane.cpp
+
     std::optional<float> <Shape>::local_intersect(Point local_origin, Vector local_direction) const {
         // TODO: Solve intersection against standard unit shape sitting at the origin.
         // Example: check bounds, run mathematical formula, solve quadratic/linear.
@@ -128,8 +126,12 @@ namespace rt
     Vector normalAt(const <Shape>& s, const Point& world_point) {
         const Point local_point = s.get_transform_inverse() * world_point;
         const Vector local_normal = s.local_normal_at(local_point);
-        Vector world_normal = s.get_transform_inverse_transpose() * local_normal;
-        world_normal.w = 0.0f; // Ensure normal remains a vector
+
+        // Multiply as a Tuple: the inverse transpose carries the translation in its bottom row,
+        // so the result's w is not 0 yet (converting it straight to a Vector would fail the
+        // Debug check that a Vector has w = 0)
+        const Tuple world_normal_tuple = s.get_transform_inverse_transpose() * static_cast<const Tuple&>(local_normal);
+        const Vector world_normal = createVector(world_normal_tuple.x, world_normal_tuple.y, world_normal_tuple.z);
         return normalizeVector(world_normal);
     }
 }
@@ -139,12 +141,15 @@ namespace rt
 
 ## Step 3: Register in the Build System
 
-Open **[CMakeLists.txt](file:///home/aper/Documents/ray-tracer/CMakeLists.txt)**.
-Add your new implementation and interface files under the `raytracer_core` target:
+Open **[CMakeLists.txt](../../CMakeLists.txt)** and add both files to the `raytracer_core` target: the interface to the `CXX_MODULES` file set, the implementation to the `PRIVATE` sources.
 ```cmake
-add_library(raytracer_core STATIC
+target_sources(raytracer_core
+  PUBLIC
+    FILE_SET CXX_MODULES FILES
         ...
         src/scene/<Shape>.cppm
+  PRIVATE
+        ...
         src/scene/<Shape>.cpp
 )
 ```
@@ -156,7 +161,7 @@ add_library(raytracer_core STATIC
 We store shapes in parallel vectors inside `World` to ensure data locality in cache lines.
 
 ### 1. Update `World.cppm`
-1. Open **[World.cppm](file:///home/aper/Documents/ray-tracer/src/scene/World.cppm)**.
+1. Open **[World.cppm](../../src/scene/World.cppm)**.
 2. Import the new shape module: `import rt.<shape>;`
 3. Inside `struct World`, add parallel vectors and declare `add_<shape>`:
    ```cpp
@@ -175,7 +180,7 @@ We store shapes in parallel vectors inside `World` to ensure data locality in ca
    ```
 
 ### 2. Update `World.cpp`
-1. Open **[World.cpp](file:///home/aper/Documents/ray-tracer/src/scene/World.cpp)**.
+1. Open **[World.cpp](../../src/scene/World.cpp)**.
 2. Import the new shape: `import rt.<shape>;`
 3. Implement `add_<shape>` to split the struct properties into the SoA vectors:
    ```cpp
@@ -191,7 +196,7 @@ We store shapes in parallel vectors inside `World` to ensure data locality in ca
 
 ## Step 5: Update the Rendering Pipeline
 
-Now connect your new shape to the intersection, normal-calculation, and shading routines inside **[World.cpp](file:///home/aper/Documents/ray-tracer/src/scene/World.cpp)**.
+Now connect your new shape to the intersection, normal-calculation, and shading routines inside **[World.cpp](../../src/scene/World.cpp)**.
 
 ### 1. Ray-Scene Intersections
 In `intersect_world`, add a loop to run ray-intersections against your new shape collection:
@@ -271,6 +276,27 @@ const Material& get_material(const World& w, ShapeType type, std::size_t index)
 }
 ```
 
+### 4. Shape Transform Lookups (for Patterns)
+`shade_hit` passes the hit shape's inverse transform to `lighting()`, so patterns follow the shape (see [Patterns](../explanation/Patterns.md)). Add your shape to the `get_transform_inverse` helper, or rendering it will throw:
+```cpp
+const Matrix<4>& get_transform_inverse(const World& w, ShapeType type, std::size_t index)
+{
+    switch (type)
+    {
+        case ShapeType::Sphere:
+            return w.sphere_transforms_inverse[index];
+        case ShapeType::Plane:
+            return w.plane_transforms_inverse[index];
+        case ShapeType::<Shape>:
+            return w.<shape>_transforms_inverse[index];
+        default:
+            throw std::runtime_error("Unknown shape type in get_transform_inverse");
+    }
+}
+```
+
+Reflection, refraction, shadows (including `casts_shadow`) and Fresnel then work for the new shape automatically.
+
 ---
 
 ## Step 6: Write Unit Tests
@@ -278,7 +304,7 @@ const Material& get_material(const World& w, ShapeType type, std::size_t index)
 Verify the new shape's normals, intersections, and transformation logic.
 
 1. Create a new test suite file at `tests/<Shape>.t.cpp` following the structure of `tests/Plane.t.cpp` or `tests/Sphere.t.cpp`.
-2. Register the test file in **[CMakeLists.txt](file:///home/aper/Documents/ray-tracer/CMakeLists.txt)** under the `run_tests` target sources list.
+2. Register the test file in **[CMakeLists.txt](../../CMakeLists.txt)** under the `run_tests` target sources list.
 3. Build and execute your test suite:
    ```bash
    cmake --build build-debug

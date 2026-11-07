@@ -47,7 +47,7 @@ When testing mathematical operations, exact floating-Point comparisons (`==`) ar
 
 ## How to Add a New Test File to CMake
 
-If you created an entirely new test file (e.g., `tests/NewFeatureTests.cpp`), you must tell CMake to compile it.
+If you created an entirely new test file (e.g., `tests/NewFeature.t.cpp`, following the `<Module>.t.cpp` naming of the existing tests), you must tell CMake to compile it.
 
 1. Open `CMakeLists.txt` in the root directory.
 2. Locate the `add_executable(run_tests ...)` block.
@@ -59,4 +59,4 @@ If you created an entirely new test file (e.g., `tests/NewFeatureTests.cpp`), yo
        tests/NewFeature.t.cpp   # <-- Add your file here
    )
    ```
-4. Re-run `cmake ..` in your build directory to apply the changes.
+4. Rebuild (e.g. `cmake --build build`). CMake notices the changed `CMakeLists.txt` and reconfigures automatically.

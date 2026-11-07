@@ -14,18 +14,20 @@ brew install llvm libomp
 *(Make sure to export the LLVM path as described in the [Environment Setup Guide](EnvironmentSetup.md)).*
 
 ### Linux
-*   **Ubuntu / Debian:**
-    ```bash
-    sudo apt update && sudo apt install libomp-dev
-    ```
-*   **Fedora:**
-    ```bash
-    sudo dnf install libomp
-    ```
-*   **Arch Linux:**
-    ```bash
-    sudo pacman -S openmp
-    ```
+*   **GCC (the default compiler):** nothing to install. OpenMP support (`libgomp`) ships with GCC itself.
+*   **Clang:** install LLVM's OpenMP runtime (`libomp`):
+    *   **Ubuntu / Debian:**
+        ```bash
+        sudo apt update && sudo apt install libomp-dev
+        ```
+    *   **Fedora:**
+        ```bash
+        sudo dnf install libomp
+        ```
+    *   **Arch Linux:**
+        ```bash
+        sudo pacman -S openmp
+        ```
 
 ### Windows
 No separate installation is required. OpenMP is natively supported by the MSVC compiler included with **Visual Studio 2022**.
@@ -55,7 +57,7 @@ When compiled with `ENABLE_OPENMP=OFF`, the compiler does not include OpenMP fla
 
 ### 2. Under the Hood: `CMakeLists.txt`
 
-The OpenMP configuration inside [CMakeLists.txt](file:///home/aper/Documents/ray-tracer/CMakeLists.txt) conditionalizes the find package and linkage targets:
+The OpenMP configuration inside [CMakeLists.txt](../../CMakeLists.txt) conditionalizes the find package and linkage targets:
 
 ```cmake
 option(ENABLE_OPENMP "Enable OpenMP CPU parallelization" ON)
@@ -70,56 +72,37 @@ if(ENABLE_OPENMP)
 endif()
 ```
 
-### 3. Update the Rendering Loop
-In the file where the main rendering loop occurs (`render()` in `src/scene/Camera.cpp`), you need to uncomment or add the OpenMP pragma directive just above the outer `for` loop that iterates over the rows (`y`).
+### 3. The Rendering Loop
+
+You do not need to edit any code: the pixel loop in `render()` (in [`src/scene/Camera.cpp`](../../src/scene/Camera.cpp)) already carries the OpenMP directive, guarded so it only applies when OpenMP is enabled:
+
+```cpp
+#ifdef _OPENMP
+#pragma omp parallel for collapse(2) schedule(dynamic, 16)
+#endif
+for (std::size_t y = 0; y < c.vsize; ++y)
+{
+    for (std::size_t x = 0; x < c.hsize; ++x)
+    {
+        Ray r = ray_for_pixel(c, x, y);
+        Color col = color_at(w, r);
+        writePixel(image, x, y, col);
+    }
+}
+```
 
 > [!IMPORTANT]
-> **Avoid Thread Data Races (Segmentation Faults):** 
-> To maximize rendering performance, the engine uses a pre-allocated vector to collect intersections. If you parallelize the rendering loop, you **MUST** declare the `std::vector<Intersection> xs` variable **inside** the outer parallelized `y` loop (and NOT outside it).
-> 
-> Declaring `xs` outside the loop makes it shared across all threads, leading to concurrent writes and causing a `Segmentation fault (core dumped)` at runtime. Declaring it inside the outer loop makes it thread-local, which is safe and runs at maximum speed (only 1 allocation per thread per row).
+> **Why this is thread-safe:** each pixel is independent. `color_at()` only *reads* the `World` and keeps all of its working data (the intersection list, the refraction containers, secondary rays) in local variables, so every thread has its own copy. Each thread writes to a different pixel of the `Canvas`.
+>
+> If you write your own parallel loop, follow the same rule: share nothing that is written to. For example, a `std::vector<Intersection>` reused across pixels must be declared **inside** the parallel loop, not outside it. A vector declared outside is shared by all threads, and their concurrent writes cause a `Segmentation fault (core dumped)`.
 
-Example rendering loop with multithreading enabled:
-```c++
-    #pragma omp parallel for // Multithreading support enabled
-    // Iterate over every row (y) and column (x) of the Canvas
-    for (std::size_t y = 0; y < CANVAS_HEIGHT; ++y)
-    {
-        // Compute the world y coordinate
-        float world_y = half_height - pixel_size * y;
-
-        // Declare xs INSIDE the parallelized loop so it is thread-local!
-        std::vector<Intersection> xs;
-        xs.reserve(6); 
-
-        for (std::size_t x = 0; x < CANVAS_WIDTH; ++x)
-        {
-            // Calculate ray, clear local vector, and intersect
-            xs.clear();
-            intersect(s1, r, xs, 0);
-            intersect(s2, r, xs, 1);
-            
-            // If a valid hit occurs, calculate lighting and Color the pixel
-            if (auto h = hit(xs))
-            {
-                const Sphere& hit_sphere = (h->shape_index == 0) ? s1 : s2;
-                Point p = position(r, h->t);
-                Vector normal = normalAt(hit_sphere, p);
-                Vector eye = -r.direction;
-
-                Color pixel_color = lighting(hit_sphere.material, hit_sphere.get_transform_inverse(), light, p, eye, normal);
-                writePixel(c, x, y, pixel_color);
-            }
-        }
-    }
-```
-After making these changes, re-run your CMake configuration and build the project.
+When compiled with `ENABLE_OPENMP=OFF`, `_OPENMP` is not defined, the directive disappears, and the same loop runs on a single thread.
 
 ---
 
 ## 3. Advanced OpenMP Clauses in the Camera Render Loop
 
-In the `rt::render` function (located in [Camera.cpp](file:///file:///home/aper/Documents/ray-tracer/src/scene/Camera.cpp)), we use a more sophisticated OpenMP pragma directive:
+In the `rt::render` function (located in [Camera.cpp](../../src/scene/Camera.cpp)), we use a more sophisticated OpenMP pragma directive:
 
 ```cpp
 #pragma omp parallel for collapse(2) schedule(dynamic, 16)

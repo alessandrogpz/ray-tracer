@@ -65,7 +65,7 @@ $$ t = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 The part under the square root, $b^2 - 4ac$, is the **discriminant**. It tells us how many times the Ray intersects the Sphere:
 
 1.  **Discriminant < 0**: The Ray completely misses the Sphere. The square root of a negative number is imaginary, so there are no real solutions (0 intersections).
-2.  **Discriminant = 0**: The Ray just grazes the edge of the Sphere, intersecting at exactly one Point (1 Intersection).
+2.  **Discriminant = 0**: The Ray just grazes the edge of the Sphere at exactly one Point. Following the book, it is still recorded as **2 intersections** with the same `t`, which keeps "entering" and "leaving" paired (later chapters, such as refraction's inside/outside tracking, rely on this).
 3.  **Discriminant > 0**: The Ray goes directly through the Sphere, entering one side and exiting the other (2 intersections).
 
 In our `intersect` functions, we calculate these two $t$ values (`t1` and `t2`) and record them inside `Intersection` structures along with the sphere's container `index` and type. These values represent the distances from the Ray's origin to the Intersection points.

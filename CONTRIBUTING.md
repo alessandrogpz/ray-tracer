@@ -23,14 +23,14 @@ We gladly accept pull requests for bug fixes, new features, and documentation im
 ## Development Setup
 
 To set up your local development environment, please follow our step-by-step guide:
-- **[How-To: Setup Local Development Environment](documentation/tutorials/EnvironmentSetup.md)**
+- **[Tutorial: Development Setup & System Requirements](documentation/tutorials/EnvironmentSetup.md)**
 
 ### Prerequisites Refresher
-- A modern C++ compiler supporting **C++23**
+- A **C++23** compiler whose standard library ships the `std` module: GCC 15+, Clang 18.1.2+ with libc++, or MSVC from Visual Studio 2022 17.6+
 - **CMake** (3.28+ required for C++ Modules)
 - **Ninja** build system (required for C++ Modules)
-- **GoogleTest** (for running the test suite)
-- **(Optional) Multithreading**: OpenMP (libomp). See the [Multithreading Guide](MultithreadingGuide.md) for instructions on how to enable it.
+- **GoogleTest** is downloaded and built automatically by CMake; nothing to install
+- **(Optional) Multithreading**: OpenMP. See the [Multithreading Guide](documentation/tutorials/MultithreadingGuide.md) for instructions on how to enable it.
 
 ## Testing Guidelines
 
@@ -49,7 +49,7 @@ For detailed instructions on how to write and run tests, see:
 - **Parameter Passing:** Pass large objects (like `Canvas` or `Matrix`) by `const Type&` to avoid expensive memory copies. Pass fundamental types and small structs (like `Tuple`, `Point`, `Vector`, `Color`) by value, as copying tiny amounts of data is often faster and more cache-friendly for the CPU. More can be read at **[Reference: C++ Implementation Details](documentation/references/C++ImplementationDetails.md)**
 - **Naming Conventions:** 
   - Classes and Structs: `PascalCase`
-  - Functions: `camelCase`
+  - Functions: `camelCase` for general helpers (e.g. `normalAt`, `dotProduct`, `writePixel`). Functions and members that come straight from *The Ray Tracer Challenge* keep the book's `snake_case` names (e.g. `prepare_computation`, `color_at`, `set_transform`, `pattern_at`) so the code stays easy to compare with the book.
   - Variables: `snake_case`
   - Macros/Constants: `UPPER_SNAKE_CASE`
 - **Comments & Documentation:** For non-trivial algorithms, use docstrings following the **[Docstring Guideline](documentation/references/DocstringGuidelines.md)** to explain the "why" or "how", and link to the relevant `documentation/explanation/` markdown file.

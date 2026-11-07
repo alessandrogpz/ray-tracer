@@ -8,7 +8,7 @@ Before we begin, ensure your system has the following tools installed:
 - A modern C++ compiler whose standard library ships the C++23 `std` module (GCC 15+, Clang 18.1.2+ with libc++, or MSVC from Visual Studio 2022 17.6+).
 - **CMake** (version 3.28 or higher, required for C++ Modules).
 - **Ninja** build system (required by CMake for C++ Modules).
-- **GoogleTest** (gtest) for building and running the test suite.
+- **GoogleTest** (gtest) for the test suite. You do not need to install it: CMake downloads and builds it automatically the first time you configure.
 - **(Optional) OpenMP** for CPU multithreading (see [Multithreading Guide](../tutorials/MultithreadingGuide.md)).
 
 > **Note:** If you haven't set up your development environment yet, please refer to our [Environment Setup Guide](EnvironmentSetup.md) for detailed, OS-specific installation instructions for these dependencies.
@@ -18,8 +18,8 @@ Before we begin, ensure your system has the following tools installed:
 First, obtain a copy of the source code. Open your terminal and run:
 
 ```bash
-git clone <ray_tracer-repository-url> Ray-tracer
-cd Ray-tracer
+git clone https://github.com/alessandrogpz/ray-tracer.git
+cd ray-tracer
 ```
 
 ## Step 2: Create a Build Directory
@@ -61,7 +61,7 @@ This command will compile all executables present in the `CMakeLists.txt`.
 
 ### Building & Running Debug vs. Release Configurations
 
-If you want to maintain separate builds for development/debugging and performance benchmarking on the command line, use separate folders. You must specify the **Ninja** generator (`-G Ninja`), which is required for C++23 Modules support.
+Steps 2–4 create a single `build` folder with no build type set. As an alternative, especially if you want to maintain separate builds for development/debugging and performance benchmarking on the command line, use one folder per configuration, run from the repository root (not from inside `build`). You must specify the **Ninja** generator (`-G Ninja`), which is required for C++23 Modules support.
 
 #### Debug Configuration (No optimization, easy debugging)
 ```bash

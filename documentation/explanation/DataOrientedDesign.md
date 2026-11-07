@@ -64,7 +64,6 @@ To maximize CPU cache hits and allow the compiler to fully inline mathematical c
        Matrix<4> transform{identity()};
        Matrix<4> transform_inverse{identity()};
        Matrix<4> transform_inverse_transpose{identity()};
-       int id;
    };
    ```
 
@@ -103,14 +102,14 @@ To maximize CPU cache hits and allow the compiler to fully inline mathematical c
 5. **Eliminating Heap Allocations (LocalIntersections & Reused Vectors)**:
    Originally, `local_intersect` returned a `std::vector<float>` and `intersect` returned a `std::vector<Intersection>` per call. For a 2K rendering loop with 3 spheres, this resulted in **~22 million heap allocations and deallocations** per frame. To eliminate this bottleneck:
    * **Stack-Allocated Result Struct**: `local_intersect` returns a stack-allocated, fixed-size `LocalIntersections` struct containing a count and a fixed size float array. This fits in CPU registers and avoids any heap allocation.
-   * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity (6 elements), and calling `xs.clear()` on each pixel iteration, we reduced heap allocations inside the render loop to **zero**.
+   * **Vector Reuse in Hot Loops**: We implemented a high-performance overload `intersect(const Sphere& s, const Ray& r, std::vector<Intersection>& xs, std::uint32_t index = 0)` that appends directly to an existing vector. By instantiating a single vector outside the loop, reserving its maximum possible capacity, and calling `xs.clear()` on each pixel iteration, a hand-written render loop can run with **zero** heap allocations. (The current `World` pipeline favours simplicity: `intersect_world()` still allocates one intersection list per ray, as does the refractive-index tracking in `prepare_computation()`.)
 
 ---
 
-## 6. Case Study: Structure of Arrays (SoA) & SIMD Compiler Optimizations
+## 4. Case Study: Structure of Arrays (SoA) & SIMD Compiler Optimizations
 
 ### The Problem (AoS Bottlenecks in Intersections)
-While storing spheres contiguously as `std::vector<Sphere>` (Array of Structures) solved pointer chasing, iterating over objects containing heterogeneous fields (origins, radii, transforms, materials) still loaded unnecessary data into cache lines during vectorization. For instance, when checking intersections, the CPU does not need to load the `Material` (56 bytes) or the unused transformation transpose matrices into the cache.
+While storing spheres contiguously as `std::vector<Sphere>` (Array of Structures) solved pointer chasing, iterating over objects containing heterogeneous fields (origins, radii, transforms, materials) still loaded unnecessary data into cache lines during vectorization. For instance, when checking intersections, the CPU does not need to load the `Material` (one of the largest fields, especially since it can hold a pattern) or the unused transformation transpose matrices into the cache.
 
 ### The SoA Optimization
 We transitioned the `World` scene storage model from AoS to **Structure of Arrays (SoA)** by splitting the spheres into parallel vectors:
@@ -131,9 +130,9 @@ struct World {
 * **Impact**: During intersection checks, only the exact vectors needed (`sphere_origins`, `sphere_radii`, and `sphere_transforms_inverse`) are loaded into cache lines. This increases spatial locality and allows the compiler's loop vectorizer to pack adjacent values directly into CPU SIMD registers.
 
 ### Compiler Vectorization Flags
-To fully leverage hardware acceleration and SIMD lanes, we added the following target compilation flags inside [CMakeLists.txt](file:///home/aper/Documents/ray-tracer/CMakeLists.txt):
+To fully leverage hardware acceleration and SIMD lanes, we added the following target compilation flags inside [CMakeLists.txt](../../CMakeLists.txt):
 * **`-march=native`**: Tells the compiler to compile specifically for the host CPU's instruction set, enabling advanced vector instructions (like AVX2, AVX-512, and FMA3) instead of a generic, baseline x86_64 target.
-* **`-ffast-math`**: Relaxes strict IEEE 754 floating-point constraints (e.g., ignoring NaN/inf checks, enabling associative math). This is often the primary trigger allowing the compiler to auto-vectorize complex mathematical loops.
+* **`-ffast-math`**: Relaxes strict IEEE 754 floating-point constraints (e.g., enabling associative math). This is often the primary trigger allowing the compiler to auto-vectorize complex mathematical loops. (On its own it would also assume NaN and infinity never occur; `-fno-finite-math-only` below keeps those checks.)
 * **`-ftree-vectorize`**: Forces loop auto-vectorization.
 * **`-fno-finite-math-only`**: `-ffast-math` also lets the compiler assume that infinities and NaN never occur, and delete checks such as `std::isinf`. This flag restores IEEE semantics for them (needed by `equal()` and, later, by infinite shapes) while keeping the rest of `-ffast-math`. Measured render times are unchanged.
 
