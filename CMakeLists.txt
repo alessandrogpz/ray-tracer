@@ -97,6 +97,10 @@ else()
         # -ffast-math allows the compiler to auto-vectorize floating-point loops.
         # Refer to documentation/explanation/DataOrientedDesign.md to adjust/revert these for other systems.
         -march=native -ffast-math -ftree-vectorize
+        # -ffast-math also implies -ffinite-math-only, which lets the compiler assume that
+        # infinities and NaN never occur and delete checks like std::isinf. Keep IEEE
+        # semantics for them (needed by equal() and infinite shapes) while retaining the rest.
+        -fno-finite-math-only
     )
 endif()
 
