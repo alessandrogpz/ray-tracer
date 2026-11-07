@@ -15,9 +15,9 @@ using namespace rt;
  *
  * The tick(environment, projectile) function returns a new projectile
  * representing the updated state after a single time step (tick).
- * 
- * build:
- * g++ -std=c++20 -fmodules-ts ../src/Utils.cppm ../src/Tuple.cppm ../src/Colors.cppm ../src/Canvas.cppm ../src/Matrix.cppm ../src/Transformations.cppm project_trajectory.cpp -o project_trajectory
+ *
+ * Build with CMake from the repository root:
+ * cmake --build build --target 01.ProjectTrajectory
  */
 
 struct projectile {
