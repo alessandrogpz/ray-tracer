@@ -5,10 +5,7 @@
 // 4x4 matrix transformations in a single QHD scene.
 //
 
-#include <string>
-#include <chrono>
-#include <iostream>
-#include <numbers>
+import std;
 
 import rt.tuple;
 import rt.canvas;
