@@ -187,9 +187,36 @@ export namespace rt {
             return calc_minor;
         }
 
+        // A determinant scales with the matrix (scale(s, s, s) has determinant s³), so whether it is
+        // "near zero" can only be judged relative to how large it could be. Hadamard's inequality
+        // bounds |det| by the product of the row lengths, and also by the product of the column
+        // lengths; the smaller of the two is the tighter bound (a translation stretches only one
+        // column). The ratio |det| / bound does not change with scale, so tiny but valid transforms
+        // stay invertible while (numerically) singular matrices are rejected.
+        // Reference: documentation/references/CoreMath.md
+        static constexpr float SINGULARITY_TOLERANCE = 0.000001f;
+
         [[nodiscard]]
         bool isInvertible() const {
-            return !equal(determinant(), 0.0f);
+            float row_bound = 1.0f;
+            float column_bound = 1.0f;
+            for (std::size_t i = 0; i < N; i++) {
+                float row_length_squared = 0.0f;
+                float column_length_squared = 0.0f;
+                for (std::size_t j = 0; j < N; j++) {
+                    row_length_squared += (*this)(i, j) * (*this)(i, j);
+                    column_length_squared += (*this)(j, i) * (*this)(j, i);
+                }
+                row_bound *= std::sqrt(row_length_squared);
+                column_bound *= std::sqrt(column_length_squared);
+            }
+
+            // A zero row or column makes the matrix singular (and the ratio below undefined)
+            const float bound = std::min(row_bound, column_bound);
+            if (bound == 0.0f) {
+                return false;
+            }
+            return std::abs(determinant()) > SINGULARITY_TOLERANCE * bound;
         }
 
         // Throws std::runtime_error if the Matrix cannot be inverted (determinant is 0).
